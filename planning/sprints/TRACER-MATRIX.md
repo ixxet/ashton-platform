@@ -23,6 +23,8 @@ Key outputs:
 
 ## Tracer 1: Presence Contract To ATHENA Read Path
 
+Status: completed in the `codex/tracer-1-presence-read-path` implementation chat.
+
 Goal:
 
 - `ashton-proto` presence contract -> `athena` mock presence -> API/CLI/metric
@@ -39,6 +41,19 @@ Exit criteria:
 - ATHENA read path remains stable
 - tests cover count logic and read surfaces
 - container smoke test passes
+
+Key outputs:
+
+- `ashton-proto` contracts moved under the Buf-clean `ashton/...` package layout
+- generated contract code is reproducible and importable from Go
+- `athena` now has one canonical occupancy read path shared by CLI, HTTP, and Prometheus
+- occupancy edge cases are covered with real tests: empty data, unknown facility, negative clamp, multi-facility separation, and deterministic mock inputs
+- local container smoke passed for `/api/v1/health`, `/api/v1/presence/count`, and `/metrics`
+- Prometheus manifests already rendered cleanly, so no repo changes were required there
+
+Environment note:
+
+- live rollout verification remains blocked by missing local kube context, not by manifest render failures
 
 ## Tracer 2: ATHENA Presence Event To APOLLO Visit Record
 

@@ -12,15 +12,15 @@ This repo is intentionally not a deployable application. It holds the planning m
 
 ## Current Sprint
 
-Bootstrap is complete. The platform now has aligned docs, first contracts, the
-first ATHENA executable slice, and live GitOps scaffolding.
+Bootstrap and `Tracer 1` are complete. The platform now has aligned docs, a
+narrow reproducible contract baseline in `ashton-proto`, a stable ATHENA mock
+read path, and rendered GitOps validation for the current ATHENA manifests.
 
-The next recommended implementation chat is `Tracer 1`:
+The next recommended implementation chat is `Tracer 2`:
 
-- define the minimum shared contracts needed for ATHENA
-- build a mocked occupancy slice in ATHENA
-- expose one API surface, one CLI surface, and one metrics surface
-- keep HERMES, APOLLO, and the gateway in stub mode until ATHENA has a real foundation
+- turn an ATHENA presence event into an APOLLO visit record
+- keep visit recording explicit and separate from workout creation
+- avoid widening into HERMES or gateway work unless the tracer truly requires it
 
 ## Current Model
 
@@ -49,8 +49,8 @@ The key rule is: tap-in updates presence, not matchmaking intent.
 
 | Repo | Role | Depends On | Current State |
 | --- | --- | --- | --- |
-| `ashton-proto` | Shared contracts, events, MCP manifests | — | Docs-first stub |
-| `athena` | Physical truth layer for presence and occupancy | `ashton-proto` | First tracer bullet |
+| `ashton-proto` | Shared contracts, events, MCP manifests | — | Narrow Tracer 1 contract baseline complete |
+| `athena` | Physical truth layer for presence and occupancy | `ashton-proto` | Tracer 1 mock read path complete |
 | `hermes` | Staff operations assistant | `ashton-proto`, `athena` | Docs-first stub |
 | `apollo` | Multi-mode member app: profile, coaching, workouts, and matchmaking | `ashton-proto`, `athena` | Docs-first stub |
 | `ashton-mcp-gateway` | Shared MCP tool gateway and safety layer | all service repos | Docs-first stub |

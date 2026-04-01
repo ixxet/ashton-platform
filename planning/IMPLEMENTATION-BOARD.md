@@ -27,20 +27,14 @@ Use this order when planning or implementing:
 
 ## Current Coding Blockers
 
-These should exist before the first real Go implementation work starts:
+Tracer 1 cleared the first `ashton-proto` and `athena` baseline blockers. The
+remaining active blockers before the next cross-repo tracer are:
 
-1. `ashton-proto`
-   - standard event envelope
-   - naming conventions for event subjects
-   - initial contract placeholders without over-specifying payloads
-2. `athena`
-   - `001_initial` migration for facilities and `presence_events`
-   - ADR for capacity prediction
-3. `apollo`
+1. `apollo`
    - `001_initial` migration for users, visits, workouts, exercises, and ARES foundations
    - ADR for member state model
    - ADR for member authentication
-4. terminology cleanup
+2. terminology cleanup
    - use `presence` instead of `check-in` in current working docs
    - use `lobby` for product-facing matchmaking terminology in APOLLO
 
@@ -91,8 +85,8 @@ Rust remains a later optimization path, not a first-wave dependency.
 
 ## Immediate Next Steps
 
-1. Treat the work completed in this thread as `Tracer 0: bootstrap and alignment`
-2. Start a dedicated chat for `Tracer 1`
+1. Treat `Tracer 1` as the first completed narrow vertical slice
+2. Start a dedicated chat for `Tracer 2`
 3. Keep this thread as the architecture and arbitration thread
 4. Update the tracer matrix and repo runbooks after each tracer closes
 5. Keep bootstrap-only work out of tracer chats unless it is directly blocking the tracer
