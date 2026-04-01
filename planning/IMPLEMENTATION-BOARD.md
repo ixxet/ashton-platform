@@ -91,8 +91,25 @@ Rust remains a later optimization path, not a first-wave dependency.
 
 ## Immediate Next Steps
 
-1. Finalize `ashton-proto` envelope and placeholder contract files
-2. Finalize `athena` and `apollo` migrations
-3. Finalize APOLLO auth and member-state ADRs
-4. Finalize ATHENA prediction ADR
-5. Start `athena` implementation with `go.mod`, core types, and adapter interfaces
+1. Treat the work completed in this thread as `Tracer 0: bootstrap and alignment`
+2. Start a dedicated chat for `Tracer 1`
+3. Keep this thread as the architecture and arbitration thread
+4. Update the tracer matrix and repo runbooks after each tracer closes
+5. Keep bootstrap-only work out of tracer chats unless it is directly blocking the tracer
+
+## Test Discipline
+
+Every tracer should keep the same delivery standard:
+
+- small commits
+- tests before deploy changes
+- smoke tests for containers
+- rendered-manifest validation before GitOps changes
+- more edge-case tests before widening the tracer
+
+## Local Tooling Notes
+
+- `kubectl` is installed on the MacBook and can render Kustomize overlays via `kubectl kustomize`
+- `kustomize` should also be installed locally so manifests can be validated directly
+- a missing kube context is a local environment problem, not a repo problem
+- do not mark a GitOps rollout as verified until `kubectl rollout status` or Flux reconciliation is confirmed from a real cluster context

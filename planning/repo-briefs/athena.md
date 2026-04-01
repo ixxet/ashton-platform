@@ -31,7 +31,7 @@ ATHENA integrates with physical or mocked ingress sources through a pluggable ad
 
 | Component | Technology | Why |
 |-----------|-----------|-----|
-| Language | Go 1.22+ | Tailscale's language. Infrastructure lingua franca. |
+| Language | Go 1.23+ | Tailscale's language. Infrastructure lingua franca. |
 | HTTP | chi | Minimal, idiomatic, net/http compatible. |
 | CLI | cobra + viper | Industry standard (kubectl, docker, gh). |
 | SQL | sqlc | Type-safe Go from handwritten SQL. No ORM. |
@@ -113,7 +113,7 @@ athena/
 ### Local Development (MockAdapter)
 
 ```bash
-# Prerequisites: Go 1.22+, Postgres running, NATS running (optional)
+# Prerequisites: Go 1.23+, Postgres running, NATS running (optional)
 
 # Clone and build
 git clone https://github.com/ixxet/athena.git
@@ -125,7 +125,7 @@ export DATABASE_URL="postgres://localhost:5432/athena?sslmode=disable"
 make migrate-up
 
 # Start with mock adapter
-export ATHENA_TAP_ADAPTER=mock
+export ATHENA_ADAPTER=mock
 export ATHENA_FACILITY_CAPACITY=200
 ./bin/athena serve
 
@@ -195,7 +195,7 @@ ATHENA will keep the original EWMA-plus-historical-binning prediction approach, 
 ## Ingress Adapter Pattern
 
 ATHENA never hard-codes a specific ingress path. A pluggable adapter
-interface abstracts the data source. Swap adapters via the `ATHENA_TAP_ADAPTER`
+interface abstracts the data source. Swap adapters via the `ATHENA_ADAPTER`
 environment variable — zero code changes to the core service.
 
 | Adapter | Env Value | Use Case |
@@ -220,19 +220,19 @@ make coverage      # Coverage report
 
 | Milestone | Status |
 |-----------|--------|
-| Project scaffold | Not started |
+| Project scaffold | Done |
 | Database schema + migrations | Not started |
-| MockAdapter | Not started |
+| MockAdapter | Done |
 | Presence service + repository | Not started |
 | Capacity predictor | Not started |
-| HTTP API | Not started |
-| CLI | Not started |
-| Prometheus metrics | Not started |
+| HTTP API | Initial slice done |
+| CLI | Initial slice done |
+| Prometheus metrics | Initial slice done |
 | NATS event publishing | Not started |
 | Grafana dashboard | Not started |
 | MCP tool manifest | Not started |
-| CI pipeline | Not started |
-| Cluster deployment via Flux | Not started |
+| CI pipeline | Initial image workflow done |
+| Cluster deployment via Flux | Initial slice wired |
 | Real tap-in adapter | Not started |
 | PWA frontend | Not started |
 

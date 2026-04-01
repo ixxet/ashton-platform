@@ -12,9 +12,10 @@ This repo is intentionally not a deployable application. It holds the planning m
 
 ## Current Sprint
 
-This sprint is organization-first and docs-first.
+Bootstrap is complete. The platform now has aligned docs, first contracts, the
+first ATHENA executable slice, and live GitOps scaffolding.
 
-The first tracer bullet is `ashton-proto` plus `athena` mock capacity:
+The next recommended implementation chat is `Tracer 1`:
 
 - define the minimum shared contracts needed for ATHENA
 - build a mocked occupancy slice in ATHENA
@@ -67,6 +68,7 @@ The authoritative build sequence lives in [planning/sprints/BUILD-ORDER.md](plan
 ## Canonical Planning Docs
 
 - [Implementation board](planning/IMPLEMENTATION-BOARD.md)
+- [Tracer matrix](planning/sprints/TRACER-MATRIX.md)
 - [Platform architecture](planning/architecture/portfolio-architecture.md)
 - [Architecture addendum](planning/architecture/ashton-addendum-v2.md)
 - [Build order](planning/sprints/BUILD-ORDER.md)
@@ -76,7 +78,7 @@ The authoritative build sequence lives in [planning/sprints/BUILD-ORDER.md](plan
 - [ASHTON-PROTO brief](planning/repo-briefs/ashton-proto.md)
 - [Gateway brief](planning/repo-briefs/ashton-mcp-gateway.md)
 
-For current implementation decisions, the repo briefs, ADRs, migrations, and implementation board are the working source of truth. The longer architecture essays remain useful background, but they may lag behind recent pivots and are explicitly treated as background reference.
+For current implementation decisions, the repo briefs, ADRs, migrations, the implementation board, and the tracer matrix are the working source of truth. The longer architecture essays remain useful background, but they may lag behind recent pivots and are explicitly treated as background reference.
 
 ## Infra Boundary
 
