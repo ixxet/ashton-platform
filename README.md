@@ -16,6 +16,12 @@ Bootstrap and `Tracer 1` are complete. The platform now has aligned docs, a
 narrow reproducible contract baseline in `ashton-proto`, a stable ATHENA mock
 read path, and rendered GitOps validation for the current ATHENA manifests.
 
+Tracer 1 was also the first foundation tracer where contracts, executable
+behavior, image publishing, GitOps pinning, and live rollout verification all
+had to become real together. The planning repo preserves that narrative in the
+tracer matrix so later implementation chats can inherit the lessons without
+having to rediscover the same bootstrap friction.
+
 The next recommended implementation chat is `Tracer 2`:
 
 - turn an ATHENA presence event into an APOLLO visit record
