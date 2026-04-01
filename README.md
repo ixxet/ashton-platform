@@ -25,7 +25,7 @@ The first tracer bullet is `ashton-proto` plus `athena` mock capacity:
 
 The platform ownership split is:
 
-- `ATHENA` owns physical truth: presence, check-in source, occupancy, and later zone occupancy
+- `ATHENA` owns physical truth: presence, ingress source, occupancy, and later zone occupancy
 - `APOLLO` owns member intent: profile, privacy, availability, workouts, coaching, and ARES
 - `HERMES` stays staff-only and consumes operational data instead of student social state
 
@@ -66,6 +66,7 @@ The authoritative build sequence lives in [planning/sprints/BUILD-ORDER.md](plan
 
 ## Canonical Planning Docs
 
+- [Implementation board](planning/IMPLEMENTATION-BOARD.md)
 - [Platform architecture](planning/architecture/portfolio-architecture.md)
 - [Architecture addendum](planning/architecture/ashton-addendum-v2.md)
 - [Build order](planning/sprints/BUILD-ORDER.md)
@@ -75,7 +76,7 @@ The authoritative build sequence lives in [planning/sprints/BUILD-ORDER.md](plan
 - [ASHTON-PROTO brief](planning/repo-briefs/ashton-proto.md)
 - [Gateway brief](planning/repo-briefs/ashton-mcp-gateway.md)
 
-For current implementation decisions, the repo briefs are the working source of truth. The longer architecture essays remain useful background, but they may lag behind recent pivots.
+For current implementation decisions, the repo briefs, ADRs, migrations, and implementation board are the working source of truth. The longer architecture essays remain useful background, but they may lag behind recent pivots and are explicitly treated as background reference.
 
 ## Infra Boundary
 

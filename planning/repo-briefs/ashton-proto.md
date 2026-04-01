@@ -15,7 +15,7 @@ ashton-proto/
 │   │       └── health.proto    # Standardized health check response
 │   ├── athena/
 │   │   └── v1/
-│   │       └── athena.proto    # CheckinEvent, CapacitySnapshot, PredictionResult
+│   │       └── athena.proto    # PresenceEvent, OccupancySnapshot, PredictionResult
 │   ├── hermes/
 │   │   └── v1/
 │   │       └── hermes.proto    # Booking, Equipment, MaintenanceTicket, ChatMessage
@@ -28,8 +28,8 @@ ashton-proto/
 │           └── gateway.proto   # ToolManifest, ToolInvocation, AuditEntry
 ├── events/                     # NATS event envelope schemas (JSON Schema)
 │   ├── envelope.schema.json    # Standard event envelope: id, source, type, timestamp, data
-│   ├── athena.checkin.schema.json
-│   ├── athena.capacity.schema.json
+│   ├── athena.presence.schema.json
+│   ├── athena.occupancy.schema.json
 │   ├── hermes.booking.schema.json
 │   ├── apollo.workout.schema.json
 │   └── apollo.ares.match.schema.json
@@ -79,7 +79,7 @@ Every NATS event follows this envelope:
 {
   "id": "evt_01HXY...",
   "source": "athena",
-  "type": "checkin.occurred",
+  "type": "athena.presence.arrived",
   "timestamp": "2026-07-15T18:30:00Z",
   "correlation_id": "req_01HXY...",
   "data": { }

@@ -1,5 +1,20 @@
 # Portfolio Architecture: The Ashtonbee Platform
 
+> Status: background reference, not the current implementation source of truth.
+> If this file conflicts with the repo briefs, ADRs, migrations, or the implementation board, follow those newer documents.
+>
+> Superseded areas to watch for:
+> - `check-in` terminology is now `presence` in current working docs
+> - `HERMES` is staff-facing only, not the student-facing product surface
+> - APOLLO now uses a multi-mode member model with explicit privacy and availability state
+> - APOLLO product language prefers `lobby` over `queue`
+>
+> Still useful here as background or deferred planning:
+> - Redis usage ideas
+> - AlertManager and observability expansion
+> - cluster topology and scaling notes
+> - deeper rationale behind earlier architectural choices
+
 **Codename: ASHTON**
 **Author: Izzet**
 **Date: March 2026**

@@ -1,5 +1,18 @@
 # ASHTON Platform — Architecture Addendum v2
 
+> Status: background reference, not the current implementation source of truth.
+> If this file conflicts with the repo briefs, ADRs, migrations, or the implementation board, follow those newer documents.
+>
+> Superseded areas to watch for:
+> - `check-in` terminology is now `presence` in current working docs
+> - APOLLO now separates visit history from workout history
+> - APOLLO owns member intent while ATHENA owns physical truth
+>
+> Still useful here as background or deferred planning:
+> - detailed schema sketches to adapt into migrations
+> - Redis, infra, and cluster scaling notes
+> - Go learning path and broader technology rationale
+
 **Covers:** Technology alternatives, Rust positioning, matchmaking system (ARES),
 tap-in adapter patterns, Go learning path, database strategy, and section-by-section outlines.
 

@@ -37,8 +37,9 @@ ATHENA integrates with physical or mocked ingress sources through a pluggable ad
 | SQL | sqlc | Type-safe Go from handwritten SQL. No ORM. |
 | Database | Postgres 16 | JSONB, materialized views, advisory locks. |
 | Migrations | golang-migrate | File-based, version-controlled. |
-| Events | NATS | Lightweight pub/sub for capacity alerts. |
+| Events | NATS | Lightweight pub/sub for presence and occupancy events. |
 | Metrics | prometheus/client_golang | Native instrumentation. |
+| Redis | Planned, deferred | Fast occupancy counters and short-lived hot-state caches when needed. |
 | Logging | slog (stdlib) | Structured JSON, ships to Loki. |
 | Auth | Tailscale WhoIs + sessions | Staff and operator access to admin surfaces. |
 | Testing | stdlib + testcontainers-go | Real Postgres in CI. |
@@ -55,7 +56,7 @@ athena/
 │       └── main.go                # Entrypoint: cobra root command
 ├── internal/
 │   ├── adapter/                   # Physical ingress adapters
-│   │   ├── adapter.go             # TapInAdapter interface
+│   │   ├── adapter.go             # IngressAdapter interface
 │   │   ├── mock.go                # MockAdapter (synthetic events)
 │   │   ├── database.go            # DatabaseAdapter (read-only, proprietary DB)
 │   │   ├── csv.go                 # CSVAdapter (file import)
@@ -187,7 +188,11 @@ ATHENA is the physical truth layer. It publishes presence and occupancy. It does
 - Identity may be attached when RFID or another identified source exists
 - Matchmaking intent is explicitly out of scope for ATHENA
 
-## Tap-In Adapter Pattern
+## Capacity Prediction
+
+ATHENA will keep the original EWMA-plus-historical-binning prediction approach, but the first implementation wave defers the predictor until the presence read path is real. The design is preserved in an ADR so the algorithm does not disappear while the tracer bullet stays small.
+
+## Ingress Adapter Pattern
 
 ATHENA never hard-codes a specific ingress path. A pluggable adapter
 interface abstracts the data source. Swap adapters via the `ATHENA_TAP_ADAPTER`

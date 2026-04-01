@@ -31,7 +31,7 @@ Member-facing multi-mode platform for Ashtonbee Athletics. Members manage privac
 | API | Go + chi | Consistent with ATHENA and HERMES. Shared patterns. |
 | Frontend | SvelteKit (pre-built, served by Go) | PWA-capable. Offline support. Consistent with capstone. |
 | CLI | cobra + viper | Same CLI patterns across all ASHTON services. |
-| Database | Postgres 16 (apollo schema) | Relational data: users → visits → workouts → exercises → ratings → matches. |
+| Database | Postgres 16 (apollo schema) | Relational data for users, visits, workouts, exercises, ratings, and matches; flexible user state starts in JSONB preferences. |
 | SQL | sqlc | Type-safe, auditable queries. |
 | Recommendations | LangGraph + vLLM | Agent pipeline with training data as tool context. |
 | Memory | Mem0 | User goals, injury history, preferences across sessions. |
@@ -64,7 +64,7 @@ apollo/
 │   │   └── schema.go          # Recommendation output schema for guided generation
 │   ├── ares/                  # ARES matchmaking subsystem
 │   │   ├── rating.go          # OpenSkill rating engine (Go implementation)
-│   │   ├── matchmaker.go      # Queue management + match formation
+│   │   ├── matchmaker.go      # Lobby management + match formation
 │   │   ├── teams.go           # Team balancing algorithm
 │   │   ├── service.go         # ARES domain service
 │   │   └── repository.go
@@ -86,7 +86,7 @@ apollo/
 │   │   │   ├── log/+page.svelte          # Workout logging
 │   │   │   ├── history/+page.svelte      # Visit + workout history
 │   │   │   ├── recommend/+page.svelte    # AI recommendations
-│   │   │   └── match/+page.svelte        # ARES matchmaking queue
+│   │   │   └── match/+page.svelte        # ARES matchmaking lobby
 │   │   └── lib/
 │   │       ├── api.ts                 # API client
 │   │       ├── offline.ts             # IndexedDB + sync logic
@@ -136,6 +136,39 @@ This means:
 - a user can appear as already with a team without entering open matchmaking
 
 Visit history and workout history are separate concerns. A gym visit is not automatically a workout log.
+
+## Member Authentication
+
+APOLLO uses a zero-external-dependency auth path for the first implementation wave.
+
+1. the member registers with student ID and email
+2. APOLLO sends an email verification link or code
+3. after verification, APOLLO issues a signed `HTTPOnly`, `Secure`, `SameSite=Strict` session cookie
+
+This keeps the PWA self-hosted and avoids institutional OAuth dependency. OAuth or SSO can be added later if a real provider becomes available.
+
+Auth and identity linkage are related but separate:
+
+- auth proves who owns the APOLLO account
+- claimed tags or other presence tokens link ATHENA presence to that account
+
+## State Storage Strategy
+
+Start with flexible state storage in `users.preferences`:
+
+- `visibility_mode`
+- `availability_mode`
+- `coaching_profile`
+- other emerging member-intent fields
+
+Keep stable high-value domains relational:
+
+- `visits`
+- `workouts`
+- `exercises`
+- `ares_*`
+
+If member-state fields stabilize and need tighter indexing or constraints, split them into dedicated columns or tables later.
 
 ## ARES Matchmaking System
 
@@ -212,7 +245,7 @@ apollo version
 | GET | `/api/v1/workouts` | List workouts |
 | GET | `/api/v1/history/:user` | Training history + analytics |
 | POST | `/api/v1/recommend` | Generate training recommendation |
-| POST | `/api/v1/ares/queue` | Join matchmaking queue |
+| POST | `/api/v1/ares/lobby` | Join matchmaking lobby |
 | POST | `/api/v1/ares/match` | Record match result |
 | GET | `/api/v1/ares/rating/:user` | Get player ratings |
 | GET | `/api/v1/ares/leaderboard/:activity` | Activity leaderboard |
@@ -229,7 +262,7 @@ apollo version
 | `apollo_recommendation_feedback{rating}` | counter | User feedback |
 | `apollo_vllm_inference_duration_seconds` | histogram | LLM latency |
 | `apollo_ares_matches_played_total{activity}` | counter | Matches completed |
-| `apollo_ares_queue_size{activity}` | gauge | Players waiting |
+| `apollo_ares_lobby_size{activity}` | gauge | Players waiting in the matchmaking lobby |
 | `apollo_ares_team_balance_score` | histogram | Team formation quality |
 | `apollo_presence_state_total{state}` | gauge | Users by current presence state |
 | `apollo_matchmaking_availability_total{mode}` | gauge | Users by matchmaking availability mode |
@@ -246,7 +279,7 @@ apollo version
 | Training history analytics | Not started |
 | Recommendation pipeline (LangGraph) | Not started |
 | OpenSkill rating engine | Not started |
-| Matchmaking queue + team formation | Not started |
+| Matchmaking lobby + team formation | Not started |
 | SvelteKit PWA frontend | Not started |
 | Offline support (service worker) | Not started |
 | CLI | Not started |

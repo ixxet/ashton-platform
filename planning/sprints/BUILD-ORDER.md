@@ -52,7 +52,7 @@
 ### Sprint 1-4: ATHENA (Weeks 2-5)
 **Repo: `athena`**
 - Week 1: Go scaffold, Postgres schema, sqlc, migrations, first handler
-- Week 2: Check-in service, MockAdapter, repository layer, tests
+- Week 2: Presence service, MockAdapter, repository layer, tests
 - Week 3: Capacity predictor, CLI, Prometheus metrics, NATS publishing
 - Week 4: Grafana dashboard, MCP manifest, cluster deployment via Flux
 - **Gate: ATHENA serving on cluster, observable in Grafana, CLI working**
@@ -74,10 +74,10 @@
 
 ### Sprint 10-13: APOLLO (Weeks 11-14)
 **Repo: `apollo`**
-- Week 1: Workout logging API, Postgres schema, Go handlers
+- Week 1: Profile + visit/workout API, Postgres schema, Go handlers
 - Week 2: Training history analytics, volume/frequency calculations
 - Week 3: Recommendation pipeline (LangGraph + vLLM), ARES rating engine
-- Week 4: SvelteKit PWA, offline support, matchmaking queue, Flux deploy
+- Week 4: SvelteKit PWA, offline support, matchmaking lobby, Flux deploy
 - **Gate: Members logging workouts, receiving recs, matchmaking functional**
 
 ### Sprint 14-15: MCP Gateway (Weeks 15-16)
