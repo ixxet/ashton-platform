@@ -111,6 +111,23 @@ Tracer 2 retrospective:
   first manual smoke found a no-deadline flush bug in ATHENA that still allowed
   delivery but reported failure. Closing the tracer required fixing the publish
   path and adding a regression test before updating control-plane docs.
+- APOLLO still needed one narrow defensive anonymous no-op even though the
+  shared identified-arrival contract requires a non-empty identity hash. The
+  fix was to keep the main parse path strict and isolate the anonymous exception
+  to the correct subject before strict parsing.
+
+Deferred after closure:
+
+No in-scope unresolved bugs remained at close. The remaining items are
+intentional feature deferrals:
+
+| Type | Item | Status | Why It Was Not Done Here | Future Owner |
+| --- | --- | --- | --- | --- |
+| Feature | visit closing and departure handling | deferred | Tracer 2 proves arrival -> visit creation only; it does not invent a close rule without a real departure slice | later visit-closing tracer |
+| Feature | workout creation from visit events | deferred | visit history must remain separate from workout history | later workout tracer |
+| Feature | APOLLO auth and profile state | deferred | this tracer uses tag-to-user linkage only and does not widen into auth | `Tracer 3` |
+| Feature | availability, Ghost Mode, and lobby intent | deferred | presence must not be conflated with matchmaking intent | later APOLLO lobby tracer |
+| Feature | HERMES, gateway, and deploy widening | deferred | not required to prove physical truth -> member visit history | dedicated staff, gateway, or deploy tracer |
 
 ## Tracer 3: APOLLO Member Auth To Profile State
 
