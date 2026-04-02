@@ -27,12 +27,12 @@ Use this order when planning or implementing:
 
 ## Current Coding Blockers
 
-Tracer 3 cleared the first real APOLLO member-account and profile-state slice. The
+Tracer 4 cleared the first real APOLLO intent-behavior slice. The
 remaining active blockers before the next major implementation slice are:
 
 1. `apollo`
-   - explicit lobby eligibility from availability without letting tap-in imply intent
-   - Ghost Mode behavior and with-team semantics for Tracer 4
+   - workout logging runtime that stays separate from visit history
+   - recommendation inputs that wait for real workout data instead of widening from profile or visits
 2. terminology cleanup
    - keep using `presence` instead of `check-in` in current working docs
    - keep using `lobby` for product-facing matchmaking terminology in APOLLO
@@ -86,7 +86,7 @@ Rust remains a later optimization path, not a first-wave dependency.
 
 1. Treat `Tracer 1` as the first completed narrow vertical slice
 2. Treat `Tracer 2` as the first completed cross-repo event slice from physical truth to member history
-3. Start a dedicated chat for `Tracer 4`
+3. Pick the next dedicated tracer only after the APOLLO eligibility closeout is stable
 4. Keep this thread as the architecture and arbitration thread
 5. Update the tracer matrix and repo runbooks after each tracer closes
 6. Keep bootstrap-only work out of tracer chats unless it is directly blocking the tracer

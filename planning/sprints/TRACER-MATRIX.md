@@ -202,6 +202,8 @@ intentional feature deferrals:
 
 ## Tracer 4: Explicit Lobby Eligibility
 
+Status: completed in the implementation chat.
+
 Goal:
 
 - APOLLO lobby eligibility from explicit availability, not tap-in
@@ -216,6 +218,47 @@ Exit criteria:
 - presence alone never creates matchmaking intent
 - explicit availability gates lobby entry
 - ghost mode and with-team mode remain distinct
+
+Key outputs:
+
+- `apollo` now exposes authenticated `GET /api/v1/lobby/eligibility` with
+  stable `eligible`, `reason`, `visibility_mode`, and `availability_mode`
+  fields
+- eligibility now derives from persisted member state only:
+  `discoverable + available_now` is eligible, while `unavailable`,
+  `with_team`, and `ghost + available_now` are all ineligible for the open
+  lobby
+- invalid persisted eligibility enums now resolve deterministically as explicit
+  ineligible reasons instead of being silently treated as lobby intent
+- APOLLO test coverage now proves session enforcement, state transitions,
+  invalid-state handling, side-effect-free repeated reads, and that visit
+  history does not create eligibility by itself
+
+Tracer 4 retrospective:
+
+- This tracer only stayed narrow because it treated lobby eligibility as a
+  derived read, not as the start of a lobby-write subsystem. That avoided
+  inventing queue state, membership persistence, or match formation too early.
+- Reusing the profile read path directly would have hidden corrupted stored enum
+  values behind safe display defaults. Closing the tracer required making
+  invalid persisted member intent visible as deterministic ineligible reasons.
+- The proof only counted once the tests covered the negative case that matters
+  most to the architecture: a real visit row must still leave an unavailable
+  member out of the lobby. That regression guard is the tracer's core safety
+  boundary.
+
+Deferred after closure:
+
+No in-scope unresolved bugs remained at close. The remaining items are
+intentional feature deferrals:
+
+| Type | Item | Status | Why It Was Not Done Here | Future Owner |
+| --- | --- | --- | --- | --- |
+| Feature | lobby membership persistence | deferred | the tracer proves derived eligibility only and deliberately avoids join or leave state | later lobby tracer |
+| Feature | invitations, notifications, and social workflow | deferred | eligibility must exist before widening into social coordination | later social tracer |
+| Feature | match formation and ranking | deferred | this tracer is not ARES or matchmaking logic | later ARES tracer |
+| Feature | workout runtime and recommendations | deferred | member intent is still separate from workouts and coaching | later workout and recommendation tracers |
+| Feature | deploy and GitOps widening | deferred | local runtime, tests, and docs were sufficient to close this tracer without cluster changes | dedicated deploy or release pass |
 
 ## Chat Model
 
