@@ -137,8 +137,7 @@ flowchart LR
 
 ### Planned next
 
-- `apollo` Tracer 3: member auth, profile state, `visibility_mode`, and
-  `availability_mode`
+- `apollo` Tracer 4: explicit lobby eligibility from availability, not tap-in
 - `hermes` first read-only slice: one staff question answered with real ATHENA
   data
 - `ashton-mcp-gateway` first routed read-only tool call after service surfaces
@@ -161,7 +160,7 @@ flowchart LR
 | `Tracer 0` | bootstrap and source-of-truth alignment | Complete | repo layering, first contracts, first executable ATHENA slice |
 | `Tracer 1` | presence contract to ATHENA read path | Complete | shared contract baseline plus stable mock-backed read surfaces |
 | `Tracer 2` | ATHENA event to APOLLO visit record | Complete | first cross-repo event-driven member-history slice |
-| `Tracer 3` | APOLLO member auth to profile state | Next | make member auth and profile state real without widening into matchmaking |
+| `Tracer 3` | APOLLO member auth to profile state | Complete | make member auth and profile state real without widening into matchmaking |
 | `Tracer 4` | explicit lobby eligibility | Planned | keep availability intent separate from tap-in presence |
 
 ## Source Of Truth Split
