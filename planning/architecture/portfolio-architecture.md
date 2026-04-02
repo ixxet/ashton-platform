@@ -1,24 +1,29 @@
 # Portfolio Architecture: The Ashtonbee Platform
 
-> Status: background reference, not the current implementation source of truth.
-> If this file conflicts with the repo briefs, ADRs, migrations, or the implementation board, follow those newer documents.
+> Status: future/background reference. This file is not a statement of current
+> runtime truth.
 >
-> Superseded areas to watch for:
+> Use this essay for:
+> - future-state architecture ideas
+> - deferred technology choices
+> - preserved rationale from earlier planning passes
+>
+> Use these files instead for current truth:
+> - `planning/repo-briefs/`
+> - repo-local `README.md`, `docs/roadmap.md`, ADRs, migrations, and schemas
+> - `planning/IMPLEMENTATION-BOARD.md`
+> - `planning/sprints/TRACER-MATRIX.md`
+>
+> Superseded or re-scoped areas to watch for:
 > - `check-in` terminology is now `presence` in current working docs
 > - `HERMES` is staff-facing only, not the student-facing product surface
 > - APOLLO now uses a multi-mode member model with explicit privacy and availability state
 > - APOLLO product language prefers `lobby` over `queue`
->
-> Still useful here as background or deferred planning:
-> - Redis usage ideas
-> - AlertManager and observability expansion
-> - cluster topology and scaling notes
-> - deeper rationale behind earlier architectural choices
 
 **Codename: ASHTON**
 **Author: Izzet**
 **Date: March 2026**
-**Status: Architecture Design — Pre-Execution**
+**Status: Future-State Architecture Background**
 
 ---
 

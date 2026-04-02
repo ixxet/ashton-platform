@@ -1,17 +1,23 @@
 # ASHTON Platform — Architecture Addendum v2
 
-> Status: background reference, not the current implementation source of truth.
-> If this file conflicts with the repo briefs, ADRs, migrations, or the implementation board, follow those newer documents.
+> Status: future/background reference. This file preserves deeper planning
+> rationale and deferred ideas; it does not describe the current runtime stack.
 >
-> Superseded areas to watch for:
+> Use this file for:
+> - technology alternatives and future tradeoffs
+> - schema sketches worth adapting later
+> - deferred infrastructure and scaling ideas
+>
+> Use these files instead for current truth:
+> - `planning/repo-briefs/`
+> - repo-local `README.md`, `docs/roadmap.md`, ADRs, migrations, and schemas
+> - `planning/IMPLEMENTATION-BOARD.md`
+> - `planning/sprints/TRACER-MATRIX.md`
+>
+> Superseded or re-scoped areas to watch for:
 > - `check-in` terminology is now `presence` in current working docs
 > - APOLLO now separates visit history from workout history
 > - APOLLO owns member intent while ATHENA owns physical truth
->
-> Still useful here as background or deferred planning:
-> - detailed schema sketches to adapt into migrations
-> - Redis, infra, and cluster scaling notes
-> - Go learning path and broader technology rationale
 
 **Covers:** Technology alternatives, Rust positioning, matchmaking system (ARES),
 tap-in adapter patterns, Go learning path, database strategy, and section-by-section outlines.

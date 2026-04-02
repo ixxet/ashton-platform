@@ -1,114 +1,221 @@
 # ashton-platform
 
-Canonical source-of-truth repo for the ASHTON platform.
+Canonical source-of-truth repo for the ASHTON application stack.
 
-This repo is intentionally not a deployable application. It holds the planning material that coordinates the platform repos:
+> ASHTON is a contract-first, Go-first platform split across five repos with one
+> locked ownership model: `ATHENA` owns physical truth, `APOLLO` owns member
+> intent, `HERMES` stays staff-only, and `ashton-mcp-gateway` is a later control
+> layer built only after the service surfaces are worth routing.
 
-- `ashton-proto`
-- `athena`
-- `hermes`
-- `apollo`
-- `ashton-mcp-gateway`
+This repo is intentionally not a deployable app. Its job is to keep the system
+readable as one coherent platform instead of five drifting repos.
 
-## Current Sprint
+## Current Platform State
 
-Bootstrap, `Tracer 1`, and `Tracer 2` are complete. The platform now has
-aligned docs, a narrow reproducible contract baseline in `ashton-proto`, a
-stable ATHENA mock read path, and the first cross-repo event integration that
-turns physical presence into member visit history.
+| Repo | Role | Current State | Why It Matters |
+| --- | --- | --- | --- |
+| `ashton-proto` | Shared contracts, schemas, runtime helpers | Real and active | Keeps producers and consumers from hand-rolling wire contracts |
+| `athena` | Physical truth for presence and occupancy | Real and executable | First Go service and first operational data surface |
+| `apollo` | Member-facing application and visit ingestion | Real and executable, but intentionally narrow | First cross-repo consumer path from presence to member history |
+| `hermes` | Staff-facing operations assistant | Docs-first | Planned read-only staff layer on top of ATHENA |
+| `ashton-mcp-gateway` | Shared tool routing, approval, and audit layer | Docs-first | Planned control surface after the service repos are stable |
 
-Tracer 1 was also the first foundation tracer where contracts, executable
-behavior, image publishing, GitOps pinning, and live rollout verification all
-had to become real together. The planning repo preserves that narrative in the
-tracer matrix so later implementation chats can inherit the lessons without
-having to rediscover the same bootstrap friction.
+## Architecture
 
-Tracer 2 also closed the runtime contract gap instead of stopping at a working
-payload shape:
+The standalone Mermaid source for the platform system view lives at
+[`planning/diagrams/platform-system.mmd`](planning/diagrams/platform-system.mmd).
 
-- `ashton-proto` now publishes the shared runtime helper for
-  `athena.identified_presence.arrived`
-- `athena` publishes through that helper instead of a private JSON contract
-- `apollo` consumes the same helper and rejects invalid source, type, enum, and
-  timestamp values before visit persistence
-- local manual smoke passed for `apollo serve`, `athena presence publish-identified`,
-  and `athena serve` with the publisher worker against real NATS and Postgres
+```mermaid
+flowchart TD
+  platform["ashton-platform<br/>planning, tracer discipline, source of truth"]
+  proto["ashton-proto<br/>protobuf, JSON schema, runtime helpers"]
+  athena["athena<br/>presence, occupancy, identified arrival publish"]
+  apollo["apollo<br/>visit ingest now, broader member state later"]
+  hermes["hermes<br/>staff operations assistant<br/>planned"]
+  gateway["ashton-mcp-gateway<br/>tool registry, routing, HITL, audit<br/>planned"]
 
-The next recommended implementation chat is `Tracer 3`:
+  platform --> proto
+  platform --> athena
+  platform --> apollo
+  platform --> hermes
+  platform --> gateway
 
-- turn APOLLO auth into profile state
-- keep identity linkage separate from auth
-- avoid widening into workouts, matchmaking, HERMES, or gateway work unless the
-  tracer truly requires it
+  proto --> athena
+  proto --> apollo
+  proto -. future contracts .-> hermes
+  proto -. future manifests .-> gateway
 
-## Current Model
+  athena --> apollo
+  athena -. future read surfaces .-> hermes
+  athena -. future routed tools .-> gateway
+  apollo -. future routed tools .-> gateway
+  hermes -. future routed tools .-> gateway
+```
 
-The platform ownership split is:
+## Current Real Flow
 
-- `ATHENA` owns physical truth: presence, ingress source, occupancy, and later zone occupancy
-- `APOLLO` owns member intent: profile, privacy, availability, workouts, coaching, and ARES
-- `HERMES` stays staff-only and consumes operational data instead of student social state
+The current cross-repo flow is narrower than the long-term architecture on
+purpose. The standalone Mermaid source lives at
+[`planning/diagrams/platform-current-real-flow.mmd`](planning/diagrams/platform-current-real-flow.mmd).
 
-The key rule is: tap-in updates presence, not matchmaking intent.
+```mermaid
+flowchart LR
+  platform["ashton-platform<br/>source of truth"]
+  proto["ashton-proto<br/>proto, schemas, runtime helpers"]
+  athena["athena<br/>presence, occupancy, event publish"]
+  apollo["apollo<br/>visit ingest, member state seed"]
+  hermes["hermes<br/>staff ops assistant<br/>planned"]
+  gateway["ashton-mcp-gateway<br/>MCP router<br/>planned"]
 
-## Workspace Layout
+  platform --> proto
+  platform --> athena
+  platform --> apollo
+  platform --> hermes
+  platform --> gateway
 
-- `planning/architecture/`
-  Canonical platform architecture documents.
-- `planning/repo-briefs/`
-  Canonical service and repo briefs.
-- `planning/sprints/`
-  Build order and sprint sequencing.
-- `planning/diagrams/`
-  Generated diagrams and architecture visuals.
-- `planning/archive/`
-  Raw packaged material and non-canonical source assets.
+  proto --> athena
+  proto --> apollo
+  proto --> hermes
+  proto --> gateway
+
+  athena -- "athena.identified_presence.arrived" --> apollo
+  athena -. "future read surfaces" .-> hermes
+  athena -. "future tool routing" .-> gateway
+  apollo -. "future tool routing" .-> gateway
+  hermes -. "future tool routing" .-> gateway
+```
+
+## Platform Tech Stack
+
+| Layer | Technology | Status | Notes |
+| --- | --- | --- | --- |
+| Shared contracts | Protobuf + Buf | Instituted | The current package layout and generation path are active in `ashton-proto` |
+| Shared event validation | JSON Schema + Go runtime helpers | Instituted | `athena` and `apollo` now share one active event helper instead of private structs |
+| Physical truth service | Go + chi + Cobra + Prometheus client + NATS | Instituted | `athena` is the first executable service |
+| Member ingest and persistence | Go + chi + Cobra + pgx + sqlc + NATS | Instituted | `apollo` currently focuses on visit ingest and readback |
+| Staff assistant | Go gateway + Python LangGraph sidecar + Mem0 | Planned | `hermes` is intentionally still docs-first |
+| Tool control plane | Go-first MCP router, Postgres audit, HITL approval | Planned | `ashton-mcp-gateway` starts only after service surfaces are stable |
+| Redis utility layer | Redis | Deferred | Useful later for caches, rate limiting, and ephemeral hot state |
+| APOLLO frontend | SvelteKit PWA | Deferred | Valuable later, but not part of the current executable slice |
+| Gateway performance rewrite | Rust | Deferred | The rewrite is earned only after a measured Go bottleneck exists |
 
 ## Repo Map
 
-| Repo | Role | Depends On | Current State |
+| Repo | Owns | Depends On | Current Truth | Docs |
+| --- | --- | --- | --- | --- |
+| `ashton-proto` | Shared proto packages, event schemas, runtime helper rules | - | Shared contract baseline is real and active | [README](../ashton-proto/README.md) |
+| `athena` | Presence, occupancy, ingress source handling, identified-arrival publication | `ashton-proto` | Mock-backed read path and publish path are real | [README](../athena/README.md) |
+| `apollo` | Visit ingest now, broader member state later | `ashton-proto`, `athena` | Visit recording from ATHENA events is real | [README](../apollo/README.md) |
+| `hermes` | Staff read-only ops first, later booking and maintenance flows | `ashton-proto`, `athena` | Planned only | [README](../hermes/README.md) |
+| `ashton-mcp-gateway` | Tool discovery, routing, approval, audit | All service repos | Planned only | [README](../ashton-mcp-gateway/README.md) |
+
+## Current State Block
+
+### Already real in the repos
+
+- `ashton-proto` ships Buf-clean packages, event schemas, generated Go code, and
+  a shared runtime helper for `athena.identified_presence.arrived`
+- `athena` has a canonical occupancy read path shared by CLI, HTTP, and
+  Prometheus
+- `athena` can publish identified-arrival events through the shared
+  `ashton-proto` helper to NATS
+- `apollo` can consume that same event, validate it strictly, and record a visit
+  deterministically in Postgres
+- `apollo` keeps visit history separate from workout history and from
+  matchmaking intent
+- repo-local roadmaps, runbooks, ADRs, and growing-pains logs exist across the
+  stack
+
+### Real and wired across repos
+
+- `athena` and `apollo` now share one runtime event contract instead of private
+  JSON structs
+- Tracer 2 proved the first end-to-end flow from physical presence to member
+  visit history
+- anonymous, malformed, duplicate, and unknown-tag arrivals now resolve
+  deterministically instead of being left ambiguous
+
+### Planned next
+
+- `apollo` Tracer 3: member auth, profile state, `visibility_mode`, and
+  `availability_mode`
+- `hermes` first read-only slice: one staff question answered with real ATHENA
+  data
+- `ashton-mcp-gateway` first routed read-only tool call after service surfaces
+  are stable
+- broader `ashton-proto` contract expansion only when a real cross-repo tracer
+  requires it
+
+### Deferred on purpose
+
+- Redis-backed hot state and rate limiting
+- ATHENA prediction rollout before the read path and adapters widen
+- APOLLO recommendation pipelines, LangGraph, Mem0, and matchmaking runtime
+- APOLLO SvelteKit PWA and offline sync work
+- gateway Rust rewrite before a measured Go bottleneck exists
+
+## Tracer Milestones
+
+| Tracer | Scope | Status | Outcome |
 | --- | --- | --- | --- |
-| `ashton-proto` | Shared contracts, events, MCP manifests | — | Tracer 2 runtime-shared event contract complete |
-| `athena` | Physical truth layer for presence and occupancy | `ashton-proto` | Tracer 2 shared publisher path complete |
-| `hermes` | Staff operations assistant | `ashton-proto`, `athena` | Docs-first stub |
-| `apollo` | Multi-mode member app: profile, coaching, workouts, and matchmaking | `ashton-proto`, `athena` | Tracer 2 visit-ingest slice complete |
-| `ashton-mcp-gateway` | Shared MCP tool gateway and safety layer | all service repos | Docs-first stub |
+| `Tracer 0` | bootstrap and source-of-truth alignment | Complete | repo layering, first contracts, first executable ATHENA slice |
+| `Tracer 1` | presence contract to ATHENA read path | Complete | shared contract baseline plus stable mock-backed read surfaces |
+| `Tracer 2` | ATHENA event to APOLLO visit record | Complete | first cross-repo event-driven member-history slice |
+| `Tracer 3` | APOLLO member auth to profile state | Next | make member auth and profile state real without widening into matchmaking |
+| `Tracer 4` | explicit lobby eligibility | Planned | keep availability intent separate from tap-in presence |
 
-## Build Order
+## Source Of Truth Split
 
-1. `ashton-proto`
-2. `athena`
-3. `hermes`
-4. `apollo`
-5. `ashton-mcp-gateway`
+| Need | Use | Why |
+| --- | --- | --- |
+| Current implementation truth | repo-local `README.md`, `docs/roadmap.md`, ADRs, migrations, schemas, and [`planning/sprints/TRACER-MATRIX.md`](planning/sprints/TRACER-MATRIX.md) | These files track what is actually real now |
+| Cross-repo arbitration | [`planning/IMPLEMENTATION-BOARD.md`](planning/IMPLEMENTATION-BOARD.md) and [`planning/runbooks/control-plane.md`](planning/runbooks/control-plane.md) | These files lock ownership, terminology, and tracer discipline |
+| Future-state ideas and background rationale | [`planning/architecture/portfolio-architecture.md`](planning/architecture/portfolio-architecture.md) and [`planning/architecture/ashton-addendum-v2.md`](planning/architecture/ashton-addendum-v2.md) | These are background references, not runtime status documents |
 
-The authoritative build sequence lives in [planning/sprints/BUILD-ORDER.md](planning/sprints/BUILD-ORDER.md).
+The architecture essays still matter, but they are future-leaning. They should
+explain where the platform is heading and why earlier choices were made, not
+pretend that planned services already exist.
 
-## Canonical Planning Docs
+## Project Structure
+
+| Path | Purpose |
+| --- | --- |
+| `planning/architecture/` | background architecture essays and technology rationale |
+| `planning/diagrams/` | standalone Mermaid sources for platform-level diagrams |
+| `planning/repo-briefs/` | canonical repo briefs and ownership model |
+| `planning/runbooks/` | control-plane and tracer-closure discipline |
+| `planning/sprints/` | build order and tracer sequencing |
+
+## Docs Map
 
 - [Implementation board](planning/IMPLEMENTATION-BOARD.md)
 - [Tracer matrix](planning/sprints/TRACER-MATRIX.md)
-- [Tracer closure-hardening template](planning/runbooks/tracer-closure-hardening-template.md)
-- [Platform architecture](planning/architecture/portfolio-architecture.md)
-- [Architecture addendum](planning/architecture/ashton-addendum-v2.md)
 - [Build order](planning/sprints/BUILD-ORDER.md)
+- [Control-plane runbook](planning/runbooks/control-plane.md)
+- [Platform system diagram](planning/diagrams/platform-system.mmd)
+- [Current real flow diagram](planning/diagrams/platform-current-real-flow.mmd)
 - [ATHENA brief](planning/repo-briefs/athena.md)
-- [HERMES brief](planning/repo-briefs/hermes.md)
 - [APOLLO brief](planning/repo-briefs/apollo.md)
+- [HERMES brief](planning/repo-briefs/hermes.md)
 - [ASHTON-PROTO brief](planning/repo-briefs/ashton-proto.md)
 - [Gateway brief](planning/repo-briefs/ashton-mcp-gateway.md)
-
-For current implementation decisions, the repo briefs, ADRs, migrations, the implementation board, and the tracer matrix are the working source of truth. The longer architecture essays remain useful background, but they may lag behind recent pivots and are explicitly treated as background reference.
+- [Portfolio architecture](planning/architecture/portfolio-architecture.md) - background reference
+- [Architecture addendum](planning/architecture/ashton-addendum-v2.md) - background reference
 
 ## Infra Boundary
 
-Infrastructure stays outside this workspace:
+Infrastructure remains outside this repo on purpose:
 
 - `../Computers/Prometheus`
 - `../Computers/Talos`
 
-That repo remains the platform foundation and is intentionally outside this planning repo.
+Those repos are the platform substrate. ASHTON documents its own internal
+system logic here and treats the homelab layer as an external dependency rather
+than mixing infrastructure status into the application architecture.
 
-## Repo Status
+## Why This Platform Matters
 
-The repo briefs in `planning/repo-briefs/` are the working source of truth for implementation decisions. The longer architecture essays remain useful background, but they may lag behind recent pivots.
+Read together, these repos tell a stronger story than any one service alone:
+contract discipline, Go services, event-driven integration, operational
+boundaries, documentation maturity, and a deliberate separation between what is
+real now and what is only planned.

@@ -1,0 +1,24 @@
+flowchart TD
+  platform["ashton-platform<br/>planning, tracer discipline, source of truth"]
+  proto["ashton-proto<br/>protobuf, JSON schema, runtime helpers"]
+  athena["athena<br/>presence, occupancy, identified arrival publish"]
+  apollo["apollo<br/>visit ingest now, broader member state later"]
+  hermes["hermes<br/>staff operations assistant<br/>planned"]
+  gateway["ashton-mcp-gateway<br/>tool registry, routing, HITL, audit<br/>planned"]
+
+  platform --> proto
+  platform --> athena
+  platform --> apollo
+  platform --> hermes
+  platform --> gateway
+
+  proto --> athena
+  proto --> apollo
+  proto -. future contracts .-> hermes
+  proto -. future manifests .-> gateway
+
+  athena --> apollo
+  athena -. future read surfaces .-> hermes
+  athena -. future routed tools .-> gateway
+  apollo -. future routed tools .-> gateway
+  hermes -. future routed tools .-> gateway
