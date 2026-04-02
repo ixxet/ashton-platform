@@ -12,9 +12,10 @@ This repo is intentionally not a deployable application. It holds the planning m
 
 ## Current Sprint
 
-Bootstrap and `Tracer 1` are complete. The platform now has aligned docs, a
-narrow reproducible contract baseline in `ashton-proto`, a stable ATHENA mock
-read path, and rendered GitOps validation for the current ATHENA manifests.
+Bootstrap, `Tracer 1`, and `Tracer 2` are complete. The platform now has
+aligned docs, a narrow reproducible contract baseline in `ashton-proto`, a
+stable ATHENA mock read path, and the first cross-repo event integration that
+turns physical presence into member visit history.
 
 Tracer 1 was also the first foundation tracer where contracts, executable
 behavior, image publishing, GitOps pinning, and live rollout verification all
@@ -22,11 +23,23 @@ had to become real together. The planning repo preserves that narrative in the
 tracer matrix so later implementation chats can inherit the lessons without
 having to rediscover the same bootstrap friction.
 
-The next recommended implementation chat is `Tracer 2`:
+Tracer 2 also closed the runtime contract gap instead of stopping at a working
+payload shape:
 
-- turn an ATHENA presence event into an APOLLO visit record
-- keep visit recording explicit and separate from workout creation
-- avoid widening into HERMES or gateway work unless the tracer truly requires it
+- `ashton-proto` now publishes the shared runtime helper for
+  `athena.identified_presence.arrived`
+- `athena` publishes through that helper instead of a private JSON contract
+- `apollo` consumes the same helper and rejects invalid source, type, enum, and
+  timestamp values before visit persistence
+- local manual smoke passed for `apollo serve`, `athena presence publish-identified`,
+  and `athena serve` with the publisher worker against real NATS and Postgres
+
+The next recommended implementation chat is `Tracer 3`:
+
+- turn APOLLO auth into profile state
+- keep identity linkage separate from auth
+- avoid widening into workouts, matchmaking, HERMES, or gateway work unless the
+  tracer truly requires it
 
 ## Current Model
 
@@ -55,10 +68,10 @@ The key rule is: tap-in updates presence, not matchmaking intent.
 
 | Repo | Role | Depends On | Current State |
 | --- | --- | --- | --- |
-| `ashton-proto` | Shared contracts, events, MCP manifests | — | Narrow Tracer 1 contract baseline complete |
-| `athena` | Physical truth layer for presence and occupancy | `ashton-proto` | Tracer 1 mock read path complete |
+| `ashton-proto` | Shared contracts, events, MCP manifests | — | Tracer 2 runtime-shared event contract complete |
+| `athena` | Physical truth layer for presence and occupancy | `ashton-proto` | Tracer 2 shared publisher path complete |
 | `hermes` | Staff operations assistant | `ashton-proto`, `athena` | Docs-first stub |
-| `apollo` | Multi-mode member app: profile, coaching, workouts, and matchmaking | `ashton-proto`, `athena` | Docs-first stub |
+| `apollo` | Multi-mode member app: profile, coaching, workouts, and matchmaking | `ashton-proto`, `athena` | Tracer 2 visit-ingest slice complete |
 | `ashton-mcp-gateway` | Shared MCP tool gateway and safety layer | all service repos | Docs-first stub |
 
 ## Build Order

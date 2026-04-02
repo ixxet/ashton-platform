@@ -67,6 +67,8 @@ Tracer 1 retrospective:
 
 ## Tracer 2: ATHENA Presence Event To APOLLO Visit Record
 
+Status: completed in the `codex/tracer-2-closure-hardening` implementation chat.
+
 Goal:
 
 - `ATHENA` presence event -> `APOLLO` visit record
@@ -82,6 +84,33 @@ Exit criteria:
 - APOLLO records visits without creating workouts
 - event naming and linkage stay explicit
 - one end-to-end visit flow is testable without real hardware
+
+Key outputs:
+
+- `ashton-proto` now ships one shared runtime helper for
+  `athena.identified_presence.arrived`, including the subject constant,
+  schema-backed marshal and parse paths, and reusable fixture bytes
+- `athena` publishes identified arrivals through that shared helper and keeps
+  the occupancy read path unchanged
+- `apollo` consumes the same helper, rejects invalid source, type, enum, and
+  timestamp values, and keeps anonymous, duplicate, and unknown-tag handling
+  deterministic
+- local manual smoke passed for `apollo serve`, `athena presence publish-identified`,
+  and `athena serve` with the publisher worker against real NATS and Postgres
+
+Tracer 2 retrospective:
+
+- The first implementation pass proved behavior but still left the producer and
+  consumer free to drift because both repos owned private event structs. The
+  closure-hardening pass fixed that by making `ashton-proto` the runtime source
+  of truth instead of just the documentation source of truth.
+- JSON Schema alone was not sufficient runtime enforcement for the full event
+  semantics in this stack. The shared helper had to parse timestamps and source
+  values explicitly after schema validation.
+- One-shot broker paths need a real smoke test, not just stub publishers. The
+  first manual smoke found a no-deadline flush bug in ATHENA that still allowed
+  delivery but reported failure. Closing the tracer required fixing the publish
+  path and adding a regression test before updating control-plane docs.
 
 ## Tracer 3: APOLLO Member Auth To Profile State
 

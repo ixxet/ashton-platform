@@ -27,16 +27,15 @@ Use this order when planning or implementing:
 
 ## Current Coding Blockers
 
-Tracer 1 cleared the first `ashton-proto` and `athena` baseline blockers. The
-remaining active blockers before the next cross-repo tracer are:
+Tracer 2 cleared the first cross-repo ATHENA -> APOLLO event slice. The
+remaining active blockers before the next major implementation slice are:
 
 1. `apollo`
-   - `001_initial` migration for users, visits, workouts, exercises, and ARES foundations
-   - ADR for member state model
-   - ADR for member authentication
+   - member authentication implementation for student ID + email verification + signed session cookie
+   - profile and availability persistence for Tracer 3
 2. terminology cleanup
-   - use `presence` instead of `check-in` in current working docs
-   - use `lobby` for product-facing matchmaking terminology in APOLLO
+   - keep using `presence` instead of `check-in` in current working docs
+   - keep using `lobby` for product-facing matchmaking terminology in APOLLO
 
 ## Deferred But Planned
 
@@ -86,10 +85,11 @@ Rust remains a later optimization path, not a first-wave dependency.
 ## Immediate Next Steps
 
 1. Treat `Tracer 1` as the first completed narrow vertical slice
-2. Start a dedicated chat for `Tracer 2`
-3. Keep this thread as the architecture and arbitration thread
-4. Update the tracer matrix and repo runbooks after each tracer closes
-5. Keep bootstrap-only work out of tracer chats unless it is directly blocking the tracer
+2. Treat `Tracer 2` as the first completed cross-repo event slice from physical truth to member history
+3. Start a dedicated chat for `Tracer 3`
+4. Keep this thread as the architecture and arbitration thread
+5. Update the tracer matrix and repo runbooks after each tracer closes
+6. Keep bootstrap-only work out of tracer chats unless it is directly blocking the tracer
 
 ## Test Discipline
 
