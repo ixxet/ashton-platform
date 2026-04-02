@@ -142,8 +142,6 @@ flowchart LR
 
 ### Planned next
 
-- bounded deployment workstream for live `ATHENA -> NATS -> APOLLO` cluster
-  proof if that deployment expansion is chosen next
 - `hermes` first read-only slice: one staff question answered with real ATHENA
   data
 - `ashton-mcp-gateway` first routed read-only tool call after service surfaces
@@ -187,6 +185,25 @@ That means the current platform truth is:
   eligibility smoke checks
 - deployed cluster truth for Milestone 1 is the ATHENA read path, not the full
   event-consumer chain
+
+## Milestone 1.5 Deployment Deepening Truth
+
+Milestone 1.5 deepens deployment truth without rewriting Milestone 1's closure:
+
+- live cluster proof now includes a bounded `ATHENA -> NATS -> APOLLO` arrival
+  path
+- the ATHENA deployment publishes identified arrivals to live in-cluster NATS
+- the APOLLO deployment boots its schema in-cluster, consumes the live subject,
+  and persists the visit in Postgres
+- one live identified arrival `mock-in-001` created the expected APOLLO visit
+- replay of that same live identified arrival resolved as `duplicate` and did
+  not create a second visit
+
+This claim is still intentionally narrow:
+
+- it proves the bounded visit-ingest arrival path, not a broad APOLLO product
+  rollout
+- live departure close behavior remains locally proven, not cluster-proven
 
 ## Source Of Truth Split
 

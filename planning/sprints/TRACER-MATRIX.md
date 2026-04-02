@@ -313,14 +313,14 @@ Tracer 5 retrospective:
 Deferred after closure:
 
 No in-scope unresolved bugs remained at close. The remaining items are
-intentional feature or deployment deferrals:
+intentional feature deferrals. The deployment deferral later closed in
+Milestone 1.5 below.
 
 | Type | Item | Status | Why It Was Not Done Here | Future Owner |
 | --- | --- | --- | --- | --- |
 | Feature | workout completion or workout creation from departure | deferred | visit lifecycle must remain separate from workout history | later workout tracer |
 | Feature | lobby exit, availability changes, or eligibility changes from departure | deferred | physical departure must not imply social or intent-state mutation | later lobby or intent tracer |
 | Feature | broader presence refactors or real-time presence layers | deferred | the tracer only proves visit close behavior, not a full presence subsystem | later presence tracer if needed |
-| Deploy | live `ATHENA -> NATS -> APOLLO` cluster proof | deferred | Tracer 5 is local integration truth only and does not widen deployment scope | Deployment Workstream A / Milestone 1.5 |
 
 ## Chat Model
 
@@ -341,8 +341,26 @@ Deployment truth for Milestone 1 is intentionally narrow:
 - the live cluster does not yet claim the full `ATHENA -> NATS -> APOLLO`
   boundary
 
-Deferred after hardening:
+That deferred boundary was later closed in Milestone 1.5 below.
+
+## Milestone 1.5: Deployment Workstream A
+
+Status: completed.
+
+Deployment truth for Milestone 1.5 is bounded but real:
+
+- live cluster verification now covers a narrow `ATHENA -> NATS -> APOLLO`
+  arrival path
+- `ATHENA` publishes identified arrivals to live in-cluster NATS
+- `APOLLO` now runs in-cluster with migration bootstrap and live NATS consumer
+  wiring
+- one live identified arrival `mock-in-001` created the expected APOLLO visit
+- replay of that same live identified arrival resolved as `duplicate` and did
+  not create a second visit
+
+Still intentionally deferred:
 
 | Type | Item | Status | Why It Was Not Done Here | Future Owner |
 | --- | --- | --- | --- | --- |
-| Deploy | live `ATHENA -> NATS -> APOLLO` cluster integration | deferred | Milestone 1 closes on the read-path deployment truth only; the event boundary needs its own bounded deployment workstream | Deployment Workstream A / Milestone 1.5 |
+| Deploy | live departure-close proof in-cluster | deferred | the bounded workstream used the smallest safe end-to-end arrival path; live departure remains locally proven only | later bounded deployment workstream |
+| Deploy | broad APOLLO product deployment | deferred | this workstream proves the visit-ingest boundary only and does not widen APOLLO into auth, eligibility, workouts, or broader product runtime | later APOLLO ops workstream |

@@ -33,9 +33,7 @@ remaining active blockers before the next major implementation slice are:
 1. `apollo`
    - workout logging runtime that stays separate from visit history
    - recommendation inputs that wait for real workout data instead of widening from profile or visits
-2. bounded deployment workstream
-   - live `ATHENA -> NATS -> APOLLO` cluster proof if Deployment Workstream A / Milestone 1.5 is chosen next
-3. terminology cleanup
+2. terminology cleanup
    - keep using `presence` instead of `check-in` in current working docs
    - keep using `lobby` for product-facing matchmaking terminology in APOLLO
 
@@ -108,6 +106,22 @@ Operator rule:
 - do not describe the in-cluster event path as live until ATHENA publish
   config, any required broker wiring, APOLLO deployment, and live end-to-end
   verification are all real
+
+## Milestone 1.5 Deployment Truth
+
+Deployment Workstream A is now complete as a bounded deepening pass:
+
+- `ATHENA` now publishes identified arrivals to live in-cluster NATS
+- `NATS` is live in the `agents` namespace as the bounded broker for this path
+- `APOLLO` is live in-cluster with init-time migrations, NATS consumer wiring,
+  and Postgres persistence
+- one live arrival created the expected APOLLO visit
+- replay of that same live arrival resolved deterministically as `duplicate`
+
+Operator rule:
+
+- this does not yet imply a broad APOLLO product deployment
+- this does not yet imply live departure-close proof in-cluster
 
 ## Test Discipline
 
