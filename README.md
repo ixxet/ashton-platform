@@ -166,6 +166,24 @@ flowchart LR
 | `Tracer 3` | APOLLO member auth to profile state | Complete | make member auth and profile state real without widening into matchmaking |
 | `Tracer 4` | explicit lobby eligibility | Complete | make explicit member state drive derived lobby eligibility without letting tap-in imply intent |
 
+## Milestone 1 Hardening Truth
+
+Milestone 1 closes on the narrow, honest deployment boundary:
+
+- live cluster proof covers the ATHENA read-path slice only
+- the live ATHENA deployment is verified as the mock-backed read service for
+  health, occupancy count, and Prometheus metrics
+- the live `ATHENA -> NATS -> APOLLO` cluster boundary is explicitly deferred
+  and is not part of the Milestone 1 deployment claim
+
+That means the current platform truth is:
+
+- cross-repo event behavior is proven locally with real NATS and Postgres
+- APOLLO runtime behavior is proven locally with real auth, profile, and
+  eligibility smoke checks
+- deployed cluster truth for Milestone 1 is the ATHENA read path, not the full
+  event-consumer chain
+
 ## Source Of Truth Split
 
 | Need | Use | Why |

@@ -266,3 +266,21 @@ intentional feature deferrals:
 - each real tracer gets a fresh implementation chat
 - research stays in a separate research chat
 - tracer chats can touch multiple repos only when the tracer itself crosses those repo boundaries
+
+## Milestone 1 Hardening Closeout
+
+Status: completed on Option A.
+
+Deployment truth for Milestone 1 is intentionally narrow:
+
+- live cluster verification covers ATHENA's read-path slice
+- Flux reconciliation, rollout status, live pod image, live health, live
+  occupancy count, and live metrics were all verified for ATHENA
+- the live cluster does not yet claim the full `ATHENA -> NATS -> APOLLO`
+  boundary
+
+Deferred after hardening:
+
+| Type | Item | Status | Why It Was Not Done Here | Future Owner |
+| --- | --- | --- | --- | --- |
+| Deploy | live `ATHENA -> NATS -> APOLLO` cluster integration | deferred | Milestone 1 closes on the read-path deployment truth only; the event boundary needs its own bounded deployment workstream | Deployment Workstream A / Milestone 1.5 |

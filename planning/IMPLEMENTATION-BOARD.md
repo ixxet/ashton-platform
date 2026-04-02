@@ -91,6 +91,22 @@ Rust remains a later optimization path, not a first-wave dependency.
 5. Update the tracer matrix and repo runbooks after each tracer closes
 6. Keep bootstrap-only work out of tracer chats unless it is directly blocking the tracer
 
+## Milestone 1 Deployment Truth
+
+Milestone 1 closes on Option A:
+
+- deployed truth means live ATHENA read-path verification
+- deployed truth does not mean the full live `ATHENA -> NATS -> APOLLO`
+  cluster boundary yet
+- the live event boundary is a separate bounded deployment workstream, not an
+  implicit extension of Tracers 0 through 4
+
+Operator rule:
+
+- do not describe the in-cluster event path as live until ATHENA publish
+  config, any required broker wiring, APOLLO deployment, and live end-to-end
+  verification are all real
+
 ## Test Discipline
 
 Every tracer should keep the same delivery standard:
