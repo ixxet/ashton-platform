@@ -38,3 +38,5 @@ to keep the pass narrow, audited, and explicit about deferrals.
 - unresolved environment blockers are documented explicitly
 - deferred features and unresolved bugs are recorded in a closeout table before
   tagging
+- the exact verified commands live in a repo-local runbook or closeout doc, not
+  only in chat history
