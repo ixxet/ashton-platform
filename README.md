@@ -16,7 +16,7 @@ readable as one coherent platform instead of five drifting repos.
 | --- | --- | --- | --- |
 | `ashton-proto` | Shared contracts, schemas, runtime helpers | Real and active | Keeps producers and consumers from hand-rolling wire contracts |
 | `athena` | Physical truth for presence and occupancy | Real and executable | First Go service and first operational data surface |
-| `apollo` | Member-facing application and visit ingestion | Real and executable, but intentionally narrow | First cross-repo consumer path from presence to member history |
+| `apollo` | Member-facing application and intent state | Real and executable, but intentionally narrow | First member auth, profile-state, visit-history, and derived-eligibility slice |
 | `hermes` | Staff-facing operations assistant | Docs-first | Planned read-only staff layer on top of ATHENA |
 | `ashton-mcp-gateway` | Shared tool routing, approval, and audit layer | Docs-first | Planned control surface after the service repos are stable |
 
@@ -30,7 +30,7 @@ flowchart TD
   platform["ashton-platform<br/>planning, tracer discipline, source of truth"]
   proto["ashton-proto<br/>protobuf, JSON schema, runtime helpers"]
   athena["athena<br/>presence, occupancy, identified arrival publish"]
-  apollo["apollo<br/>visit ingest now, broader member state later"]
+  apollo["apollo<br/>visit ingest, auth, profile,<br/>derived eligibility now"]
   hermes["hermes<br/>staff operations assistant<br/>planned"]
   gateway["ashton-mcp-gateway<br/>tool registry, routing, HITL, audit<br/>planned"]
 
@@ -92,7 +92,7 @@ flowchart LR
 | Shared contracts | Protobuf + Buf | Instituted | The current package layout and generation path are active in `ashton-proto` |
 | Shared event validation | JSON Schema + Go runtime helpers | Instituted | `athena` and `apollo` now share one active event helper instead of private structs |
 | Physical truth service | Go + chi + Cobra + Prometheus client + NATS | Instituted | `athena` is the first executable service |
-| Member ingest and persistence | Go + chi + Cobra + pgx + sqlc + NATS | Instituted | `apollo` currently focuses on visit ingest and readback |
+| Member ingest and persistence | Go + chi + Cobra + pgx + sqlc + NATS | Instituted | `apollo` currently focuses on auth, profile state, visit ingest, and derived eligibility |
 | Staff assistant | Go gateway + Python LangGraph sidecar + Mem0 | Planned | `hermes` is intentionally still docs-first |
 | Tool control plane | Go-first MCP router, Postgres audit, HITL approval | Planned | `ashton-mcp-gateway` starts only after service surfaces are stable |
 | Redis utility layer | Redis | Deferred | Useful later for caches, rate limiting, and ephemeral hot state |
@@ -105,7 +105,7 @@ flowchart LR
 | --- | --- | --- | --- | --- |
 | `ashton-proto` | Shared proto packages, event schemas, runtime helper rules | - | Shared contract baseline is real and active | [README](../ashton-proto/README.md) |
 | `athena` | Presence, occupancy, ingress source handling, identified-arrival publication | `ashton-proto` | Mock-backed read path and publish path are real | [README](../athena/README.md) |
-| `apollo` | Visit ingest now, broader member state later | `ashton-proto`, `athena` | Visit recording from ATHENA events is real | [README](../apollo/README.md) |
+| `apollo` | Member auth, profile state, visit ingest, and derived eligibility | `ashton-proto`, `athena` | Auth, profile state, visit history, and derived eligibility are real | [README](../apollo/README.md) |
 | `hermes` | Staff read-only ops first, later booking and maintenance flows | `ashton-proto`, `athena` | Planned only | [README](../hermes/README.md) |
 | `ashton-mcp-gateway` | Tool discovery, routing, approval, audit | All service repos | Planned only | [README](../ashton-mcp-gateway/README.md) |
 
@@ -121,6 +121,8 @@ flowchart LR
   `ashton-proto` helper to NATS
 - `apollo` can consume that same event, validate it strictly, and record a visit
   deterministically in Postgres
+- `apollo` can verify member ownership, issue signed sessions, persist profile
+  state, and derive open-lobby eligibility from explicit member intent
 - `apollo` keeps visit history separate from workout history and from
   matchmaking intent
 - repo-local roadmaps, runbooks, ADRs, and growing-pains logs exist across the
@@ -137,7 +139,8 @@ flowchart LR
 
 ### Planned next
 
-- `apollo` Tracer 4: explicit lobby eligibility from availability, not tap-in
+- `apollo` visit-closing tracer: explicit departure handling without widening
+  into workouts or matchmaking
 - `hermes` first read-only slice: one staff question answered with real ATHENA
   data
 - `ashton-mcp-gateway` first routed read-only tool call after service surfaces
@@ -161,7 +164,7 @@ flowchart LR
 | `Tracer 1` | presence contract to ATHENA read path | Complete | shared contract baseline plus stable mock-backed read surfaces |
 | `Tracer 2` | ATHENA event to APOLLO visit record | Complete | first cross-repo event-driven member-history slice |
 | `Tracer 3` | APOLLO member auth to profile state | Complete | make member auth and profile state real without widening into matchmaking |
-| `Tracer 4` | explicit lobby eligibility | Planned | keep availability intent separate from tap-in presence |
+| `Tracer 4` | explicit lobby eligibility | Complete | make explicit member state drive derived lobby eligibility without letting tap-in imply intent |
 
 ## Source Of Truth Split
 
