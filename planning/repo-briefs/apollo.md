@@ -2,15 +2,17 @@
 
 APOLLO is the member-intent service in ASHTON.
 
-It owns member auth, profile state, visit history as member-facing context, and
-the first derived lobby-eligibility behavior. It does not own raw presence
-truth, workout runtime, recommendations, or actual matchmaking behavior yet.
+It owns member auth, profile state, visit history as member-facing context,
+visit open/close lifecycle behavior, and the first derived lobby-eligibility
+behavior. It does not own raw presence truth, workout runtime,
+recommendations, or actual matchmaking behavior yet.
 
 ## Current Role
 
 The active APOLLO slice now spans three narrow runtime boundaries:
 
 - identified-arrival consume -> visit record
+- identified-departure consume -> visit close
 - student ID + email verification -> signed session cookie auth
 - persisted `visibility_mode` / `availability_mode` -> derived lobby eligibility
 
@@ -31,7 +33,7 @@ membership.
 | `PATCH /api/v1/profile` | Real | Authenticated update for `visibility_mode` and `availability_mode` |
 | `GET /api/v1/lobby/eligibility` | Real | Authenticated derived eligibility read from stored profile state only |
 | `apollo visit list` | Real | Member-facing visit history readback |
-| NATS identified-arrival consumer | Real | Consumes `athena.identified_presence.arrived` using the shared helper |
+| NATS identified-arrival/departure consumer | Real | Consumes `athena.identified_presence.arrived` and `athena.identified_presence.departed` using the shared helper |
 | workout runtime | Deferred | Schema exists, runtime does not |
 | recommendation runtime | Deferred | Still outside the active executable slice |
 | lobby membership or matchmaking runtime | Deferred | Eligibility is read-only; no join, leave, or team formation path exists |
@@ -57,7 +59,8 @@ Key boundaries:
 ## Current Milestone Truth
 
 - claimed tags map ATHENA identity hashes to APOLLO users
-- visit ingest stays strict, idempotent, and side-effect free outside visit rows
+- visit ingest and visit closing stay strict, idempotent, and side-effect free
+  outside visit rows
 - sessions are server-side Postgres rows referenced by a signed cookie
 - `discoverable + available_now` is eligible for the open lobby
 - `unavailable`, `with_team`, and `ghost + available_now` are explicitly
@@ -72,7 +75,7 @@ Key boundaries:
 | `internal/auth/` | verification token lifecycle, sessions, and signed cookie logic |
 | `internal/profile/` | authenticated member profile read and update |
 | `internal/eligibility/` | derived lobby-eligibility logic |
-| `internal/consumer/` | identified-arrival consume path |
+| `internal/consumer/` | identified visit-lifecycle consume path |
 | `internal/visits/` | visit service and repository boundary |
 | `internal/store/` | sqlc-generated query bindings |
 | `internal/server/` | HTTP handlers and auth middleware |
@@ -88,7 +91,8 @@ Treat APOLLO as trustworthy only when:
 - the binary builds
 - migrations work on a fresh Postgres database
 - the local smoke path covers auth, profile, and eligibility
-- the identified-arrival boundary is exercised against real NATS and Postgres
+- the identified arrival and departure boundary is exercised against real NATS
+  and Postgres
 
 ## Deployment Boundary
 

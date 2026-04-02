@@ -2,7 +2,7 @@ flowchart LR
   platform["ashton-platform<br/>source of truth"]
   proto["ashton-proto<br/>proto, schemas, runtime helpers"]
   athena["athena<br/>presence, occupancy, event publish"]
-  apollo["apollo<br/>visit ingest, member state seed"]
+  apollo["apollo<br/>visit ingest and close,<br/>member state and eligibility"]
   hermes["hermes<br/>staff ops assistant<br/>planned"]
   gateway["ashton-mcp-gateway<br/>MCP router<br/>planned"]
 
@@ -17,7 +17,7 @@ flowchart LR
   proto --> hermes
   proto --> gateway
 
-  athena -- "athena.identified_presence.arrived" --> apollo
+  athena -- "athena.identified_presence.arrived / departed" --> apollo
   athena -. "future read surfaces" .-> hermes
   athena -. "future tool routing" .-> gateway
   apollo -. "future tool routing" .-> gateway

@@ -258,7 +258,69 @@ intentional feature deferrals:
 | Feature | invitations, notifications, and social workflow | deferred | eligibility must exist before widening into social coordination | later social tracer |
 | Feature | match formation and ranking | deferred | this tracer is not ARES or matchmaking logic | later ARES tracer |
 | Feature | workout runtime and recommendations | deferred | member intent is still separate from workouts and coaching | later workout and recommendation tracers |
-| Feature | deploy and GitOps widening | deferred | local runtime, tests, and docs were sufficient to close this tracer without cluster changes | dedicated deploy or release pass |
+
+## Tracer 5: Visit Closing / Departure Flow
+
+Status: completed in the implementation chat.
+
+Goal:
+
+- ATHENA departure or visit-closing truth -> APOLLO closes the correct open visit
+
+Repos:
+
+- `ashton-proto`
+- `athena`
+- `apollo`
+
+Exit criteria:
+
+- departures close visits deterministically by the shared contract path
+- no-open and duplicate departure handling stay explicit
+- visit lifecycle remains separate from workouts, eligibility, and matchmaking
+- existing arrival behavior stays stable
+
+Key outputs:
+
+- `ashton-proto` now ships shared schema and runtime helpers for
+  `athena.identified_presence.departed` alongside the existing arrival contract
+- `athena` now publishes identified departures through the shared helper, keeps
+  the arrival path stable, and can one-shot publish departures locally through
+  `athena presence publish-identified-departures`
+- `apollo` now closes the matching open visit for the same member and facility,
+  persists `departure_source_event_id` for idempotency, and keeps no-open,
+  duplicate, anonymous, unknown-tag, and out-of-order departure behavior
+  deterministic
+- local manual smoke passed for `apollo serve`, `athena presence publish-identified`,
+  `athena presence publish-identified-departures`, duplicate departure replay,
+  and zero implicit workouts against real NATS and Postgres
+
+Tracer 5 retrospective:
+
+- The visit lifecycle only stayed trustworthy because departure matching stayed
+  exact: APOLLO closes by member plus facility and does not guess across
+  facilities or closed history.
+- A separate `departure_source_event_id` was required to make close replays as
+  deterministic as arrival replays. Reusing the arrival idempotency field would
+  have collapsed two different event phases into one key.
+- Out-of-order handling had to stay explicit. A departure timestamp older than
+  the open visit arrival is treated as a non-mutating lifecycle error, not as a
+  reason to backdate or corrupt visit history.
+- The local end-to-end proof only counted once the same smoke run showed both
+  that the visit closed and that workouts still stayed at zero. Closing a visit
+  must not invent training semantics.
+
+Deferred after closure:
+
+No in-scope unresolved bugs remained at close. The remaining items are
+intentional feature or deployment deferrals:
+
+| Type | Item | Status | Why It Was Not Done Here | Future Owner |
+| --- | --- | --- | --- | --- |
+| Feature | workout completion or workout creation from departure | deferred | visit lifecycle must remain separate from workout history | later workout tracer |
+| Feature | lobby exit, availability changes, or eligibility changes from departure | deferred | physical departure must not imply social or intent-state mutation | later lobby or intent tracer |
+| Feature | broader presence refactors or real-time presence layers | deferred | the tracer only proves visit close behavior, not a full presence subsystem | later presence tracer if needed |
+| Deploy | live `ATHENA -> NATS -> APOLLO` cluster proof | deferred | Tracer 5 is local integration truth only and does not widen deployment scope | Deployment Workstream A / Milestone 1.5 |
 
 ## Chat Model
 

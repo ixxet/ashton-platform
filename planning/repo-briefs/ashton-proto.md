@@ -13,8 +13,9 @@ Today `ashton-proto` owns the active shared contract surface for:
 - the common health baseline
 - ATHENA's first read-path proto types
 - the shared event envelope
-- the active `athena.identified_presence.arrived` event schema
-- the Go runtime helper that both `athena` and `apollo` use
+- the active `athena.identified_presence.arrived` and
+  `athena.identified_presence.departed` event schemas
+- the Go runtime helpers that both `athena` and `apollo` use
 
 The important point is operational, not aspirational: producer and consumer now
 share one runtime contract instead of carrying private JSON structs.
@@ -26,8 +27,9 @@ share one runtime contract instead of carrying private JSON structs.
 | Buf package layout under `proto/ashton/...` | Real | Lint-clean and generation-backed |
 | Generated Go bindings in `gen/go/...` | Real | Imported by service repos |
 | Event envelope schema | Real | Keeps subject naming and outer payload rules stable |
-| `athena.identified_presence.arrived` schema | Real | First active cross-repo event contract |
-| `events/identified_presence_arrived.go` helper | Real | Shared marshal, parse, source, and timestamp validation |
+| `athena.identified_presence.arrived` schema | Real | Active arrival contract for visit opening |
+| `athena.identified_presence.departed` schema | Real | Active departure contract for visit closing |
+| `events/identified_presence_arrived.go` and `events/identified_presence_departed.go` helpers | Real | Shared marshal, parse, source, and timestamp validation |
 | Shared fixtures and contract tests | Real | Prevent hand-written payload drift |
 | MCP manifest expansion | Deferred | Not widened until routed tool surfaces are real |
 
@@ -42,7 +44,8 @@ share one runtime contract instead of carrying private JSON structs.
 
 ## Current Milestone Truth
 
-- `athena` publishes identified-arrival events through this repo
+- `athena` publishes identified-arrival and identified-departure events
+  through this repo
 - `apollo` parses those same events through this repo
 - runtime validation for source, type, and timestamp semantics happens here once
 - contract expansion stays tracer-driven instead of speculative

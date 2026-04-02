@@ -15,8 +15,8 @@ readable as one coherent platform instead of five drifting repos.
 | Repo | Role | Current State | Why It Matters |
 | --- | --- | --- | --- |
 | `ashton-proto` | Shared contracts, schemas, runtime helpers | Real and active | Keeps producers and consumers from hand-rolling wire contracts |
-| `athena` | Physical truth for presence and occupancy | Real and executable | First Go service and first operational data surface |
-| `apollo` | Member-facing application and intent state | Real and executable, but intentionally narrow | First member auth, profile-state, visit-history, and derived-eligibility slice |
+| `athena` | Physical truth for presence and occupancy | Real and executable | First Go service, first operational data surface, and active visit-lifecycle publisher |
+| `apollo` | Member-facing application and intent state | Real and executable, but intentionally narrow | First member auth, profile-state, visit-history, visit-closing, and derived-eligibility slice |
 | `hermes` | Staff-facing operations assistant | Docs-first | Planned read-only staff layer on top of ATHENA |
 | `ashton-mcp-gateway` | Shared tool routing, approval, and audit layer | Docs-first | Planned control surface after the service repos are stable |
 
@@ -29,8 +29,8 @@ The standalone Mermaid source for the platform system view lives at
 flowchart TD
   platform["ashton-platform<br/>planning, tracer discipline, source of truth"]
   proto["ashton-proto<br/>protobuf, JSON schema, runtime helpers"]
-  athena["athena<br/>presence, occupancy, identified arrival publish"]
-  apollo["apollo<br/>visit ingest, auth, profile,<br/>derived eligibility now"]
+  athena["athena<br/>presence, occupancy, visit-lifecycle publish"]
+  apollo["apollo<br/>visit ingest and close,<br/>auth, profile, derived eligibility"]
   hermes["hermes<br/>staff operations assistant<br/>planned"]
   gateway["ashton-mcp-gateway<br/>tool registry, routing, HITL, audit<br/>planned"]
 
@@ -78,7 +78,7 @@ flowchart LR
   proto --> hermes
   proto --> gateway
 
-  athena -- "athena.identified_presence.arrived" --> apollo
+  athena -- "athena.identified_presence.arrived / departed" --> apollo
   athena -. "future read surfaces" .-> hermes
   athena -. "future tool routing" .-> gateway
   apollo -. "future tool routing" .-> gateway
@@ -104,8 +104,8 @@ flowchart LR
 | Repo | Owns | Depends On | Current Truth | Docs |
 | --- | --- | --- | --- | --- |
 | `ashton-proto` | Shared proto packages, event schemas, runtime helper rules | - | Shared contract baseline is real and active | [README](../ashton-proto/README.md) |
-| `athena` | Presence, occupancy, ingress source handling, identified-arrival publication | `ashton-proto` | Mock-backed read path and publish path are real | [README](../athena/README.md) |
-| `apollo` | Member auth, profile state, visit ingest, and derived eligibility | `ashton-proto`, `athena` | Auth, profile state, visit history, and derived eligibility are real | [README](../apollo/README.md) |
+| `athena` | Presence, occupancy, ingress source handling, identified visit-lifecycle publication | `ashton-proto` | Mock-backed read path and lifecycle publish path are real | [README](../athena/README.md) |
+| `apollo` | Member auth, profile state, visit ingest and close, and derived eligibility | `ashton-proto`, `athena` | Auth, profile state, visit lifecycle, and derived eligibility are real | [README](../apollo/README.md) |
 | `hermes` | Staff read-only ops first, later booking and maintenance flows | `ashton-proto`, `athena` | Planned only | [README](../hermes/README.md) |
 | `ashton-mcp-gateway` | Tool discovery, routing, approval, audit | All service repos | Planned only | [README](../ashton-mcp-gateway/README.md) |
 
@@ -113,14 +113,16 @@ flowchart LR
 
 ### Already real in the repos
 
-- `ashton-proto` ships Buf-clean packages, event schemas, generated Go code, and
-  a shared runtime helper for `athena.identified_presence.arrived`
+- `ashton-proto` ships Buf-clean packages, event schemas, generated Go code,
+  and shared runtime helpers for
+  `athena.identified_presence.arrived` and
+  `athena.identified_presence.departed`
 - `athena` has a canonical occupancy read path shared by CLI, HTTP, and
   Prometheus
-- `athena` can publish identified-arrival events through the shared
-  `ashton-proto` helper to NATS
-- `apollo` can consume that same event, validate it strictly, and record a visit
-  deterministically in Postgres
+- `athena` can publish identified arrival and departure events through the
+  shared `ashton-proto` helpers to NATS
+- `apollo` can consume those same events, validate them strictly, and open or
+  close visits deterministically in Postgres
 - `apollo` can verify member ownership, issue signed sessions, persist profile
   state, and derive open-lobby eligibility from explicit member intent
 - `apollo` keeps visit history separate from workout history and from
@@ -134,13 +136,14 @@ flowchart LR
   JSON structs
 - Tracer 2 proved the first end-to-end flow from physical presence to member
   visit history
-- anonymous, malformed, duplicate, and unknown-tag arrivals now resolve
-  deterministically instead of being left ambiguous
+- anonymous, malformed, duplicate, no-open, out-of-order, and unknown-tag
+  visit-lifecycle events now resolve deterministically instead of being left
+  ambiguous
 
 ### Planned next
 
-- `apollo` visit-closing tracer: explicit departure handling without widening
-  into workouts or matchmaking
+- bounded deployment workstream for live `ATHENA -> NATS -> APOLLO` cluster
+  proof if that deployment expansion is chosen next
 - `hermes` first read-only slice: one staff question answered with real ATHENA
   data
 - `ashton-mcp-gateway` first routed read-only tool call after service surfaces
@@ -165,6 +168,7 @@ flowchart LR
 | `Tracer 2` | ATHENA event to APOLLO visit record | Complete | first cross-repo event-driven member-history slice |
 | `Tracer 3` | APOLLO member auth to profile state | Complete | make member auth and profile state real without widening into matchmaking |
 | `Tracer 4` | explicit lobby eligibility | Complete | make explicit member state drive derived lobby eligibility without letting tap-in imply intent |
+| `Tracer 5` | visit closing / departure flow | Complete | close the correct open visit from physical departure truth without creating workouts or social intent |
 
 ## Milestone 1 Hardening Truth
 

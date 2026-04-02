@@ -2,9 +2,9 @@
 
 ATHENA is the physical-truth service in ASHTON.
 
-It owns presence input, occupancy reads, ingress normalization, and the first
-identified-arrival publish path. It does not own member intent, lobby state,
-or workouts.
+It owns presence input, occupancy reads, ingress normalization, and the active
+identified visit-lifecycle publish path. It does not own member intent, lobby
+state, or workouts.
 
 ## Current Role
 
@@ -12,7 +12,8 @@ The active ATHENA slice is intentionally narrow:
 
 - mock-backed presence input
 - one canonical occupancy read path shared by CLI, HTTP, and Prometheus
-- identified-arrival publication through the shared `ashton-proto` helper
+- identified arrival and departure publication through the shared
+  `ashton-proto` helper
 
 Prediction, broader adapters, and persistence exist only as authored future
 direction, not as current runtime truth.
@@ -27,6 +28,7 @@ direction, not as current runtime truth.
 | `GET /metrics` | Real | Exposes `athena_current_occupancy` from the same read path |
 | `athena presence count` | Real | CLI read surface using the same service logic |
 | `athena presence publish-identified` | Real | One-shot identified-arrival publish through NATS |
+| `athena presence publish-identified-departures` | Real | One-shot identified-departure publish through NATS |
 | background publish worker | Real | Enabled only when NATS is configured |
 | prediction runtime | Deferred | Still design-level only |
 | real hardware adapters | Deferred | Mock is the only active adapter |
@@ -37,7 +39,7 @@ direction, not as current runtime truth.
 | --- | --- |
 | physical presence events | member auth |
 | occupancy counts and ingress classification | visibility and availability intent |
-| identified-arrival publication | lobby eligibility or lobby membership |
+| identified visit-lifecycle publication | lobby eligibility or lobby membership |
 | adapter normalization | workouts and recommendations |
 
 Tap-in changes physical truth. It does not create social intent.
@@ -46,7 +48,9 @@ Tap-in changes physical truth. It does not create social intent.
 
 - CLI, HTTP, and Prometheus read through one shared occupancy path
 - invalid adapter and interval config fail fast
-- `athena.identified_presence.arrived` is published through the shared contract
+- `athena.identified_presence.arrived` and
+  `athena.identified_presence.departed` are published through the shared
+  contract
 - downstream replay safety is intentionally a consumer responsibility beyond
   ATHENA's in-process dedupe set
 
@@ -57,7 +61,7 @@ Tap-in changes physical truth. It does not create social intent.
 | `cmd/athena/` | CLI entrypoint and serve command |
 | `internal/adapter/` | active adapter interface and mock implementation |
 | `internal/presence/` | canonical occupancy read logic |
-| `internal/publish/` | identified-arrival build and publish flow |
+| `internal/publish/` | identified visit-lifecycle build and publish flow |
 | `internal/server/` | health and count HTTP surfaces |
 | `internal/metrics/` | Prometheus wiring |
 | `db/migrations/` | authored future relational schema |
