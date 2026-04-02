@@ -25,6 +25,10 @@ Use this runbook to keep ASHTON planning and implementation chats disciplined.
 4. record any real mistakes in repo-local `docs/growing-pains.md`
 5. only then update long-form architecture docs if the change is broad and stable
 
+If the tracer needed a hardening pass before closure, use
+[tracer-closure-hardening-template.md](/Users/zizo/Personal-Projects/ASHTON/ashton-platform/planning/runbooks/tracer-closure-hardening-template.md)
+to keep the pass narrow, audited, and explicit about deferrals.
+
 ## Required Verification Before Calling A Tracer Done
 
 - tests pass for the changed slice
@@ -32,3 +36,5 @@ Use this runbook to keep ASHTON planning and implementation chats disciplined.
 - any GitOps manifest renders cleanly
 - any deploy change is pinned to a real image tag or digest
 - unresolved environment blockers are documented explicitly
+- deferred features and unresolved bugs are recorded in a closeout table before
+  tagging

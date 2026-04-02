@@ -88,6 +88,7 @@ The authoritative build sequence lives in [planning/sprints/BUILD-ORDER.md](plan
 
 - [Implementation board](planning/IMPLEMENTATION-BOARD.md)
 - [Tracer matrix](planning/sprints/TRACER-MATRIX.md)
+- [Tracer closure-hardening template](planning/runbooks/tracer-closure-hardening-template.md)
 - [Platform architecture](planning/architecture/portfolio-architecture.md)
 - [Architecture addendum](planning/architecture/ashton-addendum-v2.md)
 - [Build order](planning/sprints/BUILD-ORDER.md)
