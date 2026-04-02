@@ -131,6 +131,9 @@ intentional feature deferrals:
 
 ## Tracer 3: APOLLO Member Auth To Profile State
 
+Status: completed in the `codex/tracer-3-auth-profile-foundation`
+implementation chat.
+
 Goal:
 
 - APOLLO member auth -> profile -> privacy and availability state
@@ -145,6 +148,57 @@ Exit criteria:
 - signed session cookie flow exists
 - profile state can persist `visibility_mode` and `availability_mode`
 - tests cover auth boundary and invalid-state edges
+
+Key outputs:
+
+- `apollo` now stores hashed verification tokens with expiry and single-use
+  semantics in Postgres instead of depending on external mail or OAuth
+- `apollo` now issues signed `HTTPOnly`, `Secure`, `SameSite=Strict` cookies
+  that reference server-side Postgres sessions instead of widening into JWT
+  infrastructure
+- `apollo` now exposes `POST /api/v1/auth/verification/start`,
+  `GET/POST /api/v1/auth/verify`, `GET/PATCH /api/v1/profile`, and
+  `POST /api/v1/auth/logout`
+- `apollo` now persists `visibility_mode` and `availability_mode` through
+  `users.preferences` while keeping tag linkage, visits, workouts, and
+  matchmaking behavior separate
+- automated coverage now includes token lifecycle, cookie tamper and expiry,
+  authenticated profile round-trips, storage-level Postgres tests, and a local
+  `apollo serve` smoke against a real Postgres container
+
+Tracer 3 retrospective:
+
+- The auth slice only stayed narrow because the implementation treated account
+  ownership, tag linkage, and member state as separate concerns all the way
+  through schema, services, and handlers. Reusing `users` while keeping tokens,
+  sessions, and claimed tags separate was the right taste decision here.
+- Server-side sessions were the practical fit for this tracer. They kept cookie
+  handling simple, made logout and revocation real immediately, and avoided a
+  premature JWT-first design before APOLLO has broader auth requirements.
+- `users.preferences` was the right storage boundary for this tracer because
+  only `visibility_mode` and `availability_mode` are real today. Splitting
+  those into dedicated columns now would have created migration noise without
+  improving the proof.
+- The first integration test pass exposed an environment bug in the shared
+  dockertest helper: it assumed `host.docker.internal` always resolved. Closing
+  the tracer required adding a resolver-based fallback and a regression test
+  before trusting the full Postgres-backed suite.
+- The local smoke also exposed the real cost of keeping `Secure` cookies strict:
+  plain HTTP cookie jars will not replay them. The correct response was to
+  document the local smoke procedure, not weaken the runtime cookie policy.
+
+Deferred after closure:
+
+No in-scope unresolved bugs remained at close. The remaining items are
+intentional feature deferrals:
+
+| Type | Item | Status | Why It Was Not Done Here | Future Owner |
+| --- | --- | --- | --- | --- |
+| Feature | workout logging runtime | deferred | Tracer 3 proves account ownership and profile state, not training history writes | later workout tracer |
+| Feature | lobby entry and Ghost Mode behavior | deferred | this tracer persists settings only; it does not make them drive social behavior | `Tracer 4` |
+| Feature | recommendations and coaching runtime | deferred | auth and saved state had to become real before recommendation logic widens | later recommendation tracer |
+| Feature | OAuth, SSO, or external identity provider work | deferred | first-party auth is sufficient for the current proof and avoids outside dependencies | later auth tracer if needed |
+| Feature | deploy and GitOps widening | deferred | local runtime, tests, and docs were sufficient to close this tracer without cluster changes | dedicated deploy or release pass |
 
 ## Tracer 4: Explicit Lobby Eligibility
 
