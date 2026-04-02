@@ -4,21 +4,22 @@ APOLLO is the member-intent service in ASHTON.
 
 It owns member auth, profile state, visit history as member-facing context,
 visit open/close lifecycle behavior, and the first derived lobby-eligibility
-behavior. It does not own raw presence truth, workout runtime,
-recommendations, or actual matchmaking behavior yet.
+behavior. It also owns the first explicit workout-history runtime. It does not
+own raw presence truth, recommendations, or actual matchmaking behavior yet.
 
 ## Current Role
 
-The active APOLLO slice now spans three narrow runtime boundaries:
+The active APOLLO slice now spans five narrow runtime boundaries:
 
 - identified-arrival consume -> visit record
 - identified-departure consume -> visit close
 - student ID + email verification -> signed session cookie auth
 - persisted `visibility_mode` / `availability_mode` -> derived lobby eligibility
+- authenticated workout create/update/finish/read -> member-owned workout history
 
 That is enough to prove member ownership, state persistence, and the first real
-intent-behavior slice without widening into workouts, recommendations, or lobby
-membership.
+intent-behavior and workout-history slices without widening into
+recommendations or lobby membership.
 
 ## Current Real Slice
 
@@ -32,9 +33,13 @@ membership.
 | `GET /api/v1/profile` | Real | Authenticated profile read |
 | `PATCH /api/v1/profile` | Real | Authenticated update for `visibility_mode` and `availability_mode` |
 | `GET /api/v1/lobby/eligibility` | Real | Authenticated derived eligibility read from stored profile state only |
+| `POST /api/v1/workouts` | Real | Authenticated create for one member-owned `in_progress` workout |
+| `GET /api/v1/workouts` | Real | Authenticated history read with deterministic ordering |
+| `GET /api/v1/workouts/{id}` | Real | Authenticated owner-scoped workout detail read |
+| `PUT /api/v1/workouts/{id}` | Real | Authenticated replacement of workout exercise rows while `in_progress` |
+| `POST /api/v1/workouts/{id}/finish` | Real | Authenticated finish for a non-empty `in_progress` workout |
 | `apollo visit list` | Real | Member-facing visit history readback |
 | NATS identified-arrival/departure consumer | Real | Consumes `athena.identified_presence.arrived` and `athena.identified_presence.departed` using the shared helper |
-| workout runtime | Deferred | Schema exists, runtime does not |
 | recommendation runtime | Deferred | Still outside the active executable slice |
 | lobby membership or matchmaking runtime | Deferred | Eligibility is read-only; no join, leave, or team formation path exists |
 
@@ -45,14 +50,16 @@ membership.
 | member account ownership and session state | raw facility presence truth |
 | profile visibility and availability state | occupancy counting |
 | visit history as member context | staff workflows |
+| explicit workout history runtime | raw workout inference from visits |
 | derived lobby eligibility | open lobby membership, invites, or match formation |
-| future workout and recommendation domains | shared contract authorship |
+| future recommendation domains | shared contract authorship |
 
 Key boundaries:
 
 - auth is separate from claimed-tag linkage
 - profile state is separate from visits
 - visit history is separate from workout history
+- workouts are explicit authenticated records, not inferred from visits
 - eligibility is separate from lobby membership
 - tap-in alone must never imply social intent
 
@@ -66,6 +73,9 @@ Key boundaries:
 - `unavailable`, `with_team`, and `ghost + available_now` are explicitly
   ineligible
 - invalid stored intent enums resolve deterministically as ineligible reasons
+- workouts are member-owned, allow only one `in_progress` workout per member,
+  and become immutable once finished
+- workout writes do not mutate visits, claimed tags, or eligibility state
 
 ## Project Shape
 
@@ -77,6 +87,7 @@ Key boundaries:
 | `internal/eligibility/` | derived lobby-eligibility logic |
 | `internal/consumer/` | identified visit-lifecycle consume path |
 | `internal/visits/` | visit service and repository boundary |
+| `internal/workouts/` | workout service and repository boundary |
 | `internal/store/` | sqlc-generated query bindings |
 | `internal/server/` | HTTP handlers and auth middleware |
 | `db/migrations/` | current schema for users, sessions, visits, workouts, ARES, and recommendations |
@@ -90,19 +101,19 @@ Treat APOLLO as trustworthy only when:
 - auth/session-sensitive tests are rerun multiple times
 - the binary builds
 - migrations work on a fresh Postgres database
-- the local smoke path covers auth, profile, and eligibility
+- the local smoke path covers auth, profile, eligibility, and workout runtime
 - the identified arrival and departure boundary is exercised against real NATS
   and Postgres
 
 ## Deployment Boundary
 
-APOLLO owns its runtime, schema, and consumer logic. Deployment and GitOps are
-still outside this repo. If APOLLO is not deployed, deployment verification is
-explicitly deferred rather than implied.
+APOLLO owns its runtime, schema, and consumer logic. Milestone 1.5 proves one
+bounded in-cluster APOLLO slice for arrival ingest. That still does not imply a
+broad APOLLO product deployment; auth, eligibility, and workout runtime remain
+locally proven only unless a separate deployment workstream verifies them live.
 
 ## Deferred On Purpose
 
-- workout write flows
 - recommendation and coaching runtime
 - lobby membership persistence, invites, and match formation
 - frontend or offline PWA work

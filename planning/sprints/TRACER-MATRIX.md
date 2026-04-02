@@ -322,6 +322,70 @@ Milestone 1.5 below.
 | Feature | lobby exit, availability changes, or eligibility changes from departure | deferred | physical departure must not imply social or intent-state mutation | later lobby or intent tracer |
 | Feature | broader presence refactors or real-time presence layers | deferred | the tracer only proves visit close behavior, not a full presence subsystem | later presence tracer if needed |
 
+## Tracer 6: APOLLO Workout Runtime
+
+Status: completed in the implementation chat.
+
+Goal:
+
+- APOLLO workout runtime with explicit authenticated create, update, finish,
+  and history reads
+
+Repos:
+
+- `apollo`
+
+Exit criteria:
+
+- workout records are created, updated, finished, and read through
+  authenticated APOLLO surfaces
+- ownership and state transitions stay deterministic
+- workouts remain separate from visits, eligibility, and profile intent
+- local smoke proves the real auth/session-backed runtime against Postgres
+
+Key outputs:
+
+- `apollo` now exposes authenticated `POST /api/v1/workouts`,
+  `GET /api/v1/workouts`, `GET /api/v1/workouts/{id}`,
+  `PUT /api/v1/workouts/{id}`, and
+  `POST /api/v1/workouts/{id}/finish`
+- APOLLO now persists member-owned workout sessions and ordered exercise rows
+  in Postgres with explicit `in_progress` and `finished` states
+- APOLLO now enforces one `in_progress` workout per member, owner-scoped reads
+  and writes, non-empty finish rules, and immutable finished workouts
+- local manual smoke passed for the real `apollo serve` auth flow, workout
+  create, workout update, workout finish, workout readback, and side-effect
+  checks against disposable Postgres
+
+Tracer 6 retrospective:
+
+- This tracer only stayed trustworthy because it treated workouts as explicit
+  member-owned runtime records instead of trying to infer exercise activity from
+  arrivals, departures, or visit history.
+- One `in_progress` workout per member was the simplest durable state-machine
+  rule that made ownership and finish behavior testable without inventing a
+  full training ontology.
+- The first implementation pass looked green in handler and server tests but
+  still failed under the real `apollo serve` entrypoint because the runtime
+  dependency assembly omitted the workout service. Closing the tracer required a
+  manual smoke, a serve-path fix, and a regression test around dependency
+  assembly before the docs could be trusted.
+- The local proof only counted once the same smoke run showed both that the
+  workout finished correctly and that visits, claimed tags, and member
+  preferences remained unchanged.
+
+Deferred after closure:
+
+No in-scope unresolved bugs remained at close. The remaining items are
+intentional feature deferrals:
+
+| Type | Item | Status | Why It Was Not Done Here | Future Owner |
+| --- | --- | --- | --- | --- |
+| Deploy | live in-cluster workout runtime proof | deferred | this tracer proves workout runtime locally and deliberately does not widen the Milestone 1.5 deployment claim | later APOLLO deployment workstream |
+| Feature | workout inference from visits or departure | deferred | workouts must stay explicit member-owned records, not physical-truth side effects | later only if product rules change |
+| Feature | recommendations, coaching, and generated plans | deferred | explicit workout history had to become real before higher-level training logic widens | later recommendation or coaching tracer |
+| Feature | movement ontology or shared exercise catalog | deferred | free-text exercise rows are sufficient for the first workout-runtime slice | later workout modeling tracer |
+
 ## Chat Model
 
 - this control-plane chat stays the source-of-truth and arbitration thread

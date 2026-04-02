@@ -16,7 +16,7 @@ readable as one coherent platform instead of five drifting repos.
 | --- | --- | --- | --- |
 | `ashton-proto` | Shared contracts, schemas, runtime helpers | Real and active | Keeps producers and consumers from hand-rolling wire contracts |
 | `athena` | Physical truth for presence and occupancy | Real and executable | First Go service, first operational data surface, and active visit-lifecycle publisher |
-| `apollo` | Member-facing application and intent state | Real and executable, but intentionally narrow | First member auth, profile-state, visit-history, visit-closing, and derived-eligibility slice |
+| `apollo` | Member-facing application and intent state | Real and executable, but intentionally narrow | First member auth, profile-state, visit-history, visit-closing, derived-eligibility, and explicit workout-runtime slice |
 | `hermes` | Staff-facing operations assistant | Docs-first | Planned read-only staff layer on top of ATHENA |
 | `ashton-mcp-gateway` | Shared tool routing, approval, and audit layer | Docs-first | Planned control surface after the service repos are stable |
 
@@ -30,7 +30,7 @@ flowchart TD
   platform["ashton-platform<br/>planning, tracer discipline, source of truth"]
   proto["ashton-proto<br/>protobuf, JSON schema, runtime helpers"]
   athena["athena<br/>presence, occupancy, visit-lifecycle publish"]
-  apollo["apollo<br/>visit ingest and close,<br/>auth, profile, derived eligibility"]
+  apollo["apollo<br/>visit ingest and close,<br/>auth, profile, eligibility, workouts"]
   hermes["hermes<br/>staff operations assistant<br/>planned"]
   gateway["ashton-mcp-gateway<br/>tool registry, routing, HITL, audit<br/>planned"]
 
@@ -92,7 +92,7 @@ flowchart LR
 | Shared contracts | Protobuf + Buf | Instituted | The current package layout and generation path are active in `ashton-proto` |
 | Shared event validation | JSON Schema + Go runtime helpers | Instituted | `athena` and `apollo` now share one active event helper instead of private structs |
 | Physical truth service | Go + chi + Cobra + Prometheus client + NATS | Instituted | `athena` is the first executable service |
-| Member ingest and persistence | Go + chi + Cobra + pgx + sqlc + NATS | Instituted | `apollo` currently focuses on auth, profile state, visit ingest, and derived eligibility |
+| Member ingest and persistence | Go + chi + Cobra + pgx + sqlc + NATS | Instituted | `apollo` currently focuses on auth, profile state, visit ingest, derived eligibility, and explicit workout runtime |
 | Staff assistant | Go gateway + Python LangGraph sidecar + Mem0 | Planned | `hermes` is intentionally still docs-first |
 | Tool control plane | Go-first MCP router, Postgres audit, HITL approval | Planned | `ashton-mcp-gateway` starts only after service surfaces are stable |
 | Redis utility layer | Redis | Deferred | Useful later for caches, rate limiting, and ephemeral hot state |
@@ -105,7 +105,7 @@ flowchart LR
 | --- | --- | --- | --- | --- |
 | `ashton-proto` | Shared proto packages, event schemas, runtime helper rules | - | Shared contract baseline is real and active | [README](../ashton-proto/README.md) |
 | `athena` | Presence, occupancy, ingress source handling, identified visit-lifecycle publication | `ashton-proto` | Mock-backed read path and lifecycle publish path are real | [README](../athena/README.md) |
-| `apollo` | Member auth, profile state, visit ingest and close, and derived eligibility | `ashton-proto`, `athena` | Auth, profile state, visit lifecycle, and derived eligibility are real | [README](../apollo/README.md) |
+| `apollo` | Member auth, profile state, visit ingest and close, derived eligibility, and workout runtime | `ashton-proto`, `athena` | Auth, profile state, visit lifecycle, derived eligibility, and workout runtime are real | [README](../apollo/README.md) |
 | `hermes` | Staff read-only ops first, later booking and maintenance flows | `ashton-proto`, `athena` | Planned only | [README](../hermes/README.md) |
 | `ashton-mcp-gateway` | Tool discovery, routing, approval, audit | All service repos | Planned only | [README](../ashton-mcp-gateway/README.md) |
 
@@ -125,6 +125,8 @@ flowchart LR
   close visits deterministically in Postgres
 - `apollo` can verify member ownership, issue signed sessions, persist profile
   state, and derive open-lobby eligibility from explicit member intent
+- `apollo` now serves authenticated workout create, update, finish, detail,
+  and history reads without letting visits imply exercise activity
 - `apollo` keeps visit history separate from workout history and from
   matchmaking intent
 - repo-local roadmaps, runbooks, ADRs, and growing-pains logs exist across the
@@ -167,6 +169,7 @@ flowchart LR
 | `Tracer 3` | APOLLO member auth to profile state | Complete | make member auth and profile state real without widening into matchmaking |
 | `Tracer 4` | explicit lobby eligibility | Complete | make explicit member state drive derived lobby eligibility without letting tap-in imply intent |
 | `Tracer 5` | visit closing / departure flow | Complete | close the correct open visit from physical departure truth without creating workouts or social intent |
+| `Tracer 6` | APOLLO workout runtime | Complete | make explicit member-owned workout history real without letting visits imply exercise activity |
 
 ## Milestone 1 Hardening Truth
 
@@ -204,6 +207,19 @@ This claim is still intentionally narrow:
 - it proves the bounded visit-ingest arrival path, not a broad APOLLO product
   rollout
 - live departure close behavior remains locally proven, not cluster-proven
+
+## Tracer 6 Runtime Truth
+
+Tracer 6 stays intentionally narrower than Milestone 1.5:
+
+- verified local truth now includes APOLLO workout create, update, finish,
+  detail, and history reads behind authenticated member ownership
+- those workout surfaces were proven against disposable Postgres with a real
+  auth/session smoke path
+- workout runtime remains separate from visits, eligibility, profile intent,
+  and claimed tags
+- deployed truth is unchanged from Milestone 1.5 and does not yet claim live
+  in-cluster workout runtime surfaces
 
 ## Source Of Truth Split
 
