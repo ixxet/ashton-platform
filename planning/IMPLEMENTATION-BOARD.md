@@ -27,13 +27,17 @@ Use this order when planning or implementing:
 
 ## Current Coding Blockers
 
-Tracer 7 is now closure-clean. The remaining active blockers before the next
+Tracer 8 is now closure-clean. The remaining active blockers before the next
 major implementation slice are:
 
-1. `apollo`
+1. `hermes`
+   - keep staff operations read-only and sourced from public upstream service
+     truth until a later tracer proves a richer question or explicit write
+     authority
+2. `apollo`
    - keep recommendation widening deterministic and derived from explicit
      workout history until a later tracer proves persistence or generated plans
-2. terminology cleanup
+3. terminology cleanup
    - keep using `presence` instead of `check-in` in current working docs
    - keep using `lobby` for product-facing matchmaking terminology in APOLLO
 
@@ -86,10 +90,11 @@ Rust remains a later optimization path, not a first-wave dependency.
 
 1. Treat `Tracer 1` as the first completed narrow vertical slice
 2. Treat `Tracer 2` as the first completed cross-repo event slice from physical truth to member history
-3. Pick the next dedicated tracer or bounded deployment workstream only after the APOLLO deterministic recommendation closeout is stable
-4. Keep this thread as the architecture and arbitration thread
-5. Update the tracer matrix and repo runbooks after each tracer closes
-6. Keep bootstrap-only work out of tracer chats unless it is directly blocking the tracer
+3. Treat `Tracer 8` as the first completed HERMES read-only staff slice
+4. Pick the next dedicated tracer or bounded deployment workstream only after the HERMES occupancy closeout is stable
+5. Keep this thread as the architecture and arbitration thread
+6. Update the tracer matrix and repo runbooks after each tracer closes
+7. Keep bootstrap-only work out of tracer chats unless it is directly blocking the tracer
 
 ## Milestone 1 Deployment Truth
 

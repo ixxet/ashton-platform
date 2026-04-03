@@ -17,7 +17,7 @@ readable as one coherent platform instead of five drifting repos.
 | `ashton-proto` | Shared contracts, schemas, runtime helpers | Real and active | Keeps producers and consumers from hand-rolling wire contracts |
 | `athena` | Physical truth for presence and occupancy | Real and executable | First Go service, first operational data surface, and active visit-lifecycle publisher |
 | `apollo` | Member-facing application and intent state | Real and executable, but intentionally narrow | First member auth, profile-state, visit-history, visit-closing, derived-eligibility, explicit workout-runtime, and deterministic recommendation slice |
-| `hermes` | Staff-facing operations assistant | Docs-first | Planned read-only staff layer on top of ATHENA |
+| `hermes` | Staff-facing operations assistant | Real and executable, but intentionally narrow | First read-only staff occupancy slice over ATHENA public truth |
 | `ashton-mcp-gateway` | Shared tool routing, approval, and audit layer | Docs-first | Planned control surface after the service repos are stable |
 
 ## Architecture
@@ -31,7 +31,7 @@ flowchart TD
   proto["ashton-proto<br/>protobuf, JSON schema, runtime helpers"]
   athena["athena<br/>presence, occupancy, visit-lifecycle publish"]
   apollo["apollo<br/>visit ingest and close,<br/>auth, profile, eligibility, workouts"]
-  hermes["hermes<br/>staff operations assistant<br/>planned"]
+  hermes["hermes<br/>staff read-only ops<br/>occupancy CLI real"]
   gateway["ashton-mcp-gateway<br/>tool registry, routing, HITL, audit<br/>planned"]
 
   platform --> proto
@@ -46,7 +46,7 @@ flowchart TD
   proto -. future manifests .-> gateway
 
   athena --> apollo
-  athena -. future read surfaces .-> hermes
+  athena --> hermes
   athena -. future routed tools .-> gateway
   apollo -. future routed tools .-> gateway
   hermes -. future routed tools .-> gateway
@@ -64,7 +64,7 @@ flowchart LR
   proto["ashton-proto<br/>proto, schemas, runtime helpers"]
   athena["athena<br/>presence, occupancy, event publish"]
   apollo["apollo<br/>visit ingest, member state seed"]
-  hermes["hermes<br/>staff ops assistant<br/>planned"]
+  hermes["hermes<br/>staff occupancy CLI<br/>real"]
   gateway["ashton-mcp-gateway<br/>MCP router<br/>planned"]
 
   platform --> proto
@@ -79,7 +79,7 @@ flowchart LR
   proto --> gateway
 
   athena -- "athena.identified_presence.arrived / departed" --> apollo
-  athena -. "future read surfaces" .-> hermes
+  athena -- "public occupancy read" --> hermes
   athena -. "future tool routing" .-> gateway
   apollo -. "future tool routing" .-> gateway
   hermes -. "future tool routing" .-> gateway
@@ -93,7 +93,7 @@ flowchart LR
 | Shared event validation | JSON Schema + Go runtime helpers | Instituted | `athena` and `apollo` now share one active event helper instead of private structs |
 | Physical truth service | Go + chi + Cobra + Prometheus client + NATS | Instituted | `athena` is the first executable service |
 | Member ingest and persistence | Go + chi + Cobra + pgx + sqlc + NATS | Instituted | `apollo` currently focuses on auth, profile state, visit ingest, derived eligibility, and explicit workout runtime |
-| Staff assistant | Go gateway + Python LangGraph sidecar + Mem0 | Planned | `hermes` is intentionally still docs-first |
+| Staff assistant | Go CLI + upstream HTTP client | Instituted | `hermes` now proves one read-only occupancy question over ATHENA's public API |
 | Tool control plane | Go-first MCP router, Postgres audit, HITL approval | Planned | `ashton-mcp-gateway` starts only after service surfaces are stable |
 | Redis utility layer | Redis | Deferred | Useful later for caches, rate limiting, and ephemeral hot state |
 | APOLLO frontend | SvelteKit PWA | Deferred | Valuable later, but not part of the current executable slice |
@@ -106,7 +106,7 @@ flowchart LR
 | `ashton-proto` | Shared proto packages, event schemas, runtime helper rules | - | Shared contract baseline is real and active | [README](../ashton-proto/README.md) |
 | `athena` | Presence, occupancy, ingress source handling, identified visit-lifecycle publication | `ashton-proto` | Mock-backed read path and lifecycle publish path are real | [README](../athena/README.md) |
 | `apollo` | Member auth, profile state, visit ingest and close, derived eligibility, workout runtime, and deterministic recommendation reads | `ashton-proto`, `athena` | Auth, profile state, visit lifecycle, derived eligibility, workout runtime, and deterministic recommendation reads are real | [README](../apollo/README.md) |
-| `hermes` | Staff read-only ops first, later booking and maintenance flows | `ashton-proto`, `athena` | Planned only | [README](../hermes/README.md) |
+| `hermes` | Staff read-only operations over upstream service truth | `athena` | First occupancy CLI slice is real; write actions, agent orchestration, and deployment stay deferred | [README](../hermes/README.md) |
 | `ashton-mcp-gateway` | Tool discovery, routing, approval, audit | All service repos | Planned only | [README](../ashton-mcp-gateway/README.md) |
 
 ## Current State Block
@@ -129,6 +129,9 @@ flowchart LR
   and history reads without letting visits imply exercise activity
 - `apollo` now serves one authenticated deterministic workout recommendation
   read derived from explicit workout history only
+- `hermes` now serves one executable read-only staff flow:
+  `hermes ask occupancy --facility <id>` reads ATHENA's public occupancy count
+  and labels the result as ATHENA-backed truth
 - `apollo` keeps visit history separate from workout history and from
   recommendation logic and from matchmaking intent
 - repo-local roadmaps, runbooks, ADRs, and growing-pains logs exist across the
@@ -138,6 +141,8 @@ flowchart LR
 
 - `athena` and `apollo` now share one runtime event contract instead of private
   JSON structs
+- `hermes` now consumes ATHENA's public occupancy endpoint directly instead of
+  inventing a private read model or staff-side truth store
 - Tracer 2 proved the first end-to-end flow from physical presence to member
   visit history
 - anonymous, malformed, duplicate, no-open, out-of-order, and unknown-tag
@@ -146,8 +151,8 @@ flowchart LR
 
 ### Planned next
 
-- `hermes` first read-only slice: one staff question answered with real ATHENA
-  data
+- richer `hermes` staff questions only after a later tracer proves a real need
+  beyond occupancy
 - `ashton-mcp-gateway` first routed read-only tool call after service surfaces
   are stable
 - broader `ashton-proto` contract expansion only when a real cross-repo tracer
@@ -174,6 +179,7 @@ flowchart LR
 | `Tracer 5` | visit closing / departure flow | Complete | close the correct open visit from physical departure truth without creating workouts or social intent |
 | `Tracer 6` | APOLLO workout runtime | Complete | make explicit member-owned workout history real without letting visits imply exercise activity |
 | `Tracer 7` | APOLLO deterministic recommendation runtime | Complete | derive one member-scoped coaching recommendation from explicit workout history without inferring social or physical intent |
+| `Tracer 8` | HERMES read-only staff occupancy path | Complete | answer one bounded staff occupancy question from ATHENA public truth without write authority |
 
 ## Milestone 1 Hardening Truth
 
@@ -243,6 +249,23 @@ Tracer 7 stays intentionally narrower than a broad coaching or planning system:
   eligibility state
 - deployed truth is unchanged from Milestone 1.5 and does not yet claim live
   in-cluster recommendation surfaces
+
+## Tracer 8 Runtime Truth
+
+Tracer 8 stays intentionally narrower than a broad assistant or workflow layer:
+
+- verified local truth now includes
+  `hermes ask occupancy --facility <id>`
+- the HERMES runtime answers one bounded staff question only: current
+  occupancy at a facility
+- HERMES reads ATHENA's public
+  `GET /api/v1/presence/count?facility=<id>` surface and returns structured
+  source-backed output with `facility_id`, `current_count`, `observed_at`, and
+  `source_service`
+- the slice is strictly read-only: HERMES does not mutate ATHENA, APOLLO, or
+  any staff-owned state and does not invent a private truth store
+- deployed truth is unchanged from Milestone 1.5 and does not yet claim live
+  in-cluster HERMES runtime surfaces
 
 ## Source Of Truth Split
 

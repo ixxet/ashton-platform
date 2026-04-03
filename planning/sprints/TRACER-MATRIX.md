@@ -457,6 +457,76 @@ intentional feature deferrals:
 | Feature | generated plans, LLM coaching, and broader program building | deferred | Tracer 7 is a deterministic coaching read, not an AI planning system | later coaching or planner tracer |
 | Feature | recommendation inference from visits, departures, or profile state | deferred | recommendation intent must stay grounded in explicit workout data only | later only if product rules change |
 
+## Tracer 8: HERMES Read-Only Staff Occupancy Path
+
+Status: completed in the implementation chat.
+
+Goal:
+
+- HERMES answers one bounded staff operational question from ATHENA public
+  truth without write authority
+
+Repos:
+
+- `hermes`
+
+Exit criteria:
+
+- one real read-only staff flow exists
+- the answer is sourced from upstream public service truth
+- error handling is explicit for missing input and unavailable or malformed
+  upstream responses
+- no write behavior or private truth ownership is introduced
+- local smoke proves the real HERMES runtime against a real ATHENA runtime
+
+Key outputs:
+
+- `hermes` now exposes `hermes ask occupancy --facility <id>` with `json` and
+  `text` output modes
+- HERMES now consumes ATHENA's public
+  `GET /api/v1/presence/count?facility=<id>` surface through a strict upstream
+  client instead of reading private storage or inventing its own occupancy
+  model
+- HERMES responses are structured and source-backed with stable
+  `facility_id`, `current_count`, `observed_at`, `source_service`, and
+  optional `notes` fields
+- missing facility input, invalid ATHENA base URLs or timeout overrides,
+  upstream non-200s, malformed JSON, invalid timestamps, and unavailable
+  upstream connections all fail clearly
+- local manual smoke passed for `athena serve`, successful HERMES occupancy
+  reads, an unknown-facility zero-count read, and an unavailable-upstream
+  failure against the real CLI runtime
+
+Tracer 8 retrospective:
+
+- This tracer only stayed trustworthy because it narrowed the staff question to
+  occupancy count instead of overpromising identity-level answers that ATHENA's
+  public read path does not expose.
+- HERMES stayed architecture-safe by using ATHENA's public occupancy endpoint
+  directly. Pulling from private storage or inventing a staff-side occupancy
+  model would have broken the platform ownership rules on the first slice.
+- The first CLI pass exposed a small but real config bug: negative timeout
+  overrides were silently ignored instead of being rejected. Closing the tracer
+  required making timeout overrides explicit and adding regression coverage
+  before trusting the runtime.
+- The smoke path also exposed two shell mistakes that could have been mistaken
+  for runtime bugs: unquoted `?facility=` URLs under `zsh`, and reusing the
+  read-only `status` variable name in shell wrappers. The correct response was
+  to fix the operator commands and record the exact verified sequence in the
+  runbook, not to weaken the product boundary.
+
+Deferred after closure:
+
+No in-scope unresolved bugs remained at close. The remaining items are
+intentional feature or deployment deferrals:
+
+| Type | Item | Status | Why It Was Not Done Here | Future Owner |
+| --- | --- | --- | --- | --- |
+| Deploy | live in-cluster HERMES runtime proof | deferred | this tracer proves the HERMES read path locally and deliberately does not widen Milestone 1.5 deployment truth | later HERMES deployment workstream |
+| Feature | identity-level facility roster answers | deferred | ATHENA's public occupancy surface proves count truth, not current-member identity truth | later tracer only if a stable public upstream surface exists |
+| Feature | write actions, approvals, and workflow execution | deferred | Tracer 8 is read-only by design and does not justify operational write authority yet | later HERMES action tracer |
+| Feature | gateway, chat UX, and agent orchestration | deferred | the first HERMES proof is a narrow executable CLI, not a broad assistant runtime | later gateway or assistant tracer |
+
 ## Chat Model
 
 - this control-plane chat stays the source-of-truth and arbitration thread
