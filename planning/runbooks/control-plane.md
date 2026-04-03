@@ -54,3 +54,31 @@ for the current artifact index.
   tagging
 - the exact verified commands live in a repo-local runbook or closeout doc, not
   only in chat history
+
+## Growing Pains
+
+### Deployment preflight can fail in the shell before the cluster is actually failing
+
+Symptom:
+
+- `kubectl config current-context` reports that no current context is set
+- `flux check` falls back to `http://localhost:8080`
+- a healthy cluster can look dead from the operator shell
+
+Cause:
+
+- deployment hardening commands were run without an explicit kubeconfig even
+  though the Talos kubeconfig already existed on disk
+
+Fix:
+
+- export
+  `/Users/zizo/Personal-Projects/Computers/Talos/tower-bootstrap/kubeconfig`
+  for the session or prefix deployment commands with it
+- verify operator context before treating any Flux or rollout failure as
+  runtime truth
+
+Rule:
+
+- shell-local context failure is not the same thing as cluster failure
+- prove kubeconfig and current context first, then trust deployment findings
