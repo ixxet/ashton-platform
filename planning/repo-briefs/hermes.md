@@ -56,6 +56,15 @@ hermes/
 - no live HERMES deployment claim exists yet
 - no gateway, chat UX, LangGraph agent, write actions, or approvals exist yet
 
+## Hardening Notes
+
+- missing facility input, invalid timeout overrides, malformed upstream data,
+  and unavailable upstream connections are expected destructive checks, not
+  happy-path regressions
+- the happy path is a valid occupancy read against a healthy ATHENA runtime
+- HERMES success-path observability is still thin and remains a documented
+  non-blocking carry-forward gap
+
 ## Deferred On Purpose
 
 - live deployment and GitOps proof

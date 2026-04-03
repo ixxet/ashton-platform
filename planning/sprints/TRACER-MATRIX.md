@@ -514,6 +514,10 @@ Tracer 8 retrospective:
   read-only `status` variable name in shell wrappers. The correct response was
   to fix the operator commands and record the exact verified sequence in the
   runbook, not to weaken the product boundary.
+- The hardening audit output looked noisier than the happy-path proof because
+  it intentionally exercised missing-input, invalid-config, malformed-upstream,
+  and unavailable-upstream cases. Those failures are part of the tracer's
+  proof that HERMES fails clearly instead of fabricating answers.
 
 Deferred after closure:
 
@@ -523,6 +527,7 @@ intentional feature or deployment deferrals:
 | Type | Item | Status | Why It Was Not Done Here | Future Owner |
 | --- | --- | --- | --- | --- |
 | Deploy | live in-cluster HERMES runtime proof | deferred | this tracer proves the HERMES read path locally and deliberately does not widen Milestone 1.5 deployment truth | later HERMES deployment workstream |
+| Ops | low-noise structured HERMES request and result logs | deferred | the first slice is inspectable through CLI output and runbook commands, but richer operational observability is still thin | later HERMES hardening or widening tracer |
 | Feature | identity-level facility roster answers | deferred | ATHENA's public occupancy surface proves count truth, not current-member identity truth | later tracer only if a stable public upstream surface exists |
 | Feature | write actions, approvals, and workflow execution | deferred | Tracer 8 is read-only by design and does not justify operational write authority yet | later HERMES action tracer |
 | Feature | gateway, chat UX, and agent orchestration | deferred | the first HERMES proof is a narrow executable CLI, not a broad assistant runtime | later gateway or assistant tracer |

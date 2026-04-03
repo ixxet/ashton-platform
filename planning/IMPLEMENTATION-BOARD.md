@@ -34,6 +34,8 @@ major implementation slice are:
    - keep staff operations read-only and sourced from public upstream service
      truth until a later tracer proves a richer question or explicit write
      authority
+   - improve HERMES request/result observability before claiming broader
+     operational maturity than the current CLI slice proves
 2. `apollo`
    - keep recommendation widening deterministic and derived from explicit
      workout history until a later tracer proves persistence or generated plans

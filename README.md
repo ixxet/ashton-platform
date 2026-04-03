@@ -264,6 +264,13 @@ Tracer 8 stays intentionally narrower than a broad assistant or workflow layer:
   `source_service`
 - the slice is strictly read-only: HERMES does not mutate ATHENA, APOLLO, or
   any staff-owned state and does not invent a private truth store
+- Tracer 8 hardening intentionally included missing-input, invalid-config,
+  malformed-upstream, and unavailable-upstream checks; those expected failures
+  are part of the proof that the slice fails clearly instead of fabricating
+  answers
+- HERMES success-path observability is still thinner than the APOLLO runtime:
+  inspection currently relies more on CLI output and runbook commands than on
+  dedicated HERMES request/result logs
 - deployed truth is unchanged from Milestone 1.5 and does not yet claim live
   in-cluster HERMES runtime surfaces
 
