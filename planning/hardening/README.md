@@ -17,6 +17,7 @@ Platform-level artifacts:
 
 - [Milestone 1](milestone-1.md)
 - [Milestone 1.5](milestone-1-5.md)
+- [Milestone 1.6](milestone-1-6.md)
 
 Repo-local artifacts:
 

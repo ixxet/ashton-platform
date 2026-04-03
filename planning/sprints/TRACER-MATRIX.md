@@ -709,3 +709,27 @@ Still intentionally deferred:
 | --- | --- | --- | --- | --- |
 | Deploy | live departure-close proof in-cluster | deferred | the bounded workstream used the smallest safe end-to-end arrival path; live departure remains locally proven only | later bounded deployment workstream |
 | Deploy | broad APOLLO product deployment | deferred | this workstream proves the visit-ingest boundary only and does not widen APOLLO into auth, eligibility, workouts, or broader product runtime | later APOLLO ops workstream |
+
+## Milestone 1.6: Deployment Workstream B
+
+Status: completed.
+
+Deployment truth for Milestone 1.6 is bounded but real:
+
+- live cluster verification now covers the narrow
+  `ATHENA -> NATS -> APOLLO` departure-close path
+- the live ATHENA deployment stayed mock-backed, but now publishes one real
+  identified departure `mock-out-001` in-cluster
+- APOLLO consumed that live departure and closed exactly one matching open
+  visit for `tracer2-student-001`
+- replay of that same live departure resolved as `duplicate` and did not
+  mutate the row again
+- `apollo.workouts` remained `0` and sampled unrelated member state remained
+  unchanged
+
+Still intentionally deferred:
+
+| Type | Item | Status | Why It Was Not Done Here | Future Owner |
+| --- | --- | --- | --- | --- |
+| Deploy | live source-backed ATHENA ingress proof in-cluster | deferred | the cluster still runs mock-backed ingress; this workstream proves the departure-close boundary only | later bounded deployment workstream |
+| Deploy | broad APOLLO product deployment | deferred | this workstream proves visit close only and does not widen APOLLO into auth, eligibility, workouts, recommendations, or UI runtime | later APOLLO ops workstream |

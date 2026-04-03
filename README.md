@@ -115,11 +115,11 @@ flowchart LR
 | Repo | Current line | Next planned line | Why it is next |
 | --- | --- | --- | --- |
 | `ashton-proto` | `v0.3.1` | `v0.4.0` | broader routed manifest expansion only after a second route is real |
-| `athena` | `v0.3.x` | `v0.4.0` | first real ingress adapter for Tracer 10 |
-| `apollo` | `v0.6.0` | `v0.6.1` if Milestone 1.6 needs repo truth changes, otherwise `v0.7.0` | bounded live departure-close support first if needed, then minimal member web shell |
+| `athena` | `v0.4.0` | `v0.4.1` only if a later deployment or ingress line needs repo truth changes | the Tracer 10 ingress line is shipped; the next widening should be evidence-driven |
+| `apollo` | `v0.6.0` | `v0.7.0` | bounded live departure-close proof did not require new APOLLO repo truth, so the next repo line is the minimal member web shell |
 | `hermes` | `v0.1.0` | `v0.1.1` | observability hardening before richer staff widening |
 | `ashton-mcp-gateway` | `v0.1.0` | `v0.2.0` | caller identity, persisted audit, and a second routed read should come only after the first route is trusted |
-| `ashton-platform` | `v0.0.13` | `v0.0.14` | Tracer 10 control-plane closeout follows the gateway proof |
+| `ashton-platform` | `v0.0.14` | `v0.0.15` | Milestone 1.6 control-plane closeout follows the bounded live departure-close proof |
 
 ## Current State Block
 
@@ -213,12 +213,13 @@ bullets are only the short summary.
 | `v0.0.10` | `v0.0.10` | Shipped | Tracer 6 control-plane closeout | recommendation runtime, HERMES, gateway, and UI lines |
 | `v0.0.11` | `v0.0.11` | Shipped | Tracer 7 control-plane closeout | HERMES, gateway, and later APOLLO widening |
 | `v0.0.12` | `v0.0.12` | Shipped | Tracer 8 control-plane closeout | gateway, real ingress, and later product widening |
+| `v0.0.13` | `v0.0.13` | Shipped | Tracer 9 control-plane closeout | caller identity, persisted audit, and broader gateway maturity |
+| `v0.0.14` | `v0.0.14` | Shipped | Tracer 10 control-plane closeout | live source-backed ingress deployment proof and broader deployment widening |
 
 ## Planned Release Lines
 
 | Planned tag | Intended purpose | Restrictions | What it should not do yet |
 | --- | --- | --- | --- |
-| `v0.0.14` | Tracer 10 control-plane closeout for the first real ATHENA ingress adapter | keep the line focused on ingress truth only | do not widen into persistence, prediction, or gateway work |
 | `v0.0.15` | Milestone 1.6 control-plane closeout for bounded live departure-close proof | keep the deployment claim narrow and evidence-backed | do not imply broad APOLLO product deployment |
 | `v0.0.16` | Tracer 11 control-plane closeout for the minimal member web shell | keep the UI limited to already-real APOLLO APIs | do not widen into offline sync, generated plans, or matchmaking UI |
 | `v0.0.17` | Tracer 12 control-plane closeout for explicit lobby membership runtime | keep lobby membership separate from visits and eligibility | do not imply invites or auto-entry from tap-in |
@@ -231,8 +232,7 @@ bullets are only the short summary.
 
 | Planned tag | Vertical | Repo lines in scope | Intended purpose | What it should not do yet |
 | --- | --- | --- | --- | --- |
-| `v0.0.14` | `Tracer 10` | `athena v0.4.0` | first real ingress adapter | do not widen into prediction or persistence in the same line |
-| `v0.0.15` | `Milestone 1.6` | `athena v0.4.1`, optional `apollo v0.6.1`, companion `Prometheus v0.0.2` | bounded live departure-close proof in-cluster | do not imply broad APOLLO product deployment |
+| `v0.0.15` | `Milestone 1.6` | `athena v0.4.0`, `apollo v0.6.0`, companion `Prometheus v0.0.2` | bounded live departure-close proof in-cluster | do not imply broad APOLLO product deployment |
 | `v0.0.16` | `Tracer 11` | `apollo v0.7.0` | minimal member web shell over already-real APIs | do not widen into offline sync, generated plans, or matchmaking UI |
 | `v0.0.17` | `Tracer 12` | `apollo v0.8.0` | explicit lobby membership runtime | do not imply invites or auto-entry from tap-in |
 | `v0.0.18` | `Tracer 13` | `apollo v0.9.0` | first deterministic ARES match preview | do not widen into messaging or autonomous match flows |
@@ -276,6 +276,27 @@ This claim is still intentionally narrow:
 - it proves the bounded visit-ingest arrival path, not a broad APOLLO product
   rollout
 - live departure close behavior remains locally proven, not cluster-proven
+
+## Milestone 1.6 Deployment Hardening Truth
+
+Milestone 1.6 deepens deployment truth without widening the product claim:
+
+- live cluster verification now covers the bounded
+  `ATHENA -> NATS -> APOLLO` departure-close path
+- live ATHENA remains mock-backed in cluster; this workstream proves the
+  boundary, not live source-backed ingress deployment
+- one live identified departure `mock-out-001` closed the expected open visit
+  for `tracer2-student-001`
+- replay of that same live identified departure resolved as `duplicate` and
+  did not mutate the visit again
+- `apollo.workouts` stayed `0` and sampled unrelated member state
+  (`preferences`, active claimed tags) stayed unchanged
+
+This claim is still intentionally narrow:
+
+- it proves bounded live departure-close behavior only
+- it does not imply broad APOLLO product deployment
+- it does not imply live source-backed ATHENA ingress deployment
 
 ## Tracer 6 Runtime Truth
 

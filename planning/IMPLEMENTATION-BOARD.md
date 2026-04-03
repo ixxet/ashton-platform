@@ -27,8 +27,9 @@ Use this order when planning or implementing:
 
 ## Current Coding Blockers
 
-Tracer 9 is now closure-clean. The remaining active blockers before the next
-major implementation slice are:
+Tracer 10 is now closure-clean and Milestone 1.6 now proves the bounded live
+departure-close boundary. The remaining active blockers before the next major
+implementation slice are:
 
 1. `ashton-mcp-gateway`
    - keep the next line narrower than the future control-plane vision
@@ -38,8 +39,9 @@ major implementation slice are:
    - keep manifest expansion tracer-driven now that the first ATHENA manifest is
      real
 3. `athena`
-   - the next real credibility gain after Tracer 9 is still a real ingress
-     adapter, not broader prediction or persistence work
+   - keep the new live departure-close proof narrower than any source-backed
+     ingress deployment claim
+   - do not widen into broader prediction or persistence work next
 4. `hermes`
    - keep staff operations read-only and sourced from public upstream service
      truth until a later tracer proves a richer question or explicit write
@@ -103,18 +105,17 @@ Rust remains a later optimization path, not a first-wave dependency.
 | Repo | Current line | Next planned line | Why it is next |
 | --- | --- | --- | --- |
 | `ashton-proto` | `v0.3.1` | `v0.4.0` | broader routed manifest expansion only after a second route is real |
-| `athena` | `v0.3.x` | `v0.4.0` | first real ingress adapter for Tracer 10 |
-| `apollo` | `v0.6.0` | `v0.6.1` if Milestone 1.6 needs repo truth changes, otherwise `v0.7.0` | bounded live departure-close support first if needed, then minimal member web shell |
+| `athena` | `v0.4.0` | `v0.4.1` only if a later deployment or ingress line needs repo truth changes | the Tracer 10 ingress line is shipped; the next widening should be evidence-driven |
+| `apollo` | `v0.6.0` | `v0.7.0` | bounded live departure-close proof did not require new APOLLO repo truth, so the next repo line is the minimal member web shell |
 | `hermes` | `v0.1.0` | `v0.1.1` | observability hardening before richer staff widening |
 | `ashton-mcp-gateway` | `v0.1.0` | `v0.2.0` | caller identity, persisted audit, and a second routed read after the first route proves itself |
-| `ashton-platform` | `v0.0.13` | `v0.0.14` | Tracer 10 control-plane closeout |
+| `ashton-platform` | `v0.0.14` | `v0.0.15` | Milestone 1.6 control-plane closeout |
 
 ## Planned Release Sequence
 
 | Platform tag | Vertical | Repo lines in scope | Intended purpose | Hard stop |
 | --- | --- | --- | --- | --- |
-| `v0.0.14` | `Tracer 10` | `athena v0.4.0` | first real ingress adapter | no persistence or prediction widening |
-| `v0.0.15` | `Milestone 1.6` | `athena v0.4.1`, optional `apollo v0.6.1`, companion `Prometheus v0.0.2` | bounded live departure-close proof in-cluster | no broad APOLLO product deployment claim |
+| `v0.0.15` | `Milestone 1.6` | `athena v0.4.0`, `apollo v0.6.0`, companion `Prometheus v0.0.2` | bounded live departure-close proof in-cluster | no broad APOLLO product deployment claim |
 | `v0.0.16` | `Tracer 11` | `apollo v0.7.0` | minimal member web shell over already-real APIs | no offline sync, generated plans, or matchmaking UI |
 | `v0.0.17` | `Tracer 12` | `apollo v0.8.0` | explicit lobby membership runtime | no invites or auto-entry from tap-in |
 | `v0.0.18` | `Tracer 13` | `apollo v0.9.0` | first deterministic ARES match preview | no messaging or autonomous match flows |
@@ -124,10 +125,10 @@ Rust remains a later optimization path, not a first-wave dependency.
 
 ## Immediate Next Steps
 
-1. Treat `Tracer 10` as the first completed source-backed ATHENA ingress slice and `v0.0.14` as its control-plane closeout line.
-2. Start `Milestone 1.6` as the next bounded deployment workstream only if the goal is live departure-close proof.
+1. Treat `Tracer 10` as the first completed source-backed ATHENA ingress slice and `v0.0.14` as its shipped control-plane closeout line.
+2. Treat `Milestone 1.6` as the bounded live departure-close proof and keep broader deployment claims deferred.
 3. Keep this thread as the architecture and arbitration thread.
-4. Update repo READMEs and repo-local roadmaps before starting implementation work on the next tracer.
+4. Start `Tracer 11` only after the Milestone 1.6 deployment claim and hardening artifact are accepted as the current control-plane truth.
 5. Update the tracer matrix and repo runbooks after each tracer closes.
 
 ## Milestone 1 Deployment Truth
@@ -161,6 +162,25 @@ Operator rule:
 
 - this does not yet imply a broad APOLLO product deployment
 - this does not yet imply live departure-close proof in-cluster
+
+That deferred boundary is now closed in Milestone 1.6 below.
+
+## Milestone 1.6 Deployment Truth
+
+Deployment Workstream B is now complete as a bounded deepening pass:
+
+- `ATHENA` now proves the live identified departure publish path in-cluster
+  using the deployed mock-backed ingress line
+- `NATS` carries the live departure subject bytes
+- `APOLLO` consumes the live departure and closes exactly one matching open
+  visit in Postgres
+- replay of that same live departure resolves deterministically as `duplicate`
+- `apollo.workouts` and sampled unrelated member state remain unchanged
+
+Operator rule:
+
+- this does not imply broad APOLLO product deployment
+- this does not imply live source-backed ATHENA ingress deployment
 
 ## Test Discipline
 

@@ -54,6 +54,8 @@ Tap-in changes physical truth. It does not create social intent.
 - `athena.identified_presence.arrived` and
   `athena.identified_presence.departed` are published through the shared
   contract
+- bounded deployed truth now includes the live mock-backed
+  `ATHENA -> NATS -> APOLLO` departure-close boundary
 - downstream replay safety is intentionally a consumer responsibility beyond
   ATHENA's in-process dedupe set
 - deployed truth remains unchanged; the live ATHENA read deployment still does
