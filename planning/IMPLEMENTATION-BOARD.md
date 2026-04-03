@@ -124,8 +124,8 @@ Rust remains a later optimization path, not a first-wave dependency.
 
 ## Immediate Next Steps
 
-1. Treat `Tracer 9` as the first completed gateway routed read-only slice and `v0.0.13` as its control-plane closeout line.
-2. Start `Tracer 10` as the next dedicated implementation chat with the scope locked to one real ATHENA ingress adapter.
+1. Treat `Tracer 10` as the first completed source-backed ATHENA ingress slice and `v0.0.14` as its control-plane closeout line.
+2. Start `Milestone 1.6` as the next bounded deployment workstream only if the goal is live departure-close proof.
 3. Keep this thread as the architecture and arbitration thread.
 4. Update repo READMEs and repo-local roadmaps before starting implementation work on the next tracer.
 5. Update the tracer matrix and repo runbooks after each tracer closes.

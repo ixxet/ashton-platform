@@ -10,7 +10,7 @@ state, or workouts.
 
 The active ATHENA slice is intentionally narrow:
 
-- mock-backed presence input
+- mock-backed presence input plus one source-backed CSV ingress line
 - one canonical occupancy read path shared by CLI, HTTP, and Prometheus
 - identified arrival and departure publication through the shared
   `ashton-proto` helper
@@ -30,8 +30,9 @@ direction, not as current runtime truth.
 | `athena presence publish-identified` | Real | One-shot identified-arrival publish through NATS |
 | `athena presence publish-identified-departures` | Real | One-shot identified-departure publish through NATS |
 | background publish worker | Real | Enabled only when NATS is configured |
+| CSV ingress adapter | Real | `ATHENA_ADAPTER=csv` plus `ATHENA_CSV_PATH` feeds the canonical occupancy read path from one bounded export shape |
 | prediction runtime | Deferred | Still design-level only |
-| real hardware adapters | Deferred | Mock is the only active adapter |
+| additional real ingress adapters | Deferred | CSV is the only source-backed adapter today |
 
 ## Ownership Rules
 
@@ -48,18 +49,22 @@ Tap-in changes physical truth. It does not create social intent.
 
 - CLI, HTTP, and Prometheus read through one shared occupancy path
 - invalid adapter and interval config fail fast
+- one CSV source-backed adapter now proves ATHENA can ingest physical-truth
+  export data without widening the public read surface
 - `athena.identified_presence.arrived` and
   `athena.identified_presence.departed` are published through the shared
   contract
 - downstream replay safety is intentionally a consumer responsibility beyond
   ATHENA's in-process dedupe set
+- deployed truth remains unchanged; the live ATHENA read deployment still does
+  not claim source-backed ingress yet
 
 ## Project Shape
 
 | Path | Purpose |
 | --- | --- |
 | `cmd/athena/` | CLI entrypoint and serve command |
-| `internal/adapter/` | active adapter interface and mock implementation |
+| `internal/adapter/` | active adapter interface plus mock and CSV implementations |
 | `internal/presence/` | canonical occupancy read logic |
 | `internal/publish/` | identified visit-lifecycle build and publish flow |
 | `internal/server/` | health and count HTTP surfaces |
@@ -87,5 +92,5 @@ render cleanly and rollout is verified from a real kube context.
 
 - prediction runtime
 - Postgres-backed read or write paths
-- adapter widening beyond the mock slice
+- adapter widening beyond the first CSV slice
 - member-intent logic that belongs in APOLLO

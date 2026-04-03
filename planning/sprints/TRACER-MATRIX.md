@@ -598,6 +598,75 @@ intentional feature or deployment deferrals:
 | Feature | HERMES or APOLLO routing | deferred | one ATHENA route is enough to prove the pattern | later gateway tracer |
 | Deploy | live gateway deployment proof | deferred | Tracer 9 proves local runtime only | later deployment workstream |
 
+## Tracer 10: First Source-Backed ATHENA Ingress Adapter
+
+Status: completed in the implementation chat.
+
+Goal:
+
+- `csv export -> ATHENA adapter -> canonical occupancy read path`
+
+Repos:
+
+- `athena`
+- `ashton-platform`
+
+Exit criteria:
+
+- one real source-backed ATHENA adapter exists
+- the adapter feeds the existing occupancy read path honestly
+- the public occupancy read surface stays stable
+- error handling is explicit and inspectable
+- the slice stays physical-truth only
+
+Key outputs:
+
+- `athena` now supports `ATHENA_ADAPTER=csv` with `ATHENA_CSV_PATH`
+- the first source-backed adapter consumes a bounded CSV presence-event export
+  with required columns:
+  - `event_id`
+  - `facility_id`
+  - `direction`
+  - `recorded_at`
+- optional columns `zone_id` and `external_identity_hash` remain narrow and
+  physical-truth only
+- parsed CSV events are normalized deterministically by `recorded_at` and
+  `event_id`
+- duplicate `event_id` rows are rejected explicitly
+- the existing `GET /api/v1/presence/count` surface now reflects CSV-fed state
+  without changing its response shape
+- the adapter logs startup, refresh success, and refresh failure clearly
+- local smoke passed for:
+  - successful CSV-backed startup
+  - repeated stable occupancy reads
+  - explicit runtime failure after corrupting the live source file
+  - startup failure with a missing CSV source file
+- identified publish code remained unchanged and its test suite stayed green
+
+Tracer 10 retrospective:
+
+- The first real ingress line only stayed narrow because it chose a bounded
+  physical-truth event export instead of inventing a broader connector model.
+- Reusing the canonical occupancy path mattered more than designing a new
+  storage layer. Tracer 10 proved the ingress edge without widening the rest of
+  ATHENA.
+- The first source-backed adapter needed adapter-agnostic default facility
+  config. Keeping read defaults tied to mock-only settings would have made the
+  runtime harder to operate honestly once more than one adapter existed.
+
+Deferred after closure:
+
+No in-scope unresolved bugs remained at close. The remaining items are
+intentional feature or deployment deferrals:
+
+| Type | Item | Status | Why It Was Not Done Here | Future Owner |
+| --- | --- | --- | --- | --- |
+| Deploy | live source-backed ATHENA ingress proof in-cluster | deferred | Tracer 10 proves the adapter locally and deliberately does not widen the deployment claim | later bounded deployment workstream |
+| Feature | additional ingress adapters beyond CSV | deferred | one real source-backed ingress line is enough to prove the edge | later ATHENA tracer |
+| Feature | persistence-backed ingress state | deferred | the existing occupancy model was sufficient for the first source-backed proof | later ATHENA tracer |
+| Feature | prediction or capacity modeling | deferred | ingress had to become more real before forecasting logic widens | later ATHENA tracer |
+| Feature | member, social, or recommendation inference | deferred | ATHENA still owns physical truth only | never in ATHENA without an explicit product change |
+
 ## Chat Model
 
 - this control-plane chat stays the source-of-truth and arbitration thread

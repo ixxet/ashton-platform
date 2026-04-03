@@ -16,7 +16,7 @@ readable as one coherent platform instead of five drifting repos.
 | Repo | Role | Current State | Why It Matters |
 | --- | --- | --- | --- |
 | `ashton-proto` | Shared contracts, schemas, runtime helpers | Real and active | Keeps producers and consumers from hand-rolling wire contracts |
-| `athena` | Physical truth for presence and occupancy | Real and executable | First Go service, first operational data surface, and active visit-lifecycle publisher |
+| `athena` | Physical truth for presence and occupancy | Real and executable | First Go service, first operational data surface, active visit-lifecycle publisher, and first source-backed ingress adapter locally |
 | `apollo` | Member-facing application and intent state | Real and executable, but intentionally narrow | First member auth, profile-state, visit-history, visit-closing, derived-eligibility, explicit workout-runtime, and deterministic recommendation slice |
 | `hermes` | Staff-facing operations assistant | Real and executable, but intentionally narrow | First read-only staff occupancy slice over ATHENA public truth |
 | `ashton-mcp-gateway` | Shared tool routing, approval, and audit layer | Real and executable, but intentionally narrow | First manifest-backed routed ATHENA occupancy read proves the gateway pattern without widening into auth or approvals |
@@ -92,7 +92,7 @@ flowchart LR
 | --- | --- | --- | --- | --- |
 | Shared contracts | Protobuf + Buf | Instituted | `v0.0.1` -> `v0.0.12` | The current package layout and generation path are active in `ashton-proto` |
 | Shared event validation | JSON Schema + Go runtime helpers | Instituted | `v0.0.1` -> `v0.0.12` | `athena` and `apollo` now share one active event helper instead of private structs |
-| Physical truth service | Go + chi + Cobra + Prometheus client + NATS | Instituted | `v0.0.1` -> `v0.0.15` | `athena` is the first executable service and the next real ingress line is planned |
+| Physical truth service | Go + chi + Cobra + Prometheus client + NATS | Instituted | `v0.0.1` -> `v0.0.15` | `athena` is the first executable service and now has one narrow source-backed ingress line locally |
 | Member ingest and persistence | Go + chi + Cobra + pgx + sqlc + NATS | Instituted | `v0.0.2` -> `v0.0.18` | `apollo` currently focuses on auth, profile state, visit ingest, derived eligibility, workouts, and recommendations |
 | Staff assistant | Go CLI + upstream HTTP client | Instituted | `v0.0.12` -> `v0.0.20` | `hermes` now proves one read-only occupancy question over ATHENA's public API |
 | Tool control plane | Go-first MCP router, Postgres audit, HITL approval | Instituted, narrow | `v0.0.13` -> `v0.0.21` | `ashton-mcp-gateway` now proves one manifest-backed ATHENA occupancy route; broader control-plane layers stay deferred |
@@ -105,7 +105,7 @@ flowchart LR
 | Repo | Owns | Depends On | Current Truth | Docs |
 | --- | --- | --- | --- | --- |
 | `ashton-proto` | Shared proto packages, event schemas, runtime helper rules | - | Shared contract baseline is real and active | [README](../ashton-proto/README.md) |
-| `athena` | Presence, occupancy, ingress source handling, identified visit-lifecycle publication | `ashton-proto` | Mock-backed read path and lifecycle publish path are real | [README](../athena/README.md) |
+| `athena` | Presence, occupancy, ingress source handling, identified visit-lifecycle publication | `ashton-proto` | Mock and CSV-backed ingress feed one canonical occupancy read path; lifecycle publish remains real | [README](../athena/README.md) |
 | `apollo` | Member auth, profile state, visit ingest and close, derived eligibility, workout runtime, and deterministic recommendation reads | `ashton-proto`, `athena` | Auth, profile state, visit lifecycle, derived eligibility, workout runtime, and deterministic recommendation reads are real | [README](../apollo/README.md) |
 | `hermes` | Staff read-only operations over upstream service truth | `athena` | First occupancy CLI slice is real; write actions, agent orchestration, and deployment stay deferred | [README](../hermes/README.md) |
 | `ashton-mcp-gateway` | Tool discovery, routing, approval, audit | `ashton-proto`, `athena` | One manifest-backed ATHENA occupancy route is real; auth, audit storage, and approvals stay deferred | [README](../ashton-mcp-gateway/README.md) |
@@ -131,6 +131,8 @@ flowchart LR
   `athena.identified_presence.departed`
 - `athena` has a canonical occupancy read path shared by CLI, HTTP, and
   Prometheus
+- `athena` now has one source-backed CSV ingress adapter that feeds that same
+  read path locally without widening deployment truth
 - `athena` can publish identified arrival and departure events through the
   shared `ashton-proto` helpers to NATS
 - `apollo` can consume those same events, validate them strictly, and open or
@@ -199,6 +201,7 @@ bullets are only the short summary.
 | `Tracer 7` | APOLLO deterministic recommendation runtime | Complete | derive one member-scoped coaching recommendation from explicit workout history without inferring social or physical intent |
 | `Tracer 8` | HERMES read-only staff occupancy path | Complete | answer one bounded staff occupancy question from ATHENA public truth without write authority |
 | `Tracer 9` | first gateway routed read-only tool call | Complete | prove one manifest-backed ATHENA occupancy route with inspectable logs and no broader control-plane widening |
+| `Tracer 10` | first source-backed ATHENA ingress adapter | Complete | prove one real CSV-backed physical-truth ingress line without widening deployment, prediction, or social logic |
 
 ## Release History
 
