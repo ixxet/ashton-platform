@@ -29,6 +29,20 @@ If the tracer needed a hardening pass before closure, use
 [tracer-closure-hardening-template.md](/Users/zizo/Personal-Projects/ASHTON/ashton-platform/planning/runbooks/tracer-closure-hardening-template.md)
 to keep the pass narrow, audited, and explicit about deferrals.
 
+## Standalone Hardening Artifact Policy
+
+- standalone hardening artifacts start at Tracer 4 and at Milestone 1 /
+  Milestone 1.5
+- Tracers 0-3 predate this documentation discipline and should not be given
+  fabricated standalone hardening artifacts retroactively
+- keep Tracers 0-3 represented through repo docs and the tracer matrix instead
+- from Tracer 4 onward, the release sequence is:
+  implementation closeout, hardening audit, standalone hardening artifact, then
+  tag cut
+
+See [planning/hardening/README.md](/Users/zizo/Personal-Projects/ASHTON/ashton-platform/planning/hardening/README.md)
+for the current artifact index.
+
 ## Required Verification Before Calling A Tracer Done
 
 - tests pass for the changed slice

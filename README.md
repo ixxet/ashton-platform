@@ -292,6 +292,7 @@ pretend that planned services already exist.
 | --- | --- |
 | `planning/architecture/` | background architecture essays and technology rationale |
 | `planning/diagrams/` | standalone Mermaid sources for platform-level diagrams |
+| `planning/hardening/` | standalone milestone hardening artifacts and policy notes |
 | `planning/repo-briefs/` | canonical repo briefs and ownership model |
 | `planning/runbooks/` | control-plane and tracer-closure discipline |
 | `planning/sprints/` | build order and tracer sequencing |
@@ -301,6 +302,7 @@ pretend that planned services already exist.
 - [Implementation board](planning/IMPLEMENTATION-BOARD.md)
 - [Tracer matrix](planning/sprints/TRACER-MATRIX.md)
 - [Build order](planning/sprints/BUILD-ORDER.md)
+- [Hardening artifacts](planning/hardening/README.md)
 - [Control-plane runbook](planning/runbooks/control-plane.md)
 - [Platform system diagram](planning/diagrams/platform-system.mmd)
 - [Current real flow diagram](planning/diagrams/platform-current-real-flow.mmd)
