@@ -34,7 +34,7 @@ recommendations or lobby membership.
 | `PATCH /api/v1/profile` | Real | Authenticated update for `visibility_mode` and `availability_mode` |
 | `GET /api/v1/lobby/eligibility` | Real | Authenticated derived eligibility read from stored profile state only |
 | `POST /api/v1/workouts` | Real | Authenticated create for one member-owned `in_progress` workout |
-| `GET /api/v1/workouts` | Real | Authenticated history read with deterministic ordering |
+| `GET /api/v1/workouts` | Real | Authenticated history read ordered by newest workout creation first (`started_at DESC, id DESC`) |
 | `GET /api/v1/workouts/{id}` | Real | Authenticated owner-scoped workout detail read |
 | `PUT /api/v1/workouts/{id}` | Real | Authenticated replacement of workout exercise rows while `in_progress` |
 | `POST /api/v1/workouts/{id}/finish` | Real | Authenticated finish for a non-empty `in_progress` workout |
@@ -75,6 +75,8 @@ Key boundaries:
 - invalid stored intent enums resolve deterministically as ineligible reasons
 - workouts are member-owned, allow only one `in_progress` workout per member,
   and become immutable once finished
+- workout history is ordered by newest workout creation first using DB-owned
+  `started_at DESC, id DESC`
 - workout writes do not mutate visits, claimed tags, or eligibility state
 
 ## Project Shape

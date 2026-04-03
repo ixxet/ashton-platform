@@ -216,6 +216,8 @@ Tracer 6 stays intentionally narrower than Milestone 1.5:
   detail, and history reads behind authenticated member ownership
 - those workout surfaces were proven against disposable Postgres with a real
   auth/session smoke path
+- workout history ordering is now explicit: newest workout created first using
+  DB-owned `started_at DESC, id DESC`
 - workout runtime remains separate from visits, eligibility, profile intent,
   and claimed tags
 - deployed truth is unchanged from Milestone 1.5 and does not yet claim live

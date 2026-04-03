@@ -27,8 +27,8 @@ Use this order when planning or implementing:
 
 ## Current Coding Blockers
 
-Tracer 6 cleared the first explicit workout runtime slice. The remaining active
-blockers before the next major implementation slice are:
+Tracer 6 is now closure-clean after the ordering hardening pass. The remaining
+active blockers before the next major implementation slice are:
 
 1. `apollo`
    - recommendation inputs that wait for real workout data instead of widening from profile or visits

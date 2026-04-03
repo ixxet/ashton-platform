@@ -324,7 +324,7 @@ Milestone 1.5 below.
 
 ## Tracer 6: APOLLO Workout Runtime
 
-Status: completed in the implementation chat.
+Status: closure-clean after the closure-hardening pass.
 
 Goal:
 
@@ -353,6 +353,8 @@ Key outputs:
   in Postgres with explicit `in_progress` and `finished` states
 - APOLLO now enforces one `in_progress` workout per member, owner-scoped reads
   and writes, non-empty finish rules, and immutable finished workouts
+- workout history now has an explicit stable rule: newest workout created first
+  using DB-owned `started_at DESC, id DESC`
 - local manual smoke passed for the real `apollo serve` auth flow, workout
   create, workout update, workout finish, workout readback, and side-effect
   checks against disposable Postgres
@@ -373,6 +375,10 @@ Tracer 6 retrospective:
 - The local proof only counted once the same smoke run showed both that the
   workout finished correctly and that visits, claimed tags, and member
   preferences remained unchanged.
+- The first closeout still overclaimed workout-history ordering. Closure only
+  became clean after hardening changed the list rule to newest workout created
+  first, removed mixed app-clock and DB-clock ordering, and added regression
+  coverage for skew and tie-break behavior.
 
 Deferred after closure:
 
