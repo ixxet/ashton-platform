@@ -4,8 +4,9 @@ Canonical source-of-truth repo for the ASHTON application stack.
 
 > ASHTON is a contract-first, Go-first platform split across five repos with one
 > locked ownership model: `ATHENA` owns physical truth, `APOLLO` owns member
-> intent, `HERMES` stays staff-only, and `ashton-mcp-gateway` is a later control
-> layer built only after the service surfaces are worth routing.
+> intent, `HERMES` stays staff-only, and `ashton-mcp-gateway` is a narrow
+> control layer widened only after the service surfaces prove they are worth
+> routing.
 
 This repo is intentionally not a deployable app. Its job is to keep the system
 readable as one coherent platform instead of five drifting repos.
@@ -18,7 +19,7 @@ readable as one coherent platform instead of five drifting repos.
 | `athena` | Physical truth for presence and occupancy | Real and executable | First Go service, first operational data surface, and active visit-lifecycle publisher |
 | `apollo` | Member-facing application and intent state | Real and executable, but intentionally narrow | First member auth, profile-state, visit-history, visit-closing, derived-eligibility, explicit workout-runtime, and deterministic recommendation slice |
 | `hermes` | Staff-facing operations assistant | Real and executable, but intentionally narrow | First read-only staff occupancy slice over ATHENA public truth |
-| `ashton-mcp-gateway` | Shared tool routing, approval, and audit layer | Docs-first | Planned control surface after the service repos are stable |
+| `ashton-mcp-gateway` | Shared tool routing, approval, and audit layer | Real and executable, but intentionally narrow | First manifest-backed routed ATHENA occupancy read proves the gateway pattern without widening into auth or approvals |
 
 ## Architecture
 
@@ -32,7 +33,7 @@ flowchart TD
   athena["athena<br/>presence, occupancy, visit-lifecycle publish"]
   apollo["apollo<br/>visit ingest and close,<br/>auth, profile, eligibility, workouts"]
   hermes["hermes<br/>staff read-only ops<br/>occupancy CLI real"]
-  gateway["ashton-mcp-gateway<br/>tool registry, routing, HITL, audit<br/>planned"]
+  gateway["ashton-mcp-gateway<br/>tool registry, routing<br/>first route real"]
 
   platform --> proto
   platform --> athena
@@ -43,7 +44,7 @@ flowchart TD
   proto --> athena
   proto --> apollo
   proto -. future contracts .-> hermes
-  proto -. future manifests .-> gateway
+  proto --> gateway
 
   athena --> apollo
   athena --> hermes
@@ -65,7 +66,7 @@ flowchart LR
   athena["athena<br/>presence, occupancy, event publish"]
   apollo["apollo<br/>visit ingest, member state seed"]
   hermes["hermes<br/>staff occupancy CLI<br/>real"]
-  gateway["ashton-mcp-gateway<br/>MCP router<br/>planned"]
+  gateway["ashton-mcp-gateway<br/>MCP router<br/>first route real"]
 
   platform --> proto
   platform --> athena
@@ -80,24 +81,24 @@ flowchart LR
 
   athena -- "athena.identified_presence.arrived / departed" --> apollo
   athena -- "public occupancy read" --> hermes
-  athena -. "future tool routing" .-> gateway
+  athena -- "public occupancy route via manifest" --> gateway
   apollo -. "future tool routing" .-> gateway
   hermes -. "future tool routing" .-> gateway
 ```
 
 ## Platform Tech Stack
 
-| Layer | Technology | Status | Notes |
-| --- | --- | --- | --- |
-| Shared contracts | Protobuf + Buf | Instituted | The current package layout and generation path are active in `ashton-proto` |
-| Shared event validation | JSON Schema + Go runtime helpers | Instituted | `athena` and `apollo` now share one active event helper instead of private structs |
-| Physical truth service | Go + chi + Cobra + Prometheus client + NATS | Instituted | `athena` is the first executable service |
-| Member ingest and persistence | Go + chi + Cobra + pgx + sqlc + NATS | Instituted | `apollo` currently focuses on auth, profile state, visit ingest, derived eligibility, and explicit workout runtime |
-| Staff assistant | Go CLI + upstream HTTP client | Instituted | `hermes` now proves one read-only occupancy question over ATHENA's public API |
-| Tool control plane | Go-first MCP router, Postgres audit, HITL approval | Planned | `ashton-mcp-gateway` starts only after service surfaces are stable |
-| Redis utility layer | Redis | Deferred | Useful later for caches, rate limiting, and ephemeral hot state |
-| APOLLO frontend | SvelteKit PWA | Deferred | Valuable later, but not part of the current executable slice |
-| Gateway performance rewrite | Rust | Deferred | The rewrite is earned only after a measured Go bottleneck exists |
+| Layer | Technology | Status | Line | Notes |
+| --- | --- | --- | --- | --- |
+| Shared contracts | Protobuf + Buf | Instituted | `v0.0.1` -> `v0.0.12` | The current package layout and generation path are active in `ashton-proto` |
+| Shared event validation | JSON Schema + Go runtime helpers | Instituted | `v0.0.1` -> `v0.0.12` | `athena` and `apollo` now share one active event helper instead of private structs |
+| Physical truth service | Go + chi + Cobra + Prometheus client + NATS | Instituted | `v0.0.1` -> `v0.0.15` | `athena` is the first executable service and the next real ingress line is planned |
+| Member ingest and persistence | Go + chi + Cobra + pgx + sqlc + NATS | Instituted | `v0.0.2` -> `v0.0.18` | `apollo` currently focuses on auth, profile state, visit ingest, derived eligibility, workouts, and recommendations |
+| Staff assistant | Go CLI + upstream HTTP client | Instituted | `v0.0.12` -> `v0.0.20` | `hermes` now proves one read-only occupancy question over ATHENA's public API |
+| Tool control plane | Go-first MCP router, Postgres audit, HITL approval | Instituted, narrow | `v0.0.13` -> `v0.0.21` | `ashton-mcp-gateway` now proves one manifest-backed ATHENA occupancy route; broader control-plane layers stay deferred |
+| Redis utility layer | Redis | Deferred | later than `v0.0.21` | Useful later for caches, rate limiting, and ephemeral hot state |
+| APOLLO frontend | SvelteKit PWA | Planned | `v0.0.16` | Valuable next as a thin shell over already-real APIs |
+| Gateway performance rewrite | Rust | Deferred | later than `v0.0.21` | The rewrite is earned only after a measured Go bottleneck exists |
 
 ## Repo Map
 
@@ -107,7 +108,18 @@ flowchart LR
 | `athena` | Presence, occupancy, ingress source handling, identified visit-lifecycle publication | `ashton-proto` | Mock-backed read path and lifecycle publish path are real | [README](../athena/README.md) |
 | `apollo` | Member auth, profile state, visit ingest and close, derived eligibility, workout runtime, and deterministic recommendation reads | `ashton-proto`, `athena` | Auth, profile state, visit lifecycle, derived eligibility, workout runtime, and deterministic recommendation reads are real | [README](../apollo/README.md) |
 | `hermes` | Staff read-only operations over upstream service truth | `athena` | First occupancy CLI slice is real; write actions, agent orchestration, and deployment stay deferred | [README](../hermes/README.md) |
-| `ashton-mcp-gateway` | Tool discovery, routing, approval, audit | All service repos | Planned only | [README](../ashton-mcp-gateway/README.md) |
+| `ashton-mcp-gateway` | Tool discovery, routing, approval, audit | `ashton-proto`, `athena` | One manifest-backed ATHENA occupancy route is real; auth, audit storage, and approvals stay deferred | [README](../ashton-mcp-gateway/README.md) |
+
+## Repo Release Lines
+
+| Repo | Current line | Next planned line | Why it is next |
+| --- | --- | --- | --- |
+| `ashton-proto` | `v0.3.1` | `v0.4.0` | broader routed manifest expansion only after a second route is real |
+| `athena` | `v0.3.x` | `v0.4.0` | first real ingress adapter for Tracer 10 |
+| `apollo` | `v0.6.0` | `v0.6.1` if Milestone 1.6 needs repo truth changes, otherwise `v0.7.0` | bounded live departure-close support first if needed, then minimal member web shell |
+| `hermes` | `v0.1.0` | `v0.1.1` | observability hardening before richer staff widening |
+| `ashton-mcp-gateway` | `v0.1.0` | `v0.2.0` | caller identity, persisted audit, and a second routed read should come only after the first route is trusted |
+| `ashton-platform` | `v0.0.13` | `v0.0.14` | Tracer 10 control-plane closeout follows the gateway proof |
 
 ## Current State Block
 
@@ -132,6 +144,9 @@ flowchart LR
 - `hermes` now serves one executable read-only staff flow:
   `hermes ask occupancy --facility <id>` reads ATHENA's public occupancy count
   and labels the result as ATHENA-backed truth
+- `ashton-mcp-gateway` now serves one executable routed read-only flow:
+  `athena.get_current_occupancy` is discovered from a real manifest, routed to
+  ATHENA's public occupancy endpoint, and logged clearly on success and failure
 - `apollo` keeps visit history separate from workout history and from
   recommendation logic and from matchmaking intent
 - repo-local roadmaps, runbooks, ADRs, and growing-pains logs exist across the
@@ -151,10 +166,13 @@ flowchart LR
 
 ### Planned next
 
+The planned release sequence below is the authoritative expansion path. These
+bullets are only the short summary.
+
 - richer `hermes` staff questions only after a later tracer proves a real need
   beyond occupancy
-- `ashton-mcp-gateway` first routed read-only tool call after service surfaces
-  are stable
+- the next gateway line only after caller identity, persisted audit, or a
+  second routed read is actually required
 - broader `ashton-proto` contract expansion only when a real cross-repo tracer
   requires it
 
@@ -180,6 +198,44 @@ flowchart LR
 | `Tracer 6` | APOLLO workout runtime | Complete | make explicit member-owned workout history real without letting visits imply exercise activity |
 | `Tracer 7` | APOLLO deterministic recommendation runtime | Complete | derive one member-scoped coaching recommendation from explicit workout history without inferring social or physical intent |
 | `Tracer 8` | HERMES read-only staff occupancy path | Complete | answer one bounded staff occupancy question from ATHENA public truth without write authority |
+| `Tracer 9` | first gateway routed read-only tool call | Complete | prove one manifest-backed ATHENA occupancy route with inspectable logs and no broader control-plane widening |
+
+## Release History
+
+| Release line | Exact tags | Status | What became real | What stayed deferred |
+| --- | --- | --- | --- | --- |
+| `v0.0.1` -> `v0.0.6` | `v0.0.1`, `v0.0.2`, `v0.0.3`, `v0.0.4`, `v0.0.5`, `v0.0.6` | Shipped | Tracers 0 through 4 control-plane closeout and source-of-truth alignment | visit close, workout runtime, recommendation runtime, HERMES, and gateway lines |
+| `v0.0.8` | `v0.0.8` | Shipped | Tracer 5 control-plane closeout | broader deployment deepening and later product lines |
+| `v0.0.9` | `v0.0.9` | Shipped | Milestone 1.5 bounded deployment-deepening closeout | broad APOLLO product deployment and live departure-close proof |
+| `v0.0.10` | `v0.0.10` | Shipped | Tracer 6 control-plane closeout | recommendation runtime, HERMES, gateway, and UI lines |
+| `v0.0.11` | `v0.0.11` | Shipped | Tracer 7 control-plane closeout | HERMES, gateway, and later APOLLO widening |
+| `v0.0.12` | `v0.0.12` | Shipped | Tracer 8 control-plane closeout | gateway, real ingress, and later product widening |
+
+## Planned Release Lines
+
+| Planned tag | Intended purpose | Restrictions | What it should not do yet |
+| --- | --- | --- | --- |
+| `v0.0.14` | Tracer 10 control-plane closeout for the first real ATHENA ingress adapter | keep the line focused on ingress truth only | do not widen into persistence, prediction, or gateway work |
+| `v0.0.15` | Milestone 1.6 control-plane closeout for bounded live departure-close proof | keep the deployment claim narrow and evidence-backed | do not imply broad APOLLO product deployment |
+| `v0.0.16` | Tracer 11 control-plane closeout for the minimal member web shell | keep the UI limited to already-real APOLLO APIs | do not widen into offline sync, generated plans, or matchmaking UI |
+| `v0.0.17` | Tracer 12 control-plane closeout for explicit lobby membership runtime | keep lobby membership separate from visits and eligibility | do not imply invites or auto-entry from tap-in |
+| `v0.0.18` | Tracer 13 control-plane closeout for the first deterministic ARES match preview | keep the line read-only and deterministic | do not widen into messaging or autonomous match flows |
+| `v0.0.19` | Tracer 14 control-plane closeout for HERMES observability hardening | keep HERMES focused on existing occupancy truth | do not widen into richer staff questions or write actions |
+| `v0.0.20` | Milestone 1.7 control-plane closeout for live HERMES deployment proof | keep the staff deployment claim narrow and read-only | do not imply write authority or broad assistant maturity |
+| `v0.0.21` | Tracer 15 control-plane closeout for gateway caller identity and persisted audit | keep the gateway line to read-only routing plus audit | do not widen into write approvals or Redis-backed rate limiting |
+
+## Planned Release Sequence
+
+| Planned tag | Vertical | Repo lines in scope | Intended purpose | What it should not do yet |
+| --- | --- | --- | --- | --- |
+| `v0.0.14` | `Tracer 10` | `athena v0.4.0` | first real ingress adapter | do not widen into prediction or persistence in the same line |
+| `v0.0.15` | `Milestone 1.6` | `athena v0.4.1`, optional `apollo v0.6.1`, companion `Prometheus v0.0.2` | bounded live departure-close proof in-cluster | do not imply broad APOLLO product deployment |
+| `v0.0.16` | `Tracer 11` | `apollo v0.7.0` | minimal member web shell over already-real APIs | do not widen into offline sync, generated plans, or matchmaking UI |
+| `v0.0.17` | `Tracer 12` | `apollo v0.8.0` | explicit lobby membership runtime | do not imply invites or auto-entry from tap-in |
+| `v0.0.18` | `Tracer 13` | `apollo v0.9.0` | first deterministic ARES match preview | do not widen into messaging or autonomous match flows |
+| `v0.0.19` | `Tracer 14` | `hermes v0.1.1` | HERMES observability hardening only | do not widen into richer questions or write actions |
+| `v0.0.20` | `Milestone 1.7` | `hermes v0.2.0`, companion `Prometheus v0.0.3` | live HERMES deployment proof | do not imply write authority or broad assistant maturity |
+| `v0.0.21` | `Tracer 15` | `ashton-mcp-gateway v0.2.0`, optional `ashton-proto v0.4.0` | caller identity, persisted audit, second routed read-only tool | do not widen into write approvals or Redis-backed rate limiting |
 
 ## Milestone 1 Hardening Truth
 

@@ -27,19 +27,29 @@ Use this order when planning or implementing:
 
 ## Current Coding Blockers
 
-Tracer 8 is now closure-clean. The remaining active blockers before the next
+Tracer 9 is now closure-clean. The remaining active blockers before the next
 major implementation slice are:
 
-1. `hermes`
+1. `ashton-mcp-gateway`
+   - keep the next line narrower than the future control-plane vision
+   - do not widen beyond read-only routing until caller identity and audit are
+     explicitly scoped
+2. `ashton-proto`
+   - keep manifest expansion tracer-driven now that the first ATHENA manifest is
+     real
+3. `athena`
+   - the next real credibility gain after Tracer 9 is still a real ingress
+     adapter, not broader prediction or persistence work
+4. `hermes`
    - keep staff operations read-only and sourced from public upstream service
      truth until a later tracer proves a richer question or explicit write
      authority
    - improve HERMES request/result observability before claiming broader
      operational maturity than the current CLI slice proves
-2. `apollo`
+5. `apollo`
    - keep recommendation widening deterministic and derived from explicit
      workout history until a later tracer proves persistence or generated plans
-3. terminology cleanup
+6. terminology cleanup
    - keep using `presence` instead of `check-in` in current working docs
    - keep using `lobby` for product-facing matchmaking terminology in APOLLO
 
@@ -88,15 +98,37 @@ Reasoning:
 
 Rust remains a later optimization path, not a first-wave dependency.
 
+## Repo Release Lines
+
+| Repo | Current line | Next planned line | Why it is next |
+| --- | --- | --- | --- |
+| `ashton-proto` | `v0.3.1` | `v0.4.0` | broader routed manifest expansion only after a second route is real |
+| `athena` | `v0.3.x` | `v0.4.0` | first real ingress adapter for Tracer 10 |
+| `apollo` | `v0.6.0` | `v0.6.1` if Milestone 1.6 needs repo truth changes, otherwise `v0.7.0` | bounded live departure-close support first if needed, then minimal member web shell |
+| `hermes` | `v0.1.0` | `v0.1.1` | observability hardening before richer staff widening |
+| `ashton-mcp-gateway` | `v0.1.0` | `v0.2.0` | caller identity, persisted audit, and a second routed read after the first route proves itself |
+| `ashton-platform` | `v0.0.13` | `v0.0.14` | Tracer 10 control-plane closeout |
+
+## Planned Release Sequence
+
+| Platform tag | Vertical | Repo lines in scope | Intended purpose | Hard stop |
+| --- | --- | --- | --- | --- |
+| `v0.0.14` | `Tracer 10` | `athena v0.4.0` | first real ingress adapter | no persistence or prediction widening |
+| `v0.0.15` | `Milestone 1.6` | `athena v0.4.1`, optional `apollo v0.6.1`, companion `Prometheus v0.0.2` | bounded live departure-close proof in-cluster | no broad APOLLO product deployment claim |
+| `v0.0.16` | `Tracer 11` | `apollo v0.7.0` | minimal member web shell over already-real APIs | no offline sync, generated plans, or matchmaking UI |
+| `v0.0.17` | `Tracer 12` | `apollo v0.8.0` | explicit lobby membership runtime | no invites or auto-entry from tap-in |
+| `v0.0.18` | `Tracer 13` | `apollo v0.9.0` | first deterministic ARES match preview | no messaging or autonomous match flows |
+| `v0.0.19` | `Tracer 14` | `hermes v0.1.1` | HERMES observability hardening only | no richer questions or write actions |
+| `v0.0.20` | `Milestone 1.7` | `hermes v0.2.0`, companion `Prometheus v0.0.3` | live HERMES deployment proof | no write authority or broad assistant maturity |
+| `v0.0.21` | `Tracer 15` | `ashton-mcp-gateway v0.2.0`, optional `ashton-proto v0.4.0` | caller identity, persisted audit, second routed read-only tool | no write approvals or Redis-backed rate limiting |
+
 ## Immediate Next Steps
 
-1. Treat `Tracer 1` as the first completed narrow vertical slice
-2. Treat `Tracer 2` as the first completed cross-repo event slice from physical truth to member history
-3. Treat `Tracer 8` as the first completed HERMES read-only staff slice
-4. Pick the next dedicated tracer or bounded deployment workstream only after the HERMES occupancy closeout is stable
-5. Keep this thread as the architecture and arbitration thread
-6. Update the tracer matrix and repo runbooks after each tracer closes
-7. Keep bootstrap-only work out of tracer chats unless it is directly blocking the tracer
+1. Treat `Tracer 9` as the first completed gateway routed read-only slice and `v0.0.13` as its control-plane closeout line.
+2. Start `Tracer 10` as the next dedicated implementation chat with the scope locked to one real ATHENA ingress adapter.
+3. Keep this thread as the architecture and arbitration thread.
+4. Update repo READMEs and repo-local roadmaps before starting implementation work on the next tracer.
+5. Update the tracer matrix and repo runbooks after each tracer closes.
 
 ## Milestone 1 Deployment Truth
 

@@ -532,6 +532,72 @@ intentional feature or deployment deferrals:
 | Feature | write actions, approvals, and workflow execution | deferred | Tracer 8 is read-only by design and does not justify operational write authority yet | later HERMES action tracer |
 | Feature | gateway, chat UX, and agent orchestration | deferred | the first HERMES proof is a narrow executable CLI, not a broad assistant runtime | later gateway or assistant tracer |
 
+## Tracer 9: Gateway First Routed Read-Only Tool Call
+
+Status: completed in the implementation chat.
+
+Goal:
+
+- `gateway -> manifest -> ATHENA occupancy read -> structured result`
+
+Repos:
+
+- `ashton-mcp-gateway`
+- `ashton-proto`
+- `athena` only as the upstream public surface; no repo changes required
+
+Exit criteria:
+
+- one real gateway runtime exists
+- one real manifest exists
+- one real routed ATHENA occupancy call works
+- logs make the path inspectable
+- the slice stays read-only and source-backed
+
+Key outputs:
+
+- `ashton-proto` now ships one real manifest:
+  `mcp/athena.get_current_occupancy.json`
+- `ashton-mcp-gateway` now loads manifests from disk and exposes:
+  - `GET /health`
+  - `POST /mcp/v1/tools/list`
+  - `POST /mcp/v1/tools/call`
+- `ashton-mcp-gateway` now routes `athena.get_current_occupancy` to ATHENA's
+  public `GET /api/v1/presence/count` surface only
+- routed results are structured and source-backed:
+  `facility_id`, `current_count`, `observed_at`, `source_service`, `latency_ms`
+- routed success and upstream failure now emit inspectable logs with tool,
+  source, facility, latency, and outcome
+- local smoke passed with real ATHENA and gateway runtimes for both success and
+  unavailable-upstream failure
+
+Tracer 9 retrospective:
+
+- The first gateway line only stayed honest because it refused to become a
+  generic future control plane. One manifest, one route, and one log path were
+  enough to prove discovery and routing.
+- The manifest needed to stay service-owned. Putting the first real tool
+  definition in `ashton-proto/mcp` kept the gateway from hardcoding a private
+  route catalog.
+- The first route had to go directly to ATHENA, not through HERMES, so the
+  routing boundary stayed small enough to debug.
+- The first smoke left a repo-root build artifact behind. Closing the tracer
+  required fixing `.gitignore` so local verification did not pollute repo
+  state.
+
+Deferred after closure:
+
+No in-scope unresolved bugs remained at close. The remaining items are
+intentional feature or deployment deferrals:
+
+| Type | Item | Status | Why It Was Not Done Here | Future Owner |
+| --- | --- | --- | --- | --- |
+| Feature | caller identity and trust policy | deferred | the first route proves discovery and routing before auth complexity | later gateway tracer |
+| Feature | persisted audit storage | deferred | inspectable logs are sufficient for the first read-only route | later gateway tracer |
+| Feature | write approvals and HITL | deferred | Tracer 9 is read-only and should not invent write governance early | later gateway tracer |
+| Feature | HERMES or APOLLO routing | deferred | one ATHENA route is enough to prove the pattern | later gateway tracer |
+| Deploy | live gateway deployment proof | deferred | Tracer 9 proves local runtime only | later deployment workstream |
+
 ## Chat Model
 
 - this control-plane chat stays the source-of-truth and arbitration thread

@@ -1,239 +1,103 @@
 # ashton-mcp-gateway
 
-The AI-agent orchestration layer for the ASHTON platform. A unified gateway that registers tool manifests from every service, routes agent tool calls, enforces human-in-the-loop approval on write operations, and audits every invocation.
+Shared tool routing, approval, and audit layer for the ASHTON platform.
 
-Any MCP-compatible client — LangGraph agents, Claude, custom automation — can discover and invoke any facility tool through this single entry point. The facility becomes programmable infrastructure that AI agents operate on.
+Current truth:
 
-## Architecture
+- the repo is now executable, but intentionally narrow
+- one real Go runtime exists
+- one real manifest-backed ATHENA occupancy route exists
+- the first real line is still much smaller than the future full control plane
 
-```
-  ┌──────────────────┐    ┌──────────────────┐    ┌─────────────┐
-  │ LangGraph Agent  │    │ Claude (via MCP)  │    │ CLI / cURL  │
-  └────────┬─────────┘    └────────┬─────────┘    └──────┬──────┘
-           │                       │                      │
-           ▼                       ▼                      ▼
-  ┌────────────────────────────────────────────────────────────────┐
-  │                    MCP GATEWAY (Go / Rust)                     │
-  │                                                                │
-  │  ┌──────────────┐  ┌──────────────┐  ┌─────────────────────┐ │
-  │  │ Tool Registry│  │  Auth Layer  │  │  Audit Logger       │ │
-  │  │              │  │  Tailscale   │  │  Postgres + Loki    │ │
-  │  │ Discovers:   │  │  WhoIs +     │  │                     │ │
-  │  │  athena.*    │  │  API keys    │  │  Every invocation:  │ │
-  │  │  hermes.*    │  │              │  │   who, what, when,  │ │
-  │  │  apollo.*    │  │              │  │   input, output,    │ │
-  │  │  ares.*      │  │              │  │   latency, outcome  │ │
-  │  │  system.*    │  │              │  │                     │ │
-  │  └──────┬───────┘  └──────────────┘  └─────────────────────┘ │
-  │         │                                                      │
-  │  ┌──────┴──────────────────────────────────────────────────┐  │
-  │  │                    HITL Gate                             │  │
-  │  │                                                          │  │
-  │  │  Read operations: pass through immediately               │  │
-  │  │  Write operations: hold → notify operator → await approval│ │
-  │  │  Destructive operations: require explicit confirmation    │  │
-  │  └─────────────────────────────────────────────────────────┘  │
-  │         │                                                      │
-  │  ┌──────┴──────────────────────────────────────────────────┐  │
-  │  │                 Service Router                           │  │
-  │  │  athena.*  ──▶ http://athena.ashton.svc:8080            │  │
-  │  │  hermes.*  ──▶ http://hermes.ashton.svc:8080            │  │
-  │  │  apollo.*  ──▶ http://apollo.ashton.svc:8080            │  │
-  │  │  system.*  ──▶ internal (kubectl, flux, pod health)     │  │
-  │  └─────────────────────────────────────────────────────────┘  │
-  └────────────────────────────────────────────────────────────────┘
-```
+## Current Repo Truth
 
-## Why This Exists
+- `v0.0.1` is the docs-only planning baseline
+- `v0.1.0` is now the active runtime line:
+  - one `GET /health`
+  - one `POST /mcp/v1/tools/list`
+  - one `POST /mcp/v1/tools/call`
+  - one registered tool: `athena.get_current_occupancy`
+- the runtime loads manifests from `ashton-proto/mcp`
+- the runtime calls ATHENA only through its public `GET /api/v1/presence/count`
+  surface
+- the runtime emits inspectable success and failure logs for the routed path
+- caller identity, persisted audit, write approvals, and rate limiting do not
+  exist yet
 
-In 2026, the agentic AI pattern is clear: AI systems need structured, discoverable, auditable ways to interact with software. MCP (Model Context Protocol) is the emerging standard. By building a gateway that speaks MCP, every service in the ASHTON platform becomes natively operable by any AI agent without custom integration code.
+## Immediate Release Lines
 
-The gateway also enforces safety: write operations require human approval, every invocation is logged with full context, and rate limiting prevents runaway agent behavior.
+| Line | Intended purpose | What becomes real | What stays deferred |
+| --- | --- | --- | --- |
+| `v0.1.0` | first routed read-only tool call | one Go runtime, one manifest loader, one routed ATHENA occupancy read, one inspectable log path | caller identity, persisted audit, write approvals, rate limiting, Rust |
+| `v0.2.0` | caller identity, persisted audit, and second routed read | stronger auditability and a second read-only route | write approvals, rate limiting, Rust |
+| `v0.3.0` | first write approval line | explicit HITL handling for write calls | rate limiting, broad orchestration, Rust |
+| `v0.4.0` | broader registry and rate limiting | wider registry plus guarded traffic control | Rust rewrite unless a measured bottleneck exists |
 
-## Tech Stack
+## Future Control-Plane Vision
 
-| Component | Technology | Why |
-|-----------|-----------|-----|
-| Phase 1 | **Go** | Ship fast, consistent with platform. |
-| Phase 2 | **Rust (Axum + tokio)** | Rewrite for performance. Demonstrates polyglot capability and justified language selection. |
-| Protocol | **MCP-compatible JSON-RPC over HTTP** | Emerging standard for agent↔tool communication. |
-| Tool discovery | **Static manifests from ashton-proto** | Tools registered at startup from `tools.json` files. |
-| Auth | **Tailscale WhoIs + API keys** | Mesh identity for interactive agents. API keys for automated pipelines. |
-| Audit | **Postgres + structured logs** | Every invocation: actor, tool, input, output, latency, outcome. |
-| HITL | **WebSocket notification + approval** | Operator receives pending action, approves or rejects. |
-| Rate limiting | **Redis token bucket** | Per-agent, per-tool rate limits. |
-| Metrics | **prometheus/client_golang** | Tool call frequency, latency distribution, approval rates. |
+The original gateway vision is still valid. It just does not belong inside the
+first routed read-only line.
 
-## Project Structure
+The long-range control plane still aims to provide:
 
-```
-ashton-mcp-gateway/
-├── cmd/
-│   └── gateway/
-│       └── main.go
-├── internal/
-│   ├── registry/              # Tool manifest loading + discovery
-│   │   ├── registry.go
-│   │   └── manifest.go
-│   ├── router/                # Dispatches tool calls to services
-│   │   ├── router.go
-│   │   └── client.go          # HTTP client pool to backend services
-│   ├── auth/                  # Tailscale WhoIs + API key validation
-│   │   └── auth.go
-│   ├── hitl/                  # Human-in-the-loop approval gate
-│   │   ├── gate.go
-│   │   └── notifier.go        # WebSocket push to operator
-│   ├── audit/                 # Invocation logging
-│   │   ├── logger.go
-│   │   └── repository.go
-│   ├── ratelimit/             # Redis-backed token bucket
-│   │   └── limiter.go
-│   ├── server/
-│   │   ├── server.go
-│   │   ├── handlers.go        # MCP protocol handlers
-│   │   └── middleware.go
-│   └── config/
-│       └── config.go
-├── pkg/
-│   └── mcp/                   # MCP protocol types (reusable)
-│       ├── types.go
-│       ├── request.go
-│       └── response.go
-├── db/
-│   ├── migrations/
-│   └── queries/
-├── deploy/
-├── docs/
-│   ├── growing-pains.md
-│   ├── adr/
-│   │   ├── 001-mcp-protocol-choice.md
-│   │   └── 002-go-to-rust-rewrite.md   # Added after Phase 2
-│   ├── security-model.md
-│   └── benchmarks/                      # Go vs Rust comparison (Phase 2)
-├── Dockerfile
-├── Makefile
-├── .github/workflows/ci.yml
-├── go.mod
-└── go.sum
-```
+- manifest-backed discovery across service-owned tools
+- one routed entry point for read and later write operations
+- caller identity for interactive and automated clients
+- persisted audit for every invocation
+- explicit HITL approval for write and destructive operations
+- low-noise operational metrics and later traffic controls
+- a Rust rewrite only if the Go runtime earns it through measured pressure
 
-## MCP Protocol
+That future shape stays intentionally deferred until the earlier lines prove the
+gateway deserves to exist as a real runtime.
 
-### Tool Discovery
+## Deferred Architecture
 
-```
-POST /mcp/v1/tools/list
-→ { "tools": [ { "name": "athena.get_current_occupancy", ... }, ... ] }
-```
+| Deferred capability | Target line | Why it is deferred from Tracer 9 | Later value if the earlier lines succeed |
+| --- | --- | --- | --- |
+| Multi-service registry across `athena`, `hermes`, `apollo`, and later `ares` or `system` tools | `v0.2.0` and later | Tracer 9 only needs one manifest and one route to prove discovery and routing | broadens the gateway from one proof path into a true shared control layer |
+| Caller identity via Tailscale and API keys | `v0.2.0` | Tracer 9 should prove routing before introducing trust-policy complexity | lets interactive operators and automated systems share one gateway with explicit identity |
+| Persisted audit storage for actor, tool, latency, inputs, outputs, and outcome | `v0.2.0` | first-line proof only needs inspectable logs | turns routing into a real auditable control surface instead of a thin proxy |
+| Second routed read-only tool call | `v0.2.0` | Tracer 9 should avoid widening beyond one source-backed read | proves the registry and router can widen without collapsing into one-off glue |
+| Human-in-the-loop approval for writes | `v0.3.0` | Tracer 9 is read-only and should not invent write governance early | creates the first meaningful safety boundary for tool-triggered mutations |
+| Broader CLI/operator workflow surface | `v0.3.0` and later | a large CLI before one stable routed path would be theater | gives operators a practical way to inspect routes, audit entries, and approvals |
+| Prometheus metrics for tool volume, latency, approvals, and failures | `v0.3.0` and later | metrics on a single first route are less important than proving the route exists | supports real operational visibility once traffic and approvals are meaningful |
+| Redis-backed rate limiting | `v0.4.0` | there is no traffic profile to govern yet | protects the gateway once it fronts multiple tools and callers |
+| Broad orchestration posture across many tools | later than `v0.4.0` | Tracer 9 should prove routing, not agent autonomy | becomes credible only after read routing, audit, and write approvals are already real |
+| Rust rewrite path | later than `v0.4.0` | there is no Go bottleneck to justify a rewrite | demonstrates measured language choice rather than speculative optimization |
 
-### Tool Invocation
+## Tracer 9 Scope Lock
 
-```
-POST /mcp/v1/tools/call
-{
-  "tool": "athena.get_current_occupancy",
-  "arguments": { "facility": "ashtonbee" }
-}
-→ {
-  "result": { "count": 187, "capacity": 200, "utilization": 0.935 },
-  "metadata": { "latency_ms": 12, "source": "athena", "cached": false }
-}
-```
+Tracer 9 is the first real gateway slice:
 
-### Write Operations (HITL)
+- bootstrap the Go repo
+- load one real manifest from `ashton-proto`
+- route one read-only tool call
+- log the path clearly
+- stop
 
-```
-POST /mcp/v1/tools/call
-{
-  "tool": "hermes.booking.create",
-  "arguments": { "room": "overflow", "end": "20:00" }
-}
-→ {
-  "status": "pending_approval",
-  "approval_id": "apr_01HXY...",
-  "message": "Write operation requires human approval"
-}
+Route target:
 
-# Operator approves via WebSocket or CLI:
-POST /mcp/v1/approvals/apr_01HXY.../approve
-→ { "result": { "booking_id": "...", "status": "confirmed" } }
-```
+- direct ATHENA occupancy, not HERMES
 
-## CLI Reference
+Reason:
 
-```bash
-gateway serve                              # Start the gateway
-gateway tools list                         # List all registered tools
-gateway tools call [tool] [--args json]    # Invoke a tool (for testing)
-gateway audit list [--since] [--tool]      # View invocation audit log
-gateway approvals pending                  # List pending HITL approvals
-gateway approvals approve [--id]           # Approve a pending action
-gateway approvals reject  [--id]           # Reject a pending action
-gateway version
-```
+- `ashton-proto/mcp` now has an ATHENA-first manifest line
+- the first route proves manifest discovery and service routing with the
+  smallest possible boundary
+- stacking the gateway on top of HERMES first would widen debug and
+  observability complexity before the core control-plane shape is proven
 
-## Prometheus Metrics
+## Ownership Boundary
 
-| Metric | Type | Description |
-|--------|------|-------------|
-| `gateway_tool_calls_total{tool,status}` | counter | Invocations by tool and outcome |
-| `gateway_tool_call_duration_seconds{tool}` | histogram | End-to-end tool call latency |
-| `gateway_hitl_pending` | gauge | Pending approval count |
-| `gateway_hitl_decisions_total{action,outcome}` | counter | Approval/rejection counts |
-| `gateway_ratelimit_rejected_total{agent}` | counter | Rate-limited requests |
-| `gateway_registered_tools` | gauge | Number of registered tools |
+- the gateway owns routing, caller identity, approval, and audit policy
+- it does not own physical truth, member truth, or staff truth data
+- it consumes routed service surfaces, not private databases
+- it widens only after the first routed read-only call is trustworthy
 
-## Rust Rewrite (Phase 2)
+## Why This Repo Matters
 
-After the Go implementation is stable and serving production traffic, the gateway gets rewritten in Rust using Axum + tokio. The rewrite produces:
-
-- A benchmark comparison document (Go vs Rust: latency, memory, throughput)
-- An ADR explaining why Rust was justified for this specific component
-- Both implementations in the repo (Go in `cmd/`, Rust in `rust/`)
-
-This demonstrates to employers: "I don't pick languages for hype. I shipped in Go for speed, profiled the bottleneck, and rewrote the hot path in Rust with measurable improvement."
-
-## Status
-
-| Milestone | Status |
-|-----------|--------|
-| Project scaffold | Not started |
-| Tool registry + manifest loading | Not started |
-| Service router | Not started |
-| Auth (Tailscale + API keys) | Not started |
-| HITL approval gate | Not started |
-| Audit logging | Not started |
-| Rate limiting | Not started |
-| MCP protocol endpoints | Not started |
-| CLI | Not started |
-| Prometheus metrics | Not started |
-| CI pipeline | Not started |
-| Cluster deployment via Flux | Not started |
-| Rust rewrite (Phase 2) | Not started |
-| Go vs Rust benchmark | Not started |
-
-## Part of the ASHTON Platform
-
-```
-                   ashton-proto
-                        │
-    ┌───────────────────┼───────────────────┐
-    ▼                   ▼                   ▼
-  athena ◄──────── hermes ────────▶ apollo
-    │                   │                   │
-    └───────────────────┼───────────────────┘
-                        ▼
-              [ashton-mcp-gateway]
-                        │
-           ┌────────────┼────────────┐
-           ▼            ▼            ▼
-      LangGraph      Claude      Automation
-       Agents       (via MCP)     Pipelines
-```
-
-The gateway is the top of the pyramid. It depends on all services being deployed
-and healthy. Build it last, after ATHENA, HERMES, and APOLLO are stable.
-
-## License
-
-MIT
+The value of the repo right now is no longer just that it has a plan. The value
+is that it now has one disciplined first real line: `v0.1.0` proves discovery,
+routing, and inspectability without pretending the full agent-control surface
+already exists.
