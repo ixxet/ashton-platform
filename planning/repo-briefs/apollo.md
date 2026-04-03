@@ -3,23 +3,25 @@
 APOLLO is the member-intent service in ASHTON.
 
 It owns member auth, profile state, visit history as member-facing context,
-visit open/close lifecycle behavior, and the first derived lobby-eligibility
-behavior. It also owns the first explicit workout-history runtime. It does not
-own raw presence truth, recommendations, or actual matchmaking behavior yet.
+visit open/close lifecycle behavior, the first derived lobby-eligibility
+behavior, the first explicit workout-history runtime, and the first
+deterministic recommendation read. It does not own raw presence truth,
+generated planning, or actual matchmaking behavior.
 
 ## Current Role
 
-The active APOLLO slice now spans five narrow runtime boundaries:
+The active APOLLO slice now spans six narrow runtime boundaries:
 
 - identified-arrival consume -> visit record
 - identified-departure consume -> visit close
 - student ID + email verification -> signed session cookie auth
 - persisted `visibility_mode` / `availability_mode` -> derived lobby eligibility
 - authenticated workout create/update/finish/read -> member-owned workout history
+- authenticated workout history -> deterministic recommendation read
 
 That is enough to prove member ownership, state persistence, and the first real
-intent-behavior and workout-history slices without widening into
-recommendations or lobby membership.
+intent-behavior, workout-history, and deterministic coaching slices without
+widening into generated plans or lobby membership.
 
 ## Current Real Slice
 
@@ -38,9 +40,10 @@ recommendations or lobby membership.
 | `GET /api/v1/workouts/{id}` | Real | Authenticated owner-scoped workout detail read |
 | `PUT /api/v1/workouts/{id}` | Real | Authenticated replacement of workout exercise rows while `in_progress` |
 | `POST /api/v1/workouts/{id}/finish` | Real | Authenticated finish for a non-empty `in_progress` workout |
+| `GET /api/v1/recommendations/workout` | Real | Authenticated deterministic coaching read derived from explicit workout history only |
 | `apollo visit list` | Real | Member-facing visit history readback |
 | NATS identified-arrival/departure consumer | Real | Consumes `athena.identified_presence.arrived` and `athena.identified_presence.departed` using the shared helper |
-| recommendation runtime | Deferred | Still outside the active executable slice |
+| recommendation storage | Schema authored | `apollo.recommendations` exists, but Tracer 7 recommendation reads are derived at read time |
 | lobby membership or matchmaking runtime | Deferred | Eligibility is read-only; no join, leave, or team formation path exists |
 
 ## Ownership Rules
@@ -51,6 +54,7 @@ recommendations or lobby membership.
 | profile visibility and availability state | occupancy counting |
 | visit history as member context | staff workflows |
 | explicit workout history runtime | raw workout inference from visits |
+| deterministic recommendation runtime | raw recommendation inference from visits or profile state |
 | derived lobby eligibility | open lobby membership, invites, or match formation |
 | future recommendation domains | shared contract authorship |
 
@@ -78,6 +82,11 @@ Key boundaries:
 - workout history is ordered by newest workout creation first using DB-owned
   `started_at DESC, id DESC`
 - workout writes do not mutate visits, claimed tags, or eligibility state
+- recommendation precedence is explicit:
+  `resume_in_progress_workout`, `start_first_workout`, `recovery_day` for
+  workouts finished within `24h`, then `repeat_last_finished_workout`
+- recommendation reads are side-effect free and do not mutate workouts, visits,
+  preferences, claimed tags, or eligibility state
 
 ## Project Shape
 
@@ -90,6 +99,7 @@ Key boundaries:
 | `internal/consumer/` | identified visit-lifecycle consume path |
 | `internal/visits/` | visit service and repository boundary |
 | `internal/workouts/` | workout service and repository boundary |
+| `internal/recommendations/` | deterministic recommendation service and repository boundary |
 | `internal/store/` | sqlc-generated query bindings |
 | `internal/server/` | HTTP handlers and auth middleware |
 | `db/migrations/` | current schema for users, sessions, visits, workouts, ARES, and recommendations |
@@ -103,7 +113,8 @@ Treat APOLLO as trustworthy only when:
 - auth/session-sensitive tests are rerun multiple times
 - the binary builds
 - migrations work on a fresh Postgres database
-- the local smoke path covers auth, profile, eligibility, and workout runtime
+- the local smoke path covers auth, profile, eligibility, workout runtime, and
+  deterministic recommendation reads
 - the identified arrival and departure boundary is exercised against real NATS
   and Postgres
 
@@ -111,12 +122,13 @@ Treat APOLLO as trustworthy only when:
 
 APOLLO owns its runtime, schema, and consumer logic. Milestone 1.5 proves one
 bounded in-cluster APOLLO slice for arrival ingest. That still does not imply a
-broad APOLLO product deployment; auth, eligibility, and workout runtime remain
-locally proven only unless a separate deployment workstream verifies them live.
+broad APOLLO product deployment; auth, eligibility, workout runtime, and
+recommendation runtime remain locally proven only unless a separate deployment
+workstream verifies them live.
 
 ## Deferred On Purpose
 
-- recommendation and coaching runtime
+- recommendation persistence and generated planning
 - lobby membership persistence, invites, and match formation
 - frontend or offline PWA work
 - external identity provider widening

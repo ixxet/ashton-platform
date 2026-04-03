@@ -392,6 +392,71 @@ intentional feature deferrals:
 | Feature | recommendations, coaching, and generated plans | deferred | explicit workout history had to become real before higher-level training logic widens | later recommendation or coaching tracer |
 | Feature | movement ontology or shared exercise catalog | deferred | free-text exercise rows are sufficient for the first workout-runtime slice | later workout modeling tracer |
 
+## Tracer 7: APOLLO Deterministic Recommendation Runtime
+
+Status: completed in the implementation chat.
+
+Goal:
+
+- APOLLO serves one deterministic member-scoped workout recommendation derived
+  from explicit workout history only
+
+Repos:
+
+- `apollo`
+
+Exit criteria:
+
+- authenticated recommendation read is real
+- precedence is explicit and deterministic
+- recommendation reads stay side-effect free
+- recommendations remain separate from visits, eligibility, and matchmaking
+- local smoke proves the real auth/session-backed recommendation runtime
+
+Key outputs:
+
+- `apollo` now exposes authenticated `GET /api/v1/recommendations/workout`
+- APOLLO now derives one deterministic recommendation from explicit workout
+  history with this precedence:
+  `resume_in_progress_workout`, `start_first_workout`, `recovery_day` for a
+  workout finished within `24h`, then `repeat_last_finished_workout`
+- recommendation responses are structured and member-scoped with stable
+  `type`, `reason`, `evidence`, `workout_id`, and `generated_at` fields
+- recommendation reads remain side-effect free and do not create, update, or
+  finish workouts and do not mutate visits, preferences, claimed tags, or
+  eligibility state
+- local manual smoke passed for the real `apollo serve` auth flow, cold-start,
+  in-progress, recovery-window, aged-finished, and side-effect checks against
+  disposable Postgres
+
+Tracer 7 retrospective:
+
+- This tracer only stayed trustworthy because it treated recommendations as a
+  derived read over explicit APOLLO-owned workout data instead of widening into
+  generated plans, freeform coaching text, or visit-derived inference.
+- The first executable slice needed one explicit precedence order. Leaving the
+  recommendation types unordered would have hidden product behavior behind
+  handler wiring and made edge cases untestable.
+- The authored `apollo.recommendations` table did not need to become active
+  runtime state yet. Closure stayed clean by keeping Tracer 7 as a read-time
+  derivation and deferring persistence until a later tracer proves a real need.
+- The smoke path found two apparent failures that were actually operator races:
+  recommendation reads were run in parallel with finish and manual aging
+  commands. Closing the tracer required rerunning those checks sequentially and
+  documenting the exact smoke order instead of weakening the product rule.
+
+Deferred after closure:
+
+No in-scope unresolved bugs remained at close. The remaining items are
+intentional feature deferrals:
+
+| Type | Item | Status | Why It Was Not Done Here | Future Owner |
+| --- | --- | --- | --- | --- |
+| Deploy | live in-cluster recommendation runtime proof | deferred | this tracer proves recommendation runtime locally and deliberately does not widen Milestone 1.5 deployment truth | later APOLLO deployment workstream |
+| Feature | recommendation persistence | deferred | the first recommendation slice proves deterministic read behavior without needing stored outputs | later recommendation tracer |
+| Feature | generated plans, LLM coaching, and broader program building | deferred | Tracer 7 is a deterministic coaching read, not an AI planning system | later coaching or planner tracer |
+| Feature | recommendation inference from visits, departures, or profile state | deferred | recommendation intent must stay grounded in explicit workout data only | later only if product rules change |
+
 ## Chat Model
 
 - this control-plane chat stays the source-of-truth and arbitration thread

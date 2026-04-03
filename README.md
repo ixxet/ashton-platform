@@ -16,7 +16,7 @@ readable as one coherent platform instead of five drifting repos.
 | --- | --- | --- | --- |
 | `ashton-proto` | Shared contracts, schemas, runtime helpers | Real and active | Keeps producers and consumers from hand-rolling wire contracts |
 | `athena` | Physical truth for presence and occupancy | Real and executable | First Go service, first operational data surface, and active visit-lifecycle publisher |
-| `apollo` | Member-facing application and intent state | Real and executable, but intentionally narrow | First member auth, profile-state, visit-history, visit-closing, derived-eligibility, and explicit workout-runtime slice |
+| `apollo` | Member-facing application and intent state | Real and executable, but intentionally narrow | First member auth, profile-state, visit-history, visit-closing, derived-eligibility, explicit workout-runtime, and deterministic recommendation slice |
 | `hermes` | Staff-facing operations assistant | Docs-first | Planned read-only staff layer on top of ATHENA |
 | `ashton-mcp-gateway` | Shared tool routing, approval, and audit layer | Docs-first | Planned control surface after the service repos are stable |
 
@@ -105,7 +105,7 @@ flowchart LR
 | --- | --- | --- | --- | --- |
 | `ashton-proto` | Shared proto packages, event schemas, runtime helper rules | - | Shared contract baseline is real and active | [README](../ashton-proto/README.md) |
 | `athena` | Presence, occupancy, ingress source handling, identified visit-lifecycle publication | `ashton-proto` | Mock-backed read path and lifecycle publish path are real | [README](../athena/README.md) |
-| `apollo` | Member auth, profile state, visit ingest and close, derived eligibility, and workout runtime | `ashton-proto`, `athena` | Auth, profile state, visit lifecycle, derived eligibility, and workout runtime are real | [README](../apollo/README.md) |
+| `apollo` | Member auth, profile state, visit ingest and close, derived eligibility, workout runtime, and deterministic recommendation reads | `ashton-proto`, `athena` | Auth, profile state, visit lifecycle, derived eligibility, workout runtime, and deterministic recommendation reads are real | [README](../apollo/README.md) |
 | `hermes` | Staff read-only ops first, later booking and maintenance flows | `ashton-proto`, `athena` | Planned only | [README](../hermes/README.md) |
 | `ashton-mcp-gateway` | Tool discovery, routing, approval, audit | All service repos | Planned only | [README](../ashton-mcp-gateway/README.md) |
 
@@ -127,8 +127,10 @@ flowchart LR
   state, and derive open-lobby eligibility from explicit member intent
 - `apollo` now serves authenticated workout create, update, finish, detail,
   and history reads without letting visits imply exercise activity
+- `apollo` now serves one authenticated deterministic workout recommendation
+  read derived from explicit workout history only
 - `apollo` keeps visit history separate from workout history and from
-  matchmaking intent
+  recommendation logic and from matchmaking intent
 - repo-local roadmaps, runbooks, ADRs, and growing-pains logs exist across the
   stack
 
@@ -155,7 +157,8 @@ flowchart LR
 
 - Redis-backed hot state and rate limiting
 - ATHENA prediction rollout before the read path and adapters widen
-- APOLLO recommendation pipelines, LangGraph, Mem0, and matchmaking runtime
+- APOLLO recommendation persistence, generated planning, LangGraph, Mem0, and
+  matchmaking runtime
 - APOLLO SvelteKit PWA and offline sync work
 - gateway Rust rewrite before a measured Go bottleneck exists
 
@@ -170,6 +173,7 @@ flowchart LR
 | `Tracer 4` | explicit lobby eligibility | Complete | make explicit member state drive derived lobby eligibility without letting tap-in imply intent |
 | `Tracer 5` | visit closing / departure flow | Complete | close the correct open visit from physical departure truth without creating workouts or social intent |
 | `Tracer 6` | APOLLO workout runtime | Complete | make explicit member-owned workout history real without letting visits imply exercise activity |
+| `Tracer 7` | APOLLO deterministic recommendation runtime | Complete | derive one member-scoped coaching recommendation from explicit workout history without inferring social or physical intent |
 
 ## Milestone 1 Hardening Truth
 
@@ -222,6 +226,23 @@ Tracer 6 stays intentionally narrower than Milestone 1.5:
   and claimed tags
 - deployed truth is unchanged from Milestone 1.5 and does not yet claim live
   in-cluster workout runtime surfaces
+
+## Tracer 7 Runtime Truth
+
+Tracer 7 stays intentionally narrower than a broad coaching or planning system:
+
+- verified local truth now includes authenticated
+  `GET /api/v1/recommendations/workout`
+- recommendation precedence is explicit and deterministic:
+  `resume_in_progress_workout`, `start_first_workout`, `recovery_day` for
+  workouts finished within `24h`, then `repeat_last_finished_workout`
+- recommendation reads are derived from explicit APOLLO-owned workout history,
+  not from visits, arrivals, departures, or lobby/profile state
+- recommendation reads are side-effect free: they do not create, update, or
+  finish workouts and they do not mutate visits, preferences, claimed tags, or
+  eligibility state
+- deployed truth is unchanged from Milestone 1.5 and does not yet claim live
+  in-cluster recommendation surfaces
 
 ## Source Of Truth Split
 
