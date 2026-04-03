@@ -20,5 +20,5 @@ Platform-level artifacts:
 
 Repo-local artifacts:
 
-- [APOLLO hardening artifacts](/Users/zizo/Personal-Projects/ASHTON/apollo/docs/hardening/README.md)
-- [HERMES Tracer 8 hardening](/Users/zizo/Personal-Projects/ASHTON/hermes/docs/hardening/tracer-8.md)
+- [APOLLO hardening artifacts](https://github.com/ixxet/apollo/blob/main/docs/hardening/README.md)
+- [HERMES Tracer 8 hardening](https://github.com/ixxet/hermes/blob/main/docs/hardening/tracer-8.md)

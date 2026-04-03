@@ -21,12 +21,12 @@ Use this runbook to keep ASHTON planning and implementation chats disciplined.
 
 1. update repo-local `README.md` or `docs/roadmap.md` if the tracer changed reality
 2. update repo-local ADRs or migrations
-3. update [TRACER-MATRIX.md](/Users/zizo/Personal-Projects/ASHTON/ashton-platform/planning/sprints/TRACER-MATRIX.md)
+3. update [TRACER-MATRIX.md](../sprints/TRACER-MATRIX.md)
 4. record any real mistakes in repo-local `docs/growing-pains.md`
 5. only then update long-form architecture docs if the change is broad and stable
 
 If the tracer needed a hardening pass before closure, use
-[tracer-closure-hardening-template.md](/Users/zizo/Personal-Projects/ASHTON/ashton-platform/planning/runbooks/tracer-closure-hardening-template.md)
+[tracer-closure-hardening-template.md](tracer-closure-hardening-template.md)
 to keep the pass narrow, audited, and explicit about deferrals.
 
 ## Standalone Hardening Artifact Policy
@@ -40,7 +40,7 @@ to keep the pass narrow, audited, and explicit about deferrals.
   implementation closeout, hardening audit, standalone hardening artifact, then
   tag cut
 
-See [planning/hardening/README.md](/Users/zizo/Personal-Projects/ASHTON/ashton-platform/planning/hardening/README.md)
+See [planning/hardening/README.md](../hardening/README.md)
 for the current artifact index.
 
 ## Required Verification Before Calling A Tracer Done
