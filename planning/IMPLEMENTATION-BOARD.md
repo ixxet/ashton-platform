@@ -11,8 +11,10 @@ Use this order when planning or implementing:
 2. repo-local `README.md` and `docs/roadmap.md`
 3. repo-local ADRs
 4. repo-local migrations and schemas
-5. `planning/sprints/BUILD-ORDER.md`
-6. `planning/architecture/` as background reference only
+5. `planning/sprints/TRACER-MATRIX.md`
+6. `planning/audits/`
+7. `planning/sprints/BUILD-ORDER.md` as historical planning context only
+8. `planning/architecture/` as background reference only
 
 ## Locked Architectural Decisions
 
@@ -104,18 +106,17 @@ Rust remains a later optimization path, not a first-wave dependency.
 
 | Repo | Current line | Next planned line | Why it is next |
 | --- | --- | --- | --- |
-| `ashton-proto` | `v0.3.1` | `v0.4.0` | broader routed manifest expansion only after a second route is real |
+| `ashton-proto` | `v0.3.0` shipped, `v0.3.1` unreleased on `main` | `v0.4.0` | broader routed manifest expansion only after a second route is real |
 | `athena` | `v0.4.0` | `v0.4.1` only if a later deployment or ingress line needs repo truth changes | the Tracer 10 ingress line is shipped; the next widening should be evidence-driven |
 | `apollo` | `v0.6.0` | `v0.7.0` | bounded live departure-close proof did not require new APOLLO repo truth, so the next repo line is the minimal member web shell |
 | `hermes` | `v0.1.0` | `v0.1.1` | observability hardening before richer staff widening |
-| `ashton-mcp-gateway` | `v0.1.0` | `v0.2.0` | caller identity, persisted audit, and a second routed read after the first route proves itself |
-| `ashton-platform` | `v0.0.14` | `v0.0.15` | Milestone 1.6 control-plane closeout |
+| `ashton-mcp-gateway` | `v0.0.1` shipped, `v0.1.0` unreleased on `main` | `v0.2.0` | caller identity, persisted audit, and a second routed read after the first route proves itself |
+| `ashton-platform` | `v0.0.15` | `v0.0.16` | Milestone 1.6 is closed; the next platform line is the Tracer 11 control-plane pass |
 
 ## Planned Release Sequence
 
 | Platform tag | Vertical | Repo lines in scope | Intended purpose | Hard stop |
 | --- | --- | --- | --- | --- |
-| `v0.0.15` | `Milestone 1.6` | `athena v0.4.0`, `apollo v0.6.0`, companion `Prometheus v0.0.2` | bounded live departure-close proof in-cluster | no broad APOLLO product deployment claim |
 | `v0.0.16` | `Tracer 11` | `apollo v0.7.0` | minimal member web shell over already-real APIs | no offline sync, generated plans, or matchmaking UI |
 | `v0.0.17` | `Tracer 12` | `apollo v0.8.0` | explicit lobby membership runtime | no invites or auto-entry from tap-in |
 | `v0.0.18` | `Tracer 13` | `apollo v0.9.0` | first deterministic ARES match preview | no messaging or autonomous match flows |

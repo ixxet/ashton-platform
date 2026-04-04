@@ -14,6 +14,8 @@
 > - `planning/IMPLEMENTATION-BOARD.md`
 > - `planning/sprints/TRACER-MATRIX.md`
 >
+> If this essay conflicts with current repo docs, this essay loses.
+>
 > Superseded or re-scoped areas to watch for:
 > - `check-in` terminology is now `presence` in current working docs
 > - `HERMES` is staff-facing only, not the student-facing product surface

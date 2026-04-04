@@ -14,6 +14,8 @@
 > - `planning/IMPLEMENTATION-BOARD.md`
 > - `planning/sprints/TRACER-MATRIX.md`
 >
+> If this addendum conflicts with current repo docs, this addendum loses.
+>
 > Superseded or re-scoped areas to watch for:
 > - `check-in` terminology is now `presence` in current working docs
 > - APOLLO now separates visit history from workout history

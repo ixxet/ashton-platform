@@ -1,4 +1,14 @@
-# ASHTON Platform — Repo Map and Build Order
+# ASHTON Platform — Historical Repo Map and Initial Build Order
+
+> Status: historical planning reference.
+>
+> This file preserves the original repo-creation sequence and the first
+> expected sprint order. It is not the current source of runtime truth.
+>
+> Use these files instead for current truth:
+> - `planning/IMPLEMENTATION-BOARD.md`
+> - `planning/sprints/TRACER-MATRIX.md`
+> - repo-local `README.md` and `docs/roadmap.md`
 
 ## The Pyramid
 
@@ -27,7 +37,7 @@
 
 ## All Repos (8 Total)
 
-| # | Repo Name | Layer | Language | Status | Depends On |
+| # | Repo Name | Layer | Language | Historical status at planning time | Depends On |
 |---|-----------|-------|----------|--------|------------|
 | 1 | `homelab-gitops` | 0 — Platform | YAML/HCL | **Exists** | — |
 | 2 | `tower-bootstrap` | 0 — Platform | Shell/YAML | **Exists** | — |
@@ -39,6 +49,10 @@
 | 8 | `User-Adaptive-Summarization_COMP385-402_Group-4_Winter2026` | — | Python + Svelte | **Exists** | — |
 
 ## Build Order (Sprint Sequence)
+
+This is the original build hypothesis. Some repo order and internal scope still
+matter, but the authoritative sequence now lives in the tracer matrix and the
+implementation board.
 
 ### Sprint 0: Schema Foundation (Week 1 post-graduation)
 **Repo: `ashton-proto`**

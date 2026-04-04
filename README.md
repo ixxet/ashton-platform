@@ -11,6 +11,14 @@ Canonical source-of-truth repo for the ASHTON application stack.
 This repo is intentionally not a deployable app. Its job is to keep the system
 readable as one coherent platform instead of five drifting repos.
 
+## Start Here
+
+| Reader | Start With | Why |
+| --- | --- | --- |
+| Recruiter or interviewer | [`Current Platform State`](#current-platform-state), [`Audit Snapshot`](#audit-snapshot), [`Current Real Flow`](#current-real-flow) | These sections show what is already real without making you read every repo |
+| Engineer joining the stack | [`Repo Map`](#repo-map), [`Source Of Truth Split`](#source-of-truth-split), [`planning/IMPLEMENTATION-BOARD.md`](planning/IMPLEMENTATION-BOARD.md) | These files define ownership, active release lines, and where runtime truth actually lives |
+| Architect or planner | [`planning/audits/2026-04-04-stack-audit.md`](planning/audits/2026-04-04-stack-audit.md), [`planning/sprints/TRACER-MATRIX.md`](planning/sprints/TRACER-MATRIX.md), background essays in `planning/architecture/` | Use the audit and tracer matrix for current state; use the architecture essays only as future/background reference |
+
 ## Current Platform State
 
 | Repo | Role | Current State | Why It Matters |
@@ -21,7 +29,23 @@ readable as one coherent platform instead of five drifting repos.
 | `hermes` | Staff-facing operations assistant | Real and executable, but intentionally narrow | First read-only staff occupancy slice over ATHENA public truth |
 | `ashton-mcp-gateway` | Shared tool routing, approval, and audit layer | Real and executable, but intentionally narrow | First manifest-backed routed ATHENA occupancy read proves the gateway pattern without widening into auth or approvals |
 
+## Audit Snapshot
+
+Audit reference: [`planning/audits/2026-04-04-stack-audit.md`](planning/audits/2026-04-04-stack-audit.md)
+
+| Repo | Completeness | Code / Mechanics | Docs | Inter-connectedness | Currentness | Short verdict |
+| --- | --- | --- | --- | --- | --- | --- |
+| `ashton-platform` | `78/100` | `56/100` | `84/100` | `73/100` | `70/100` | Strong control-plane repo, but still markdown-mediated rather than machine-enforced |
+| `ashton-proto` | `64/100` | `70/100` | `54/100` | `45/100` | `58/100` | Real shared-contract slice, but still partly hand-stitched and version-drifty |
+| `athena` | `47/100` | `82/100` | `84/100` | `56/100` | `91/100` | Best service boundary so far; real and growing, not yet production-complete |
+| `apollo` | `46/100` | `81/100` | `67/100` | `55/100` | `86/100` | Usable backend slice, but still short of the full member product |
+| `hermes` | `27/100` | `82/100` | `58/100` | `24/100` | `68/100` | Credible read-only CLI tracer, not yet a broad staff platform |
+| `ashton-mcp-gateway` | `34/100` | `78/100` | `61/100` | `26/100` | `81/100` | Good routed-tool proof, still too early to claim a mature control plane |
+
 ## Architecture
+
+This is the target system view. For current runtime truth, use
+[`Current Real Flow`](#current-real-flow) immediately below.
 
 The standalone Mermaid source for the platform system view lives at
 [`planning/diagrams/platform-system.mmd`](planning/diagrams/platform-system.mmd).
@@ -90,8 +114,8 @@ flowchart LR
 
 | Layer | Technology | Status | Line | Notes |
 | --- | --- | --- | --- | --- |
-| Shared contracts | Protobuf + Buf | Instituted | `v0.0.1` -> `v0.0.12` | The current package layout and generation path are active in `ashton-proto` |
-| Shared event validation | JSON Schema + Go runtime helpers | Instituted | `v0.0.1` -> `v0.0.12` | `athena` and `apollo` now share one active event helper instead of private structs |
+| Shared contracts | Protobuf + Buf | Instituted | `v0.0.1` -> `v0.0.15` | The current package layout and generation path are active in `ashton-proto` |
+| Shared event validation | JSON Schema + Go runtime helpers | Instituted | `v0.0.1` -> `v0.0.15` | `athena` and `apollo` now share one active event helper instead of private structs |
 | Physical truth service | Go + chi + Cobra + Prometheus client + NATS | Instituted | `v0.0.1` -> `v0.0.15` | `athena` is the first executable service and now has one narrow source-backed ingress line locally |
 | Member ingest and persistence | Go + chi + Cobra + pgx + sqlc + NATS | Instituted | `v0.0.2` -> `v0.0.18` | `apollo` currently focuses on auth, profile state, visit ingest, derived eligibility, workouts, and recommendations |
 | Staff assistant | Go CLI + upstream HTTP client | Instituted | `v0.0.12` -> `v0.0.20` | `hermes` now proves one read-only occupancy question over ATHENA's public API |
@@ -104,22 +128,22 @@ flowchart LR
 
 | Repo | Owns | Depends On | Current Truth | Docs |
 | --- | --- | --- | --- | --- |
-| `ashton-proto` | Shared proto packages, event schemas, runtime helper rules | - | Shared contract baseline is real and active | [README](../ashton-proto/README.md) |
-| `athena` | Presence, occupancy, ingress source handling, identified visit-lifecycle publication | `ashton-proto` | Mock and CSV-backed ingress feed one canonical occupancy read path; lifecycle publish remains real | [README](../athena/README.md) |
-| `apollo` | Member auth, profile state, visit ingest and close, derived eligibility, workout runtime, and deterministic recommendation reads | `ashton-proto`, `athena` | Auth, profile state, visit lifecycle, derived eligibility, workout runtime, and deterministic recommendation reads are real | [README](../apollo/README.md) |
-| `hermes` | Staff read-only operations over upstream service truth | `athena` | First occupancy CLI slice is real; write actions, agent orchestration, and deployment stay deferred | [README](../hermes/README.md) |
-| `ashton-mcp-gateway` | Tool discovery, routing, approval, audit | `ashton-proto`, `athena` | One manifest-backed ATHENA occupancy route is real; auth, audit storage, and approvals stay deferred | [README](../ashton-mcp-gateway/README.md) |
+| `ashton-proto` | Shared proto packages, event schemas, runtime helper rules | - | Shared contract baseline is real and active | [README](https://github.com/ixxet/ashton-proto/blob/main/README.md) |
+| `athena` | Presence, occupancy, ingress source handling, identified visit-lifecycle publication | `ashton-proto` | Mock and CSV-backed ingress feed one canonical occupancy read path; lifecycle publish remains real | [README](https://github.com/ixxet/athena/blob/main/README.md) |
+| `apollo` | Member auth, profile state, visit ingest and close, derived eligibility, workout runtime, and deterministic recommendation reads | `ashton-proto`, `athena` | Auth, profile state, visit lifecycle, derived eligibility, workout runtime, and deterministic recommendation reads are real | [README](https://github.com/ixxet/apollo/blob/main/README.md) |
+| `hermes` | Staff read-only operations over upstream service truth | `athena` | First occupancy CLI slice is real; write actions, agent orchestration, and deployment stay deferred | [README](https://github.com/ixxet/hermes/blob/main/README.md) |
+| `ashton-mcp-gateway` | Tool discovery, routing, approval, audit | `ashton-proto`, `athena` | One manifest-backed ATHENA occupancy route is real; auth, audit storage, and approvals stay deferred | [README](https://github.com/ixxet/ashton-mcp-gateway/blob/main/README.md) |
 
 ## Repo Release Lines
 
 | Repo | Current line | Next planned line | Why it is next |
 | --- | --- | --- | --- |
-| `ashton-proto` | `v0.3.1` | `v0.4.0` | broader routed manifest expansion only after a second route is real |
+| `ashton-proto` | `v0.3.0` shipped, `v0.3.1` unreleased on `main` | `v0.4.0` | broader routed manifest expansion only after a second route is real |
 | `athena` | `v0.4.0` | `v0.4.1` only if a later deployment or ingress line needs repo truth changes | the Tracer 10 ingress line is shipped; the next widening should be evidence-driven |
 | `apollo` | `v0.6.0` | `v0.7.0` | bounded live departure-close proof did not require new APOLLO repo truth, so the next repo line is the minimal member web shell |
 | `hermes` | `v0.1.0` | `v0.1.1` | observability hardening before richer staff widening |
-| `ashton-mcp-gateway` | `v0.1.0` | `v0.2.0` | caller identity, persisted audit, and a second routed read should come only after the first route is trusted |
-| `ashton-platform` | `v0.0.14` | `v0.0.15` | Milestone 1.6 control-plane closeout follows the bounded live departure-close proof |
+| `ashton-mcp-gateway` | `v0.0.1` shipped, `v0.1.0` unreleased on `main` | `v0.2.0` | caller identity, persisted audit, and a second routed read should come only after the first route is trusted |
+| `ashton-platform` | `v0.0.15` | `v0.0.16` | Milestone 1.6 is closed; the next platform line is the minimal member web shell control-plane pass |
 
 ## Current State Block
 
@@ -215,12 +239,12 @@ bullets are only the short summary.
 | `v0.0.12` | `v0.0.12` | Shipped | Tracer 8 control-plane closeout | gateway, real ingress, and later product widening |
 | `v0.0.13` | `v0.0.13` | Shipped | Tracer 9 control-plane closeout | caller identity, persisted audit, and broader gateway maturity |
 | `v0.0.14` | `v0.0.14` | Shipped | Tracer 10 control-plane closeout | live source-backed ingress deployment proof and broader deployment widening |
+| `v0.0.15` | `v0.0.15` | Shipped | Milestone 1.6 control-plane closeout for bounded live departure-close proof | broader APOLLO product deployment and Tracer 11 widening |
 
 ## Planned Release Lines
 
 | Planned tag | Intended purpose | Restrictions | What it should not do yet |
 | --- | --- | --- | --- |
-| `v0.0.15` | Milestone 1.6 control-plane closeout for bounded live departure-close proof | keep the deployment claim narrow and evidence-backed | do not imply broad APOLLO product deployment |
 | `v0.0.16` | Tracer 11 control-plane closeout for the minimal member web shell | keep the UI limited to already-real APOLLO APIs | do not widen into offline sync, generated plans, or matchmaking UI |
 | `v0.0.17` | Tracer 12 control-plane closeout for explicit lobby membership runtime | keep lobby membership separate from visits and eligibility | do not imply invites or auto-entry from tap-in |
 | `v0.0.18` | Tracer 13 control-plane closeout for the first deterministic ARES match preview | keep the line read-only and deterministic | do not widen into messaging or autonomous match flows |
@@ -379,9 +403,10 @@ pretend that planned services already exist.
 
 ## Docs Map
 
+- [Stack audit: 2026-04-04](planning/audits/2026-04-04-stack-audit.md)
 - [Implementation board](planning/IMPLEMENTATION-BOARD.md)
 - [Tracer matrix](planning/sprints/TRACER-MATRIX.md)
-- [Build order](planning/sprints/BUILD-ORDER.md)
+- [Build order](planning/sprints/BUILD-ORDER.md) - historical planning reference
 - [Hardening artifacts](planning/hardening/README.md)
 - [Control-plane runbook](planning/runbooks/control-plane.md)
 - [Platform system diagram](planning/diagrams/platform-system.mmd)
@@ -398,8 +423,8 @@ pretend that planned services already exist.
 
 Infrastructure remains outside this repo on purpose:
 
-- `../Computers/Prometheus`
-- `../Computers/Talos`
+- [Prometheus](https://github.com/ixxet/Prometheus)
+- [Talos](https://github.com/ixxet/Talos)
 
 Those repos are the platform substrate. ASHTON documents its own internal
 system logic here and treats the homelab layer as an external dependency rather
