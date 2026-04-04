@@ -733,3 +733,63 @@ Still intentionally deferred:
 | --- | --- | --- | --- | --- |
 | Deploy | live source-backed ATHENA ingress proof in-cluster | deferred | the cluster still runs mock-backed ingress; this workstream proves the departure-close boundary only | later bounded deployment workstream |
 | Deploy | broad APOLLO product deployment | deferred | this workstream proves visit close only and does not widen APOLLO into auth, eligibility, workouts, recommendations, or UI runtime | later APOLLO ops workstream |
+
+## Tracer 11: APOLLO Minimal Member Web Shell
+
+Status: completed in the implementation chat.
+
+Goal:
+
+- APOLLO member web shell over already-real auth, profile, workout, and
+  recommendation APIs
+
+Repos:
+
+- `apollo`
+- `ashton-platform` after closure-clean repo truth
+
+Exit criteria:
+
+- one real authenticated web shell exists
+- session bootstrap is real
+- profile summary, workout list/detail/update/finish, and recommendation read
+  are usable through that shell
+- the shell stays thin and backend-authoritative
+- local smoke proves the shell against a real APOLLO runtime and disposable DB
+
+Key outputs:
+
+- `apollo` now serves `GET /`, `GET /app/login`, and protected `GET /app`
+  through embedded HTML, CSS, and JS assets instead of staying backend-only in
+  practice
+- the member shell now consumes the existing auth, profile, workout, and
+  recommendation APIs without adding a new frontend-specific backend contract
+- browser-side helper coverage now proves deterministic workout ordering and
+  recommendation rendering stay aligned to server truth
+- a disposable local APOLLO smoke now covers session bootstrap, shell page
+  access, workout create/update/detail/finish, duplicate finish handling, and
+  recommendation read without visit or preference drift
+
+Tracer 11 retrospective:
+
+- The important taste decision was to avoid treating “web shell” as permission
+  to build a frontend platform. Embedding one thin shell in the Go server kept
+  the claim aligned to the actual proof.
+- Tracer 11 did not need new backend endpoints. That is a positive result, not
+  a missing feature: it proves the existing APOLLO runtime was already coherent
+  enough to support one minimal member-facing surface.
+- Browser-side behavior still needed explicit tests even though the backend was
+  already strong. Adding helper-level JS tests kept recommendation and workout
+  display logic honest without pretending a full SPA harness was required yet.
+- Local smoke mattered because this tracer’s risk was integration taste, not
+  repository novelty. The shell had to prove it could sit on a real APOLLO
+  server and session cookie, not just render from fixtures.
+
+Deferred after closure:
+
+| Type | Item | Status | Why It Was Not Done Here | Future Owner |
+| --- | --- | --- | --- | --- |
+| Deploy | live APOLLO member-shell deployment proof | deferred | Tracer 11 proves the shell locally and does not widen deployment truth | later bounded deployment workstream |
+| Feature | offline sync, PWA install, or push notifications | deferred | the first shell proves integration only and should not widen into client-platform work | later frontend tracer |
+| Feature | broader frontend stack or design-system work | deferred | one thin shell was sufficient proof; bigger UI infrastructure is not justified yet | later frontend tracer if needed |
+| Feature | lobby, social, matchmaking, or generated-coach UI | deferred | the shell stays on top of already-real auth, workout, and recommendation slices only | later APOLLO tracer |

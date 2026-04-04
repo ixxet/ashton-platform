@@ -121,7 +121,7 @@ flowchart LR
 | Staff assistant | Go CLI + upstream HTTP client | Instituted | `v0.0.12` -> `v0.0.20` | `hermes` now proves one read-only occupancy question over ATHENA's public API |
 | Tool control plane | Go-first MCP router, Postgres audit, HITL approval | Instituted, narrow | `v0.0.13` -> `v0.0.21` | `ashton-mcp-gateway` now proves one manifest-backed ATHENA occupancy route; broader control-plane layers stay deferred |
 | Redis utility layer | Redis | Deferred | later than `v0.0.21` | Useful later for caches, rate limiting, and ephemeral hot state |
-| APOLLO frontend | SvelteKit PWA | Planned | `v0.0.16` | Valuable next as a thin shell over already-real APIs |
+| APOLLO member shell | embedded HTML/CSS/JS over existing APIs | Real locally | `v0.0.16` | Tracer 11 proves one thin member shell without widening frontend scope or deployment truth |
 | Gateway performance rewrite | Rust | Deferred | later than `v0.0.21` | The rewrite is earned only after a measured Go bottleneck exists |
 
 ## Repo Map
@@ -130,7 +130,7 @@ flowchart LR
 | --- | --- | --- | --- | --- |
 | `ashton-proto` | Shared proto packages, event schemas, runtime helper rules | - | Shared contract baseline is real and active | [README](https://github.com/ixxet/ashton-proto/blob/main/README.md) |
 | `athena` | Presence, occupancy, ingress source handling, identified visit-lifecycle publication | `ashton-proto` | Mock and CSV-backed ingress feed one canonical occupancy read path; lifecycle publish remains real | [README](https://github.com/ixxet/athena/blob/main/README.md) |
-| `apollo` | Member auth, profile state, visit ingest and close, derived eligibility, workout runtime, and deterministic recommendation reads | `ashton-proto`, `athena` | Auth, profile state, visit lifecycle, derived eligibility, workout runtime, and deterministic recommendation reads are real | [README](https://github.com/ixxet/apollo/blob/main/README.md) |
+| `apollo` | Member auth, profile state, visit ingest and close, derived eligibility, workout runtime, deterministic recommendation reads, and one thin member web shell | `ashton-proto`, `athena` | Auth, profile state, visit lifecycle, derived eligibility, workout runtime, deterministic recommendation reads, and one local member shell are real | [README](https://github.com/ixxet/apollo/blob/main/README.md) |
 | `hermes` | Staff read-only operations over upstream service truth | `athena` | First occupancy CLI slice is real; write actions, agent orchestration, and deployment stay deferred | [README](https://github.com/ixxet/hermes/blob/main/README.md) |
 | `ashton-mcp-gateway` | Tool discovery, routing, approval, audit | `ashton-proto`, `athena` | One manifest-backed ATHENA occupancy route is real; auth, audit storage, and approvals stay deferred | [README](https://github.com/ixxet/ashton-mcp-gateway/blob/main/README.md) |
 
@@ -140,10 +140,10 @@ flowchart LR
 | --- | --- | --- | --- |
 | `ashton-proto` | `v0.3.0` shipped, `v0.3.1` unreleased on `main` | `v0.4.0` | broader routed manifest expansion only after a second route is real |
 | `athena` | `v0.4.0` | `v0.4.1` only if a later deployment or ingress line needs repo truth changes | the Tracer 10 ingress line is shipped; the next widening should be evidence-driven |
-| `apollo` | `v0.6.0` | `v0.7.0` | bounded live departure-close proof did not require new APOLLO repo truth, so the next repo line is the minimal member web shell |
+| `apollo` | `v0.6.0` shipped, `v0.7.0` local on `main` | `v0.8.0` | the minimal member web shell is now local repo truth, so the next widening is explicit lobby membership only after Tracer 11 hardening |
 | `hermes` | `v0.1.0` | `v0.1.1` | observability hardening before richer staff widening |
 | `ashton-mcp-gateway` | `v0.0.1` shipped, `v0.1.0` unreleased on `main` | `v0.2.0` | caller identity, persisted audit, and a second routed read should come only after the first route is trusted |
-| `ashton-platform` | `v0.0.15` | `v0.0.16` | Milestone 1.6 is closed; the next platform line is the minimal member web shell control-plane pass |
+| `ashton-platform` | `v0.0.15` shipped, `v0.0.16` local on `main` | `v0.0.17` | Tracer 11 control-plane docs are now local truth; the next platform line should follow Tracer 11 hardening and then Tracer 12 planning |
 
 ## Current State Block
 
@@ -167,6 +167,9 @@ flowchart LR
   and history reads without letting visits imply exercise activity
 - `apollo` now serves one authenticated deterministic workout recommendation
   read derived from explicit workout history only
+- `apollo` now serves one local member web shell over those same existing APIs:
+  session bootstrap, profile summary, workout list/detail/update/finish, and
+  deterministic recommendation display
 - `hermes` now serves one executable read-only staff flow:
   `hermes ask occupancy --facility <id>` reads ATHENA's public occupancy count
   and labels the result as ATHENA-backed truth
@@ -208,7 +211,7 @@ bullets are only the short summary.
 - ATHENA prediction rollout before the read path and adapters widen
 - APOLLO recommendation persistence, generated planning, LangGraph, Mem0, and
   matchmaking runtime
-- APOLLO SvelteKit PWA and offline sync work
+- APOLLO frontend widening beyond the thin member shell, including offline sync work
 - gateway Rust rewrite before a measured Go bottleneck exists
 
 ## Tracer Milestones
@@ -240,12 +243,12 @@ bullets are only the short summary.
 | `v0.0.13` | `v0.0.13` | Shipped | Tracer 9 control-plane closeout | caller identity, persisted audit, and broader gateway maturity |
 | `v0.0.14` | `v0.0.14` | Shipped | Tracer 10 control-plane closeout | live source-backed ingress deployment proof and broader deployment widening |
 | `v0.0.15` | `v0.0.15` | Shipped | Milestone 1.6 control-plane closeout for bounded live departure-close proof | broader APOLLO product deployment and Tracer 11 widening |
+| `v0.0.16` | local on `main` | Local repo truth | Tracer 11 control-plane closeout for one minimal APOLLO member web shell | deployment proof, lobby membership, ARES, and broader frontend widening |
 
 ## Planned Release Lines
 
 | Planned tag | Intended purpose | Restrictions | What it should not do yet |
 | --- | --- | --- | --- |
-| `v0.0.16` | Tracer 11 control-plane closeout for the minimal member web shell | keep the UI limited to already-real APOLLO APIs | do not widen into offline sync, generated plans, or matchmaking UI |
 | `v0.0.17` | Tracer 12 control-plane closeout for explicit lobby membership runtime | keep lobby membership separate from visits and eligibility | do not imply invites or auto-entry from tap-in |
 | `v0.0.18` | Tracer 13 control-plane closeout for the first deterministic ARES match preview | keep the line read-only and deterministic | do not widen into messaging or autonomous match flows |
 | `v0.0.19` | Tracer 14 control-plane closeout for HERMES observability hardening | keep HERMES focused on existing occupancy truth | do not widen into richer staff questions or write actions |
@@ -257,7 +260,7 @@ bullets are only the short summary.
 | Planned tag | Vertical | Repo lines in scope | Intended purpose | What it should not do yet |
 | --- | --- | --- | --- | --- |
 | `v0.0.15` | `Milestone 1.6` | `athena v0.4.0`, `apollo v0.6.0`, companion `Prometheus v0.0.2` | bounded live departure-close proof in-cluster | do not imply broad APOLLO product deployment |
-| `v0.0.16` | `Tracer 11` | `apollo v0.7.0` | minimal member web shell over already-real APIs | do not widen into offline sync, generated plans, or matchmaking UI |
+| `v0.0.16` | `Tracer 11` | `apollo v0.7.0` local on `main` | minimal member web shell over already-real APIs | do not widen into offline sync, generated plans, or matchmaking UI |
 | `v0.0.17` | `Tracer 12` | `apollo v0.8.0` | explicit lobby membership runtime | do not imply invites or auto-entry from tap-in |
 | `v0.0.18` | `Tracer 13` | `apollo v0.9.0` | first deterministic ARES match preview | do not widen into messaging or autonomous match flows |
 | `v0.0.19` | `Tracer 14` | `hermes v0.1.1` | HERMES observability hardening only | do not widen into richer questions or write actions |
