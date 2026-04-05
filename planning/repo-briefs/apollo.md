@@ -4,26 +4,27 @@ APOLLO is the member-intent service in ASHTON.
 
 It owns member auth, profile state, visit history as member-facing context,
 visit open/close lifecycle behavior, the first derived lobby-eligibility
-behavior, the first explicit workout-history runtime, the first deterministic
-recommendation read, and one thin member web shell over those same APIs. It
-does not own raw presence truth, generated planning, or actual matchmaking
-behavior.
+behavior, explicit lobby membership as member intent, the first explicit
+workout-history runtime, the first deterministic recommendation read, and one
+thin member web shell over those same APIs. It does not own raw presence truth,
+generated planning, or actual matchmaking behavior.
 
 ## Current Role
 
-The active APOLLO slice now spans seven narrow runtime boundaries:
+The active APOLLO slice now spans eight narrow runtime boundaries:
 
 - identified-arrival consume -> visit record
 - identified-departure consume -> visit close
 - student ID + email verification -> signed session cookie auth
 - persisted `visibility_mode` / `availability_mode` -> derived lobby eligibility
+- explicit member action -> durable lobby membership join/leave state
 - authenticated workout create/update/finish/read -> member-owned workout history
 - authenticated workout history -> deterministic recommendation read
-- authenticated member shell routes -> existing auth/profile/workout/recommendation APIs
+- authenticated member shell routes -> existing auth/profile/membership/workout/recommendation APIs
 
 That is enough to prove member ownership, state persistence, and the first real
-intent-behavior, workout-history, and deterministic coaching slices without
-widening into generated plans or lobby membership.
+intent-behavior, explicit lobby-membership, workout-history, and deterministic
+coaching slices without widening into generated plans or matchmaking.
 
 ## Current Real Slice
 
@@ -37,6 +38,9 @@ widening into generated plans or lobby membership.
 | `GET /api/v1/profile` | Real | Authenticated profile read |
 | `PATCH /api/v1/profile` | Real | Authenticated update for `visibility_mode` and `availability_mode` |
 | `GET /api/v1/lobby/eligibility` | Real | Authenticated derived eligibility read from stored profile state only |
+| `GET /api/v1/lobby/membership` | Real | Authenticated explicit membership read with deterministic `not_joined` default |
+| `POST /api/v1/lobby/membership/join` | Real | Authenticated explicit join gated by eligibility |
+| `POST /api/v1/lobby/membership/leave` | Real | Authenticated explicit leave from joined state |
 | `POST /api/v1/workouts` | Real | Authenticated create for one member-owned `in_progress` workout |
 | `GET /api/v1/workouts` | Real | Authenticated history read ordered by newest workout creation first (`started_at DESC, id DESC`) |
 | `GET /api/v1/workouts/{id}` | Real | Authenticated owner-scoped workout detail read |
@@ -49,7 +53,7 @@ widening into generated plans or lobby membership.
 | `apollo visit list` | Real | Member-facing visit history readback |
 | NATS identified-arrival/departure consumer | Real | Consumes `athena.identified_presence.arrived` and `athena.identified_presence.departed` using the shared helper |
 | recommendation storage | Schema authored | `apollo.recommendations` exists, but Tracer 7 recommendation reads are derived at read time |
-| lobby membership or matchmaking runtime | Deferred | Eligibility is read-only; no join, leave, or team formation path exists |
+| lobby membership or matchmaking runtime | Narrowly real | Explicit join and leave are real; invites, parties, and match formation remain deferred |
 
 ## Ownership Rules
 
@@ -60,7 +64,7 @@ widening into generated plans or lobby membership.
 | visit history as member context | staff workflows |
 | explicit workout history runtime | raw workout inference from visits |
 | deterministic recommendation runtime | raw recommendation inference from visits or profile state |
-| derived lobby eligibility | open lobby membership, invites, or match formation |
+| derived lobby eligibility and explicit lobby membership | invites, parties, or match formation |
 | future recommendation domains | shared contract authorship |
 
 Key boundaries:
@@ -70,6 +74,7 @@ Key boundaries:
 - visit history is separate from workout history
 - workouts are explicit authenticated records, not inferred from visits
 - eligibility is separate from lobby membership
+- lobby membership is explicit and durable, not inferred from eligibility
 - tap-in alone must never imply social intent
 
 ## Current Milestone Truth
@@ -82,6 +87,9 @@ Key boundaries:
 - `unavailable`, `with_team`, and `ghost + available_now` are explicitly
   ineligible
 - invalid stored intent enums resolve deterministically as ineligible reasons
+- lobby membership reads default to `not_joined` when no row exists
+- eligible members can join explicitly, joined members can leave explicitly, and
+  repeated transitions stay deterministic
 - workouts are member-owned, allow only one `in_progress` workout per member,
   and become immutable once finished
 - workout history is ordered by newest workout creation first using DB-owned
@@ -92,8 +100,10 @@ Key boundaries:
   workouts finished within `24h`, then `repeat_last_finished_workout`
 - recommendation reads are side-effect free and do not mutate workouts, visits,
   preferences, claimed tags, or eligibility state
+- membership transitions do not mutate visits, workouts, claimed tags, or
+  recommendation state
 - the first member shell is local repo truth only and stays thin over the
-  existing authenticated APIs
+  existing authenticated APIs, now including one narrow lobby-membership panel
 
 ## Project Shape
 
@@ -103,6 +113,7 @@ Key boundaries:
 | `internal/auth/` | verification token lifecycle, sessions, and signed cookie logic |
 | `internal/profile/` | authenticated member profile read and update |
 | `internal/eligibility/` | derived lobby-eligibility logic |
+| `internal/membership/` | explicit lobby-membership repository and service |
 | `internal/consumer/` | identified visit-lifecycle consume path |
 | `internal/visits/` | visit service and repository boundary |
 | `internal/workouts/` | workout service and repository boundary |
@@ -110,7 +121,7 @@ Key boundaries:
 | `internal/server/web/` | embedded member-shell templates, assets, and browser-side tests |
 | `internal/store/` | sqlc-generated query bindings |
 | `internal/server/` | HTTP handlers, auth middleware, and embedded member-shell wiring |
-| `db/migrations/` | current schema for users, sessions, visits, workouts, ARES, and recommendations |
+| `db/migrations/` | current schema for users, sessions, visits, lobby membership, workouts, ARES, and recommendations |
 | `docs/` | roadmap, runbooks, ADRs, diagrams, and growing pains |
 
 ## Verification Standard
@@ -122,7 +133,8 @@ Treat APOLLO as trustworthy only when:
 - the binary builds
 - migrations work on a fresh Postgres database
 - the local smoke path covers auth, profile, eligibility, workout runtime,
-  deterministic recommendation reads, and the thin member shell
+  explicit lobby membership, deterministic recommendation reads, and the thin
+  member shell
 - the identified arrival and departure boundary is exercised against real NATS
   and Postgres
 
@@ -137,6 +149,6 @@ separate deployment workstream verifies them live.
 ## Deferred On Purpose
 
 - recommendation persistence and generated planning
-- lobby membership persistence, invites, and match formation
+- invites, parties, and match formation
 - frontend widening beyond the thin member shell, including offline or PWA work
 - external identity provider widening

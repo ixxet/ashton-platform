@@ -51,8 +51,10 @@ implementation slice are:
    - improve HERMES request/result observability before claiming broader
      operational maturity than the current CLI slice proves
 5. `apollo`
-   - keep recommendation widening deterministic and derived from explicit
-     workout history until a later tracer proves persistence or generated plans
+   - keep explicit lobby membership narrower than future ARES, invites, or
+     social coordination flows
+   - do not let eligibility, visits, workouts, or recommendations auto-create
+     membership
 6. terminology cleanup
    - keep using `presence` instead of `check-in` in current working docs
    - keep using `lobby` for product-facing matchmaking terminology in APOLLO
@@ -108,16 +110,15 @@ Rust remains a later optimization path, not a first-wave dependency.
 | --- | --- | --- | --- |
 | `ashton-proto` | `v0.3.0` shipped, `v0.3.1` unreleased on `main` | `v0.4.0` | broader routed manifest expansion only after a second route is real |
 | `athena` | `v0.4.0` | `v0.4.1` only if a later deployment or ingress line needs repo truth changes | the Tracer 10 ingress line is shipped; the next widening should be evidence-driven |
-| `apollo` | `v0.6.0` shipped, `v0.7.0` local on `main` | `v0.8.0` | the minimal member web shell is now local repo truth, so the next widening is explicit lobby membership only after Tracer 11 hardening |
+| `apollo` | `v0.7.0` shipped, `v0.8.0` local on `main` | `v0.9.0` | explicit lobby membership is now local repo truth, so the next widening is the first deterministic ARES match preview only after Tracer 12 hardening |
 | `hermes` | `v0.1.0` | `v0.1.1` | observability hardening before richer staff widening |
 | `ashton-mcp-gateway` | `v0.0.1` shipped, `v0.1.0` unreleased on `main` | `v0.2.0` | caller identity, persisted audit, and a second routed read after the first route proves itself |
-| `ashton-platform` | `v0.0.15` shipped, `v0.0.16` local on `main` | `v0.0.17` | Tracer 11 control-plane docs are now local truth; the next platform line should follow Tracer 11 hardening and then Tracer 12 planning |
+| `ashton-platform` | `v0.0.16` shipped, `v0.0.17` local on `main` | `v0.0.18` | Tracer 12 control-plane docs are now local truth; the next platform line should follow Tracer 12 hardening and then Tracer 13 planning |
 
 ## Planned Release Sequence
 
 | Platform tag | Vertical | Repo lines in scope | Intended purpose | Hard stop |
 | --- | --- | --- | --- | --- |
-| `v0.0.17` | `Tracer 12` | `apollo v0.8.0` | explicit lobby membership runtime | no invites or auto-entry from tap-in |
 | `v0.0.18` | `Tracer 13` | `apollo v0.9.0` | first deterministic ARES match preview | no messaging or autonomous match flows |
 | `v0.0.19` | `Tracer 14` | `hermes v0.1.1` | HERMES observability hardening only | no richer questions or write actions |
 | `v0.0.20` | `Milestone 1.7` | `hermes v0.2.0`, companion `Prometheus v0.0.3` | live HERMES deployment proof | no write authority or broad assistant maturity |
@@ -125,10 +126,10 @@ Rust remains a later optimization path, not a first-wave dependency.
 
 ## Immediate Next Steps
 
-1. Treat `Tracer 10` as the first completed source-backed ATHENA ingress slice and `v0.0.14` as its shipped control-plane closeout line.
+1. Treat `Tracer 12` as the first completed explicit APOLLO lobby-membership line and `v0.0.17` as its local control-plane closeout line.
 2. Treat `Milestone 1.6` as the bounded live departure-close proof and keep broader deployment claims deferred.
 3. Keep this thread as the architecture and arbitration thread.
-4. Start `Tracer 11` only after the Milestone 1.6 deployment claim and hardening artifact are accepted as the current control-plane truth.
+4. Start `Tracer 13` only after Tracer 12 hardening accepts the new explicit-membership boundary.
 5. Update the tracer matrix and repo runbooks after each tracer closes.
 
 ## Milestone 1 Deployment Truth

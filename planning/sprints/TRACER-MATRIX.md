@@ -792,4 +792,68 @@ Deferred after closure:
 | Deploy | live APOLLO member-shell deployment proof | deferred | Tracer 11 proves the shell locally and does not widen deployment truth | later bounded deployment workstream |
 | Feature | offline sync, PWA install, or push notifications | deferred | the first shell proves integration only and should not widen into client-platform work | later frontend tracer |
 | Feature | broader frontend stack or design-system work | deferred | one thin shell was sufficient proof; bigger UI infrastructure is not justified yet | later frontend tracer if needed |
-| Feature | lobby, social, matchmaking, or generated-coach UI | deferred | the shell stays on top of already-real auth, workout, and recommendation slices only | later APOLLO tracer |
+| Feature | social, matchmaking, or generated-coach UI | deferred | the shell stays on top of already-real auth, workout, recommendation, and later explicit lobby slices only | later APOLLO tracer |
+
+## Tracer 12: APOLLO Explicit Lobby Membership
+
+Status: completed in the implementation chat.
+
+Goal:
+
+- APOLLO explicit lobby membership as durable member intent, plus one narrow
+  shell panel over the same runtime
+
+Repos:
+
+- `apollo`
+- `ashton-platform` after closure-clean repo truth
+
+Exit criteria:
+
+- explicit lobby membership exists as durable APOLLO runtime
+- eligibility remains separate from membership
+- authenticated members can read membership, join explicitly, and leave
+  explicitly
+- repeated join and repeated leave stay deterministic
+- the shell shows one narrow membership panel with explicit `Join` / `Leave`
+  actions
+- unrelated domains remain unchanged
+
+Key outputs:
+
+- `apollo` now exposes `GET /api/v1/lobby/membership`,
+  `POST /api/v1/lobby/membership/join`, and
+  `POST /api/v1/lobby/membership/leave`
+- `apollo.lobby_memberships` is now a real durable table that stores explicit
+  member join/leave state without collapsing into visits, workouts, or profile
+  rows
+- APOLLO now gates join on derived eligibility while keeping eligibility
+  read-only and separate from membership state
+- the member shell now includes one narrow lobby-membership panel that renders
+  current state, explicit `Join` / `Leave` actions, and clear server/network
+  failure mapping
+- local smoke now proves `auth -> membership read -> eligible join -> leave ->
+  repeat leave conflict` against a disposable Postgres-backed APOLLO runtime
+
+Tracer 12 retrospective:
+
+- The key architectural taste decision was to keep membership explicit. It
+  would have been easy to let eligibility or visits imply membership, but that
+  would have collapsed distinct state domains too early.
+- The first implementation pass only looked done in the custom integration
+  harness. Real local smoke found the actual runtime bug: the new membership
+  service had not been wired into `cmd/apollo`, so the server panicked on live
+  membership reads. Closing the tracer required fixing the real dependency
+  builder and adding a regression test for it.
+- The shell widening stayed justified because it remained narrow: one panel,
+  one current-state read, and explicit transitions. No queue, party, roster, or
+  matchmaking preview was added under “membership” branding.
+
+Deferred after closure:
+
+| Type | Item | Status | Why It Was Not Done Here | Future Owner |
+| --- | --- | --- | --- | --- |
+| Deploy | live APOLLO membership deployment proof | deferred | Tracer 12 proves membership locally and does not widen deployment truth | later bounded deployment workstream |
+| Feature | invites, parties, or match formation | deferred | explicit membership had to exist before any broader social coordination runtime | later APOLLO tracer |
+| Feature | queue visuals, teammate rosters, or social presence | deferred | this tracer proves durable intent only and keeps the shell narrow | later frontend or matchmaking tracer |
+| Feature | ARES preview or deterministic match suggestions | deferred | membership is the prerequisite, not the match logic itself | `Tracer 13` |
