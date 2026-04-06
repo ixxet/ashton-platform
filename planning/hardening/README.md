@@ -22,4 +22,5 @@ Platform-level artifacts:
 Repo-local artifacts:
 
 - [APOLLO hardening artifacts](https://github.com/ixxet/apollo/blob/main/docs/hardening/README.md)
+- [APOLLO Tracer 12 hardening](https://github.com/ixxet/apollo/blob/main/docs/hardening/tracer-12.md)
 - [HERMES Tracer 8 hardening](https://github.com/ixxet/hermes/blob/main/docs/hardening/tracer-8.md)

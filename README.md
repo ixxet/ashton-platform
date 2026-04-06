@@ -141,10 +141,10 @@ flowchart LR
 | --- | --- | --- | --- |
 | `ashton-proto` | `v0.3.0` shipped, `v0.3.1` unreleased on `main` | `v0.4.0` | broader routed manifest expansion only after a second route is real |
 | `athena` | `v0.4.0` | `v0.4.1` only if a later deployment or ingress line needs repo truth changes | the Tracer 10 ingress line is shipped; the next widening should be evidence-driven |
-| `apollo` | `v0.7.0` shipped, `v0.8.0` local on `main` | `v0.9.0` | explicit lobby membership is now local repo truth, so the next widening is the first deterministic ARES match preview only after Tracer 12 hardening |
+| `apollo` | `v0.7.0` shipped, `v0.8.0` closure-clean on `main` | `v0.9.0` | explicit lobby membership is now closure-clean local repo truth, so the next widening is the first deterministic ARES match preview after the Tracer 12 tag cut |
 | `hermes` | `v0.1.0` | `v0.1.1` | observability hardening before richer staff widening |
 | `ashton-mcp-gateway` | `v0.0.1` shipped, `v0.1.0` unreleased on `main` | `v0.2.0` | caller identity, persisted audit, and a second routed read should come only after the first route is trusted |
-| `ashton-platform` | `v0.0.16` shipped, `v0.0.17` local on `main` | `v0.0.18` | Tracer 12 control-plane docs are now local truth; the next platform line should follow Tracer 12 hardening and then Tracer 13 planning |
+| `ashton-platform` | `v0.0.16` shipped, `v0.0.17` closure-clean on `main` | `v0.0.18` | Tracer 12 control-plane docs are now closure-clean local truth; the next platform line should follow the Tracer 12 tag cut and then Tracer 13 planning |
 
 ## Current State Block
 
@@ -233,7 +233,7 @@ bullets are only the short summary.
 | `Tracer 9` | first gateway routed read-only tool call | Complete | prove one manifest-backed ATHENA occupancy route with inspectable logs and no broader control-plane widening |
 | `Tracer 10` | first source-backed ATHENA ingress adapter | Complete | prove one real CSV-backed physical-truth ingress line without widening deployment, prediction, or social logic |
 | `Tracer 11` | APOLLO minimal member web shell | Complete | prove one thin authenticated member shell over already-real APOLLO APIs without widening deployment truth |
-| `Tracer 12` | APOLLO explicit lobby membership runtime | Local repo truth | make lobby membership explicit, durable, and separate from eligibility, visits, and matchmaking |
+| `Tracer 12` | APOLLO explicit lobby membership runtime | Closure-clean local repo truth | make lobby membership explicit, durable, and separate from eligibility, visits, and matchmaking |
 
 ## Release History
 
@@ -249,7 +249,7 @@ bullets are only the short summary.
 | `v0.0.14` | `v0.0.14` | Shipped | Tracer 10 control-plane closeout | live source-backed ingress deployment proof and broader deployment widening |
 | `v0.0.15` | `v0.0.15` | Shipped | Milestone 1.6 control-plane closeout for bounded live departure-close proof | broader APOLLO product deployment and Tracer 11 widening |
 | `v0.0.16` | `v0.0.16` | Shipped | Tracer 11 control-plane closeout for one minimal APOLLO member web shell | deployment proof, lobby membership, ARES, and broader frontend widening |
-| `v0.0.17` | local on `main` | Local repo truth | Tracer 12 control-plane closeout for explicit lobby membership runtime | deployment proof, invites, match formation, and broader frontend widening |
+| `v0.0.17` | local on `main` | Closure-clean local repo truth | Tracer 12 control-plane closeout for explicit lobby membership runtime | deployment proof, invites, match formation, and broader frontend widening |
 
 ## Planned Release Lines
 

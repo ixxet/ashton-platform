@@ -261,7 +261,7 @@ intentional feature deferrals:
 
 ## Tracer 5: Visit Closing / Departure Flow
 
-Status: completed in the implementation chat.
+Status: closure-clean after hardening.
 
 Goal:
 
@@ -848,6 +848,10 @@ Tracer 12 retrospective:
 - The shell widening stayed justified because it remained narrow: one panel,
   one current-state read, and explicit transitions. No queue, party, roster, or
   matchmaking preview was added under “membership” branding.
+- Hardening kept the boundary clean: unauthenticated requests stayed blocked,
+  ineligible join stayed explicit, repeated transitions stayed deterministic,
+  Workstream A remained fixed, and local smoke ended with one durable
+  membership row plus zero unrelated visit, workout, or claimed-tag drift.
 
 Deferred after closure:
 
