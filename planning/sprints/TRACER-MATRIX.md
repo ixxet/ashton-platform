@@ -23,7 +23,7 @@ Key outputs:
 
 ## Tracer 1: Presence Contract To ATHENA Read Path
 
-Status: completed in the `codex/tracer-1-presence-read-path` implementation chat.
+Status: completed in the Tracer 1 implementation chat.
 
 Goal:
 
@@ -67,7 +67,7 @@ Tracer 1 retrospective:
 
 ## Tracer 2: ATHENA Presence Event To APOLLO Visit Record
 
-Status: completed in the `codex/tracer-2-closure-hardening` implementation chat.
+Status: completed in the Tracer 2 implementation chat.
 
 Goal:
 
@@ -131,8 +131,7 @@ intentional feature deferrals:
 
 ## Tracer 3: APOLLO Member Auth To Profile State
 
-Status: completed in the `codex/tracer-3-auth-profile-foundation`
-implementation chat.
+Status: completed in the Tracer 3 implementation chat.
 
 Goal:
 
