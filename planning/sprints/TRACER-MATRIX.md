@@ -859,11 +859,11 @@ Deferred after closure:
 | Deploy | live APOLLO membership deployment proof | deferred | Tracer 12 proves membership locally and does not widen deployment truth | later bounded deployment workstream |
 | Feature | invites, parties, or match formation | deferred | explicit membership had to exist before any broader social coordination runtime | later APOLLO tracer |
 | Feature | queue visuals, teammate rosters, or social presence | deferred | this tracer proves durable intent only and keeps the shell narrow | later frontend or matchmaking tracer |
-| Deploy | live APOLLO match-preview deployment proof | deferred | Tracer 13 closes the deterministic preview locally, but no bounded APOLLO deployment workstream happened here | later bounded deployment workstream |
+| Deploy | live APOLLO match-preview deployment proof | deferred | `apollo v0.9.0` ships the deterministic preview runtime, but no bounded APOLLO deployment workstream happened here | later bounded deployment workstream |
 
 Later update:
 
-- Tracer 13 closed the ARES preview boundary locally: APOLLO now proves a
+- Tracer 13 shipped the ARES preview runtime line: APOLLO now proves a
   deterministic, explainable, read-only match preview over explicit lobby
   membership.
 - Deployment remains deferred because Tracer 13 did not include a bounded

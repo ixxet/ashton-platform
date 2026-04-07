@@ -33,6 +33,14 @@ Current truth:
 | `v0.3.0` | first write approval line | explicit HITL handling for write calls | rate limiting, broad orchestration, Rust |
 | `v0.4.0` | broader registry and rate limiting | wider registry plus guarded traffic control | Rust rewrite unless a measured bottleneck exists |
 
+## Next Ladder
+
+| Line | Focus | Hard stop |
+| --- | --- | --- |
+| `v0.2.0` / `Tracer 15` | caller identity, persisted audit, and one second routed read | do not widen into write approvals yet |
+| `v0.3.0` | first write approval and HITL line | do not widen into rate limiting or broad orchestration in the same line |
+| `v0.4.0` | broader registry and rate limiting | do not justify a Rust rewrite without a measured Go bottleneck |
+
 ## Future Control-Plane Vision
 
 The original gateway vision is still valid. It just does not belong inside the
