@@ -13,8 +13,9 @@ Use this order when planning or implementing:
 4. repo-local migrations and schemas
 5. `planning/sprints/TRACER-MATRIX.md`
 6. `planning/audits/`
-7. `planning/sprints/BUILD-ORDER.md` as historical planning context only
-8. `planning/architecture/` as background reference only
+7. `planning/STARSHOT-VISION.md` for strategic horizon and future-ladder context only
+8. `planning/sprints/BUILD-ORDER.md` as historical planning context only
+9. `planning/architecture/` as background reference only
 
 ## Locked Architectural Decisions
 

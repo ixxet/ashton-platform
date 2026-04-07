@@ -17,7 +17,7 @@ readable as one coherent platform instead of five drifting repos.
 | --- | --- | --- |
 | Recruiter or interviewer | [`Current Platform State`](#current-platform-state), [`Audit Snapshot`](#audit-snapshot), [`Current Real Flow`](#current-real-flow) | These sections show what is already real without making you read every repo |
 | Engineer joining the stack | [`Repo Map`](#repo-map), [`Source Of Truth Split`](#source-of-truth-split), [`planning/IMPLEMENTATION-BOARD.md`](planning/IMPLEMENTATION-BOARD.md) | These files define ownership, active release lines, and where runtime truth actually lives |
-| Architect or planner | [`planning/audits/2026-04-04-stack-audit.md`](planning/audits/2026-04-04-stack-audit.md), [`planning/sprints/TRACER-MATRIX.md`](planning/sprints/TRACER-MATRIX.md), background essays in `planning/architecture/` | Use the audit and tracer matrix for current state; use the architecture essays only as future/background reference |
+| Architect or planner | [`planning/STARSHOT-VISION.md`](planning/STARSHOT-VISION.md), [`planning/audits/2026-04-04-stack-audit.md`](planning/audits/2026-04-04-stack-audit.md), [`planning/sprints/TRACER-MATRIX.md`](planning/sprints/TRACER-MATRIX.md), background essays in `planning/architecture/` | Use the star-shot and audit for future and current state together; use the tracer matrix for historical closure detail; use the architecture essays only as background reference |
 
 ## Current Platform State
 
