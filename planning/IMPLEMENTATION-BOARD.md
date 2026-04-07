@@ -41,9 +41,10 @@ implementation slice are:
    - keep manifest expansion tracer-driven now that the first ATHENA manifest is
      real
 3. `athena`
-   - keep the new live departure-close proof narrower than any source-backed
-     ingress deployment claim
-   - do not widen into broader prediction or persistence work next
+   - keep the new bounded live edge-ingress deployment narrower than any broad
+     source-backed ingress rollout
+   - do not widen into broader prediction, persistence, or admin workflow work
+     next
 4. `hermes`
    - keep staff operations read-only and sourced from public upstream service
      truth until a later tracer proves a richer question or explicit write
@@ -109,26 +110,26 @@ Rust remains a later optimization path, not a first-wave dependency.
 | Repo | Current line | Next planned line | Why it is next |
 | --- | --- | --- | --- |
 | `ashton-proto` | `v0.3.0` shipped, `v0.3.1` unreleased on `main` | `v0.4.0` | broader routed manifest expansion only after a second route is real |
-| `athena` | `v0.4.0` | `v0.4.1` only if a later deployment or ingress line needs repo truth changes | the Tracer 10 ingress line is shipped; the next widening should be evidence-driven |
+| `athena` | `v0.4.1` shipped | `v0.4.2` | broader ingress hardening or durable edge-observation groundwork should come only after the bounded live `v0.4.1` line is trusted |
 | `apollo` | `v0.8.0` shipped, `v0.9.0` closure-clean locally | `v0.10.0` | deterministic match preview is now closure-clean local repo truth, so the next widening should be recommendation persistence instead of broader matchmaking |
 | `hermes` | `v0.1.0` | `v0.1.1` | observability hardening before richer staff widening |
 | `ashton-mcp-gateway` | `v0.0.1` shipped, `v0.1.0` unreleased on `main` | `v0.2.0` | caller identity, persisted audit, and a second routed read after the first route proves itself |
-| `ashton-platform` | `v0.0.17` shipped, `v0.0.18` closure-clean locally | `v0.0.19` | Tracer 13 control-plane docs are now closure-clean local truth; the next platform line should move to HERMES observability hardening |
+| `ashton-platform` | `v0.0.17` shipped, `v0.0.18` shipped, `v0.0.19` closure-clean locally | `v0.0.20` | bounded ATHENA deployment closeout now needs tags before the next platform line moves to HERMES observability hardening |
 
 ## Planned Release Sequence
 
 | Platform tag | Vertical | Repo lines in scope | Intended purpose | Hard stop |
 | --- | --- | --- | --- | --- |
-| `v0.0.19` | `Tracer 14` | `hermes v0.1.1` | HERMES observability hardening only | no richer questions or write actions |
-| `v0.0.20` | `Milestone 1.7` | `hermes v0.2.0`, companion `Prometheus v0.0.3` | live HERMES deployment proof | no write authority or broad assistant maturity |
-| `v0.0.21` | `Tracer 15` | `ashton-mcp-gateway v0.2.0`, optional `ashton-proto v0.4.0` | caller identity, persisted audit, second routed read-only tool | no write approvals or Redis-backed rate limiting |
+| `v0.0.19` | bounded ATHENA deployment closeout | `Prometheus v0.0.3`, `ashton-platform v0.0.19` | close the live `athena v0.4.1` deployment truth and control-plane docs | no persistence, no broad ingress rollout, no HERMES widening |
+| `v0.0.20` | `Tracer 14` | `hermes v0.1.1` | HERMES observability hardening only | no richer questions or write actions |
+| `v0.0.21` | `Milestone 1.7` | `hermes v0.2.0`, companion `Prometheus` line if needed | live HERMES deployment proof | no write authority or broad assistant maturity |
 
 ## Immediate Next Steps
 
-1. Treat `Tracer 13` as the first completed deterministic APOLLO match-preview line and `v0.0.18` as its closure-clean local control-plane closeout line.
-2. Treat `Milestone 1.6` as the bounded live departure-close proof and keep broader deployment claims deferred.
+1. Treat `v0.0.19` as the bounded ATHENA deployment closeout line once repo tags are cut.
+2. Keep the new live ATHENA edge-ingress deployment claim narrow: one bounded facility/node rollout, one narrow HTTPS path, no persistence.
 3. Keep this thread as the architecture and arbitration thread.
-4. Cut Tracer 13 tags before starting `Tracer 14`.
+4. Cut deployment-closeout tags before starting `Tracer 14`.
 5. Update the tracer matrix and repo runbooks after each tracer closes.
 
 ## Milestone 1 Deployment Truth

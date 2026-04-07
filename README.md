@@ -24,7 +24,7 @@ readable as one coherent platform instead of five drifting repos.
 | Repo | Role | Current State | Why It Matters |
 | --- | --- | --- | --- |
 | `ashton-proto` | Shared contracts, schemas, runtime helpers | Real and active | Keeps producers and consumers from hand-rolling wire contracts |
-| `athena` | Physical truth for presence and occupancy | Real and executable | First Go service, first operational data surface, active visit-lifecycle publisher, and first source-backed ingress adapter locally |
+| `athena` | Physical truth for presence and occupancy | Real and executable | First Go service, first operational data surface, active visit-lifecycle publisher, and bounded live edge-driven occupancy deployment over a browser-reachable ingress path |
 | `apollo` | Member-facing application and intent state | Real and executable, but intentionally narrow | First member auth, profile-state, visit-history, visit-closing, derived eligibility, explicit lobby membership, explicit workout runtime, deterministic recommendation slice, and thin member shell |
 | `hermes` | Staff-facing operations assistant | Real and executable, but intentionally narrow | First read-only staff occupancy slice over ATHENA public truth |
 | `ashton-mcp-gateway` | Shared tool routing, approval, and audit layer | Real and executable, but intentionally narrow | First manifest-backed routed ATHENA occupancy read proves the gateway pattern without widening into auth or approvals |
@@ -131,7 +131,7 @@ flowchart LR
 | Repo | Owns | Depends On | Current Truth | Docs |
 | --- | --- | --- | --- | --- |
 | `ashton-proto` | Shared proto packages, event schemas, runtime helper rules | - | Shared contract baseline is real and active | [README](https://github.com/ixxet/ashton-proto/blob/main/README.md) |
-| `athena` | Presence, occupancy, ingress source handling, identified visit-lifecycle publication | `ashton-proto` | Mock and CSV-backed ingress feed one canonical occupancy read path; lifecycle publish remains real | [README](https://github.com/ixxet/athena/blob/main/README.md) |
+| `athena` | Presence, occupancy, ingress source handling, identified visit-lifecycle publication | `ashton-proto` | Mock and CSV-backed ingress still exist, and `v0.4.1` now also proves bounded live edge-driven occupancy deployment truth | [README](https://github.com/ixxet/athena/blob/main/README.md) |
 | `apollo` | Member auth, profile state, visit ingest and close, derived eligibility, explicit lobby membership, deterministic read-only match preview, workout runtime, deterministic recommendation reads, and one thin member web shell | `ashton-proto`, `athena` | Auth, profile state, visit lifecycle, derived eligibility, explicit lobby membership, deterministic read-only match preview, workout runtime, deterministic recommendation reads, and one local member shell are real | [README](https://github.com/ixxet/apollo/blob/main/README.md) |
 | `hermes` | Staff read-only operations over upstream service truth | `athena` | First occupancy CLI slice is real; write actions, agent orchestration, and deployment stay deferred | [README](https://github.com/ixxet/hermes/blob/main/README.md) |
 | `ashton-mcp-gateway` | Tool discovery, routing, approval, audit | `ashton-proto`, `athena` | One manifest-backed ATHENA occupancy route is real; auth, audit storage, and approvals stay deferred | [README](https://github.com/ixxet/ashton-mcp-gateway/blob/main/README.md) |
@@ -141,11 +141,11 @@ flowchart LR
 | Repo | Current line | Next planned line | Why it is next |
 | --- | --- | --- | --- |
 | `ashton-proto` | `v0.3.0` shipped, `v0.3.1` unreleased on `main` | `v0.4.0` | broader routed manifest expansion only after a second route is real |
-| `athena` | `v0.4.0` | `v0.4.1` only if a later deployment or ingress line needs repo truth changes | the Tracer 10 ingress line is shipped; the next widening should be evidence-driven |
+| `athena` | `v0.4.1` shipped | `v0.4.2` | broader ingress hardening or durable edge-observation groundwork should come only after the bounded live `v0.4.1` line is trusted |
 | `apollo` | `v0.8.0` shipped, `v0.9.0` closure-clean locally | `v0.10.0` | deterministic match preview is now closure-clean local repo truth, so the next widening should be recommendation persistence instead of broader matchmaking |
 | `hermes` | `v0.1.0` | `v0.1.1` | observability hardening before richer staff widening |
 | `ashton-mcp-gateway` | `v0.0.1` shipped, `v0.1.0` unreleased on `main` | `v0.2.0` | caller identity, persisted audit, and a second routed read should come only after the first route is trusted |
-| `ashton-platform` | `v0.0.17` shipped, `v0.0.18` closure-clean locally | `v0.0.19` | Tracer 13 control-plane docs are now closure-clean local truth; the next platform line should move to HERMES observability hardening |
+| `ashton-platform` | `v0.0.17` shipped, `v0.0.18` shipped, `v0.0.19` closure-clean locally | `v0.0.20` | bounded ATHENA deployment closeout now needs tags before the next platform line moves to HERMES observability hardening |
 
 ## Current State Block
 
@@ -161,6 +161,9 @@ flowchart LR
   read path locally without widening deployment truth
 - `athena` can publish identified arrival and departure events through the
   shared `ashton-proto` helpers to NATS
+- `athena` now also proves one bounded live deployment of browser-reachable
+  HTTPS edge ingress, in-memory occupancy projection, and direct NATS publish
+  from the same accepted pass-event stream
 - `apollo` can consume those same events, validate them strictly, and open or
   close visits deterministically in Postgres
 - `apollo` can verify member ownership, issue signed sessions, persist profile
@@ -329,6 +332,28 @@ This claim is still intentionally narrow:
 - it proves bounded live departure-close behavior only
 - it does not imply broad APOLLO product deployment
 - it does not imply live source-backed ATHENA ingress deployment
+
+## ATHENA Edge Deployment Truth
+
+The next bounded deployment workstream is now complete:
+
+- `ATHENA` runs `v0.4.1` in cluster with
+  `ATHENA_EDGE_OCCUPANCY_PROJECTION=true`
+- the cluster pulls the ATHENA image through a dedicated private GHCR image
+  pull secret rather than anonymous registry access
+- a narrow Cloudflare quick tunnel now gives browser-reachable HTTPS access to
+  only `/api/v1/edge/tap` and `/api/v1/health`
+- accepted `pass` taps update live occupancy and publish identified visit
+  events on in-cluster NATS from the same normalized event stream
+- repeated `in`, repeated `out`, `fail`, and stale events stay deterministic
+- TouchNet-shaped replay can hit that same live ingress route
+
+This claim is still intentionally narrow:
+
+- it proves bounded live ATHENA edge ingress and occupancy deployment truth
+- it does not imply append-only ATHENA persistence
+- it does not imply broad multi-facility ingress rollout
+- it does not imply HERMES admin workflows or operator override tooling
 
 ## Tracer 6 Runtime Truth
 
