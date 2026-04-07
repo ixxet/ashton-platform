@@ -16,6 +16,21 @@ execution narrow, bounded, and testable.
 | Immediate pressure | build toward an investor-light demo without turning the platform into soup |
 | Core rule | every tracer may widen one meaningful boundary, but it must also say what it will not do |
 
+## Urgency Snapshot
+
+| Area | State now | Meaning | Urgency |
+| --- | --- | --- | --- |
+| ATHENA deploy truth | done | physical-truth pillar is live and credible | done |
+| APOLLO auth / membership / preview | done | member intent pillar exists | done |
+| HERMES | thin | needs observability plus live proof | high |
+| Gateway | thin | needs identity plus audit | high |
+| ATHENA durability | missing | still weak on restart, history, and audit side | high |
+| Workout planner | missing | needed for investor-visible real-platform feel | high |
+| Conservative fitness coach | missing | needed to connect profile, plan, and recommendations | high |
+| Match / session runtime | missing | needed before real ratings, leaderboards, and rivalries | medium-high |
+| Public standings / home page | missing | investor-friendly, but only after trusted results | medium |
+| Social / DMs / public achievement showcase | missing | good later, only if the product actually hits | gated |
+
 ## Current Truth
 
 | Area | State | Meaning | Next |
@@ -136,6 +151,25 @@ execution narrow, bounded, and testable.
 | `ashton-platform` | ledger and planning repo | patch-style closeout lines are fine |
 | deploy repos | deployment ledgers | patch-style closeout lines are fine |
 
+## Table Placement Map
+
+| Table family | Central home | Repo-grounded home | Why |
+| --- | --- | --- | --- |
+| urgency, feature bank, product lanes, investor-light path, long future ladder | `planning/STARSHOT-VISION.md` | none required by default | this is the one place where the whole vision should stay together |
+| release lines, next execution order, proof ladder, semver-lite guardrails | `planning/IMPLEMENTATION-BOARD.md` | repo roadmaps reference their local slice | this is the operational ledger for what is next and how it closes |
+| runtime surfaces, current real state, shipped lines | `README.md` in each repo | same file | landing pages should ground reality, not carry the whole star-shot |
+| next ladder role and local hard stops | repo `docs/roadmap.md` | same file | each repo should know its next narrow job without reading the whole platform plan |
+| tracer closure details and historical hardening truth | `planning/sprints/TRACER-MATRIX.md` and repo hardening docs | repo hardening files | closure evidence should stay near the tracer, not in vision docs |
+| deployment-closeout truth | deployment repo docs plus `ashton-platform` ledger | deployment repo README / runbooks | deploy truth needs its own source, not just product planning tables |
+
+| Repo | Tables that belong locally |
+| --- | --- |
+| `apollo` | current product truth, planner/recommendation lane, competition lane, product design calls that directly affect member-facing logic |
+| `athena` | deploy/runtime truth, durable history lane, ingress hard stops, history/rebuild proof tables |
+| `hermes` | observability lane, live deployment lane, richer operator-question lane, staff-only scope tables |
+| `ashton-mcp-gateway` | caller identity, persisted audit, second-route scope, later approval deferrals |
+| `ashton-platform` | urgency, cross-repo ladder, feature bank, investor-light demo path, semver-lite policy, system-proof horizon |
+
 ## Current Product Truth
 
 | Area | State |
@@ -191,6 +225,20 @@ execution narrow, bounded, and testable.
 | Complex item / shop / metagame | Dangerous too early | later product surfaces | yes | defer | too much surface too soon |
 | Admin manipulation or cheat tools | Dangerous too early | later ops/admin surfaces | yes | defer | requires much stronger audit and governance |
 
+## Design Calls
+
+| Topic | Recommendation |
+| --- | --- |
+| BMI | use as one coarse input only, not the main driver |
+| Calories | keep it conservative, average-range, and clearly non-medical |
+| Nutrition posture | this is not a diet app; it logs, tracks, and suggests simple ranges only |
+| LLM | use later to explain recommendations, not compute the core decision first |
+| OpenSkill | good fit for solo, team, and mixed sports if ratings are separated by sport and mode |
+| Rating model | separate by sport and mode, not one global score |
+| Rivalries | pairwise counters plus recency plus streaks, derived from real results |
+| Public leaderboards | later only, and only after trusted results plus anti-abuse basics |
+| Social | keep it opt-in and lightweight; DMs and achievement showcases can come before any public feed |
+
 ## What To Defer
 
 | Idea | Defer until | Why |
@@ -230,6 +278,54 @@ execution narrow, bounded, and testable.
 | `Tracer 23` | `apollo` public read | `v0.15.0` / `v0.0.31` | safe public front page with trusted standings/highlights | no garbage-data-friendly public ladder |
 | `Tracer 24` | `apollo` | `v0.16.0` / `v0.0.32` | opt-in crews/squads, DMs, achievement showcases | only after traction |
 | `Tracer 25` | `apollo` | `v0.17.0` / `v0.0.33` | LLM explanation layer only: coach notes, plan rewrites, summaries | not the core decision engine |
+| `System-Proof Milestone` | cross-repo | later than `v0.0.33` | verify runtime truth, deployment truth, modularity, and maintenance model across the ladder | no new feature surface |
+
+## Scope Bounds By Tracer
+
+### `Tracer 15`
+
+| Area | In scope | Out of scope |
+| --- | --- | --- |
+| identity | caller identity for routed reads | user-auth platform rewrite |
+| audit | persisted audit trail for routed calls | write approvals |
+| routing | one second routed read | broad orchestration |
+| tests | repeated routed reads, actor attribution, audit persistence | full agent runtime |
+
+### `Tracer 16`
+
+| Area | In scope | Out of scope |
+| --- | --- | --- |
+| history | append-only or durable edge observation history | broad predictive product surfaces |
+| rebuild | startup rebuild and replay groundwork | full operator override tooling |
+| privacy | no raw-ID leakage | identity reconciliation UI |
+| tests | append-only proof, restart proof, rebuild proof, duplicate/stale proof | broad analytics rollout |
+
+### `Tracer 17`
+
+| Area | In scope | Out of scope |
+| --- | --- | --- |
+| HERMES question | one richer read-only operator question | writes or overrides |
+| source | stable upstream truth only | private DB hacks |
+| operator usefulness | reconciliation and review flavor | admin mutation workflows |
+| tests | deterministic answers, failure mapping, source-truth proof | broad assistant UX |
+
+### `Tracer 18`
+
+| Area | In scope | Out of scope |
+| --- | --- | --- |
+| planner | weekly planner, exercise library, machine dropdowns, templates/loadouts | social scheduling or broad nutrition coaching |
+| profile | richer goals and body metrics needed for planning | medical claims or invasive profile sprawl |
+| history | progression-friendly workout capture tied to planning | broad analytics stack |
+| tests | invalid exercise IDs, impossible planner states, duplicate templates, ownership boundaries | recommendation black box or deploy-proof claims |
+
+### `Tracer 19`
+
+| Area | In scope | Out of scope |
+| --- | --- | --- |
+| recommendation | deterministic conservative plan guidance, calorie/macro ranges, structured reasons | diagnosis, clinical advice, opaque model outputs |
+| nutrition | low-friction meal logging and simple templates | obsessive food-database sprawl |
+| safety | conservative ranges, explicit limitations, confidence-style wording | body-fat promises or medical claims |
+| tests | cold start, missing history, extreme stats, deterministic reruns, no-medical-overclaim checks | LLM-first logic |
 
 ## Demo Milestone
 
@@ -261,6 +357,17 @@ execution narrow, bounded, and testable.
 | `Tracer 23` | public-read abuse, cache staleness, no-mutation proof |
 | `Tracer 24` | DM/privacy abuse, invite spam, opt-in enforcement |
 | `Tracer 25` | hallucinated advice, unsupported medical claims, explanation drift from deterministic core |
+
+## System-Proof Target
+
+| Area | What it should prove |
+| --- | --- |
+| runtime truth | each major repo has one or more real, bounded, trustworthy slices |
+| deployment truth | physical truth, staff truth, and the investor-light member platform each have live proved boundaries |
+| control plane | gateway is narrow but real, caller-aware, and auditable |
+| modularity | ATHENA physical truth, APOLLO member truth, HERMES staff truth, and gateway control truth stay separate |
+| maintenance | runbooks, CLIs, tests, and hardening artifacts let future work land without collapsing boundaries |
+| agentic workflow | future agents can work repo by repo with narrow prompts, hardening discipline, and clear source-of-truth docs |
 
 ## Investor-Light Demo Path
 
