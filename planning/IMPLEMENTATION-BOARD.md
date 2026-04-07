@@ -105,6 +105,18 @@ Reasoning:
 
 Rust remains a later optimization path, not a first-wave dependency.
 
+## Versioning Policy
+
+| Versioning piece | Meaning in ASHTON now |
+| --- | --- |
+| Tag shape | All repos keep `vMAJOR.MINOR.PATCH` tags so release lines are readable and comparable |
+| `MAJOR` | Stay at `0` during the current foundation-building era; move to `1` only after the system-proof phase makes a repo meaningfully stable |
+| `MINOR` | Use for a new bounded runtime capability or tracer-sized widening in that repo |
+| `PATCH` | Use for hardening, docs sync, deployment closeout, observability, bug fixes, or other bounded follow-up on an existing capability line |
+| Pre-`1.0.0` rule | Treat current tags as semver-lite release lines, not broad compatibility guarantees |
+| Control-plane and deploy repos | `ashton-platform` and deployment repos may use patch bumps as ledger / closeout lines even when service repos use minor bumps for runtime growth |
+| History rule | Existing tags stand as history; stricter version discipline applies forward only |
+
 ## Repo Release Lines
 
 | Repo | Current line | Next planned line | Why it is next |
