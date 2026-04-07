@@ -74,10 +74,10 @@ not a tagged runtime line.
 | Line | Repo focus | Release line | Purpose | Hard stop |
 | --- | --- | --- | --- | --- |
 | `Tracer 14` | `hermes` | `v0.1.1` / `v0.0.20` | observability hardening for the existing occupancy slice | no richer question, no writes |
-| `Milestone 1.7` | `hermes` plus companion deploy repo | `v0.2.0` / `v0.0.21` | prove live HERMES deployment truth | no write authority |
+| `Milestone 1.7` | `hermes` plus companion deploy repo | `v0.1.2` if runtime changes, otherwise deployment closeout only / `v0.0.21` | prove live HERMES deployment truth without widening the capability line | no write authority |
 | `Tracer 15` | `ashton-mcp-gateway` plus optional `ashton-proto` | `v0.2.0` / `v0.0.22` | caller identity, persisted audit, second routed read | no approvals or writes yet |
-| `Tracer 16` | `athena` | `v0.4.2` / `v0.0.23` | durable edge-observation groundwork and ingress hardening | no prediction, no broad rollout claims |
-| `Tracer 17` | `hermes` and maybe bounded `athena` read support | `v0.3.0` / `v0.0.24` | one richer read-only staff question backed by stable public upstream truth | no overrides or writes |
+| `Tracer 16` | `athena` | `v0.5.0` / `v0.0.23` | durable edge-observation groundwork and ingress hardening | no prediction, no broad rollout claims |
+| `Tracer 17` | `hermes` and maybe bounded `athena` read support | `v0.2.0` / `v0.0.24` | one richer read-only staff question backed by stable public upstream truth | no overrides or writes |
 | `System-Proof Milestone` | cross-repo | later than `v0.0.24` | verify Tracers 1-17 and deployment milestones as one modular system | no new feature surface |
 
 ## What The Next Lines Must Achieve
@@ -101,6 +101,114 @@ not a tagged runtime line.
 | `Tracer 16` | durable-history groundwork behaves deterministically, restart / reload story is explicit, and no raw-ID leakage regresses |
 | `Tracer 17` | richer question is source-backed, deterministic, read-only, and operationally useful |
 | `System-Proof Milestone` | repo audit plus deployment audit plus boundary audit plus post-tracer roadmap |
+
+## Execution Rules
+
+| Rule | Requirement |
+| --- | --- |
+| Semver-lite | new bounded runtime capability = `minor`; hardening, docs sync, deploy closeout, observability, and bounded fixes = `patch` |
+| Commits | make granular commits aligned to one slice of truth at a time |
+| Push | push clean `main` after closure-clean state; do not leave repo truth local |
+| Branching | do not leave closure claims on side branches |
+| Hardening | destructive checks are mandatory, not optional |
+| Docs | update repo-local docs first, then `ashton-platform` as the control-plane ledger |
+| LLM use | use LLMs later for explanation or summarization, not as the first opaque decision engine |
+
+## Current Product Truth
+
+| Area | State |
+| --- | --- |
+| member shell | real, thin |
+| explicit membership | real |
+| deterministic preview | real |
+| workouts | real, but not planner-grade |
+| workout recommendation | real, but deterministic and narrow |
+| game sessions | not real |
+| leaderboards | not real |
+| social graph / rivalries | not real |
+| operator review tools | not real yet |
+
+## Feature Bank
+
+| Feature | Bucket | Repo owner | Needs real history first? | Earliest sane point | Why / boundary |
+| --- | --- | --- | --- | --- | --- |
+| HERMES request / result / outcome logger | Must have | `hermes` | no | `Tracer 14` | makes the current staff slice inspectable |
+| Gateway caller identity + persisted audit | Must have | `ashton-mcp-gateway` | no | `Tracer 15` | needed before broader routing or any later write governance |
+| Durable ATHENA edge observation history | Must have | `athena` | no | `Tracer 16` | removes all-memory dependence and enables rebuild / review |
+| Richer operator review / reconciliation read | Must have | `hermes` | yes | `Tracer 17` | turns HERMES into a real operator surface |
+| Workout planner / weekly plan / machine dropdowns | Must have | `apollo` | no | `Tracer 18` | natural extension of the current workout runtime |
+| Exercise library with machine / free-weight / sport tags | Must have | `apollo` | no | `Tracer 18` | planner and recommendation substrate |
+| Saved workout templates / loadouts | Must have | `apollo` | no | `Tracer 18` | makes planning and repetition practical |
+| Progression history | Must have | `apollo` | yes | `Tracer 18` and later | turns workouts into meaningful trends |
+| Conservative calorie / macro target range | Must have | `apollo` | no | `Tracer 19` | useful only as non-medical guidance |
+| Deterministic fitness recommendation engine | Must have | `apollo` | partial | `Tracer 19` | planner plus profile plus history, no opaque core |
+| Match / session runtime | Must have | `apollo` | no | `Tracer 20` | execution boundary beyond preview |
+| Per-sport / per-mode ratings, likely OpenSkill | Must have | `apollo` | yes | `Tracer 21` | required before trusted standings |
+| Transparent admin audit | Must have | `ashton-mcp-gateway` and later ops surfaces | yes | `Tracer 15` onward | needed before competition becomes public |
+| Streak-friendly meal logging | Good later | `apollo` | no | after `Tracer 19` | useful if it stays low-friction and non-obsessive |
+| Meal templates | Good later | `apollo` | no | after `Tracer 19` | lowers friction for simple logging |
+| Weekly trend summary | Good later | `apollo` | yes | after `Tracer 19` | better than noisy daily views |
+| Challenge / rematch prompts | Good later | `apollo` | yes | `Tracer 22` | ties competition and retention together |
+| Rivalry tracker / streak counters / tease badges | Good later | `apollo` | yes | `Tracer 22` | emotionally strong, but depends on trusted results |
+| Achievements / badges | Good later | `apollo` | yes | `Tracer 22` | easy game feel once history is trustworthy |
+| XP bars / consistency bars | Good later | `apollo` | yes | `Tracer 22` and later | should reflect real activity, not fake grinding |
+| Daily / weekly quests | Good later | `apollo` | partial | `Tracer 22` and later | works best once multiple activity loops are real |
+| Goal presets and training archetypes | Good later | `apollo` | no | after `Tracer 19` | helps profile and plan selection |
+| Progressive overload suggestions | Good later | `apollo` | yes | after `Tracer 19` | only if conservative and explainable |
+| Matchmaking queues | Good later | `apollo` | yes | after `Tracer 20` | wait for real session truth |
+| Seasonal ladders | Good later | `apollo` | yes | after `Tracer 22` | only after trusted standings |
+| Lightweight opt-in crews / squads | Good later | `apollo` | no | after product success | later than the core planner and competition loops |
+| Profile DMs and achievement showcases | Good later | `apollo` | no | after product success | opt-in only, not a public feed |
+| LLM-backed recommendation explainer | Good later | `apollo` | yes | after deterministic recommendation is trusted | explanation layer only |
+| Public leaderboards, including public front-page standings | Dangerous too early | `apollo` public read | yes | later than `Tracer 22` | requires trusted results and anti-abuse basics |
+| Full social feed | Dangerous too early | `apollo` | no | defer until major adoption | high complexity, low foundation value |
+| Chat | Dangerous too early | `apollo` | no | defer until major adoption | moderation burden |
+| Aggressive calorie or body-fat claims | Dangerous too early | `apollo` | no | defer | risk and low trust |
+| Opaque LLM recommendation core | Dangerous too early | `apollo` | no | defer | hard to trust and harden |
+| Complex item / shop / metagame | Dangerous too early | later product surfaces | yes | defer | too much surface too soon |
+| Admin manipulation or cheat tools | Dangerous too early | later ops/admin surfaces | yes | defer | requires much stronger audit and governance |
+
+## Product Ordering
+
+| If you want both fitness and competition | Best order | Why |
+| --- | --- | --- |
+| platform-first | `14 -> 15 -> 16 -> 17` | finish weak platform pillars first |
+| fitness lane after that | planner -> deterministic recommender -> optional LLM explainer | APOLLO already owns workouts and profile state |
+| competition lane after that | match/session runtime -> ratings -> rivalries/leaderboards | standings need trusted session truth first |
+
+## Likely Future Product Lines
+
+| Line | Repo focus | Semver-lite line | Purpose | Hard stop |
+| --- | --- | --- | --- | --- |
+| `Tracer 18` | `apollo` | `v0.10.0` | workout planner, exercise library, templates / loadouts, and richer profile inputs | no medical claims, no LLM-first logic |
+| `Tracer 19` | `apollo` | `v0.11.0` | conservative deterministic fitness recommendation engine plus calorie / macro ranges and optional low-friction meal logging | no medical diagnosis, no opaque black box |
+| `Tracer 20` | `apollo` | `v0.12.0` | match / session runtime beyond read-only preview | no full social network |
+| `Tracer 21` | `apollo` | `v0.13.0` | per-sport / per-mode ratings, likely OpenSkill | no public leaderboard yet if trust is weak |
+| `Tracer 22` | `apollo` and maybe bounded public read surfaces | `v0.14.0` | rivalries, standings, achievement / badge reads, and challenge / rematch prompts | no admin cheat panel, no broad public social layer |
+
+## Post-17 Destructive Harnesses
+
+| Line | Minimum destructive harness |
+| --- | --- |
+| `Tracer 18` | invalid exercise/machine IDs, impossible planner states, duplicate template names, ownership/auth failures, planner writes that must not mutate unrelated domains |
+| `Tracer 19` | malformed profile metrics, extreme body stats, missing history, no-history cold start, deterministic output reruns, no-medical-overclaim checks |
+| `Tracer 20` | duplicate session creation, invalid transitions, replay attempts, same-player conflict cases, team-size mismatch, auth/ownership conflicts |
+| `Tracer 21` | tie cases, stale recompute, missing results, per-sport separation, solo-vs-team separation, tampered result rejection |
+| `Tracer 22` | rivalry spam, badge inflation, public-read abuse, stale standings recompute, no-mutation proof for public reads, anti-garbage-data checks |
+
+## Product Design Calls
+
+| Topic | Recommendation |
+| --- | --- |
+| BMI | use as one coarse input only, not the main driver |
+| Calories | keep it conservative, average-range, and clearly non-medical |
+| Nutrition posture | this is not a diet app; it logs, tracks, and suggests simple ranges only |
+| LLM | use later to explain recommendations, not compute the core decision first |
+| OpenSkill | good fit for solo, team, and mixed sports if ratings are separated by sport and mode |
+| Rating model | separate by sport and mode, not one global score |
+| Rivalries | pairwise counters plus recency plus streaks, derived from real results |
+| Public leaderboards | later only, and only after trusted results plus anti-abuse basics |
+| Social | keep it opt-in and lightweight; if the product succeeds, DMs and achievement showcases can come before any public feed |
 
 ## Audit Snapshot
 
@@ -226,7 +334,7 @@ flowchart LR
 | Repo | Current line | Next planned line | Why it is next |
 | --- | --- | --- | --- |
 | `ashton-proto` | `v0.3.0` shipped, `v0.3.1` unreleased on `main` | `v0.4.0` | broader routed manifest expansion only after a second route is real |
-| `athena` | `v0.4.1` shipped | `v0.4.2` | broader ingress hardening or durable edge-observation groundwork should come only after the bounded live `v0.4.1` line is trusted |
+| `athena` | `v0.4.1` shipped | `v0.5.0` | durable edge-observation groundwork is the next real ATHENA capability line after the bounded live `v0.4.1` edge deployment |
 | `apollo` | `v0.9.0` shipped | `v0.10.0` | recommendation persistence is the next APOLLO widening after the deterministic preview line |
 | `hermes` | `v0.1.0` shipped | `v0.1.1` | observability hardening before richer staff widening |
 | `ashton-mcp-gateway` | `v0.0.1` shipped, `v0.1.0` unreleased on `main` | `v0.2.0` | caller identity, persisted audit, and a second routed read should come only after the first route is trusted |
@@ -366,10 +474,10 @@ bullets are only the short summary.
 | Planned tag | Vertical | Repo lines in scope | Intended purpose | What it should not do yet |
 | --- | --- | --- | --- | --- |
 | `v0.0.20` | `Tracer 14` | `hermes v0.1.1` | HERMES observability hardening only | do not widen into richer questions or write actions |
-| `v0.0.21` | `Milestone 1.7` | `hermes v0.2.0`, companion later `Prometheus` line if needed | live HERMES deployment proof | do not imply write authority or broad assistant maturity |
+| `v0.0.21` | `Milestone 1.7` | `hermes v0.1.2` if runtime changes, otherwise companion deploy line only | live HERMES deployment proof | do not imply write authority or broad assistant maturity |
 | `v0.0.22` | `Tracer 15` | `ashton-mcp-gateway v0.2.0`, optional `ashton-proto v0.4.0` | caller identity, persisted audit, second routed read-only tool | do not widen into write approvals or Redis-backed rate limiting |
-| `v0.0.23` | `Tracer 16` | `athena v0.4.2` | durable edge-observation groundwork and ingress hardening | do not widen into prediction or broad rollout claims |
-| `v0.0.24` | `Tracer 17` | `hermes v0.3.0`, maybe bounded `athena` read support | one richer read-only staff question backed by stable public upstream truth | do not widen into overrides or writes |
+| `v0.0.23` | `Tracer 16` | `athena v0.5.0` | durable edge-observation groundwork and ingress hardening | do not widen into prediction or broad rollout claims |
+| `v0.0.24` | `Tracer 17` | `hermes v0.2.0`, maybe bounded `athena` read support | one richer read-only staff question backed by stable public upstream truth | do not widen into overrides or writes |
 | later than `v0.0.24` | `System-Proof Milestone` | cross-repo | verify runtime truth, deployment truth, modularity, and maintenance model across the tracer ladder | do not add a new feature surface |
 
 ## Post-Tracer System-Proof Target
