@@ -909,3 +909,64 @@ Still intentionally deferred:
 | Feature | inferred sessions and restart rebuild | deferred | live taps were made real first; durability and rebuild remain the next ATHENA capability line | `Tracer 16` |
 | Feature | operator override or reconciliation workflows | deferred | physical-truth ingest stayed separate from staff mutation logic | later HERMES line |
 | Deploy | broad ATHENA ingress rollout | deferred | this proof stays bounded to the first live workstation and facility slice | later bounded deployment workstream |
+
+## Tracer 14: HERMES Occupancy Observability Hardening
+
+Status: completed after the tiny correction pass.
+
+Goal:
+
+- HERMES emits low-noise structured request / result / outcome observability
+  for the existing occupancy slice without widening the runtime question or
+  adding write behavior
+
+Repos:
+
+- `hermes`
+- `ashton-platform`
+
+Exit criteria:
+
+- successful occupancy executions emit one structured `request-start` and one
+  structured `request-complete`
+- failing occupancy executions emit one structured `request-start` and one
+  structured `request-failed`
+- help or other no-op occupancy invocations do not emit fake request logs
+- stdout answer payload stays unchanged
+- the runtime remains occupancy-only, read-only, and source-backed
+- deployment truth remains unchanged
+
+Key outputs:
+
+- `hermes` now emits structured stderr logs for occupancy with stable fields:
+  `component`, `tracer`, `question`, `request_id`, `facility`, `upstream`,
+  `outcome`, `duration_ms`, `version`, plus success- or failure-specific fields
+- validation, config, upstream timeout, upstream error, and decode failures now
+  map to explicit observability classifications without brittle string-only
+  assertions
+- repeated command-path proof and the full `hermes` test suite passed without
+  stdout pollution, log duplication, or runtime widening
+- this tracer matrix now records the Tracer 14 closeout explicitly so
+  control-plane history matches repo-local truth
+
+Tracer 14 retrospective:
+
+- The right seam was the HERMES command boundary. That made the occupancy slice
+  operationally inspectable without pretending the question itself became
+  richer.
+- The first closeout pass left one small honesty gap: `hermes ask occupancy
+  --help` still emitted a stray `request-start`, and the tracer matrix had not
+  yet recorded the actual closeout. Closing the line cleanly required
+  suppressing help/no-op request logs and fixing the historical ledger, not
+  widening the runtime.
+- The correction pass stayed release-safe because it did not change stdout
+  shape, add write behavior, or alter deployment truth.
+
+Deferred after closure:
+
+| Type | Item | Status | Why It Was Not Done Here | Future Owner |
+| --- | --- | --- | --- | --- |
+| Deploy | live HERMES runtime proof in-cluster | deferred | Tracer 14 proves local/runtime observability only and deliberately does not widen Milestone 1.7 deployment truth | `Milestone 1.7` |
+| Feature | richer operator or reconciliation read | deferred | observability hardening should land before a broader HERMES question is attempted | `Tracer 17` |
+| Feature | write actions and approval flows | deferred | Tracer 14 hardens a read-only boundary only | later HERMES action tracer |
+| Feature | gateway, chat UX, and agent orchestration | deferred | the current line is still a narrow CLI/runtime hardening pass, not a broader assistant surface | later gateway or assistant tracer |
