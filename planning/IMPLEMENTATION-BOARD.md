@@ -60,8 +60,8 @@ implementation slice are:
    - keep staff operations read-only and sourced from public upstream service
      truth until a later tracer proves a richer question or explicit write
      authority
-   - improve HERMES request/result observability before claiming broader
-     operational maturity than the current CLI slice proves
+   - keep Milestone 1.7 narrower than a broader operator surface now that
+     request/result observability is real on the current CLI slice
 5. `apollo`
    - keep explicit lobby membership narrower than future ARES, invites, or
      social coordination flows
@@ -137,9 +137,9 @@ Rust remains a later optimization path, not a first-wave dependency.
 | `ashton-proto` | `v0.3.0` shipped, `v0.3.1` unreleased on `main` | `v0.4.0` | broader routed manifest expansion only after a second route is real |
 | `athena` | `v0.4.1` shipped | `v0.5.0` | durable edge-observation groundwork is the next true ATHENA capability line after the bounded live `v0.4.1` line is trusted |
 | `apollo` | `v0.9.0` shipped | `v0.10.0` | sport registry and facility-sport capability mapping now come before planner/coaching because Phase 2 is backend-first and competition-first |
-| `hermes` | `v0.1.0` shipped | `v0.1.1` | observability hardening before richer staff widening |
+| `hermes` | `v0.1.1` unreleased on `main` | `v0.1.2` if runtime changes, otherwise deployment-only closeout | deployment proof is next now that observability hardening is closure-clean on `main` |
 | `ashton-mcp-gateway` | `v0.0.1` shipped, `v0.1.0` unreleased on `main` | `v0.2.0` | caller identity, persisted audit, and a second routed read after the first route proves itself |
-| `ashton-platform` | `v0.0.19` shipped | `v0.0.20` | the next platform line should move to HERMES observability hardening |
+| `ashton-platform` | `v0.0.20` unreleased on `main` | `v0.0.21` | the next platform line should move from HERMES observability hardening to bounded HERMES deployment proof |
 
 ## Urgency Snapshot
 
@@ -147,7 +147,7 @@ Rust remains a later optimization path, not a first-wave dependency.
 | --- | --- | --- | --- |
 | ATHENA deploy truth | done | physical-truth pillar is live and credible | done |
 | APOLLO auth / membership / preview | done | member intent pillar exists | done |
-| HERMES | thin | needs observability plus live proof | high |
+| HERMES | observability-hardened | needs live proof | high |
 | Gateway | thin | needs identity plus audit | high |
 | ATHENA durability | missing | still weak on restart, history, and audit side | high |
 | HERMES operator surface | missing | reports, heat maps, and reconciliation still depend on Tracer 16 plus Tracer 17 | high |
@@ -281,7 +281,7 @@ and not a tagged runtime line.
 ## Immediate Next Steps
 
 1. Treat `v0.0.19` as the shipped bounded ATHENA deployment closeout line.
-2. Start `Tracer 14` as the next execution line and keep it strictly observability-only.
+2. Treat `Tracer 14` as closure-clean on `main` and keep it strictly observability-only.
 3. Use `Milestone 1.7` to convert the same HERMES slice from local/runtime truth into bounded live deployment truth.
 4. Use `Tracer 15` to strengthen gateway trust before any approval or write widening.
 5. Use `Tracer 16` and `Tracer 17` to finish the structural pillars before product/base widening.
