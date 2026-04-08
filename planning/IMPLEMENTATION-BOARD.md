@@ -137,9 +137,9 @@ Rust remains a later optimization path, not a first-wave dependency.
 | `ashton-proto` | `v0.3.0` shipped, `v0.3.1` unreleased on `main` | `v0.4.0` | broader routed manifest expansion only after a second route is real |
 | `athena` | `v0.4.1` shipped | `v0.5.0` | durable edge-observation groundwork is the next true ATHENA capability line after the bounded live `v0.4.1` line is trusted |
 | `apollo` | `v0.9.0` shipped | `v0.10.0` | sport registry and facility-sport capability mapping now come before planner/coaching because Phase 2 is backend-first and competition-first |
-| `hermes` | `v0.1.1` unreleased on `main` | `v0.1.2` if runtime changes, otherwise deployment-only closeout | deployment proof is next now that observability hardening is closure-clean on `main` |
+| `hermes` | `v0.1.1` shipped | `v0.1.2` if runtime changes, otherwise deployment-only closeout | deployment proof is next now that observability hardening is closure-clean |
 | `ashton-mcp-gateway` | `v0.0.1` shipped, `v0.1.0` unreleased on `main` | `v0.2.0` | caller identity, persisted audit, and a second routed read after the first route proves itself |
-| `ashton-platform` | `v0.0.20` unreleased on `main` | `v0.0.21` | the next platform line should move from HERMES observability hardening to bounded HERMES deployment proof |
+| `ashton-platform` | `v0.0.20` shipped | `v0.0.21` | the next platform line should move from HERMES observability hardening to bounded HERMES deployment proof |
 
 ## Urgency Snapshot
 
@@ -176,7 +176,6 @@ and not a tagged runtime line.
 
 | Platform tag | Vertical | Repo lines in scope | Intended purpose | Hard stop |
 | --- | --- | --- | --- | --- |
-| `v0.0.20` | `Tracer 14` | `hermes v0.1.1` | HERMES observability hardening only | no richer questions or write actions |
 | `v0.0.21` | `Milestone 1.7` | `hermes v0.1.2` if runtime changes, otherwise deploy closeout only, companion later `Prometheus` line if needed | live HERMES deployment proof once a bounded `Prometheus` HERMES slice exists | no write authority or broad assistant maturity |
 | `v0.0.22` | `Tracer 15` | `ashton-mcp-gateway v0.2.0`, optional `ashton-proto v0.4.0` | caller identity, persisted audit, and second routed read | no write approvals yet |
 | `v0.0.23` | `Tracer 16` | `athena v0.5.0` | durable edge-observation groundwork and ingress hardening | no prediction or broad rollout claims |
