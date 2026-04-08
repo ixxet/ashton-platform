@@ -10,6 +10,9 @@ Use this runbook to keep ASHTON planning and implementation chats disciplined.
 - blocker resolution across repos
 - tracer planning and closure
 
+For the current Phase 2 launch policy, milestone naming, and pre-`1.0.0`
+semantic versioning rules, see [phase-2-launch.md](phase-2-launch.md).
+
 ## What Tracer Chats Own
 
 - one vertical outcome

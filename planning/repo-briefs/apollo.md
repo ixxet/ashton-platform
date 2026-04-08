@@ -146,6 +146,21 @@ imply a broad APOLLO product deployment; auth, eligibility, workout runtime,
 recommendation runtime, and the member shell remain locally proven only unless a
 separate deployment workstream verifies them live.
 
+## Versioning Discipline
+
+- `PATCH` lines cover hardening, docs sync, deployment closeout, observability,
+  and bounded non-widening fixes
+- `MINOR` lines cover new bounded member capabilities or intentional contract
+  changes
+
+## Next Ladder
+
+| Line | Focus | Hard stop |
+| --- | --- | --- |
+| `v0.10.0` / `Tracer 18` | workout planner, exercise library, templates / loadouts, and richer profile inputs | do not widen into medical claims or LLM-first logic |
+| `v0.11.0` / `Tracer 19` | conservative deterministic fitness coaching plus calorie / macro ranges and low-friction meal logging | do not widen into diagnosis or opaque black-box logic |
+| later than `v0.11.0` | recommendation persistence or optional explanation-layer helpers | keep them subordinate to stable deterministic product logic | do not let explanation become the core engine |
+
 ## Deferred On Purpose
 
 - recommendation persistence and generated planning

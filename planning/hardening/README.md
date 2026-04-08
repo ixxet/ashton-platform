@@ -10,8 +10,11 @@ Policy:
 - Tracers 0-3 predate the standalone hardening-artifact discipline
 - do not fabricate full hardening artifacts for Tracers 0-3
 - keep Tracers 0-3 represented in repo docs and the tracer matrix
-- backfill standalone artifacts from Tracer 4 onward and for Milestone 1 and
-  Milestone 1.5 where the audited evidence exists
+- backfill standalone artifacts from Tracer 4 onward and for Milestones 1,
+  1.5, and 1.6 where the audited evidence exists
+- fractional milestones are bounded deployment or hardening workstreams inside
+  an already-open milestone sequence; keep the historical 1.5 / 1.6 labels as
+  aliases rather than renaming shipped history
 
 Platform-level artifacts:
 

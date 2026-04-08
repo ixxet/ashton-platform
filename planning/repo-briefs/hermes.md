@@ -78,5 +78,5 @@ hermes/
 | Line | Focus | Hard stop |
 | --- | --- | --- |
 | `v0.1.1` / `Tracer 14` | low-noise structured observability for the existing occupancy slice | do not widen into richer questions or writes |
-| `v0.2.0` / `Milestone 1.7` | bounded live deployment proof for the same occupancy slice | do not imply write authority or broad assistant maturity |
-| `v0.3.0` / `Tracer 17` | one richer read-only staff question over stable public upstream truth | do not invent identity-level answers or add overrides |
+| `v0.1.2` if runtime changes, otherwise deploy-only / `Milestone 1.7` | bounded live deployment proof for the same occupancy slice | do not imply write authority or broad assistant maturity |
+| `v0.2.0` / `Tracer 17` | one richer read-only staff question over stable public upstream truth | do not invent identity-level answers or add overrides |

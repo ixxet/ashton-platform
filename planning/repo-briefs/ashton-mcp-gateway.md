@@ -1,6 +1,7 @@
 # ashton-mcp-gateway
 
-Shared tool routing, approval, and audit layer for the ASHTON platform.
+Shared tool routing layer for the ASHTON platform, with approval and audit
+policy deferred to later lines.
 
 Current truth:
 
@@ -24,6 +25,13 @@ Current truth:
 - caller identity, persisted audit, write approvals, and rate limiting do not
   exist yet
 
+## Versioning Discipline
+
+- `PATCH` lines cover hardening, docs sync, deployment closeout, observability,
+  and bounded non-widening fixes
+- `MINOR` lines cover new routed capabilities, new trust boundaries, or
+  intentional contract changes
+
 ## Immediate Release Lines
 
 | Line | Intended purpose | What becomes real | What stays deferred |
@@ -45,6 +53,9 @@ Current truth:
 
 The original gateway vision is still valid. It just does not belong inside the
 first routed read-only line.
+
+The second routed read in `v0.2.0` may require a paired `ashton-proto v0.4.0`
+manifest release if the next routed tool widens the shared manifest surface.
 
 The long-range control plane still aims to provide:
 

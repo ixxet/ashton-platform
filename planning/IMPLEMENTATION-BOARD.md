@@ -5,6 +5,16 @@ what is deferred, and which documents are authoritative when files disagree.
 
 ## Source Of Truth Order
 
+This is conflict-arbitration order, not fresh-chat bootstrap order.
+
+For a fresh master chat, first read:
+
+1. `planning/IMPLEMENTATION-BOARD.md`
+2. `planning/STARSHOT-VISION.md`
+3. `planning/repo-briefs/`
+4. `planning/sprints/TRACER-MATRIX.md`
+5. repo-local `README.md` and `docs/roadmap.md`
+
 Use this order when planning or implementing:
 
 1. `planning/repo-briefs/`
@@ -114,8 +124,10 @@ Rust remains a later optimization path, not a first-wave dependency.
 | `MAJOR` | Stay at `0` during the current foundation-building era; move to `1` only after the system-proof phase makes a repo meaningfully stable |
 | `MINOR` | Use for a new bounded runtime capability or tracer-sized widening in that repo |
 | `PATCH` | Use for hardening, docs sync, deployment closeout, observability, bug fixes, or other bounded follow-up on an existing capability line |
-| Pre-`1.0.0` rule | Treat current tags as semver-lite release lines, not broad compatibility guarantees |
+| Pre-`1.0.0` rule | Use formal pre-`1.0.0` semantic versioning discipline: `MINOR` may widen or intentionally break a pre-`1.0.0` surface; `PATCH` must not add a new capability or a breaking change |
+| Breaking-change rule | Before `1.0.0`, breaking changes to public HTTP surfaces, CLI contracts, shared schemas, manifests, or migrations require a `MINOR` bump, never a `PATCH` bump |
 | Control-plane and deploy repos | `ashton-platform` and deployment repos may use patch bumps as ledger / closeout lines even when service repos use minor bumps for runtime growth |
+| `1.0.0` graduation | A repo graduates only after stable public surfaces, explicit compatibility rules, repeatable hardening evidence, and release automation exist; see `planning/runbooks/phase-2-launch.md` |
 | History rule | Existing tags stand as history; stricter version discipline applies forward only |
 
 ## Repo Release Lines
@@ -152,21 +164,21 @@ and not a tagged runtime line.
 | Platform tag | Vertical | Repo lines in scope | Intended purpose | Hard stop |
 | --- | --- | --- | --- | --- |
 | `v0.0.20` | `Tracer 14` | `hermes v0.1.1` | HERMES observability hardening only | no richer questions or write actions |
-| `v0.0.21` | `Milestone 1.7` | `hermes v0.1.2` if runtime changes, otherwise deploy closeout only, companion later `Prometheus` line if needed | live HERMES deployment proof | no write authority or broad assistant maturity |
+| `v0.0.21` | `Milestone 1.7` | `hermes v0.1.2` if runtime changes, otherwise deploy closeout only, companion later `Prometheus` line if needed | live HERMES deployment proof once a bounded `Prometheus` HERMES slice exists | no write authority or broad assistant maturity |
 | `v0.0.22` | `Tracer 15` | `ashton-mcp-gateway v0.2.0`, optional `ashton-proto v0.4.0` | caller identity, persisted audit, and second routed read | no write approvals yet |
 | `v0.0.23` | `Tracer 16` | `athena v0.5.0` | durable edge-observation groundwork and ingress hardening | no prediction or broad rollout claims |
 | `v0.0.24` | `Tracer 17` | `hermes v0.2.0`, maybe bounded `athena` read support | one richer read-only staff question | no overrides or writes |
 | `v0.0.25` | `Tracer 18` | `apollo v0.10.0` | workout planner, exercise library, templates, and richer profile inputs | no medical claims or LLM-first logic |
 | `v0.0.26` | `Tracer 19` | `apollo v0.11.0` | conservative deterministic recommendation engine plus calorie / macro ranges and low-friction meal logging | no diagnosis or opaque black box |
 | `v0.0.27` | `Milestone 2.0` | deploy closeout only unless runtime truth changes | investor-light deployed platform: shell, planner, conservative coach, live ATHENA, live HERMES | no broad public leaderboard yet |
-| later than `v0.0.27` | long-horizon ladder in `planning/STARSHOT-VISION.md` | `Tracer 20+` and later system-proof | expand into session truth, ratings, rivalries, public highlights, later social, and system-proof only after the earlier truth exists | do not skip the investor-light demo lane |
+| later than `Milestone 2.0` | long-horizon ladder in `planning/STARSHOT-VISION.md` | `Tracer 20+` and later system-proof | expand into session truth, ratings, rivalries, public highlights, later social, and system-proof only after the earlier truth exists | do not skip the investor-light demo lane |
 
 ## What Each Next Line Must Achieve
 
 | Line | Concrete outcome | Why it matters |
 | --- | --- | --- |
 | `Tracer 14` | HERMES logs request, result, and outcome clearly with low-noise structured logs | makes the staff slice operationally inspectable |
-| `Milestone 1.7` | live HERMES occupancy read is deployed and verified | upgrades the staff pillar from local truth to deployment truth |
+| `Milestone 1.7` | live HERMES occupancy read is deployed and verified after the deploy repo grows a bounded HERMES slice | upgrades the staff pillar from local truth to deployment truth |
 | `Tracer 15` | gateway gains caller identity, persisted audit, and one second routed read | turns the control plane from a demo route into a trusted narrow layer |
 | `Tracer 16` | ATHENA gains durable edge-observation groundwork | removes all-memory dependence and sets up operator history / reconciliation groundwork |
 | `Tracer 17` | HERMES answers one richer staff question from stable public upstream truth | creates the first real operator / reconciliation read surface |
@@ -283,7 +295,8 @@ Deployment Workstream B is now complete as a bounded deepening pass:
 Operator rule:
 
 - this does not imply broad APOLLO product deployment
-- this does not imply live source-backed ATHENA ingress deployment
+- Milestone 1.6 itself did not imply live source-backed ATHENA ingress deployment
+- that later bounded boundary now closes separately in the ATHENA edge deployment workstream
 
 ## Test Discipline
 

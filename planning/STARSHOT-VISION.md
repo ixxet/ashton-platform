@@ -12,7 +12,7 @@ execution narrow, bounded, and testable.
 | Area | Position |
 | --- | --- |
 | Vision style | wide vision, narrow tracer execution |
-| Delivery style | semver-lite, granular commits, push clean `main`, destructive proof |
+| Delivery style | formal pre-`1.0.0` semantic versioning, granular commits, push clean `main`, destructive proof |
 | Immediate pressure | build toward an investor-light demo without turning the platform into soup |
 | Core rule | every tracer may widen one meaningful boundary, but it must also say what it will not do |
 
@@ -51,7 +51,7 @@ execution narrow, bounded, and testable.
 | --- | --- |
 | stop branch-heavy drift | closure truth belongs on `main`, not in side branches |
 | ATHENA deployment truth first | physical truth had to be live before more product widening |
-| semver-lite now | tags needed clearer meaning before the next ladder |
+| pre-`1.0.0` semver now | tags needed clearer meaning before the next ladder |
 | investor-light urgency | future tracers must build toward a credible demo, not just local proofs |
 | feature bank expansion | planner, coach, sessions, ratings, rivalries, achievements, and later social now have a real order |
 | logger placement | HERMES observability first, gateway audit second |
@@ -130,7 +130,7 @@ execution narrow, bounded, and testable.
 
 | Rule | Requirement |
 | --- | --- |
-| semver-lite | new bounded runtime capability = `minor`; hardening, docs sync, deploy closeout, observability, and bounded fixes = `patch` |
+| pre-`1.0.0` semver discipline | new bounded runtime capability or breaking pre-`1.0.0` surface = `minor`; hardening, docs sync, deploy closeout, observability, and bounded fixes with no new capability = `patch` |
 | commits | make granular commits aligned to one slice of truth at a time |
 | push | push clean `main` after closure-clean state; do not leave repo truth local |
 | branching | do not leave closure claims on side branches |
@@ -140,9 +140,9 @@ execution narrow, bounded, and testable.
 | docs | update repo-local docs first, then `ashton-platform` as the control-plane ledger |
 | LLM use | use later for explanation or summarization, not as the first opaque decision engine |
 
-## Semver-Lite By Repo
+## Pre-1.0 Semver By Repo
 
-| Repo | Current posture | Semver-lite behavior |
+| Repo | Current posture | Versioning behavior |
 | --- | --- | --- |
 | `apollo` | already on meaningful minors | use `minor` for new capability lines and `patch` for hardening and closeout |
 | `athena` | runtime line shipped at `v0.4.1` | durable history becomes a new minor line, not a patch |
@@ -156,7 +156,7 @@ execution narrow, bounded, and testable.
 | Table family | Central home | Repo-grounded home | Why |
 | --- | --- | --- | --- |
 | urgency, feature bank, product lanes, investor-light path, long future ladder | `planning/STARSHOT-VISION.md` | none required by default | this is the one place where the whole vision should stay together |
-| release lines, next execution order, proof ladder, semver-lite guardrails | `planning/IMPLEMENTATION-BOARD.md` | repo roadmaps reference their local slice | this is the operational ledger for what is next and how it closes |
+| release lines, next execution order, proof ladder, pre-`1.0.0` semver guardrails | `planning/IMPLEMENTATION-BOARD.md` | repo roadmaps reference their local slice | this is the operational ledger for what is next and how it closes |
 | runtime surfaces, current real state, shipped lines | `README.md` in each repo | same file | landing pages should ground reality, not carry the whole star-shot |
 | next ladder role and local hard stops | repo `docs/roadmap.md` | same file | each repo should know its next narrow job without reading the whole platform plan |
 | tracer closure details and historical hardening truth | `planning/sprints/TRACER-MATRIX.md` and repo hardening docs | repo hardening files | closure evidence should stay near the tracer, not in vision docs |
@@ -168,7 +168,7 @@ execution narrow, bounded, and testable.
 | `athena` | deploy/runtime truth, durable history lane, ingress hard stops, history/rebuild proof tables |
 | `hermes` | observability lane, live deployment lane, richer operator-question lane, staff-only scope tables |
 | `ashton-mcp-gateway` | caller identity, persisted audit, second-route scope, later approval deferrals |
-| `ashton-platform` | urgency, cross-repo ladder, feature bank, investor-light demo path, semver-lite policy, system-proof horizon |
+| `ashton-platform` | urgency, cross-repo ladder, feature bank, investor-light demo path, pre-`1.0.0` semver policy, system-proof horizon |
 
 ## Current Product Truth
 
@@ -261,7 +261,7 @@ execution narrow, bounded, and testable.
 
 ## Future Tracer Ladder
 
-| Line | Repo focus | Semver-lite line | Purpose | Hard stop |
+| Line | Repo focus | Release line | Purpose | Hard stop |
 | --- | --- | --- | --- | --- |
 | `Cleanup 0` | `ashton-platform` | patch-only docs | align docs with shipped truth and remove stale wording | docs only |
 | `Tracer 14` | `hermes` | `v0.1.1` / `v0.0.20` | observability hardening for the current occupancy slice | no richer questions, no writes |
@@ -387,7 +387,7 @@ execution narrow, bounded, and testable.
 | Order | Action | Outcome |
 | --- | --- | --- |
 | 1 | start `Tracer 14` | make the current staff slice inspectable |
-| 2 | keep tracer prompts explicit about semver-lite, granular commits, and push-on-`main` | prevent drift |
+| 2 | keep tracer prompts explicit about pre-`1.0.0` semver, granular commits, and push-on-`main` | prevent drift |
 | 3 | keep future lanes split | fitness first, competition second, social later |
 | 4 | revisit public standings and social only after trusted history and traction exist | avoid premature drama |
 ```\n\nIf you want, I can also turn this into a second version that is shorter and more landing-page friendly for `README.md`, plus a fuller archive version for a `STARSHOT-VISION.md` planning file."}}

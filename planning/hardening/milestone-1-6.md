@@ -8,8 +8,10 @@ Milestone 1.6 claims:
   in-cluster
 - replay of the same live departure event remains idempotent
 - the proven deployment truth is intentionally narrow
-- live source-backed ATHENA ingress deployment and broad APOLLO product
-  deployment remain deferred
+- live source-backed ATHENA ingress deployment remained deferred in Milestone
+  1.6 itself and only closed later as a separate ATHENA edge deployment
+  workstream
+- broad APOLLO product deployment remains deferred
 
 ## Exact Rerun Commands
 
@@ -100,9 +102,10 @@ Real regressions would have been:
 - sampled unrelated member state (`preferences`, active claimed tags) stayed
   unchanged
 
-## Unverified Truth
+## Unverified Truth In Milestone 1.6 Itself
 
-- live source-backed ATHENA ingress deployment remained unproven
+- live source-backed ATHENA ingress deployment remained unproven in Milestone
+  1.6 itself
 - broad APOLLO auth, profile, eligibility, workout, recommendation, or UI
   deployment remained unproven
 - no claim was proven beyond the bounded live departure-close path
@@ -110,7 +113,8 @@ Real regressions would have been:
 ## Carry-Forward Gaps
 
 - the cluster still runs mock-backed ATHENA ingress
-- live source-backed ATHENA ingress deployment remains a separate workstream
+- live source-backed ATHENA ingress deployment later closed as a separate
+  ATHENA edge deployment workstream
 - broad APOLLO product deployment remains a separate workstream
 
 ## Final Verdict

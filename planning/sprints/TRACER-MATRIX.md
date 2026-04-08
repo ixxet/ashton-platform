@@ -869,3 +869,43 @@ Later update:
 - Deployment remains deferred because Tracer 13 did not include a bounded
   APOLLO deployment workstream, cluster rollout, or live environment
   verification.
+
+## ATHENA Edge Deployment Workstream
+
+Status: completed.
+
+This bounded workstream layered deployment truth on top of shipped
+`athena v0.4.1`. It was a real ATHENA workstream, but it did not consume a new
+tracer number.
+
+Deployment truth for this workstream is bounded but real:
+
+- live ATHENA now proves browser-reachable HTTPS edge ingress through a narrow
+  public path
+- the public surface is intentionally limited to `POST /api/v1/edge/tap` and
+  `GET /api/v1/health`
+- the live runtime accepts per-node browser bridge posts from
+  workstation-neutral node IDs
+- `ms-gym-01` and `ms-gym-02` were both proven against the same bounded live
+  ingress slice
+- direction is inferred from TouchNet row truth, not from workstation naming
+- accepted `pass` rows drive in-memory live occupancy plus identified publish
+  from the same normalized pass-event stream
+- repeated `in`, repeated `out`, stale events, malformed attempts, and denied
+  attempts remain deterministic and bounded
+
+Tracer-status ruling:
+
+- this workstream did not consume `Tracer 14`
+- this workstream did not consume `Tracer 15`
+- this workstream did not consume `Tracer 16`
+- it created live deployment truth plus planning preconditions for `Tracer 16`
+
+Still intentionally deferred:
+
+| Type | Item | Status | Why It Was Not Done Here | Future Owner |
+| --- | --- | --- | --- | --- |
+| Feature | durable edge-observation history | deferred | the workstream proved live ingress and live projection, not durable storage | `Tracer 16` |
+| Feature | inferred sessions and restart rebuild | deferred | live taps were made real first; durability and rebuild remain the next ATHENA capability line | `Tracer 16` |
+| Feature | operator override or reconciliation workflows | deferred | physical-truth ingest stayed separate from staff mutation logic | later HERMES line |
+| Deploy | broad ATHENA ingress rollout | deferred | this proof stays bounded to the first live workstation and facility slice | later bounded deployment workstream |
