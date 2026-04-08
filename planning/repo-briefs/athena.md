@@ -103,7 +103,7 @@ render cleanly and rollout is verified from a real kube context.
 ## Deferred On Purpose
 
 - prediction runtime
-- Postgres-backed read or write paths
+- broad operator override or identity-reconciliation UI
 - adapter widening beyond the first CSV slice
 - member-intent logic that belongs in APOLLO
 
@@ -111,5 +111,6 @@ render cleanly and rollout is verified from a real kube context.
 
 | Line | Focus | Hard stop |
 | --- | --- | --- |
-| `v0.5.0` / `Tracer 16` | durable edge-observation groundwork plus ingress hardening | do not imply append-only persistence or broad ATHENA ingress rollout |
-| `v0.6.0` | capacity prediction runtime | do not ship predictive UX before ingress and event history are trusted |
+| `v0.5.0` / `Tracer 16` | durable edge-observation groundwork plus ingress hardening | do not imply broad ATHENA ingress rollout or finished operator UX |
+| `v0.6.0` / `Tracer 18` | facility catalog, hours, zones, closure windows, and per-facility metadata reads | do not widen into social or product logic |
+| later than `v0.6.0` | broader diagnostics and capacity prediction runtime | do not ship predictive UX before ingress, history, and facility truth are trusted |

@@ -2,14 +2,16 @@
 
 ## Purpose
 
-Lock one control-plane note before the repo-by-repo Phase 2 audits begin.
+Lock one canonical control-plane note for the post-audit Phase 2 rebase.
 
-This document does four things:
+This document does six things:
 
 1. states the organizer contract
 2. records the ATHENA edge-deployment drift ruling
-3. formalizes milestone naming for the current ladder
-4. turns `semver-lite` into an explicit pre-`1.0.0` semantic versioning policy
+3. locks the canonical revised Phase 2 ladder
+4. formalizes milestone naming for the current ladder
+5. turns `semver-lite` into explicit pre-`1.0.0` semantic versioning policy
+6. defines the standing doctrines and CLI-first posture that should govern every tracer
 
 ## Canonical Organizer Contract
 
@@ -85,7 +87,63 @@ Phase 2 rule for `Tracer 16`:
 ATHENA-only signal boundary:
 
 - co-presence, dwell, regularity, and routine signals may become internal analytics after durable history exists
-- rivalry, teammate, faced-most, badge, and public/social product signals stay later in APOLLO
+- rivalry, teammate, faced-most, badge, and public/social product signals stay later in APOLLO or later phases
+
+## Canonical Phase 2 Posture
+
+Phase 2 is no longer demo-first.
+
+Phase 2 is:
+
+- backend-first
+- CLI-first and internal-API-first
+- tracer-modular
+- repo-bounded
+- anti-frontend-sprawl
+
+Phase 2 is not:
+
+- a broad frontend push
+- a design-system phase
+- a public demo phase
+- a justification for widening public social surfaces before the underlying truth exists
+
+Working rule:
+
+- a tracer is allowed to be real with only CLI, internal HTTP, operator, or agent-facing surfaces
+- frontend may stay thin or absent through all of Phase 2
+- meaningful front-end and demo work starts in Phase 3, after the backend/base ladder is closed cleanly
+
+## Canonical Revised Phase 2 Ladder
+
+### Phase 2A: Structural Pillars
+
+| Line | Lead repo(s) | Release line | Purpose | Hard stop |
+| --- | --- | --- | --- | --- |
+| `Tracer 14` | `hermes` | `hermes v0.1.1`, `ashton-platform v0.0.20` | structured request / result / outcome observability for the current occupancy slice | no richer question, no writes |
+| `Milestone 1.7` | `hermes` + `Prometheus` | `hermes v0.1.2` only if runtime changes, otherwise deploy closeout only, `ashton-platform v0.0.21` | bounded live HERMES deployment proof | no write authority |
+| `Tracer 15` | `ashton-mcp-gateway` + optional `ashton-proto` | `ashton-mcp-gateway v0.2.0`, optional `ashton-proto v0.4.0`, `ashton-platform v0.0.22` | caller identity, persisted audit, and second routed read | no approvals or writes |
+| `Tracer 16` | `athena` + optional `ashton-proto` | `athena v0.5.0`, `ashton-platform v0.0.23` | durable edge history, session-inference groundwork, and fail-open shadow-write rollout | no prediction or broad rollout claims |
+| `Tracer 17` | `hermes` with bounded `athena` support | `hermes v0.2.0`, `ashton-platform v0.0.24` | operator / reconciliation read surface, occupancy reports, and heat-map-style reads over stable history | no overrides or writes |
+
+### Phase 2B: Operational And Competition Base
+
+| Line | Lead repo(s) | Release line | Purpose | Hard stop |
+| --- | --- | --- | --- | --- |
+| `Tracer 18` | `athena` | `athena v0.6.0`, `ashton-platform v0.0.25` | facility catalog, hours, zones, closure windows, and per-facility metadata read surfaces | no social or product logic |
+| `Tracer 19` | `apollo` + optional `ashton-proto` | `apollo v0.10.0`, `ashton-platform v0.0.26` | sport registry for at least two sports, facility-sport capability mapping, and basic sport rules/config | no full matchmaking yet |
+| `Tracer 20` | `apollo` | `apollo v0.11.0`, `ashton-platform v0.0.27` | team, roster, session, and match container primitives | no public standings |
+| `Tracer 21` | `apollo` | `apollo v0.12.0`, `ashton-platform v0.0.28` | matchmaking / queue / assignment flow and session lifecycle | no rivalry or badge logic |
+| `Tracer 22` | `apollo` + optional `ashton-proto` | `apollo v0.13.0`, `ashton-platform v0.0.29` | result capture, ratings, rudimentary standings, and member profile stats | no broad public social layer |
+
+### Phase 2C: Backend Product Expansion
+
+| Line | Lead repo(s) | Release line | Purpose | Hard stop |
+| --- | --- | --- | --- | --- |
+| `Tracer 23` | `apollo` | `apollo v0.14.0`, `ashton-platform v0.0.30` | planner, exercise library, templates/loadouts, and richer profile inputs as backend/CLI-first truth | no meaningful frontend widening |
+| `Tracer 24` | `apollo` | `apollo v0.15.0`, `ashton-platform v0.0.31` | deterministic coaching, conservative calorie/macro ranges, and low-friction meal logging | no diagnosis, no opaque core |
+| `Tracer 25` | `apollo` | `apollo v0.16.0`, `ashton-platform v0.0.32` | explanation, summarization, and thin agent-facing helper surfaces over stable deterministic logic | no public social feed, no frontend-first product pivot |
+| `Milestone 2.0` | cross-repo closeout | `ashton-platform v0.0.33`, companion patch lines only where needed | Phase 2 backend/base plateau: structural pillars, competition base, planner/coaching substrate, CLI/internal surfaces, and docs/deploy truth aligned | not a broad demo milestone |
 
 ## Milestone Naming Rule
 
@@ -101,14 +159,120 @@ Current interpretation:
 - decimal milestone = a bounded deployment or hardening deepening pass inside the same milestone family
 - `Milestone 1.5` and `Milestone 1.6` may keep their historical aliases `Deployment Workstream A` and `Deployment Workstream B`
 - `Milestone 1.7` is the next bounded deployment deepening pass in the Milestone 1 family
+- `Milestone 2.0` is now the backend/base closeout plateau for the full Phase 2 ladder
 - do not renumber historical artifacts retroactively
 
 Create a new decimal milestone only when all of the following are true:
 
 - the pass deepens already-earned truth
-- the pass stays narrower than a new tracer or new product plateau
+- the pass stays narrower than a new tracer or new platform plateau
 - the pass primarily proves deployment, hardening, or closure quality
 - the pass does not invent a broader feature claim
+
+## Standing Doctrines And Trigger Markers
+
+These are standing doctrines, not separate optional phases.
+
+You may track them in separate chats, but they should apply throughout Phase 2.
+
+### Release Discipline
+
+Always-on doctrine:
+
+- formal pre-`1.0.0` semantic versioning
+- tags
+- release notes
+- repo/doc alignment
+
+Trigger markers:
+
+- the moment a tracer claims a new runtime capability
+- the moment a public boundary changes
+- before any tag
+- before any closure claim
+
+### Deployment Discipline
+
+Always-on doctrine:
+
+- split deploy truth honestly
+- keep ATHENA core vs edge boundaries legible
+- add HERMES deploy slice
+- digest-pin critical internet-facing workloads
+
+Trigger markers:
+
+- whenever runtime truth changes in a deployed repo
+- whenever a new bounded deploy slice is needed
+- whenever live truth and repo truth might diverge
+
+### Contract Discipline
+
+Always-on doctrine:
+
+- widen `ashton-proto` only when a tracer truly needs shared contract growth
+- add compatibility checks when a shared surface becomes real platform truth
+
+Trigger markers:
+
+- second producer or consumer appears
+- a shared manifest, event, or schema changes
+- a CLI, HTTP, or event boundary becomes a depended-on public surface
+
+### Hardening Discipline
+
+Always-on doctrine:
+
+- repeated destructive tests
+- smoke reruns
+- `race` / `vet` where appropriate
+- explicit local / deployed / deferred truth split
+
+Trigger markers:
+
+- every tracer closeout
+- every deploy-affecting line
+- every persistence, auth, identity, or audit line
+- any flaky or non-repeatable proof
+
+## CLI And Agent-First Surface Frames
+
+Phase 2 should leave behind surfaces that agents and operators can actually work with.
+
+Default rule:
+
+- first truthful surface may be CLI, internal HTTP, or bounded operator tooling
+- do not wait for a front end to make a tracer real
+
+Target surface posture by repo:
+
+| Repo | Phase 2 surface posture |
+| --- | --- |
+| `athena` | CLI and internal read surfaces for occupancy, edge observations, sessions, facilities, hours, and metadata |
+| `hermes` | CLI and operator-facing read surfaces for occupancy, reports, heat maps, and reconciliation |
+| `apollo` | API/CLI-first member, sport, team, session, result, planner, and coaching primitives |
+| `ashton-mcp-gateway` | actor-aware routed reads and audit-first control-plane tooling |
+| `ashton-proto` | narrow shared contract growth only when a tracer creates a real cross-repo dependency |
+| `Prometheus` | deploy/runbook truth, not product logic |
+
+CLI examples that fit the ladder:
+
+- `athena edge observations list ...`
+- `athena edge sessions list ...`
+- `athena facility list ...`
+- `athena facility show ...`
+- `hermes ask occupancy ...`
+- `hermes ask occupancy-report ...`
+- `hermes ask heat-map ...`
+- `apollo sport list ...`
+- `apollo team list ...`
+- `apollo match create ...`
+- `apollo result record ...`
+- `apollo planner show ...`
+
+The exact command shapes can change by repo, but the frame should not:
+
+- agents should be able to inspect, verify, and harden Phase 2 truth without needing a thick UI
 
 ## Pre-1.0 Semantic Versioning Policy
 
@@ -143,61 +307,18 @@ A repo graduates only when it has all of the following:
 - a migration or rollback story when storage is involved
 - current docs that agree with shipped tags and deployed truth
 
-## Phase 2 Audit Protocol
+## Phase 3 Boundary
 
-Audit one repo at a time.
+Phase 3 begins after `Milestone 2.0`, not before.
 
-Use three agents per repo:
+Phase 3 is where these become allowed:
 
-1. code/mechanics reviewer
-2. docs/source-of-truth reviewer
-3. consolidation reviewer
+- meaningful frontend widening
+- demo workstreams
+- design-system work
+- broader member-facing shells
+- public or semi-public product presentation
 
-Current audit order:
+Phase 2 should not be back-solved around a UI.
 
-1. `ashton-platform`
-2. `athena`
-3. `ashton-proto`
-4. `hermes`
-5. `ashton-mcp-gateway`
-6. `apollo`
-7. `Prometheus`
-
-The order is deliberate:
-
-- control-plane truth first
-- ATHENA second because the main live-edge drift and `Tracer 16` planning center there
-- gateway and APOLLO later because their next lines depend on the earlier arbitration
-
-## Audit Closeout Snapshot
-
-Phase 2 audit status after the repo-by-repo pass:
-
-| Repo | Audit verdict | Main correction already made | Main carry-forward gap |
-| --- | --- | --- | --- |
-| `ashton-platform` | control-plane truth is now legible enough to steer Phase 2 | milestone naming, semver policy, and ATHENA drift ruling were formalized | several truths are still markdown-mediated rather than machine-enforced |
-| `athena` | strongest service boundary today | `Tracer 16` now clearly owns durable history on `v0.5.0` and the bounded `v0.4.1` edge deployment workstream is memorialized as non-tracer truth | durable history, restart-safe rebuild, and fail-open persistence rollout are still deferred |
-| `ashton-proto` | real shared-contract slice with clearer release intent | release gate and version consequences are now explicit in repo docs | remote plugin pinning and stronger generated-truth checks remain deferred |
-| `hermes` | credible thin staff slice with better local rigor | invalid format now fails before config/upstream work and the repo ladder now matches the control plane | `Tracer 14` observability runtime and `Milestone 1.7` deployment assets are still missing |
-| `ashton-mcp-gateway` | narrow routed-read proof is now documented honestly | manifest support is now constrained to the one route the runtime actually serves and server lifecycle hardening is in place | `Tracer 15` identity, persisted audit, and second route are still missing |
-| `apollo` | broadest runtime, still with the highest security/product debt | ladder drift is fixed, logout is stricter, and CI now covers pull requests | sensitive read/write boundary issues and a few data-integrity gaps remain before the next widening |
-| `Prometheus` | bounded deployment truth is real, but still selective | the ASHTON deployment surface is now treated as narrow live truth rather than generic cluster optimism | no HERMES or gateway deployment manifests exist yet, so `Milestone 1.7` is not deploy-ready there |
-
-## Semver Transition Plan
-
-The policy above is the rule. This is the operating transition:
-
-1. Treat `semver-lite` as historical wording only. New docs, prompts, and release notes should say `formal pre-1.0.0 semantic versioning`.
-2. Keep each repo on `0.y.z` until it earns a stable compatibility promise.
-3. Require every next-line table to state whether the change is a `minor` capability line or a `patch` hardening / deploy-closeout line.
-4. Before tagging, align four truths:
-   - repo `README.md`
-   - repo `docs/roadmap.md`
-   - `ashton-platform/planning/IMPLEMENTATION-BOARD.md`
-   - deployment docs if deployed truth changed
-5. Every tagged release should call out:
-   - changed surface
-   - release type (`minor` or `patch`)
-   - destructive / smoke proof
-   - local, deployed, and deferred truth split
-6. Do not graduate any repo to `1.0.0` until it has a stable public surface, an explicit compatibility promise, reproducible artifacts, and a rollback/migration story where storage is involved.
+It should be finished around modular, trustworthy, agent-friendly backend pillars.
