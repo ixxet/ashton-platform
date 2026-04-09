@@ -139,9 +139,8 @@ render cleanly and rollout is verified from a real kube context.
 - `v0.5.0` / `Tracer 16` is shipped as the durable-history release line
 - `v0.5.1` is now shipped as a bounded Tracer 17 support follow-up on that
   same durable-history branch
-- Tracer 18 facility truth is now closure-clean in local/runtime repo truth
-  with config-gated CLI/internal reads, while tags and deployed truth remain
-  unchanged in this pass
+- Tracer 18 facility truth is now closure-clean on `main` with config-gated
+  CLI/internal reads, while deployed truth remains unchanged in this line
 - what became real: append-only durable edge history, immutable replay
   identity hardening, fail-open shadow-write, restart/reload replay
   groundwork, a CLI-only internal history surface, and one bounded privacy-safe

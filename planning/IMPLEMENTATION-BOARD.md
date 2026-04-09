@@ -136,11 +136,11 @@ Rust remains a later optimization path, not a first-wave dependency.
 | Repo | Current line | Next planned line | Why it is next |
 | --- | --- | --- | --- |
 | `ashton-proto` | `v0.3.0` shipped; current Tracer 15 contract line `v0.4.0` | later than `v0.4.0` | the second routed manifest line is now real in the current repo line; further widening should stay tracer-driven |
-| `athena` | `v0.5.1` shipped; local Tracer 18 facility truth is now real; `v0.4.1` remains the current deployed line | `v0.6.0` | facility truth is now closure-clean in local/runtime repo truth, while tag closeout is the next honest step and deployed truth stays unchanged |
+| `athena` | `v0.5.1` shipped; the Tracer 18 facility-truth line is now on `main`; `v0.4.1` remains the current deployed line | `v0.6.0` | facility truth is now the current repo line while deployed truth stays unchanged |
 | `apollo` | `v0.9.0` shipped | `v0.10.0` | sport registry and facility-sport capability mapping now come before planner/coaching because Phase 2 is backend-first and competition-first |
 | `hermes` | `v0.2.0` shipped | `v0.3.0` | the richer read-only reconciliation line is now shipped and the first write/approval boundary is the next true widening |
 | `ashton-mcp-gateway` | `v0.0.1` shipped; current Tracer 15 line `v0.2.0` | `v0.3.0` | the caller-aware audited read-only control-plane slice is now real; write governance is the next true widening |
-| `ashton-platform` | `v0.0.24` shipped; local Tracer 18 control-plane sync is ready | `v0.0.25` | local/runtime control-plane closeout is now aligned; tag closeout is the next honest step |
+| `ashton-platform` | `v0.0.24` shipped; the Tracer 18 control-plane closeout line is now on `main` | `v0.0.25` | control-plane closeout is aligned while deployed truth stays unchanged |
 
 Current closeout note:
 
@@ -148,18 +148,18 @@ Current closeout note:
   `50d50cb6b164fd58896d799bafa2e39138765620`
 - `athena` now also carries one bounded privacy-safe history read on `main`
   for Tracer 17 support, and that support follow-up is released as `v0.5.1`
-- `athena` now also carries Tracer 18 facility-truth runtime locally through
+- `athena` now also carries Tracer 18 facility-truth runtime on `main` through
   validated file-backed CLI/internal reads for facility catalog, hours, zones,
   closure windows, and bounded metadata
 - `hermes` now carries Tracer 17 runtime truth on `main` at
   `2a01b61646b3ef985cbbfd4609f7731e5eb13eb3`
 - this repo now carries the aligned Tracer 17 control-plane closeout on `main`,
-  and the Tracer 18 closeout sync is now ready locally with deployed truth
+  and the Tracer 18 closeout line is now also on `main` with deployed truth
   still unchanged
 - `v0.5.1`, `v0.2.0`, and `v0.0.24` are the Tracer 17 release lines for
   bounded ATHENA support, HERMES runtime truth, and platform closeout truth
-- `v0.6.0` and `v0.0.25` remain the intended Tracer 18 tag lines, but this
-  pass does not claim those tags yet
+- `v0.6.0` and `v0.0.25` are the Tracer 18 release lines for ATHENA facility
+  truth and platform control-plane closeout
 - deployed truth remains unchanged: the bounded live edge path is still real,
   while the durable-history branch and reconciliation widening remain local/runtime proof only
 
@@ -173,7 +173,7 @@ Current closeout note:
 | Gateway | caller-aware and auditable, still narrow | the Tracer 15 runtime proof is real, while broader control-plane maturity remains deferred | medium |
 | ATHENA durability | shipped | deterministic durable-history groundwork is tagged, bounded support follow-up is released, and durable-branch deployment truth is still unchanged | done |
 | HERMES operator surface | shipped | one richer reconciliation question, occupancy reports, and heat-map-style reads are now shipped while deployed truth stays unchanged | done |
-| Facility catalog / hours | local/runtime closure-clean | ATHENA now exposes config-gated facility catalog, hours, zones, closure windows, and bounded metadata reads while deployed truth stays unchanged | done |
+| Facility catalog / hours | closure-clean on `main` | ATHENA now exposes config-gated facility catalog, hours, zones, closure windows, and bounded metadata reads while deployed truth stays unchanged | done |
 | Sport / team / session base | missing | competition runtime cannot grow cleanly without it | medium-high |
 | Ratings / standings / profile stats | missing | needed before truthful competition surfaces or later demos | medium |
 | Planner / coaching backend | missing | still important, but explicitly later than the operational and competition base | medium |

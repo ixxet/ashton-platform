@@ -1260,7 +1260,7 @@ Deferred after closure:
 
 ## Tracer 18: ATHENA Facility Truth
 
-Status: complete locally; tags pending.
+Status: closure-clean on `main`.
 
 Goal:
 

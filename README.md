@@ -34,14 +34,14 @@ readable as one coherent platform instead of five drifting repos.
 
 | Area | State now | Truth level | Meaning |
 | --- | --- | --- | --- |
-| ATHENA runtime | `v0.5.1` shipped; local Tracer 18 facility truth is now real; `v0.4.1` still deployed | published runtime truth plus local/runtime closeout truth | durable-history groundwork, bounded history support, and config-gated facility catalog/hours/zones/closure/metadata reads are real without widening deployed truth |
+| ATHENA runtime | `v0.5.1` shipped; the Tracer 18 facility-truth line is now on `main`; `v0.4.1` still deployed | published runtime truth plus current repo truth | durable-history groundwork, bounded history support, and config-gated facility catalog/hours/zones/closure/metadata reads are real without widening deployed truth |
 | ATHENA deployment | `Prometheus v0.0.3`, `ashton-platform v0.0.19` shipped | published deployment truth | bounded live edge-ingress deployment truth is real |
 | APOLLO member runtime | `v0.9.0` shipped | published runtime truth | auth, visits, workouts, recommendation, explicit membership, and deterministic preview are real |
 | APOLLO member shell | `v0.7.0` shipped | published runtime truth | thin shell is real and still intentionally narrow |
 | HERMES | `v0.2.0` shipped | published local/runtime truth plus bounded deployment truth | one bounded staff read plus one richer reconciliation read are shipped, while the bounded internal runner deployment in `agents` still proves only the occupancy slice |
 | Gateway | current Tracer 15 line: `v0.2.0` | narrow repo truth | caller identity, persisted audit, and a second routed read are real in the current gateway repo line, while write governance and deployment remain deferred |
 | Prometheus deployment repo | live for bounded ATHENA, APOLLO, and HERMES deployment truth | published deployment truth | bounded HERMES manifests now exist; gateway deployment slices remain deferred |
-| Platform docs | `v0.0.24` shipped; Tracer 18 closeout sync is now local and untagged | control-plane planning truth | front-facing ladder, local/runtime Tracer 18 proof, and deployed-truth boundaries now tell the same story without implying a new tag |
+| Platform docs | `v0.0.24` shipped; the Tracer 18 closeout line is now on `main` | control-plane planning truth | front-facing ladder, current Tracer 18 repo truth, and deployed-truth boundaries now tell the same story without widening deployed claims |
 
 ## Pillar Map
 
@@ -388,11 +388,11 @@ flowchart LR
 | Repo | Current line | Next planned line | Why it is next |
 | --- | --- | --- | --- |
 | `ashton-proto` | `v0.3.0` shipped; current Tracer 15 contract line `v0.4.0` | later than `v0.4.0` | the second routed manifest surface is now real in the current repo line; further widening should stay tracer-driven |
-| `athena` | `v0.5.1` shipped; local Tracer 18 facility truth is now real; `v0.4.1` remains the current deployed line | `v0.6.0` | facility truth is now closure-clean in local/runtime repo truth, while tag closeout is the next honest step and deployed truth stays unchanged |
+| `athena` | `v0.5.1` shipped; the Tracer 18 facility-truth line is now on `main`; `v0.4.1` remains the current deployed line | `v0.6.0` | facility truth is now the current repo line while deployed truth stays unchanged |
 | `apollo` | `v0.9.0` shipped | `v0.10.0` | sport registry and facility-sport capability mapping now come before planner/coaching because Phase 2 is backend-first and competition-first |
 | `hermes` | `v0.2.0` shipped | `v0.3.0` | the richer read-only reconciliation line is now shipped; explicit write authority is the next true widening |
 | `ashton-mcp-gateway` | `v0.0.1` shipped; current Tracer 15 line `v0.2.0` | `v0.3.0` | caller identity, persisted audit, and a second routed read are now real; write approval is the next bounded widening |
-| `ashton-platform` | `v0.0.24` shipped; local Tracer 18 control-plane sync is ready | `v0.0.25` | local/runtime control-plane closeout is now aligned; tag closeout is the next honest step |
+| `ashton-platform` | `v0.0.24` shipped; the Tracer 18 control-plane closeout line is now on `main` | `v0.0.25` | control-plane closeout is aligned while deployed truth stays unchanged |
 
 ## Current State Block
 
@@ -471,9 +471,8 @@ bullets are only the short summary.
   `v0.0.23` remain the Tracer 16 release lines
 - `Tracer 17` is now shipped as `hermes v0.2.0`, bounded `athena v0.5.1`, and
   `ashton-platform v0.0.24`; deployed truth remains unchanged
-- Tracer 18 facility truth is now closure-clean in local/runtime repo truth
-  with internal HTTP plus CLI reads, while tags remain pending and deployed
-  truth remains unchanged
+- Tracer 18 facility truth is now closure-clean on `main` with internal HTTP
+  plus CLI reads, while deployed truth remains unchanged
 - the next gateway line only after explicit write approval is actually required
 - broader `ashton-proto` contract expansion only when a real cross-repo tracer
   requires it

@@ -106,15 +106,15 @@ Current Tracer 17 closeout note:
 
 Current Tracer 18 closeout note:
 
-- local/runtime `athena` now exposes validated file-backed facility catalog,
+- current `athena` on `main` now exposes validated file-backed facility catalog,
   hours, zones, closure windows, and bounded metadata reads
 - the real surfaces are `athena facility list`, `athena facility show`,
   `GET /api/v1/facilities`, and `GET /api/v1/facilities/{facility_id}`
 - `ashton-proto` remains untouched because ATHENA-owned reads are sufficient
 - deployed truth remains unchanged: the live ATHENA edge path is still the
   current deployed physical-truth proof
-- `athena v0.6.0` and `ashton-platform v0.0.25` remain the intended Tracer 18
-  tag lines, but this pass does not claim those tags yet
+- `athena v0.6.0` and `ashton-platform v0.0.25` are the Tracer 18 release
+  lines
 
 Phase 2 rule for `Tracer 16`:
 
