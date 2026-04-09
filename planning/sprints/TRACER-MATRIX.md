@@ -1260,7 +1260,7 @@ Deferred after closure:
 
 ## Tracer 18: ATHENA Facility Truth
 
-Status: closure-clean on `main`.
+Status: complete and tagged.
 
 Goal:
 
@@ -1321,3 +1321,61 @@ Deferred after closure:
 | Feature | writes, overrides, and approval flows | deferred | the line is read-only by design | later ATHENA, HERMES, or gateway line |
 | Deploy | live deployment proof for facility-truth routes | deferred | local/runtime proof was sufficient for this tracer | later bounded deployment pass |
 | Contract | shared `ashton-proto` facility catalog schema | deferred | no real cross-repo contract dependency was proven | later tracer only if justified |
+
+## Tracer 19: APOLLO Sport Substrate
+
+Status: closure-clean locally.
+
+Goal:
+
+- add one bounded APOLLO competition-substrate line for badminton and
+  basketball sport registry truth, facility-sport capability mapping, and
+  static sport rules/config
+
+Repos:
+
+- `apollo`
+- `ashton-platform`
+
+Exit criteria:
+
+- CLI-only sport registry reads are real
+- sport list/show output is deterministic
+- facility-sport mappings are bounded to ATHENA facility identifiers and reject
+  impossible combinations
+- invalid sport definitions, duplicate sport keys, and bad rules fail cleanly
+- no matchmaking runtime, results, ratings, standings, public sports surfaces,
+  or shared contract widening slip in
+- deployed truth remains unchanged
+- repo-local and control-plane docs align
+
+Key outputs:
+
+- `apollo` now owns sport registry truth for badminton and basketball
+- facility support is bounded to `facility_id` and optional `zone_id` mappings
+  only
+- basic sport rules/config remain static and read-mostly
+- `ashton-proto` remains untouched because APOLLO-owned storage and CLI reads
+  were sufficient
+- the proof set includes full Go tests, repeated internal tests, `go vet`,
+  `go build ./cmd/apollo`, diff hygiene, and bounded CLI smoke
+- deployed truth stays unchanged; this tracer is local/runtime truth only
+- the intended release set is `apollo v0.10.0` and `ashton-platform v0.0.26`
+
+Tracer 19 retrospective:
+
+- CLI-first was the cleanest first surface and avoided product widening.
+- Keeping facility truth upstream and only validating against its identifiers
+  prevented facility ownership drift.
+- Static rules/config were enough; no runtime session or matchmaking logic was
+  needed.
+
+Deferred after closure:
+
+| Type | Item | Status | Why It Was Not Done Here | Future Owner |
+| --- | --- | --- | --- | --- |
+| Feature | team, roster, session, and match container primitives | deferred | explicitly later competition-runtime line | later APOLLO tracer |
+| Feature | matchmaking / queue / assignment flow | deferred | explicitly later execution line | later APOLLO tracer |
+| Feature | results, ratings, standings, and member stats | deferred | later truth line after execution exists | later APOLLO tracer |
+| Feature | public sports surfaces or frontend widening | deferred | Phase 3 concern, not Tracer 19 | later product line |
+| Contract | shared `ashton-proto` sport/facility schema | deferred | no real shared dependency was proven | later tracer only if justified |

@@ -116,6 +116,17 @@ Current Tracer 18 closeout note:
 - `athena v0.6.0` and `ashton-platform v0.0.25` are the Tracer 18 release
   lines
 
+Current Tracer 19 closeout note:
+
+- `apollo` runtime truth is now locally real and verified through CLI-only
+  sport registry reads for badminton and basketball, facility-sport capability
+  mapping, and static sport rules/config
+- `ashton-proto` remains untouched because no shared sport/facility contract
+  was required
+- deployed truth remains unchanged: the APOLLO sport substrate is local/runtime
+  truth only
+- `apollo v0.10.0` and `ashton-platform v0.0.26` are the intended release lines
+
 Phase 2 rule for `Tracer 16`:
 
 - keep the same tunnel, token, and userscript contract
@@ -170,7 +181,7 @@ Working rule:
 | Line | Lead repo(s) | Release line | Purpose | Hard stop |
 | --- | --- | --- | --- | --- |
 | `Tracer 18` | `athena` | `athena v0.6.0`, `ashton-platform v0.0.25` | facility catalog, hours, zones, closure windows, and per-facility metadata read surfaces | no social or product logic |
-| `Tracer 19` | `apollo` + optional `ashton-proto` | `apollo v0.10.0`, `ashton-platform v0.0.26` | sport registry for at least two sports, facility-sport capability mapping, and basic sport rules/config | no full matchmaking yet |
+| `Tracer 19` | `apollo` | `apollo v0.10.0`, `ashton-platform v0.0.26` | sport registry for at least two sports, facility-sport capability mapping, and basic sport rules/config | no full matchmaking yet |
 | `Tracer 20` | `apollo` | `apollo v0.11.0`, `ashton-platform v0.0.27` | team, roster, session, and match container primitives | no public standings |
 | `Tracer 21` | `apollo` | `apollo v0.12.0`, `ashton-platform v0.0.28` | matchmaking / queue / assignment flow and session lifecycle | no rivalry or badge logic |
 | `Tracer 22` | `apollo` + optional `ashton-proto` | `apollo v0.13.0`, `ashton-platform v0.0.29` | result capture, ratings, rudimentary standings, and member profile stats | no broad public social layer |

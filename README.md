@@ -41,7 +41,7 @@ readable as one coherent platform instead of five drifting repos.
 | HERMES | `v0.2.0` shipped | published local/runtime truth plus bounded deployment truth | one bounded staff read plus one richer reconciliation read are shipped, while the bounded internal runner deployment in `agents` still proves only the occupancy slice |
 | Gateway | current Tracer 15 line: `v0.2.0` | narrow repo truth | caller identity, persisted audit, and a second routed read are real in the current gateway repo line, while write governance and deployment remain deferred |
 | Prometheus deployment repo | live for bounded ATHENA, APOLLO, and HERMES deployment truth | published deployment truth | bounded HERMES manifests now exist; gateway deployment slices remain deferred |
-| Platform docs | `v0.0.24` shipped; the Tracer 18 closeout line is now on `main` | control-plane planning truth | front-facing ladder, current Tracer 18 repo truth, and deployed-truth boundaries now tell the same story without widening deployed claims |
+| Platform docs | `v0.0.25` shipped; the Tracer 19 closeout line is locally verified for `v0.0.26` | control-plane planning truth | front-facing ladder, current Tracer 19 repo truth, and deployed-truth boundaries now tell the same story without widening deployed claims |
 
 ## Pillar Map
 
@@ -392,7 +392,7 @@ flowchart LR
 | `apollo` | `v0.9.0` shipped | `v0.10.0` | sport registry and facility-sport capability mapping now come before planner/coaching because Phase 2 is backend-first and competition-first |
 | `hermes` | `v0.2.0` shipped | `v0.3.0` | the richer read-only reconciliation line is now shipped; explicit write authority is the next true widening |
 | `ashton-mcp-gateway` | `v0.0.1` shipped; current Tracer 15 line `v0.2.0` | `v0.3.0` | caller identity, persisted audit, and a second routed read are now real; write approval is the next bounded widening |
-| `ashton-platform` | `v0.0.24` shipped; the Tracer 18 control-plane closeout line is now on `main` | `v0.0.25` | control-plane closeout is aligned while deployed truth stays unchanged |
+| `ashton-platform` | `v0.0.25` shipped; the Tracer 19 control-plane closeout line is locally verified for `v0.0.26` | `v0.0.26` | control-plane closeout is locally aligned while deployed truth stays unchanged |
 
 ## Current State Block
 
@@ -533,8 +533,8 @@ bullets are only the short summary.
 
 ## Current And Planned Release Lines
 
-The table below records the current Tracer 17 release lines plus the later
-planned lines. It does not widen deployed truth or imply broader rollout
+The table below records the current published control-plane lines plus the
+later planned lines. It does not widen deployed truth or imply broader rollout
 maturity beyond the bounded live edge path already proven.
 
 | Release line | Intended purpose | Restrictions | What it should not do yet |
@@ -557,6 +557,7 @@ maturity beyond the bounded live edge path already proven.
 | --- | --- | --- | --- | --- |
 | `v0.0.24` | `Tracer 17` | `hermes v0.2.0`, `athena v0.5.1` | one richer read-only staff question backed by stable public upstream truth | do not widen into overrides or writes |
 | `v0.0.25` | `Tracer 18` | `athena v0.6.0` | facility catalog, hours, zones, closure windows, and per-facility metadata reads | do not widen into social or product concerns |
+| `v0.0.26` | `Tracer 19` | `apollo v0.10.0` | sport registry for at least two sports, facility-sport capability mapping, and basic sport rules/config | do not widen into matchmaking runtime yet |
 | later than the extended ladder in `planning/STARSHOT-VISION.md` | `System-Proof Milestone` | cross-repo | verify runtime truth, deployment truth, modularity, and maintenance model across the tracer ladder | do not add a new feature surface |
 
 ## Post-Tracer System-Proof Target

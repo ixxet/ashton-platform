@@ -6,8 +6,11 @@ It owns member auth, profile state, visit history as member-facing context,
 visit open/close lifecycle behavior, the first derived lobby-eligibility
 behavior, explicit lobby membership as member intent, the first explicit
 workout-history runtime, the first deterministic recommendation read, and one
-thin member web shell over those same APIs. It does not own raw presence truth,
-generated planning, or actual matchmaking behavior.
+thin member web shell over those same APIs. Tracer 19 now adds a separate
+bounded competition substrate slice: sport registry truth, facility-sport
+capability mapping, and basic sport rules/config for badminton and basketball.
+It does not own raw presence truth, generated planning, or actual matchmaking
+behavior.
 
 ## Current Role
 
@@ -21,6 +24,7 @@ The active APOLLO slice now spans eight narrow runtime boundaries:
 - authenticated workout create/update/finish/read -> member-owned workout history
 - authenticated workout history -> deterministic recommendation read
 - authenticated member shell routes -> existing auth/profile/membership/workout/recommendation APIs
+- CLI-only sport registry + facility-sport capability + static rules/config -> bounded competition substrate truth
 
 That is enough to prove member ownership, state persistence, and the first real
 intent-behavior, explicit lobby-membership, workout-history, and deterministic
@@ -104,6 +108,9 @@ Key boundaries:
   recommendation state
 - the first member shell is local repo truth only and stays thin over the
   existing authenticated APIs, now including one narrow lobby-membership panel
+- Tracer 19 is locally real and verified: APOLLO owns badminton and basketball
+  sport registry truth, facility-sport capability mapping, and static sport
+  rules/config through a CLI-only surface
 
 ## Project Shape
 
@@ -118,10 +125,11 @@ Key boundaries:
 | `internal/visits/` | visit service and repository boundary |
 | `internal/workouts/` | workout service and repository boundary |
 | `internal/recommendations/` | deterministic recommendation service and repository boundary |
+| `internal/sports/` | CLI-only sport registry, facility-sport capability, and static rules/config boundary |
 | `internal/server/web/` | embedded member-shell templates, assets, and browser-side tests |
 | `internal/store/` | sqlc-generated query bindings |
 | `internal/server/` | HTTP handlers, auth middleware, and embedded member-shell wiring |
-| `db/migrations/` | current schema for users, sessions, visits, lobby membership, workouts, ARES, and recommendations |
+| `db/migrations/` | current schema for users, sessions, visits, lobby membership, workouts, ARES, recommendations, and sport substrate truth |
 | `docs/` | roadmap, runbooks, ADRs, diagrams, and growing pains |
 
 ## Verification Standard
@@ -135,6 +143,8 @@ Treat APOLLO as trustworthy only when:
 - the local smoke path covers auth, profile, eligibility, workout runtime,
   explicit lobby membership, deterministic recommendation reads, and the thin
   member shell
+- the sport substrate is deterministic, bounded, and separate from matchmaking,
+  results, ratings, and public sports surfaces
 - the identified arrival and departure boundary is exercised against real NATS
   and Postgres
 

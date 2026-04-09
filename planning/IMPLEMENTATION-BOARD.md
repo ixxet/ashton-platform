@@ -140,7 +140,7 @@ Rust remains a later optimization path, not a first-wave dependency.
 | `apollo` | `v0.9.0` shipped | `v0.10.0` | sport registry and facility-sport capability mapping now come before planner/coaching because Phase 2 is backend-first and competition-first |
 | `hermes` | `v0.2.0` shipped | `v0.3.0` | the richer read-only reconciliation line is now shipped and the first write/approval boundary is the next true widening |
 | `ashton-mcp-gateway` | `v0.0.1` shipped; current Tracer 15 line `v0.2.0` | `v0.3.0` | the caller-aware audited read-only control-plane slice is now real; write governance is the next true widening |
-| `ashton-platform` | `v0.0.24` shipped; the Tracer 18 control-plane closeout line is now on `main` | `v0.0.25` | control-plane closeout is aligned while deployed truth stays unchanged |
+| `ashton-platform` | `v0.0.25` shipped; the Tracer 19 control-plane closeout line is locally verified for `v0.0.26` | `v0.0.26` | control-plane closeout is locally aligned while deployed truth stays unchanged |
 
 Current closeout note:
 
@@ -162,6 +162,17 @@ Current closeout note:
   truth and platform control-plane closeout
 - deployed truth remains unchanged: the bounded live edge path is still real,
   while the durable-history branch and reconciliation widening remain local/runtime proof only
+
+Current Tracer 19 closeout note:
+
+- `apollo` runtime truth is now locally real and verified through CLI-only sport
+  registry reads for badminton and basketball, facility-sport capability
+  mapping, and static sport rules/config
+- `ashton-proto` remains untouched because no shared sport/facility contract was
+  required
+- deployed truth remains unchanged: the APOLLO sport substrate is local/runtime
+  truth only
+- `apollo v0.10.0` and `ashton-platform v0.0.26` are the intended release lines
 
 ## Urgency Snapshot
 
@@ -206,7 +217,7 @@ reconciliation surface and bounded ATHENA support release alignment.
 | `v0.0.23` | `Tracer 16` | `athena v0.5.0` | durable edge-observation groundwork and ingress hardening | no prediction or broad rollout claims |
 | `v0.0.24` | `Tracer 17` | `hermes v0.2.0`, `athena v0.5.1` | one richer read-only operator/reconciliation question | no overrides or writes |
 | `v0.0.25` | `Tracer 18` | `athena v0.6.0` | facility catalog, hours, zones, closure windows, and per-facility metadata read surfaces | no social or product logic |
-| `v0.0.26` | `Tracer 19` | `apollo v0.10.0`, optional `ashton-proto` widening only if a shared sport/facility contract is truly needed | sport registry for at least two sports, facility-sport capability mapping, and basic sport rules/config | no matchmaking runtime yet |
+| `v0.0.26` | `Tracer 19` | `apollo v0.10.0` | sport registry for at least two sports, facility-sport capability mapping, and basic sport rules/config | no matchmaking runtime yet |
 | `v0.0.27` | `Tracer 20` | `apollo v0.11.0` | team, roster, session, and match container primitives | no public standings |
 | `v0.0.28` | `Tracer 21` | `apollo v0.12.0` | matchmaking / queue / assignment flow and session lifecycle | no rivalry or badge logic |
 | `v0.0.29` | `Tracer 22` | `apollo v0.13.0`, optional `ashton-proto` widening only if result or rating contracts become truly shared | result capture, ratings, rudimentary standings, and member profile stats | no broad public social layer |
