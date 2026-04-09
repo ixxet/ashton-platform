@@ -460,8 +460,7 @@ The planned release sequence below is the authoritative expansion path. These
 bullets are only the short summary.
 
 - `Tracer 16` runtime and control-plane closeout are now complete on `main`;
-  `v0.5.0` and `v0.0.23` remain planned tags only because this docs pass does
-  not create releases
+  `v0.5.0` and `v0.0.23` are the Tracer 16 release lines
 - richer `hermes` staff questions only after a later tracer proves a real need
   beyond occupancy
 - the next gateway line only after explicit write approval is actually required
