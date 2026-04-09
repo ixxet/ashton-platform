@@ -52,8 +52,8 @@ hermes/
 
 ## Verified Truth
 
-- verified local truth only
-- no live HERMES deployment claim exists yet
+- verified local and deployed truth
+- live HERMES deployment truth exists as a bounded internal runner slice in `agents`
 - no gateway, chat UX, LangGraph agent, write actions, or approvals exist yet
 
 ## Hardening Notes
@@ -64,10 +64,11 @@ hermes/
 - the happy path is a valid occupancy read against a healthy ATHENA runtime
 - HERMES success-path observability is still thin and remains a documented
   non-blocking carry-forward gap
+- deployment proof is now real, but the deployed shape stays a bounded
+  internal runner and not a broader assistant service
 
 ## Deferred On Purpose
 
-- live deployment and GitOps proof
 - richer cross-service staff questions
 - identity-level roster answers
 - write actions and human approval flows
@@ -78,5 +79,5 @@ hermes/
 | Line | Focus | Hard stop |
 | --- | --- | --- |
 | `v0.1.1` / `Tracer 14` | low-noise structured observability for the existing occupancy slice | do not widen into richer questions or writes |
-| `v0.1.2` if runtime changes, otherwise deploy-only / `Milestone 1.7` | bounded live deployment proof for the same occupancy slice | do not imply write authority or broad assistant maturity |
+| `v0.1.2` only if runtime changes, otherwise deploy-only / `Milestone 1.7` | bounded live deployment proof for the same occupancy slice in a bounded internal runner | do not imply write authority, broad assistant maturity, or public ingress |
 | `v0.2.0` / `Tracer 17` | one richer read-only staff question over stable public upstream truth | do not invent identity-level answers or add overrides |

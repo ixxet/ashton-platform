@@ -57,11 +57,11 @@ implementation slice are:
    - do not widen into broader prediction, persistence, or admin workflow work
      next
 4. `hermes`
-   - keep staff operations read-only and sourced from public upstream service
-     truth until a later tracer proves a richer question or explicit write
-     authority
-   - keep Milestone 1.7 narrower than a broader operator surface now that
-     request/result observability is real on the current CLI slice
+   - keep staff operations read-only and source-backed; the deploy-only
+     Milestone 1.7 closeout now proves the bounded live runner slice without
+     widening runtime truth
+   - keep any later operator surface narrower than a broader assistant or
+     write-authority claim
 5. `apollo`
    - keep explicit lobby membership narrower than future ARES, invites, or
      social coordination flows
@@ -137,9 +137,9 @@ Rust remains a later optimization path, not a first-wave dependency.
 | `ashton-proto` | `v0.3.0` shipped, `v0.3.1` unreleased on `main` | `v0.4.0` | broader routed manifest expansion only after a second route is real |
 | `athena` | `v0.4.1` shipped | `v0.5.0` | durable edge-observation groundwork is the next true ATHENA capability line after the bounded live `v0.4.1` line is trusted |
 | `apollo` | `v0.9.0` shipped | `v0.10.0` | sport registry and facility-sport capability mapping now come before planner/coaching because Phase 2 is backend-first and competition-first |
-| `hermes` | `v0.1.1` shipped | `v0.1.2` if runtime changes, otherwise deployment-only closeout | deployment proof is next now that observability hardening is closure-clean |
+| `hermes` | `v0.1.1` shipped | `v0.1.2` only if runtime changes later | deployment truth is already closed on the bounded live runner slice; keep the runtime line at `v0.1.1` unless later evidence requires a bump |
 | `ashton-mcp-gateway` | `v0.0.1` shipped, `v0.1.0` unreleased on `main` | `v0.2.0` | caller identity, persisted audit, and a second routed read after the first route proves itself |
-| `ashton-platform` | `v0.0.20` shipped | `v0.0.21` | the next platform line should move from HERMES observability hardening to bounded HERMES deployment proof |
+| `ashton-platform` | `v0.0.21` shipped | `v0.0.22` | the next platform line moves from deploy-only HERMES closeout to gateway caller identity and persisted audit |
 
 ## Urgency Snapshot
 
@@ -147,7 +147,7 @@ Rust remains a later optimization path, not a first-wave dependency.
 | --- | --- | --- | --- |
 | ATHENA deploy truth | done | physical-truth pillar is live and credible | done |
 | APOLLO auth / membership / preview | done | member intent pillar exists | done |
-| HERMES | observability-hardened | needs live proof | high |
+| HERMES | observability-hardened and live-deployed | published local/runtime truth plus bounded deployment truth | done |
 | Gateway | thin | needs identity plus audit | high |
 | ATHENA durability | missing | still weak on restart, history, and audit side | high |
 | HERMES operator surface | missing | reports, heat maps, and reconciliation still depend on Tracer 16 plus Tracer 17 | high |
@@ -176,7 +176,7 @@ and not a tagged runtime line.
 
 | Platform tag | Vertical | Repo lines in scope | Intended purpose | Hard stop |
 | --- | --- | --- | --- | --- |
-| `v0.0.21` | `Milestone 1.7` | `hermes v0.1.2` if runtime changes, otherwise deploy closeout only, companion later `Prometheus` line if needed | live HERMES deployment proof once a bounded `Prometheus` HERMES slice exists | no write authority or broad assistant maturity |
+| `v0.0.21` | `Milestone 1.7` | `hermes v0.1.2` only if runtime changes later, otherwise deploy-only closeout | live HERMES deployment proof over a bounded `Prometheus` runner slice | no write authority, public ingress, or broad assistant maturity |
 | `v0.0.22` | `Tracer 15` | `ashton-mcp-gateway v0.2.0`, optional `ashton-proto v0.4.0` | caller identity, persisted audit, and second routed read | no write approvals yet |
 | `v0.0.23` | `Tracer 16` | `athena v0.5.0` | durable edge-observation groundwork and ingress hardening | no prediction or broad rollout claims |
 | `v0.0.24` | `Tracer 17` | `hermes v0.2.0`, maybe bounded `athena` read support | one richer read-only operator/reconciliation question | no overrides or writes |
@@ -196,7 +196,7 @@ and not a tagged runtime line.
 | Line | Concrete outcome | Why it matters |
 | --- | --- | --- |
 | `Tracer 14` | HERMES logs request, result, and outcome clearly with low-noise structured logs | makes the staff slice operationally inspectable |
-| `Milestone 1.7` | live HERMES occupancy read is deployed and verified after the deploy repo grows a bounded HERMES slice | upgrades the staff pillar from local truth to deployment truth |
+| `Milestone 1.7` | live HERMES occupancy read was deployed and verified through a bounded internal runner slice | upgrades the staff pillar from local truth to bounded deployment truth |
 | `Tracer 15` | gateway gains caller identity, persisted audit, and one second routed read | turns the control plane from a demo route into a trusted narrow layer |
 | `Tracer 16` | ATHENA gains durable edge-observation groundwork | removes all-memory dependence and sets up operator history / reconciliation groundwork |
 | `Tracer 17` | HERMES answers one richer operator/reconciliation question from stable public upstream truth | creates the first real operator / reconciliation read surface |
@@ -251,7 +251,7 @@ and not a tagged runtime line.
 | Line | Minimum proof |
 | --- | --- |
 | `Tracer 14` | repeated HERMES runs, success/failure logs, no runtime widening |
-| `Milestone 1.7` | rollout proof, live occupancy read, cluster smoke, docs aligned |
+| `Milestone 1.7` | rollout proof, live occupancy read, cluster smoke, safe negative proofs, docs aligned |
 | `Tracer 15` | repeated routed reads, caller identity proof, persisted audit proof, second route proof |
 | `Tracer 16` | durable-history groundwork behaves deterministically, restart / reload story is explicit, and no raw-ID leakage regresses |
 | `Tracer 17` | richer question is source-backed, deterministic, read-only, and operationally useful |
@@ -281,7 +281,7 @@ and not a tagged runtime line.
 
 1. Treat `v0.0.19` as the shipped bounded ATHENA deployment closeout line.
 2. Treat `Tracer 14` as closure-clean on `main` and keep it strictly observability-only.
-3. Use `Milestone 1.7` to convert the same HERMES slice from local/runtime truth into bounded live deployment truth.
+3. Use `Milestone 1.7` to record the same HERMES slice as bounded live deployment truth without widening runtime scope.
 4. Use `Tracer 15` to strengthen gateway trust before any approval or write widening.
 5. Use `Tracer 16` and `Tracer 17` to finish the structural pillars before product/base widening.
 6. Use `Tracer 18` through `Tracer 22` to finish the operational and competition base before planner/coaching work.

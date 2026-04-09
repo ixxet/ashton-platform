@@ -970,3 +970,63 @@ Deferred after closure:
 | Feature | richer operator or reconciliation read | deferred | observability hardening should land before a broader HERMES question is attempted | `Tracer 17` |
 | Feature | write actions and approval flows | deferred | Tracer 14 hardens a read-only boundary only | later HERMES action tracer |
 | Feature | gateway, chat UX, and agent orchestration | deferred | the current line is still a narrow CLI/runtime hardening pass, not a broader assistant surface | later gateway or assistant tracer |
+
+## Milestone 1.7: HERMES Live Deployment Proof
+
+Status: completed.
+
+Goal:
+
+- prove the existing HERMES occupancy read live in cluster without widening it
+  into a public service, a broader assistant surface, or a write path
+
+Repos:
+
+- `hermes`
+- `Prometheus`
+- `ashton-platform`
+
+Exit criteria:
+
+- the existing HERMES runtime remains occupancy-only and read-only
+- deployment closes as a bounded internal runner in `agents`
+- the deployed path proves repeated live ATHENA-backed occupancy reads
+- bounded negative proofs are repeated and honest
+- docs align across repo-local and control-plane truth
+
+Key outputs:
+
+- `hermes` gained a container packaging path, but no Go runtime change was
+  required
+- `Prometheus` now carries a bounded internal `Deployment/hermes` plus
+  `ServiceAccount/hermes` and pull-secret wiring for the private GHCR image
+- live rollout succeeded in `agents` and the deployed runner answered three
+  successful occupancy reads against ATHENA-backed truth for `ashtonbee`
+- blank facility validation, source-backed unknown facility behavior,
+  connection-refused upstream failure, timeout classification, and upstream
+  `500` classification were all proven without widening the runtime
+- the deployment surface stayed internal-only: no `Service`, no `Ingress`, no
+  public HERMES API, and no write authority
+
+Milestone 1.7 retrospective:
+
+- The first real blocker was not HERMES runtime behavior. It was packaging and
+  deployment truth: the repo needed a container path, the cluster needed
+  private GHCR pull auth, and the manifest needed an explicit numeric non-root
+  identity to satisfy Pod Security.
+- The honest deployed shape was narrower than a public service. Keeping HERMES
+  as a dormant runner invoked through `kubectl exec` preserved the CLI truth
+  while still making live deployment proof real.
+- Negative proof mattered as much as the happy path. The closure line only
+  stayed honest because it proved validation failure, transport failure,
+  timeout behavior, and upstream `500` classification without destabilizing the
+  live ATHENA path.
+
+Deferred after closure:
+
+| Type | Item | Status | Why It Was Not Done Here | Future Owner |
+| --- | --- | --- | --- | --- |
+| Feature | richer operator or reconciliation read | deferred | Milestone 1.7 proves live deployment for the existing occupancy slice only | `Tracer 17` |
+| Feature | write actions and approval flows | deferred | the deployed HERMES slice remains read-only and internal-only | later HERMES action tracer |
+| Feature | public HERMES service or gateway-mediated HERMES surface | deferred | bounded exec-driven deployment proof was sufficient and more honest | later gateway or assistant tracer |
+| Deploy | broader HERMES rollout or public ingress | deferred | one internal runner in `agents` is enough for this line | later bounded deployment workstream if needed |

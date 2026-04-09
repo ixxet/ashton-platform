@@ -26,9 +26,9 @@ readable as one coherent platform instead of five drifting repos.
 | `ashton-proto` | Shared contracts, schemas, runtime helpers | Real and active | Keeps producers and consumers from hand-rolling wire contracts |
 | `athena` | Physical truth for presence and occupancy | Real and executable | First Go service, first operational data surface, active visit-lifecycle publisher, and bounded live edge-driven occupancy deployment over a browser-reachable ingress path |
 | `apollo` | Member-facing application and intent state | Real and executable, but intentionally narrow | First member auth, profile-state, visit-history, visit-closing, derived eligibility, explicit lobby membership, explicit workout runtime, deterministic recommendation slice, and thin member shell |
-| `hermes` | Staff-facing operations assistant | Real and executable, but intentionally narrow | First read-only staff occupancy slice over ATHENA public truth |
+| `hermes` | Staff-facing operations assistant | Real and executable, but intentionally narrow | First read-only staff occupancy slice over ATHENA public truth, now also proven in-cluster through a bounded internal runner deployment |
 | `ashton-mcp-gateway` | Shared tool routing layer, with approval and audit deferred | Real and executable, but intentionally narrow | First manifest-backed routed ATHENA occupancy read proves the gateway pattern without widening into auth or approvals |
-| `Prometheus` | Deployment truth and GitOps control plane | Real and active, but intentionally selective | Carries the bounded live ATHENA edge deployment plus the bounded `ATHENA -> NATS -> APOLLO` cluster proof, while HERMES and gateway deployment slices remain deferred |
+| `Prometheus` | Deployment truth and GitOps control plane | Real and active, but intentionally selective | Carries the bounded live ATHENA edge deployment plus the bounded `ATHENA -> NATS -> APOLLO` cluster proof, and now also the bounded HERMES runner slice while gateway deployment slices remain deferred |
 
 ## Status Table
 
@@ -38,9 +38,9 @@ readable as one coherent platform instead of five drifting repos.
 | ATHENA deployment | `Prometheus v0.0.3`, `ashton-platform v0.0.19` shipped | published deployment truth | bounded live edge-ingress deployment truth is real |
 | APOLLO member runtime | `v0.9.0` shipped | published runtime truth | auth, visits, workouts, recommendation, explicit membership, and deterministic preview are real |
 | APOLLO member shell | `v0.7.0` shipped | published runtime truth | thin shell is real and still intentionally narrow |
-| HERMES | `v0.1.1` shipped | published local/runtime truth | one bounded staff read plus low-noise request/result/outcome logs are real, but deployment truth is still pending |
+| HERMES | `v0.1.1` shipped | published local/runtime and deployment truth | one bounded staff read plus low-noise request/result/outcome logs are real, and the bounded internal runner deployment in `agents` is now proven live |
 | Gateway | `v0.1.0` unreleased on `main` | narrow repo truth | first routed read exists, but control-plane maturity is still weak |
-| Prometheus deployment repo | live for bounded ATHENA and APOLLO deployment truth | published deployment truth | no HERMES or gateway deployment manifests exist yet |
+| Prometheus deployment repo | live for bounded ATHENA, APOLLO, and HERMES deployment truth | published deployment truth | bounded HERMES manifests now exist; gateway deployment slices remain deferred |
 | Platform docs | synced in this repo | control-plane planning truth | front-facing ladder and shipped lines now match current state |
 
 ## Pillar Map
@@ -56,7 +56,7 @@ readable as one coherent platform instead of five drifting repos.
 | Deterministic coordination preview | yes | yes |
 | Staff read surface | yes, thin | yes, stronger |
 | Staff observability | yes | yes |
-| Staff live deployment truth | no | yes |
+| Staff live deployment truth | yes | yes |
 | Control-plane routed read | yes, thin | yes |
 | Control-plane identity + audit | no | yes |
 | Durable edge observation history | no | yes |
@@ -64,9 +64,9 @@ readable as one coherent platform instead of five drifting repos.
 
 | Pillar count | Value |
 | --- | --- |
-| Meaningful pillars real now | **9** |
-| Meaningful pillars after Milestone 1.7 + Tracer 15 | **11** |
-| Meaningful pillars after Tracer 16 + Tracer 17 | **13** |
+| Meaningful pillars real now | **11** |
+| Meaningful pillars after Tracer 15 | **12** |
+| Meaningful pillars after Tracer 16 + Tracer 17 | **14** |
 
 ## Phase 2 Posture
 
@@ -86,7 +86,7 @@ not a tagged runtime line.
 | Line | Repo focus | Release line | Purpose | Hard stop |
 | --- | --- | --- | --- | --- |
 | `Tracer 14` | `hermes` | `v0.1.1` / `v0.0.20` | observability hardening for the existing occupancy slice | no richer question, no writes |
-| `Milestone 1.7` | `hermes` plus companion deploy repo | `v0.1.2` if runtime changes, otherwise deployment closeout only / `v0.0.21` | prove live HERMES deployment truth once the deploy repo grows a bounded HERMES slice | no write authority |
+| `Milestone 1.7` | `hermes` plus companion deploy repo | `v0.1.2` only if runtime changes later, otherwise deployment closeout only / `v0.0.21` | prove live HERMES deployment truth over a bounded internal runner slice | no write authority or public ingress |
 | `Tracer 15` | `ashton-mcp-gateway` plus optional `ashton-proto` | `v0.2.0` / `v0.0.22` | caller identity, persisted audit, and second routed read | no approvals or writes yet |
 | `Tracer 16` | `athena` | `v0.5.0` / `v0.0.23` | durable edge-observation groundwork and ingress hardening | no prediction, no broad rollout claims |
 | `Tracer 17` | `hermes` and maybe bounded `athena` read support | `v0.2.0` / `v0.0.24` | operator / reconciliation read surface backed by stable public upstream truth | no overrides or writes |
@@ -106,7 +106,7 @@ not a tagged runtime line.
 | Line | Concrete outcome | Why it matters |
 | --- | --- | --- |
 | `Tracer 14` | HERMES logs request, result, and outcome clearly with low-noise structured logs | makes the staff slice operationally inspectable |
-| `Milestone 1.7` | live HERMES occupancy read is deployed and verified after the deploy repo grows a bounded HERMES slice | upgrades the staff pillar from local truth to deployment truth |
+| `Milestone 1.7` | live HERMES occupancy read was deployed and verified through a bounded internal runner slice | upgrades the staff pillar from local truth to bounded deployment truth |
 | `Tracer 15` | gateway gains caller identity, persisted audit, and one second routed read | turns the control plane from a demo route into a trusted narrow layer |
 | `Tracer 16` | ATHENA gains durable edge-observation groundwork | removes all-memory dependence and sets up operator history / reconciliation groundwork |
 | `Tracer 17` | HERMES answers one richer operator/reconciliation question from stable public upstream truth | creates the first real operator / reconciliation read surface |
@@ -125,7 +125,7 @@ not a tagged runtime line.
 | Line | Minimum proof |
 | --- | --- |
 | `Tracer 14` | repeated HERMES runs, success/failure logs, no runtime widening |
-| `Milestone 1.7` | rollout proof, live occupancy read, cluster smoke, docs aligned |
+| `Milestone 1.7` | rollout proof, live occupancy read, cluster smoke, safe negative proofs, docs aligned |
 | `Tracer 15` | repeated routed reads, caller identity proof, persisted audit proof, second route proof |
 | `Tracer 16` | durable-history groundwork behaves deterministically, restart / reload story is explicit, and no raw-ID leakage regresses |
 | `Tracer 17` | richer question is source-backed, deterministic, read-only, and operationally useful |
@@ -387,7 +387,7 @@ flowchart LR
 | `apollo` | `v0.9.0` shipped | `v0.10.0` | sport registry and facility-sport capability mapping now come before planner/coaching because Phase 2 is backend-first and competition-first |
 | `hermes` | `v0.1.1` shipped | `v0.1.2` if runtime changes, otherwise deployment-only closeout | deployment proof is next now that observability hardening is closure-clean |
 | `ashton-mcp-gateway` | `v0.0.1` shipped, `v0.1.0` unreleased on `main` | `v0.2.0` | caller identity, persisted audit, and a second routed read should come only after the first route is trusted |
-| `ashton-platform` | `v0.0.20` shipped | `v0.0.21` | the next platform line should move from HERMES observability hardening to bounded HERMES deployment proof |
+| `ashton-platform` | `v0.0.21` shipped | `v0.0.22` | the next platform line should move from deploy-only HERMES closeout to gateway caller identity and persisted audit |
 
 ## Current State Block
 
@@ -506,12 +506,12 @@ bullets are only the short summary.
 | `v0.0.18` | `v0.0.18` | Shipped | Tracer 13 control-plane closeout for the first deterministic ARES match preview | messaging, autonomous match flows, and broader social widening |
 | `v0.0.19` | `v0.0.19` | Shipped | bounded ATHENA deployment closeout for live edge-driven occupancy truth | broad ingress rollout, persistence, and HERMES widening |
 | `v0.0.20` | `v0.0.20` | Shipped | Tracer 14 control-plane closeout for HERMES observability hardening | live HERMES deployment proof, gateway hardening, and broader HERMES widening |
+| `v0.0.21` | `v0.0.21` | Shipped | Milestone 1.7 control-plane closeout for bounded live HERMES deployment proof | write authority, public ingress, and broader HERMES widening |
 
 ## Planned Release Lines
 
 | Planned tag | Intended purpose | Restrictions | What it should not do yet |
 | --- | --- | --- | --- |
-| `v0.0.21` | Milestone 1.7 control-plane closeout for live HERMES deployment proof | keep the staff deployment claim narrow and read-only | do not imply write authority or broad assistant maturity |
 | `v0.0.22` | Tracer 15 control-plane closeout for gateway caller identity, persisted audit, and one second routed read | keep the gateway line to read-only routing plus audit | do not widen into write approvals or Redis-backed rate limiting |
 | `v0.0.23` | Tracer 16 control-plane closeout for ATHENA durable edge-observation groundwork | keep ATHENA focused on durability and ingress hardening | do not widen into prediction or broad rollout claims |
 | `v0.0.24` | Tracer 17 control-plane closeout for one richer HERMES read-only question | keep the staff widening source-backed and read-only | do not widen into overrides or writes |
@@ -530,7 +530,6 @@ bullets are only the short summary.
 
 | Planned tag | Vertical | Repo lines in scope | Intended purpose | What it should not do yet |
 | --- | --- | --- | --- | --- |
-| `v0.0.21` | `Milestone 1.7` | `hermes v0.1.2` if runtime changes, otherwise companion deploy line only | live HERMES deployment proof once the deploy repo grows a bounded HERMES slice | do not imply write authority or broad assistant maturity |
 | `v0.0.22` | `Tracer 15` | `ashton-mcp-gateway v0.2.0`, optional `ashton-proto v0.4.0` | caller identity, persisted audit, second routed read-only tool | do not widen into write approvals or Redis-backed rate limiting |
 | `v0.0.23` | `Tracer 16` | `athena v0.5.0` | durable edge-observation groundwork and ingress hardening | do not widen into prediction or broad rollout claims |
 | `v0.0.24` | `Tracer 17` | `hermes v0.2.0`, maybe bounded `athena` read support | one richer read-only staff question backed by stable public upstream truth | do not widen into overrides or writes |
