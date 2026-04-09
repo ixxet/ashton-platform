@@ -1408,3 +1408,35 @@ Deferred after closure:
 | Feature | results, ratings, standings, and member stats | deferred | explicitly Tracer 22 truth-line work | later APOLLO tracer |
 | Feature | public sports surfaces or frontend widening | deferred | Phase 3 concern, not Tracer 20 | later product line |
 | Deploy | competition runtime deployment widening | deferred | no bounded deployment proof was run in Tracer 20 | later deployment line |
+
+Current Tracer 21 closeout note:
+
+- APOLLO now carries session-rooted queue state, deterministic assignment into
+  team/roster/match containers, and explicit session lifecycle transitions
+  through the authenticated internal HTTP surface.
+- Queue truth stays separate from explicit lobby membership, and ARES preview
+  remains a read-only preview surface instead of becoming real execution state.
+- `ashton-proto` remains untouched because no shared execution contract blocker
+  was proven.
+- Deployed truth remains unchanged: Tracer 21 is repo/runtime truth only.
+- The Tracer 21 closeout lines are `apollo v0.12.0` and
+  `ashton-platform v0.0.28`.
+
+Tracer 21 retrospective:
+
+- Session-rooted queue rows plus queue-version checks were the smallest honest
+  widening and kept lobby membership as explicit intent instead of final
+  assignment truth.
+- Deterministic assignment had to materialize through the Tracer 20 container
+  model instead of inventing a second execution substrate.
+- Lifecycle stayed honest only because it stopped before results/history:
+  `draft -> queue_open -> assigned -> in_progress -> archived` was enough.
+
+Deferred after closure:
+
+| Type | Item | Status | Why It Was Not Done Here | Future Owner |
+| --- | --- | --- | --- | --- |
+| Feature | results, ratings, standings, and member stats | deferred | explicitly Tracer 22 truth-line work after execution runtime exists | later APOLLO tracer |
+| Feature | rivalry, badges, rematch prompts, and public competition reads | deferred | Tracer 21 stays execution-only and does not widen into social or public surfaces | later APOLLO tracer |
+| Deploy | competition execution deployment widening | deferred | no bounded deployment proof was run in Tracer 21 | later deployment line |
+| Contract | shared execution contract widening in `ashton-proto` | deferred | no real shared dependency was proven | later tracer only if justified |

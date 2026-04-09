@@ -9,12 +9,14 @@ workout-history runtime, the first deterministic recommendation read, and one
 thin member web shell over those same APIs. Tracer 19 now adds a separate
 bounded competition substrate slice: sport registry truth, facility-sport
 capability mapping, and basic sport rules/config for badminton and basketball.
-It does not own raw presence truth, generated planning, or actual matchmaking
-behavior.
+It now also owns one bounded competition execution-runtime slice: APOLLO-owned
+queue state, deterministic assignment, and explicit session lifecycle control
+over the Tracer 20 container model. It does not own raw presence truth,
+generated planning, results/history truth, or public competition surfaces.
 
 ## Current Role
 
-The active APOLLO slice now spans eight narrow runtime boundaries:
+The active APOLLO slice now spans eleven narrow runtime boundaries:
 
 - identified-arrival consume -> visit record
 - identified-departure consume -> visit close
@@ -25,10 +27,13 @@ The active APOLLO slice now spans eight narrow runtime boundaries:
 - authenticated workout history -> deterministic recommendation read
 - authenticated member shell routes -> existing auth/profile/membership/workout/recommendation APIs
 - CLI-only sport registry + facility-sport capability + static rules/config -> bounded competition substrate truth
+- authenticated internal HTTP competition containers -> session/team/roster/match substrate truth
+- authenticated internal HTTP queue/assignment/start/archive routes -> bounded competition execution truth
 
 That is enough to prove member ownership, state persistence, and the first real
 intent-behavior, explicit lobby-membership, workout-history, and deterministic
-coaching slices without widening into generated plans or matchmaking.
+coaching slices plus one bounded competition execution line without widening
+into generated plans, results, or public competition reads.
 
 ## Current Real Slice
 
@@ -56,8 +61,11 @@ coaching slices without widening into generated plans or matchmaking.
 | `GET /app` | Real | Protected minimal member shell over the existing APOLLO APIs |
 | `apollo visit list` | Real | Member-facing visit history readback |
 | NATS identified-arrival/departure consumer | Real | Consumes `athena.identified_presence.arrived` and `athena.identified_presence.departed` using the shared helper |
+| `GET/POST /api/v1/competition/sessions` plus session detail | Real | Authenticated owner-scoped session reads and writes over APOLLO-owned competition containers |
+| `POST /api/v1/competition/sessions/{id}/queue/open`, queue join/remove, assignment, and `start` | Real locally | Authenticated owner-scoped queue/assignment/lifecycle runtime over explicit lobby membership plus current eligibility |
 | recommendation storage | Schema authored | `apollo.recommendations` exists, but Tracer 7 recommendation reads are derived at read time |
-| lobby membership or matchmaking runtime | Narrowly real | Explicit join and leave are real; invites, parties, and match formation remain deferred |
+| lobby membership runtime | Real | Explicit join and leave are real durable member intent only |
+| results/history/public competition runtime | Deferred | Tracer 21 stops at queue/assignment/lifecycle truth and keeps later competition history separate |
 
 ## Ownership Rules
 
@@ -68,7 +76,7 @@ coaching slices without widening into generated plans or matchmaking.
 | visit history as member context | staff workflows |
 | explicit workout history runtime | raw workout inference from visits |
 | deterministic recommendation runtime | raw recommendation inference from visits or profile state |
-| derived lobby eligibility and explicit lobby membership | invites, parties, or match formation |
+| derived lobby eligibility, explicit lobby membership, and bounded competition execution runtime | invites, parties, results, ratings, standings, or public competition reads |
 | future recommendation domains | shared contract authorship |
 
 Key boundaries:
@@ -111,11 +119,14 @@ Key boundaries:
 - Tracer 19 is now shipped: APOLLO owns badminton and basketball sport
   registry truth, facility-sport capability mapping, and static sport
   rules/config through a CLI-only surface
-- Tracer 20 is now the current repo/runtime line: APOLLO owns authenticated
-  internal HTTP competition session, team, roster, and match container truth
-  through dedicated session-rooted tables
-- session-wide roster exclusivity is schema-backed, `ashton-proto` remains
-  untouched, and deployed truth stays unchanged
+- Tracer 20 is now shipped: APOLLO owns authenticated internal HTTP
+  competition session, team, roster, and match container truth through
+  dedicated session-rooted tables
+- the current Tracer 21 line now adds authenticated internal
+  HTTP queue state, deterministic assignment into those containers, and
+  explicit session lifecycle transitions
+- session-wide roster exclusivity remains schema-backed, `ashton-proto`
+  remains untouched, and deployed truth stays unchanged
 
 ## Project Shape
 
@@ -130,12 +141,12 @@ Key boundaries:
 | `internal/visits/` | visit service and repository boundary |
 | `internal/workouts/` | workout service and repository boundary |
 | `internal/recommendations/` | deterministic recommendation service and repository boundary |
-| `internal/competition/` | competition session, team, roster, and match container repository/service boundary |
+| `internal/competition/` | competition queue, assignment, lifecycle, session, team, roster, and match container repository/service boundary |
 | `internal/sports/` | CLI-only sport registry, facility-sport capability, and static rules/config boundary |
 | `internal/server/web/` | embedded member-shell templates, assets, and browser-side tests |
 | `internal/store/` | sqlc-generated query bindings |
 | `internal/server/` | HTTP handlers, auth middleware, and embedded member-shell wiring |
-| `db/migrations/` | current schema for users, sessions, visits, lobby membership, workouts, ARES, recommendations, sport substrate truth, and competition containers |
+| `db/migrations/` | current schema for users, sessions, visits, lobby membership, workouts, ARES, recommendations, sport substrate truth, and competition execution/runtime tables |
 | `docs/` | roadmap, runbooks, ADRs, diagrams, and growing pains |
 
 ## Verification Standard
@@ -149,7 +160,7 @@ Treat APOLLO as trustworthy only when:
 - the local smoke path covers auth, profile, eligibility, workout runtime,
   explicit lobby membership, deterministic recommendation reads, the thin
   member shell, and authenticated competition session/team/roster/match
-  container reads and writes
+  container plus queue/assignment/lifecycle reads and writes
 - the sport substrate is deterministic, bounded, and separate from matchmaking,
   results, ratings, and public sports surfaces
 - competition roster exclusivity is schema-backed at the session level and
@@ -162,9 +173,9 @@ Treat APOLLO as trustworthy only when:
 APOLLO owns its runtime, schema, and consumer logic. Milestone 1.6 proves one
 bounded in-cluster APOLLO slice for departure-close truth. That still does not
 imply a broad APOLLO product deployment; auth, eligibility, workout runtime,
-recommendation runtime, the member shell, and the competition container runtime
-remain locally proven only unless a separate deployment workstream verifies them
-live.
+recommendation runtime, the member shell, and the competition execution runtime
+remain locally proven only unless a separate deployment workstream verifies
+them live.
 
 ## Versioning Discipline
 

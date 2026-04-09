@@ -140,6 +140,19 @@ Current Tracer 20 closeout note:
 - the current Tracer 20 closeout lines are `apollo v0.11.0` and
   `ashton-platform v0.0.27`
 
+Current Tracer 21 closeout note:
+
+- the current APOLLO repo/runtime line now carries authenticated internal HTTP
+  queue state, deterministic assignment into session/team/roster/match
+  containers, and explicit session lifecycle transitions
+- queue truth stays APOLLO-owned and session-rooted; explicit lobby membership
+  remains intent input only and ARES preview remains read-only
+- `ashton-proto` remains untouched because no shared execution contract blocker
+  was proven
+- deployed truth remains unchanged: Tracer 21 is still repo/runtime truth only
+- the Tracer 21 closeout lines are `apollo v0.12.0` and
+  `ashton-platform v0.0.28`
+
 Phase 2 rule for `Tracer 16`:
 
 - keep the same tunnel, token, and userscript contract
