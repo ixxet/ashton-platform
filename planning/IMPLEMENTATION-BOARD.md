@@ -137,10 +137,10 @@ Rust remains a later optimization path, not a first-wave dependency.
 | --- | --- | --- | --- |
 | `ashton-proto` | `v0.3.0` shipped; current Tracer 15 contract line `v0.4.0` | later than `v0.4.0` | the second routed manifest line is now real in the current repo line; further widening should stay tracer-driven |
 | `athena` | `v0.5.1` shipped; the Tracer 18 facility-truth line is now on `main`; `v0.4.1` remains the current deployed line | `v0.6.0` | facility truth is now the current repo line while deployed truth stays unchanged |
-| `apollo` | current Tracer 21 repo/runtime line at release line `v0.12.0`; deployed truth unchanged | `v0.13.0` | queue, assignment, and lifecycle truth are now real locally over the Tracer 20 container model without widening into results, ratings, standings, or public competition reads |
+| `apollo` | latest tagged Tracer 21 runtime line `v0.12.0`; deployed truth unchanged | `v0.13.0` | queue, assignment, and lifecycle truth are now shipped in repo/runtime over the Tracer 20 container model without widening into results, ratings, standings, or public competition reads |
 | `hermes` | `v0.2.0` shipped | `v0.3.0` | the richer read-only reconciliation line is now shipped and the first write/approval boundary is the next true widening |
 | `ashton-mcp-gateway` | `v0.0.1` shipped; current Tracer 15 line `v0.2.0` | `v0.3.0` | the caller-aware audited read-only control-plane slice is now real; write governance is the next true widening |
-| `ashton-platform` | current Tracer 21 control-plane line at release line `v0.0.28`; deployed truth unchanged | `v0.0.29` | current docs now track the APOLLO execution-runtime line honestly while deployment claims remain unchanged |
+| `ashton-platform` | latest tagged Tracer 21 control-plane line `v0.0.28`; deployed truth unchanged | `v0.0.29` | current docs track the tagged APOLLO execution-runtime closeout honestly while deployment claims remain unchanged |
 
 Current closeout note:
 
@@ -162,7 +162,7 @@ Current closeout note:
 - session-wide roster exclusivity is now schema-backed, `ashton-proto` remains
   untouched, and deployed truth is still unchanged
 - `v0.11.0` and `v0.0.27` are the Tracer 20 repo/control-plane closeout lines
-- `apollo` now also carries the current Tracer 21 repo/runtime line through
+- `apollo` now also carries the tagged Tracer 21 runtime line through
   authenticated internal HTTP queue state, deterministic assignment into
   session/team/roster/match containers, and explicit session lifecycle
   transitions

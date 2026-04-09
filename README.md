@@ -38,11 +38,11 @@ readable as one coherent platform instead of five drifting repos.
 | ATHENA deployment | `Prometheus v0.0.3`, `ashton-platform v0.0.19` shipped | published deployment truth | bounded live edge-ingress deployment truth is real |
 | APOLLO member runtime | `v0.9.0` shipped | published runtime truth | auth, visits, workouts, recommendation, explicit membership, and deterministic preview are real |
 | APOLLO member shell | `v0.7.0` shipped | published runtime truth | thin shell is real and still intentionally narrow |
-| APOLLO competition runtime | current Tracer 21 repo/runtime line at release line `v0.12.0`; deployed truth unchanged | current repo/runtime truth | sport registry, facility-sport capability mapping, authenticated internal HTTP queue/assignment/lifecycle truth, and session/team/roster/match execution containers are real without widening into results, ratings, standings, or public competition reads |
+| APOLLO competition runtime | latest tagged Tracer 21 runtime line `v0.12.0`; deployed truth unchanged | published repo/runtime truth | sport registry, facility-sport capability mapping, authenticated internal HTTP queue/assignment/lifecycle truth, and session/team/roster/match execution containers are real without widening into results, ratings, standings, or public competition reads |
 | HERMES | `v0.2.0` shipped | published local/runtime truth plus bounded deployment truth | one bounded staff read plus one richer reconciliation read are shipped, while the bounded internal runner deployment in `agents` still proves only the occupancy slice |
 | Gateway | current Tracer 15 line: `v0.2.0` | narrow repo truth | caller identity, persisted audit, and a second routed read are real in the current gateway repo line, while write governance and deployment remain deferred |
 | Prometheus deployment repo | live for bounded ATHENA, APOLLO, and HERMES deployment truth | published deployment truth | bounded HERMES manifests now exist; gateway deployment slices remain deferred |
-| Platform docs | current Tracer 21 control-plane line at release line `v0.0.28`; deployed truth unchanged | control-plane working truth | front-facing ladder, current Tracer 21 repo truth, and deployed-truth boundaries now tell the same story without widening deployed claims |
+| Platform docs | latest tagged Tracer 21 control-plane line `v0.0.28`; deployed truth unchanged | published control-plane truth | front-facing ladder, tagged Tracer 21 repo truth, and deployed-truth boundaries now tell the same story without widening deployed claims |
 
 ## Pillar Map
 
@@ -390,10 +390,10 @@ flowchart LR
 | --- | --- | --- | --- |
 | `ashton-proto` | `v0.3.0` shipped; current Tracer 15 contract line `v0.4.0` | later than `v0.4.0` | the second routed manifest surface is now real in the current repo line; further widening should stay tracer-driven |
 | `athena` | `v0.5.1` shipped; the Tracer 18 facility-truth line is now on `main`; `v0.4.1` remains the current deployed line | `v0.6.0` | facility truth is now the current repo line while deployed truth stays unchanged |
-| `apollo` | current Tracer 21 repo/runtime line at release line `v0.12.0`; deployed truth unchanged | `v0.13.0` | queue, assignment, and lifecycle truth are now real locally over the Tracer 20 container model without widening into results, ratings, standings, or public competition reads |
+| `apollo` | latest tagged Tracer 21 runtime line `v0.12.0`; deployed truth unchanged | `v0.13.0` | queue, assignment, and lifecycle truth are now shipped in repo/runtime over the Tracer 20 container model without widening into results, ratings, standings, or public competition reads |
 | `hermes` | `v0.2.0` shipped | `v0.3.0` | the richer read-only reconciliation line is now shipped; explicit write authority is the next true widening |
 | `ashton-mcp-gateway` | `v0.0.1` shipped; current Tracer 15 line `v0.2.0` | `v0.3.0` | caller identity, persisted audit, and a second routed read are now real; write approval is the next bounded widening |
-| `ashton-platform` | current Tracer 21 control-plane line at release line `v0.0.28`; deployed truth unchanged | `v0.0.29` | current docs now track the APOLLO execution-runtime line honestly while deployment claims remain unchanged |
+| `ashton-platform` | latest tagged Tracer 21 control-plane line `v0.0.28`; deployed truth unchanged | `v0.0.29` | current docs track the tagged APOLLO execution-runtime closeout honestly while deployment claims remain unchanged |
 
 ## Current State Block
 
@@ -538,12 +538,12 @@ bullets are only the short summary.
 | `v0.0.25` | `v0.0.25` | Shipped | Tracer 18 control-plane closeout for ATHENA facility catalog, hours, zones, closure windows, and metadata reads | social/product logic and deployment widening |
 | `v0.0.26` | `v0.0.26` | Shipped | Tracer 19 control-plane closeout for APOLLO sport registry and facility-sport capability mapping | matchmaking runtime, results, standings, and public competition reads |
 | `v0.0.27` | `v0.0.27` | Shipped | Tracer 20 control-plane closeout for APOLLO team, roster, session, and match container primitives | queue/assignment/lifecycle truth, results/history, and deployment widening |
-| `v0.0.28` | - | Current release line | Tracer 21 control-plane closeout for APOLLO matchmaking / queue / assignment flow and session lifecycle | results, ratings, standings, rivalry/badge logic, public competition reads, and deployment widening |
+| `v0.0.28` | `v0.0.28` | Shipped | Tracer 21 control-plane closeout for APOLLO matchmaking / queue / assignment flow and session lifecycle | results, ratings, standings, rivalry/badge logic, public competition reads, and deployment widening |
 
 ## Current And Planned Release Lines
 
-The table below records the current published control-plane lines plus the
-current Tracer 21 working line and later planned lines. It does not widen
+The table below records the current published control-plane lines plus later
+planned lines. It does not widen
 deployed truth or imply broader rollout maturity beyond the bounded live edge
 path already proven.
 

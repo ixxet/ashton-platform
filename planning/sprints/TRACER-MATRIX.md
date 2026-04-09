@@ -1418,7 +1418,9 @@ Current Tracer 21 closeout note:
   remains a read-only preview surface instead of becoming real execution state.
 - `ashton-proto` remains untouched because no shared execution contract blocker
   was proven.
-- Deployed truth remains unchanged: Tracer 21 is repo/runtime truth only.
+- Deployed truth remains unchanged even though the Tracer 21 release lines are
+  tagged: competition execution is published repo/runtime truth, not deployed
+  truth.
 - The Tracer 21 closeout lines are `apollo v0.12.0` and
   `ashton-platform v0.0.28`.
 

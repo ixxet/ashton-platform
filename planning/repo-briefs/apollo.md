@@ -62,7 +62,7 @@ into generated plans, results, or public competition reads.
 | `apollo visit list` | Real | Member-facing visit history readback |
 | NATS identified-arrival/departure consumer | Real | Consumes `athena.identified_presence.arrived` and `athena.identified_presence.departed` using the shared helper |
 | `GET/POST /api/v1/competition/sessions` plus session detail | Real | Authenticated owner-scoped session reads and writes over APOLLO-owned competition containers |
-| `POST /api/v1/competition/sessions/{id}/queue/open`, queue join/remove, assignment, and `start` | Real locally | Authenticated owner-scoped queue/assignment/lifecycle runtime over explicit lobby membership plus current eligibility |
+| `POST /api/v1/competition/sessions/{id}/queue/open`, queue join/remove, assignment, and `start` | Shipped | Authenticated owner-scoped queue/assignment/lifecycle runtime over explicit lobby membership plus current eligibility |
 | recommendation storage | Schema authored | `apollo.recommendations` exists, but Tracer 7 recommendation reads are derived at read time |
 | lobby membership runtime | Real | Explicit join and leave are real durable member intent only |
 | results/history/public competition runtime | Deferred | Tracer 21 stops at queue/assignment/lifecycle truth and keeps later competition history separate |
