@@ -65,7 +65,7 @@ into generated plans, results, or public competition reads.
 | `POST /api/v1/competition/sessions/{id}/queue/open`, queue join/remove, assignment, and `start` | Shipped | Authenticated owner-scoped queue/assignment/lifecycle runtime over explicit lobby membership plus current eligibility |
 | recommendation storage | Schema authored | `apollo.recommendations` exists, but Tracer 7 recommendation reads are derived at read time |
 | lobby membership runtime | Real | Explicit join and leave are real durable member intent only |
-| results/history/public competition runtime | Deferred | Tracer 21 stops at queue/assignment/lifecycle truth and keeps later competition history separate |
+| results/history/public competition runtime | Current repo/runtime line on `main` | Tracer 22 now adds owner-scoped authenticated/internal result capture, sport-and-mode-separated ratings, session-scoped standings, and self-scoped member stats while public competition reads remain deferred |
 
 ## Ownership Rules
 
@@ -76,7 +76,7 @@ into generated plans, results, or public competition reads.
 | visit history as member context | staff workflows |
 | explicit workout history runtime | raw workout inference from visits |
 | deterministic recommendation runtime | raw recommendation inference from visits or profile state |
-| derived lobby eligibility, explicit lobby membership, and bounded competition execution runtime | invites, parties, results, ratings, standings, or public competition reads |
+| derived lobby eligibility, explicit lobby membership, bounded competition execution runtime, and bounded competition-history truth | invites, parties, public competition reads, or broad social product surfaces |
 | future recommendation domains | shared contract authorship |
 
 Key boundaries:
@@ -125,6 +125,10 @@ Key boundaries:
 - the current Tracer 21 line now adds authenticated internal
   HTTP queue state, deterministic assignment into those containers, and
   explicit session lifecycle transitions
+- the current Tracer 22 line now adds immutable result capture, real
+  `completed` lifecycle truth, sport-and-mode-separated ratings, session-scoped
+  standings, and self-scoped member stats over the settled Tracer 21 execution
+  substrate
 - session-wide roster exclusivity remains schema-backed, `ashton-proto`
   remains untouched, and deployed truth stays unchanged
 
@@ -160,9 +164,9 @@ Treat APOLLO as trustworthy only when:
 - the local smoke path covers auth, profile, eligibility, workout runtime,
   explicit lobby membership, deterministic recommendation reads, the thin
   member shell, and authenticated competition session/team/roster/match
-  container plus queue/assignment/lifecycle reads and writes
+  container plus queue/assignment/lifecycle/history reads and writes
 - the sport substrate is deterministic, bounded, and separate from matchmaking,
-  results, ratings, and public sports surfaces
+  public competition reads, and public sports surfaces
 - competition roster exclusivity is schema-backed at the session level and
   repeated session detail reads stay deterministic
 - the identified arrival and departure boundary is exercised against real NATS
@@ -174,8 +178,8 @@ APOLLO owns its runtime, schema, and consumer logic. Milestone 1.6 proves one
 bounded in-cluster APOLLO slice for departure-close truth. That still does not
 imply a broad APOLLO product deployment; auth, eligibility, workout runtime,
 recommendation runtime, the member shell, and the competition execution runtime
-remain locally proven only unless a separate deployment workstream verifies
-them live.
+plus competition-history runtime remain locally proven only unless a separate
+deployment workstream verifies them live.
 
 ## Versioning Discipline
 

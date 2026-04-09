@@ -140,20 +140,21 @@ Current Tracer 20 closeout note:
 - the current Tracer 20 closeout lines are `apollo v0.11.0` and
   `ashton-platform v0.0.27`
 
-Current Tracer 21 closeout note:
+Current Tracer 22 closeout note:
 
-- the current APOLLO repo/runtime line now carries authenticated internal HTTP
-  queue state, deterministic assignment into session/team/roster/match
-  containers, and explicit session lifecycle transitions
-- queue truth stays APOLLO-owned and session-rooted; explicit lobby membership
-  remains intent input only and ARES preview remains read-only
-- `ashton-proto` remains untouched because no shared execution contract blocker
-  was proven
-- deployed truth remains unchanged even though the Tracer 21 release lines are
-  tagged: competition execution is published repo/runtime truth, not deployed
-  truth
-- the Tracer 21 closeout lines are `apollo v0.12.0` and
-  `ashton-platform v0.0.28`
+- the current APOLLO repo/runtime line now carries immutable result capture,
+  real `completed` lifecycle truth, sport-and-mode-separated ratings,
+  session-scoped standings, and self-scoped member stats over the settled
+  queue/assignment/lifecycle substrate
+- competition history stays APOLLO-owned and authenticated/internal-first;
+  explicit lobby membership remains intent input only and ARES preview remains
+  read-only
+- `ashton-proto` remains untouched because no shared competition-history
+  contract blocker was proven
+- deployed truth remains unchanged: Tracer 22 is published repo/runtime truth,
+  not deployed truth
+- the intended Tracer 22 closeout lines are `apollo v0.13.0` and
+  `ashton-platform v0.0.29`
 
 Phase 2 rule for `Tracer 16`:
 

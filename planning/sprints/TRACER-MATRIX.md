@@ -1442,3 +1442,38 @@ Deferred after closure:
 | Feature | rivalry, badges, rematch prompts, and public competition reads | deferred | Tracer 21 stays execution-only and does not widen into social or public surfaces | later APOLLO tracer |
 | Deploy | competition execution deployment widening | deferred | no bounded deployment proof was run in Tracer 21 | later deployment line |
 | Contract | shared execution contract widening in `ashton-proto` | deferred | no real shared dependency was proven | later tracer only if justified |
+
+Current Tracer 22 closeout note:
+
+- APOLLO now carries immutable competition match result truth through the
+  authenticated internal HTTP competition runtime.
+- `completed` is now real lifecycle truth distinct from `archived`, and session
+  completion now derives from official match results instead of archive state.
+- Ratings are now separated by sport and derived mode key, standings stay
+  session-scoped, and member stats stay self-scoped and derived from trusted
+  result truth.
+- `ashton-proto` remains untouched because no shared competition-history
+  contract blocker was proven.
+- Deployed truth remains unchanged: Tracer 22 is repo/runtime truth, not
+  deployed truth.
+- The intended Tracer 22 closeout lines are `apollo v0.13.0` and
+  `ashton-platform v0.0.29`.
+
+Tracer 22 retrospective:
+
+- Keeping result truth inside the settled competition runtime prevented ARES
+  from becoming a misleading second history home.
+- Real `completed` lifecycle truth was required; overloading `archived` would
+  have broken execution honesty.
+- Standings and member stats stayed honest only because they remained derived
+  from trusted recorded results instead of becoming speculative public surfaces.
+
+Deferred after closure:
+
+| Type | Item | Status | Why It Was Not Done Here | Future Owner |
+| --- | --- | --- | --- | --- |
+| Feature | public leaderboards, public homepage standings, and broad public competition reads | deferred | Tracer 22 stays authenticated/internal-first and does not widen into public/social surfaces | later APOLLO tracer |
+| Feature | rivalry, badges, achievements, streaks, and rematch prompts | deferred | trusted history landed first; social/retention mechanics remain later work | later APOLLO tracer |
+| Feature | season, ladder, league, and tournament constructs beyond session scope | deferred | the honest standing model stays session-scoped in Tracer 22 | later APOLLO tracer |
+| Deploy | competition-history deployment widening | deferred | no bounded deployment proof was run in Tracer 22 | later deployment line |
+| Contract | shared competition-history contract widening in `ashton-proto` | deferred | no real shared dependency was proven | later tracer only if justified |
