@@ -7,23 +7,28 @@ Current truth:
 
 - the repo is now executable, but intentionally narrow
 - one real Go runtime exists
-- one real manifest-backed ATHENA occupancy route exists
-- the first real line is still much smaller than the future full control plane
+- two real manifest-backed ATHENA occupancy routes exist
+- caller identity and persisted audit are real for routed calls
+- the current real line is still much smaller than the future full control plane
 
 ## Current Repo Truth
 
 - `v0.0.1` is the docs-only planning baseline
-- `v0.1.0` is now the active runtime line:
+- `v0.2.0` is the current Tracer 15 runtime line:
   - one `GET /health`
   - one `POST /mcp/v1/tools/list`
   - one `POST /mcp/v1/tools/call`
-  - one registered tool: `athena.get_current_occupancy`
+  - two registered tools:
+    - `athena.get_current_occupancy`
+    - `athena.get_current_zone_occupancy`
 - the runtime loads manifests from `ashton-proto/mcp`
 - the runtime calls ATHENA only through its public `GET /api/v1/presence/count`
   surface
-- the runtime emits inspectable success and failure logs for the routed path
-- caller identity, persisted audit, write approvals, and rate limiting do not
-  exist yet
+- the runtime keeps `tools/list` open and narrow while `tools/call` is the
+  caller identity and audit boundary
+- the runtime persists sanitized audit rows for routed success and routed
+  failure outcomes
+- write approvals and rate limiting do not exist yet
 
 ## Versioning Discipline
 
@@ -54,8 +59,9 @@ Current truth:
 The original gateway vision is still valid. It just does not belong inside the
 first routed read-only line.
 
-The second routed read in `v0.2.0` may require a paired `ashton-proto v0.4.0`
-manifest release if the next routed tool widens the shared manifest surface.
+The second routed read in `v0.2.0` now does require a paired
+`ashton-proto v0.4.0` manifest release because the shared manifest surface has
+actually widened.
 
 The long-range control plane still aims to provide:
 
@@ -74,7 +80,7 @@ gateway deserves to exist as a real runtime.
 
 | Deferred capability | Target line | Why it is deferred from Tracer 9 | Later value if the earlier lines succeed |
 | --- | --- | --- | --- |
-| Multi-service registry across `athena`, `hermes`, `apollo`, and later `ares` or `system` tools | `v0.2.0` and later | Tracer 9 only needs one manifest and one route to prove discovery and routing | broadens the gateway from one proof path into a true shared control layer |
+| Multi-service registry across `athena`, `hermes`, `apollo`, and later `ares` or `system` tools | later than `v0.2.0` | Tracer 15 closes with two ATHENA reads only and should not widen into a broader registry yet | broadens the gateway from two proof paths into a true shared control layer |
 | Caller identity via Tailscale and API keys | `v0.2.0` | Tracer 9 should prove routing before introducing trust-policy complexity | lets interactive operators and automated systems share one gateway with explicit identity |
 | Persisted audit storage for actor, tool, latency, inputs, outputs, and outcome | `v0.2.0` | first-line proof only needs inspectable logs | turns routing into a real auditable control surface instead of a thin proxy |
 | Second routed read-only tool call | `v0.2.0` | Tracer 9 should avoid widening beyond one source-backed read | proves the registry and router can widen without collapsing into one-off glue |
@@ -117,6 +123,6 @@ Reason:
 ## Why This Repo Matters
 
 The value of the repo right now is no longer just that it has a plan. The value
-is that it now has one disciplined first real line: `v0.1.0` proves discovery,
-routing, and inspectability without pretending the full agent-control surface
-already exists.
+is that it now has one disciplined second real line: `v0.2.0` proves caller
+identity, persisted audit, and one second routed read without pretending the
+full agent-control surface already exists.

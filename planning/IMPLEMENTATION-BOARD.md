@@ -45,9 +45,10 @@ departure-close boundary. The remaining active blockers before the next major
 implementation slice are:
 
 1. `ashton-mcp-gateway`
-   - keep the next line narrower than the future control-plane vision
-   - do not widen beyond read-only routing until caller identity and audit are
-     explicitly scoped
+   - keep the line narrower than the future control-plane vision even after
+     caller identity and audit are real
+   - do not widen beyond two read-only ATHENA routes until a later tracer
+     explicitly justifies it
 2. `ashton-proto`
    - keep manifest expansion tracer-driven now that the first ATHENA manifest is
      real
@@ -134,12 +135,12 @@ Rust remains a later optimization path, not a first-wave dependency.
 
 | Repo | Current line | Next planned line | Why it is next |
 | --- | --- | --- | --- |
-| `ashton-proto` | `v0.3.0` shipped, `v0.3.1` unreleased on `main` | `v0.4.0` | broader routed manifest expansion only after a second route is real |
+| `ashton-proto` | `v0.3.0` shipped; current Tracer 15 contract line `v0.4.0` | later than `v0.4.0` | the second routed manifest line is now real in the current repo line; further widening should stay tracer-driven |
 | `athena` | `v0.4.1` shipped | `v0.5.0` | durable edge-observation groundwork is the next true ATHENA capability line after the bounded live `v0.4.1` line is trusted |
 | `apollo` | `v0.9.0` shipped | `v0.10.0` | sport registry and facility-sport capability mapping now come before planner/coaching because Phase 2 is backend-first and competition-first |
 | `hermes` | `v0.1.1` shipped | `v0.1.2` only if runtime changes later | deployment truth is already closed on the bounded live runner slice; keep the runtime line at `v0.1.1` unless later evidence requires a bump |
-| `ashton-mcp-gateway` | `v0.0.1` shipped, `v0.1.0` unreleased on `main` | `v0.2.0` | caller identity, persisted audit, and a second routed read after the first route proves itself |
-| `ashton-platform` | `v0.0.21` shipped | `v0.0.22` | the next platform line moves from deploy-only HERMES closeout to gateway caller identity and persisted audit |
+| `ashton-mcp-gateway` | `v0.0.1` shipped; current Tracer 15 line `v0.2.0` | `v0.3.0` | the caller-aware audited read-only control-plane slice is now real; write governance is the next true widening |
+| `ashton-platform` | `v0.0.21` shipped; current Tracer 15 closeout line `v0.0.22` | `v0.0.23` | the current platform line carries Tracer 15 closeout truth; the next line moves to ATHENA durability |
 
 ## Urgency Snapshot
 
@@ -148,7 +149,7 @@ Rust remains a later optimization path, not a first-wave dependency.
 | ATHENA deploy truth | done | physical-truth pillar is live and credible | done |
 | APOLLO auth / membership / preview | done | member intent pillar exists | done |
 | HERMES | observability-hardened and live-deployed | published local/runtime truth plus bounded deployment truth | done |
-| Gateway | thin | needs identity plus audit | high |
+| Gateway | caller-aware and auditable, still narrow | the Tracer 15 runtime proof is real, while broader control-plane maturity remains deferred | medium |
 | ATHENA durability | missing | still weak on restart, history, and audit side | high |
 | HERMES operator surface | missing | reports, heat maps, and reconciliation still depend on Tracer 16 plus Tracer 17 | high |
 | Facility catalog / hours | missing | needed before sport scheduling and per-facility product truth stay honest | medium-high |

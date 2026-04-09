@@ -1030,3 +1030,87 @@ Deferred after closure:
 | Feature | write actions and approval flows | deferred | the deployed HERMES slice remains read-only and internal-only | later HERMES action tracer |
 | Feature | public HERMES service or gateway-mediated HERMES surface | deferred | bounded exec-driven deployment proof was sufficient and more honest | later gateway or assistant tracer |
 | Deploy | broader HERMES rollout or public ingress | deferred | one internal runner in `agents` is enough for this line | later bounded deployment workstream if needed |
+
+## Tracer 15: Gateway Caller Identity, Persisted Audit, And Second Routed Read
+
+Status: implemented and locally/runtime verified; repo-truth closeout is tracked separately.
+
+Goal:
+
+- turn the first routed gateway proof into a caller-aware, audit-backed,
+  still-read-only narrow control-plane slice
+
+Repos:
+
+- `ashton-mcp-gateway`
+- `ashton-proto`
+- `ashton-platform`
+- `athena` only as the existing public upstream surface; no repo changes required
+
+Exit criteria:
+
+- caller identity is real on routed calls
+- persisted audit is real for routed calls
+- one second routed read is real
+- the gateway stays read-only and narrow
+- docs align across repo-local and control-plane truth
+
+Key outputs:
+
+- `ashton-mcp-gateway` now keeps `POST /mcp/v1/tools/list` open and narrow
+  while making `POST /mcp/v1/tools/call` the explicit caller-identity and audit
+  boundary
+- routed calls now accept:
+  - trusted caller headers for internal callers
+  - configured API keys for automation callers
+- routed calls now persist sanitized Postgres audit rows for:
+  - successful routed reads
+  - unknown-tool attempts that cross the tool boundary
+  - invalid-argument failures that cross the tool boundary
+  - upstream failures
+- routed success now fails closed if the audit write fails
+- `ashton-proto` now ships one additional real manifest:
+  `mcp/athena.get_current_zone_occupancy.json`
+- the second routed read is now `athena.get_current_zone_occupancy`, which
+  keeps routing inside ATHENA's existing public
+  `GET /api/v1/presence/count?facility=&zone=` surface
+- local proof passed for:
+  - `go test ./...`
+  - `go test -count=5 ./internal/...`
+  - `go vet ./...`
+  - `go build ./cmd/ashton-mcp-gateway`
+  - `go test ./...` in `ashton-proto`
+  - live local smoke with Postgres, ATHENA, and gateway showing:
+    - two listed tools
+    - successful API-key-backed occupancy read
+    - successful trusted-header-backed zone occupancy read
+    - `401` missing identity
+    - `401` unknown API key
+    - `400` malformed trusted caller
+    - `404` unknown tool
+    - `400` invalid arguments
+    - persisted audit rows only for routed outcomes that crossed the tool boundary
+
+Tracer 15 retrospective:
+
+- The second routed read only stayed honest because it stayed inside ATHENA's
+  existing public occupancy surface. Routing APOLLO would have dragged the line
+  into member-session auth bridging, and routing HERMES would have invented a
+  broader service surface than is real today.
+- Caller identity only stayed narrow because it split into two explicit trust
+  paths instead of pretending to solve platform auth:
+  trusted caller headers for internal boundaries and configured API keys for
+  automation callers.
+- Persisted audit only stayed honest because routed success fails closed when
+  the audit write fails, while identity failures that never cross the tool
+  boundary do not create fake routed audit rows.
+
+Deferred after closure:
+
+| Type | Item | Status | Why It Was Not Done Here | Future Owner |
+| --- | --- | --- | --- | --- |
+| Feature | write approvals and HITL | deferred | Tracer 15 earns caller identity and audit before write governance | later gateway tracer |
+| Feature | APOLLO or HERMES routed reads | deferred | two ATHENA reads are enough to prove narrow widening without auth rewrite or service-surface fiction | later tracer only if a real surface justifies it |
+| Feature | broad multi-service registry | deferred | Tracer 15 stays intentionally smaller than the long-range control-plane vision | later gateway tracer |
+| Deploy | live gateway deployment proof | deferred | Tracer 15 proves local/runtime truth only | later bounded deployment workstream |
+| Feature | Redis-backed rate limiting | deferred | there is still no traffic profile that requires it | later gateway tracer |
