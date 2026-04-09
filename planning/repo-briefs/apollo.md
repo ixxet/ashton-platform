@@ -108,8 +108,8 @@ Key boundaries:
   recommendation state
 - the first member shell is local repo truth only and stays thin over the
   existing authenticated APIs, now including one narrow lobby-membership panel
-- Tracer 19 is locally real and verified: APOLLO owns badminton and basketball
-  sport registry truth, facility-sport capability mapping, and static sport
+- Tracer 19 is now shipped: APOLLO owns badminton and basketball sport
+  registry truth, facility-sport capability mapping, and static sport
   rules/config through a CLI-only surface
 
 ## Project Shape

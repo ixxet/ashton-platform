@@ -41,7 +41,7 @@ readable as one coherent platform instead of five drifting repos.
 | HERMES | `v0.2.0` shipped | published local/runtime truth plus bounded deployment truth | one bounded staff read plus one richer reconciliation read are shipped, while the bounded internal runner deployment in `agents` still proves only the occupancy slice |
 | Gateway | current Tracer 15 line: `v0.2.0` | narrow repo truth | caller identity, persisted audit, and a second routed read are real in the current gateway repo line, while write governance and deployment remain deferred |
 | Prometheus deployment repo | live for bounded ATHENA, APOLLO, and HERMES deployment truth | published deployment truth | bounded HERMES manifests now exist; gateway deployment slices remain deferred |
-| Platform docs | `v0.0.25` shipped; the Tracer 19 closeout line is locally verified for `v0.0.26` | control-plane planning truth | front-facing ladder, current Tracer 19 repo truth, and deployed-truth boundaries now tell the same story without widening deployed claims |
+| Platform docs | `v0.0.26` shipped | control-plane planning truth | front-facing ladder, current Tracer 19 release truth, and deployed-truth boundaries now tell the same story without widening deployed claims |
 
 ## Pillar Map
 
@@ -389,10 +389,10 @@ flowchart LR
 | --- | --- | --- | --- |
 | `ashton-proto` | `v0.3.0` shipped; current Tracer 15 contract line `v0.4.0` | later than `v0.4.0` | the second routed manifest surface is now real in the current repo line; further widening should stay tracer-driven |
 | `athena` | `v0.5.1` shipped; the Tracer 18 facility-truth line is now on `main`; `v0.4.1` remains the current deployed line | `v0.6.0` | facility truth is now the current repo line while deployed truth stays unchanged |
-| `apollo` | `v0.9.0` shipped | `v0.10.0` | sport registry and facility-sport capability mapping now come before planner/coaching because Phase 2 is backend-first and competition-first |
+| `apollo` | `v0.10.0` shipped | `v0.11.0` | sport registry and facility-sport capability mapping are now shipped, and team/session container truth is the next bounded widening |
 | `hermes` | `v0.2.0` shipped | `v0.3.0` | the richer read-only reconciliation line is now shipped; explicit write authority is the next true widening |
 | `ashton-mcp-gateway` | `v0.0.1` shipped; current Tracer 15 line `v0.2.0` | `v0.3.0` | caller identity, persisted audit, and a second routed read are now real; write approval is the next bounded widening |
-| `ashton-platform` | `v0.0.25` shipped; the Tracer 19 control-plane closeout line is locally verified for `v0.0.26` | `v0.0.26` | control-plane closeout is locally aligned while deployed truth stays unchanged |
+| `ashton-platform` | `v0.0.26` shipped | `v0.0.27` | Tracer 19 control-plane closeout is now shipped while deployed truth stays unchanged |
 
 ## Current State Block
 

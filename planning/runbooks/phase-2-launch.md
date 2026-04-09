@@ -118,14 +118,14 @@ Current Tracer 18 closeout note:
 
 Current Tracer 19 closeout note:
 
-- `apollo` runtime truth is now locally real and verified through CLI-only
-  sport registry reads for badminton and basketball, facility-sport capability
-  mapping, and static sport rules/config
+- `apollo v0.10.0` is now shipped with CLI-only sport registry reads for
+  badminton and basketball, facility-sport capability mapping, and static sport
+  rules/config
 - `ashton-proto` remains untouched because no shared sport/facility contract
   was required
 - deployed truth remains unchanged: the APOLLO sport substrate is local/runtime
   truth only
-- `apollo v0.10.0` and `ashton-platform v0.0.26` are the intended release lines
+- `apollo v0.10.0` and `ashton-platform v0.0.26` are the Tracer 19 release lines
 
 Phase 2 rule for `Tracer 16`:
 

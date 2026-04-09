@@ -1324,7 +1324,7 @@ Deferred after closure:
 
 ## Tracer 19: APOLLO Sport Substrate
 
-Status: closure-clean locally.
+Status: complete and tagged.
 
 Goal:
 
@@ -1360,7 +1360,7 @@ Key outputs:
 - the proof set includes full Go tests, repeated internal tests, `go vet`,
   `go build ./cmd/apollo`, diff hygiene, and bounded CLI smoke
 - deployed truth stays unchanged; this tracer is local/runtime truth only
-- the intended release set is `apollo v0.10.0` and `ashton-platform v0.0.26`
+- the release set is `apollo v0.10.0` and `ashton-platform v0.0.26`
 
 Tracer 19 retrospective:
 
