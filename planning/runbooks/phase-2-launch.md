@@ -266,7 +266,7 @@ Target surface posture by repo:
 | Repo | Phase 2 surface posture |
 | --- | --- |
 | `athena` | CLI and internal read surfaces for occupancy, edge observations, sessions, facilities, hours, and metadata |
-| `hermes` | CLI and operator-facing read surfaces for occupancy, reports, heat maps, and reconciliation |
+| `hermes` | CLI and operator-facing read surfaces for occupancy plus one richer reconciliation answer that includes reports and heat-map-style buckets |
 | `apollo` | API/CLI-first member, sport, team, session, result, planner, and coaching primitives |
 | `ashton-mcp-gateway` | actor-aware routed reads and audit-first control-plane tooling |
 | `ashton-proto` | narrow shared contract growth only when a tracer creates a real cross-repo dependency |
@@ -279,8 +279,7 @@ CLI examples that fit the ladder:
 - `athena facility list ...`
 - `athena facility show ...`
 - `hermes ask occupancy ...`
-- `hermes ask occupancy-report ...`
-- `hermes ask heat-map ...`
+- `hermes ask reconciliation ...`
 - `apollo sport list ...`
 - `apollo team list ...`
 - `apollo match create ...`

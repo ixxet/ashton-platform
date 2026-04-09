@@ -26,7 +26,7 @@ readable as one coherent platform instead of five drifting repos.
 | `ashton-proto` | Shared contracts, schemas, runtime helpers | Real and active | Keeps producers and consumers from hand-rolling wire contracts |
 | `athena` | Physical truth for presence and occupancy | Real and executable | First Go service, first operational data surface, active visit-lifecycle publisher, and bounded live edge-driven occupancy deployment over a browser-reachable ingress path |
 | `apollo` | Member-facing application and intent state | Real and executable, but intentionally narrow | First member auth, profile-state, visit-history, visit-closing, derived eligibility, explicit lobby membership, explicit workout runtime, deterministic recommendation slice, and thin member shell |
-| `hermes` | Staff-facing operations assistant | Real and executable, but intentionally narrow | First read-only staff occupancy slice over ATHENA public truth, now also proven in-cluster through a bounded internal runner deployment |
+| `hermes` | Staff-facing operations assistant | Real and executable, but intentionally narrow | Read-only occupancy plus one richer reconciliation question over ATHENA current + stable-history truth, with deployment proof still bounded to the earlier occupancy runner slice |
 | `ashton-mcp-gateway` | Shared tool routing layer, with approvals still deferred | Real and executable, but intentionally narrow | Two caller-aware audited ATHENA reads are real without widening into writes or broad orchestration |
 | `Prometheus` | Deployment truth and GitOps control plane | Real and active, but intentionally selective | Carries the bounded live ATHENA edge deployment plus the bounded `ATHENA -> NATS -> APOLLO` cluster proof, and now also the bounded HERMES runner slice while gateway deployment slices remain deferred |
 
@@ -38,7 +38,7 @@ readable as one coherent platform instead of five drifting repos.
 | ATHENA deployment | `Prometheus v0.0.3`, `ashton-platform v0.0.19` shipped | published deployment truth | bounded live edge-ingress deployment truth is real |
 | APOLLO member runtime | `v0.9.0` shipped | published runtime truth | auth, visits, workouts, recommendation, explicit membership, and deterministic preview are real |
 | APOLLO member shell | `v0.7.0` shipped | published runtime truth | thin shell is real and still intentionally narrow |
-| HERMES | `v0.1.1` shipped | published local/runtime and deployment truth | one bounded staff read plus low-noise request/result/outcome logs are real, and the bounded internal runner deployment in `agents` is now proven live |
+| HERMES | `v0.1.1` shipped; Tracer 17 runtime truth now exists on `main` | published local/runtime truth plus bounded deployment truth | one bounded staff read plus one richer reconciliation read are real in repo truth, while the bounded internal runner deployment in `agents` still proves only the occupancy slice |
 | Gateway | current Tracer 15 line: `v0.2.0` | narrow repo truth | caller identity, persisted audit, and a second routed read are real in the current gateway repo line, while write governance and deployment remain deferred |
 | Prometheus deployment repo | live for bounded ATHENA, APOLLO, and HERMES deployment truth | published deployment truth | bounded HERMES manifests now exist; gateway deployment slices remain deferred |
 | Platform docs | synced in this repo | control-plane planning truth | front-facing ladder and shipped lines now match current state |
@@ -60,7 +60,7 @@ readable as one coherent platform instead of five drifting repos.
 | Control-plane routed read | yes, thin | yes |
 | Control-plane identity + audit | yes, narrow | yes |
 | Durable edge observation history | no | yes |
-| Operator review / reconciliation read surface | no | yes |
+| Operator review / reconciliation read surface | yes, narrow | yes |
 
 | Pillar count | Value |
 | --- | --- |
@@ -167,7 +167,7 @@ current Tracer 16 control-plane closeout line in this repo.
 | game sessions | not real |
 | leaderboards | not real |
 | social graph / rivalries | not real |
-| operator review tools | not real yet |
+| operator review tools | real, but bounded to one read-only reconciliation question |
 | Phase 2 frontend posture | intentionally thin or absent |
 
 ## Feature Bank
@@ -429,9 +429,9 @@ flowchart LR
   session bootstrap, profile summary, explicit lobby membership, deterministic
   match preview, workout list/detail/update/finish, and deterministic
   recommendation display
-- `hermes` now serves one executable read-only staff flow:
-  `hermes ask occupancy --facility <id>` reads ATHENA's public occupancy count
-  and labels the result as ATHENA-backed truth
+- `hermes` now serves two executable read-only staff flows:
+  `hermes ask occupancy --facility <id>` and
+  `hermes ask reconciliation --facility <id> --window <duration> --bin <duration>`
 - `ashton-mcp-gateway` now serves two executable routed read-only flows:
   `athena.get_current_occupancy` and `athena.get_current_zone_occupancy` are
   discovered from real manifests, routed to ATHENA's public occupancy
@@ -446,8 +446,9 @@ flowchart LR
 
 - `athena` and `apollo` now share one runtime event contract instead of private
   JSON structs
-- `hermes` now consumes ATHENA's public occupancy endpoint directly instead of
-  inventing a private read model or staff-side truth store
+- `hermes` now consumes ATHENA's public occupancy endpoint plus one bounded
+  privacy-safe facility-history endpoint instead of inventing a private read
+  model or staff-side truth store
 - Tracer 2 proved the first end-to-end flow from physical presence to member
   visit history
 - anonymous, malformed, duplicate, no-open, out-of-order, and unknown-tag
@@ -461,8 +462,6 @@ bullets are only the short summary.
 
 - `Tracer 16` runtime and control-plane closeout are now complete on `main`;
   `v0.5.0` and `v0.0.23` are the Tracer 16 release lines
-- richer `hermes` staff questions only after a later tracer proves a real need
-  beyond occupancy
 - the next gateway line only after explicit write approval is actually required
 - broader `ashton-proto` contract expansion only when a real cross-repo tracer
   requires it
@@ -496,7 +495,7 @@ bullets are only the short summary.
 | `Tracer 14` | HERMES observability hardening | Complete and tagged | make the existing occupancy slice operationally inspectable before any wider staff widening |
 | `Tracer 15` | gateway caller identity, persisted audit, and one second routed read | Implemented and locally verified | turn the first routed read into a trusted narrow control-plane layer |
 | `Tracer 16` | ATHENA durable edge-observation groundwork | Complete on `main`, closure-ready | durable edge-observation groundwork, immutable replay identity hardening, fail-open shadow-write, and restart/reload replay groundwork are real without widening deployment or product surfaces |
-| `Tracer 17` | one richer read-only HERMES staff question | Planned | extend the staff pillar without widening into overrides or writes |
+| `Tracer 17` | one richer read-only HERMES reconciliation question | Complete on `main`, tag decision pending | extend the staff pillar with occupancy reports and heat-map-style reads without widening into overrides or writes |
 
 ## Release History
 

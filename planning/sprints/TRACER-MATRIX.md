@@ -1188,3 +1188,70 @@ Deferred after closure:
 | Feature | override or identity-reconciliation UI | deferred | ingress normalization stayed separate from staff mutation and richer operator UX | later HERMES line |
 | Deploy | durable-history deployment closeout | deferred | deployed truth for the durable branch stayed intentionally unchanged in this tracer | later bounded deployment or release pass if actually proven |
 | Feature | broader session analytics or prediction claims | deferred | replay/rebuild groundwork landed without broad analytics or predictive maturity claims | later ATHENA tracer |
+
+## Tracer 17: HERMES Bounded Reconciliation Read
+
+Status: complete on `main`, tag decision pending.
+
+Goal:
+
+- add one richer read-only HERMES reconciliation question over stable ATHENA
+  truth
+- keep the surface CLI-first and read-only
+- add occupancy reports and heat-map-style reads without broadening into a
+  staff assistant shell
+- resolve the history-read blocker with only the smallest honest ATHENA support
+
+Repos:
+
+- `hermes`
+- `athena` for bounded privacy-safe history read support only
+- `ashton-platform`
+
+Exit criteria:
+
+- `hermes ask reconciliation --facility <id> --window <duration> --bin <duration>`
+  is real
+- reconciliation output is deterministic for the same current + history inputs
+- occupancy reports and heat-map-style buckets stay privacy-safe
+- ATHENA support remains facility-filtered, read-only, and minimal
+- no writes, overrides, approvals, or broad assistant UX slip in
+- deployed truth remains unchanged
+- repo-local and control-plane docs align
+
+Key outputs:
+
+- `hermes` now exposes `ask reconciliation` alongside the existing occupancy
+  slice and keeps both surfaces on the same low-noise stderr observability
+  model
+- the reconciliation answer now bundles current occupancy, an occupancy report,
+  heat-map-style buckets, and one bounded `inspect_next` pointer in one
+  question instead of splitting into multiple operator sub-products
+- `athena` now exposes `GET /api/v1/presence/history` as a bounded
+  privacy-safe facility-history read with only `direction`, `result`,
+  `observed_at`, and `committed`
+- no raw account values, resolved names, or hashed identities are exposed by
+  the new HERMES surface
+- `ashton-platform` now records the line as complete on `main` with deployed
+  truth still unchanged
+
+Tracer 17 retrospective:
+
+- The honest shape was one richer reconciliation question, not separate report
+  and heat-map commands.
+- HERMES could not honestly consume durable history without a minimal ATHENA
+  read surface; direct file reads would have been a private shortcut.
+- The safe compromise was to expose only the smallest privacy-safe history
+  fields needed for HERMES aggregation and keep identity-bearing data out of
+  the support contract entirely.
+- The line stayed honest because deployment truth did not widen: only the
+  earlier occupancy runner slice is deployed proof today.
+
+Deferred after closure:
+
+| Type | Item | Status | Why It Was Not Done Here | Future Owner |
+| --- | --- | --- | --- | --- |
+| Feature | writes, overrides, and approval flows | deferred | Tracer 17 stays read-only by design | later HERMES or gateway line |
+| Deploy | live deployment proof for reconciliation | deferred | this tracer widened local/runtime truth only | later bounded deployment pass |
+| Feature | identity-level or alias-level reconciliation reads | deferred | the bounded support contract intentionally excludes hashes, names, and private identifiers | later HERMES line if justified |
+| Feature | broader operator shell or chat UX | deferred | one richer question was the explicit hard stop | later HERMES line only if a real need appears |

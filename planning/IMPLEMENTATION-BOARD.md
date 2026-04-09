@@ -138,14 +138,17 @@ Rust remains a later optimization path, not a first-wave dependency.
 | `ashton-proto` | `v0.3.0` shipped; current Tracer 15 contract line `v0.4.0` | later than `v0.4.0` | the second routed manifest line is now real in the current repo line; further widening should stay tracer-driven |
 | `athena` | `v0.4.1` shipped; Tracer 16 runtime truth is complete on `main` and aligned to the `v0.5.0` release line | `v0.5.0` | durable edge-observation groundwork is real on `main`; the release line stays narrow and does not widen deployed truth |
 | `apollo` | `v0.9.0` shipped | `v0.10.0` | sport registry and facility-sport capability mapping now come before planner/coaching because Phase 2 is backend-first and competition-first |
-| `hermes` | `v0.1.1` shipped | `v0.1.2` only if runtime changes later | deployment truth is already closed on the bounded live runner slice; keep the runtime line at `v0.1.1` unless later evidence requires a bump |
+| `hermes` | `v0.1.1` shipped; Tracer 17 runtime truth is now real on `main` and aligned to the `v0.2.0` release line | `v0.2.0` | the richer read-only reconciliation line is now real in repo truth without widening into writes or broad assistant UX |
 | `ashton-mcp-gateway` | `v0.0.1` shipped; current Tracer 15 line `v0.2.0` | `v0.3.0` | the caller-aware audited read-only control-plane slice is now real; write governance is the next true widening |
-| `ashton-platform` | `v0.0.21` shipped; current Tracer 15 closeout line `v0.0.22`; Tracer 16 closeout is complete on `main` and aligned to the `v0.0.23` release line | `v0.0.23` | the Tracer 16 control-plane line is closure-ready on `main` and keeps deployed truth unchanged |
+| `ashton-platform` | `v0.0.21` shipped; current Tracer 15 closeout line `v0.0.22`; Tracer 16 closeout is complete on `main` and aligned to the `v0.0.23` release line | `v0.0.24` | the Tracer 17 control-plane line now closes the richer HERMES reconciliation surface while keeping deployed truth unchanged |
 
 Current closeout note:
 
 - `athena` now carries Tracer 16 runtime truth on `main` at
   `a1ade686287b43d128cd26d93ddff80c42b3d2d6`
+- `athena` now also carries one bounded privacy-safe history read on `main`
+  for Tracer 17 support without widening into a public operator product surface
+- `hermes` now carries Tracer 17 runtime truth on `main`
 - this repo now carries the aligned Tracer 16 control-plane closeout on `main`
 - `v0.5.0` and `v0.0.23` are the Tracer 16 release lines for ATHENA runtime
   truth and platform closeout truth
@@ -161,7 +164,7 @@ Current closeout note:
 | HERMES | observability-hardened and live-deployed | published local/runtime truth plus bounded deployment truth | done |
 | Gateway | caller-aware and auditable, still narrow | the Tracer 15 runtime proof is real, while broader control-plane maturity remains deferred | medium |
 | ATHENA durability | complete on `main`, closure-ready | deterministic durable-history groundwork, replay identity hardening, and restart/reload proof are real; durable-branch deployment truth is still unchanged | closeout-ready |
-| HERMES operator surface | missing | reports, heat maps, and reconciliation still depend on Tracer 17 now that Tracer 16 durability groundwork is real on `main` | high |
+| HERMES operator surface | complete on `main`, closure-ready | one richer reconciliation question, occupancy reports, and heat-map-style reads are now real in repo truth while deployed truth stays unchanged | closeout-ready |
 | Facility catalog / hours | missing | needed before sport scheduling and per-facility product truth stay honest | medium-high |
 | Sport / team / session base | missing | competition runtime cannot grow cleanly without it | medium-high |
 | Ratings / standings / profile stats | missing | needed before truthful competition surfaces or later demos | medium |
