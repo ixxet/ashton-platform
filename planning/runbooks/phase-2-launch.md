@@ -91,7 +91,7 @@ Current Tracer 16 closeout note:
 
 - `athena v0.5.0` runtime truth is complete on `main`
 - `ashton-platform v0.0.23` control-plane closeout is now complete on `main`
-- both tags remain uncreated in this line; the release decision is separate
+- `v0.5.0` and `v0.0.23` are the Tracer 16 release lines
 - deployed truth remains unchanged and bounded to the existing live edge path
 
 Phase 2 rule for `Tracer 16`:

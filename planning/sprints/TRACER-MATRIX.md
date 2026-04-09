@@ -1117,7 +1117,7 @@ Deferred after closure:
 
 ## Tracer 16: ATHENA Durable Edge-Observation Groundwork
 
-Status: complete on `main`, closure-ready, untagged.
+Status: complete on `main`, closure-ready.
 
 Goal:
 

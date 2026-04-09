@@ -127,7 +127,7 @@ render cleanly and rollout is verified from a real kube context.
 ## Current Closeout Line
 
 - `v0.5.0` / `Tracer 16` is complete on `main` in `athena` repo truth and
-  remains untagged until the separate release pass
+  is the current Tracer 16 release line
 - what became real: append-only durable edge history, immutable replay
   identity hardening, fail-open shadow-write, restart/reload replay
   groundwork, and a CLI-only internal history surface
