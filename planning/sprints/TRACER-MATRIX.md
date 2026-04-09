@@ -1117,7 +1117,7 @@ Deferred after closure:
 
 ## Tracer 16: ATHENA Durable Edge-Observation Groundwork
 
-Status: complete on `main`, closure-ready.
+Status: complete and tagged.
 
 Goal:
 
@@ -1150,7 +1150,7 @@ Exit criteria:
 Key outputs:
 
 - `athena` now carries Tracer 16 runtime truth on `main` at
-  `a1ade686287b43d128cd26d93ddff80c42b3d2d6`
+  `50d50cb6b164fd58896d799bafa2e39138765620`
 - durable observation records and commit markers now bind through immutable
   `observation_id` rather than caller-supplied `event_id`
 - ambiguous legacy `event_id`-only commit markers now fail closed instead of
@@ -1162,8 +1162,8 @@ Key outputs:
   projector before it starts listening when the history path is configured
 - `athena edge history` now exposes a bounded CLI-only read over hashed
   identities and operationally useful fields
-- `ashton-platform` now records the line as complete on `main` and
-  closure-ready while the tag and release decision remains separate
+- `ashton-platform` now records the line as complete and tagged as
+  `v0.0.23`
 
 Tracer 16 retrospective:
 
@@ -1191,7 +1191,7 @@ Deferred after closure:
 
 ## Tracer 17: HERMES Bounded Reconciliation Read
 
-Status: complete on `main`, tag decision pending.
+Status: complete and tagged.
 
 Goal:
 
@@ -1232,8 +1232,10 @@ Key outputs:
   `observed_at`, and `committed`
 - no raw account values, resolved names, or hashed identities are exposed by
   the new HERMES surface
-- `ashton-platform` now records the line as complete on `main` with deployed
-  truth still unchanged
+- `ashton-platform` now records the line as complete and tagged while deployed
+  truth stays unchanged
+- the release set is `hermes v0.2.0`, bounded `athena v0.5.1`, and
+  `ashton-platform v0.0.24`
 
 Tracer 17 retrospective:
 

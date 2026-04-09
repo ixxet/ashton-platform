@@ -89,10 +89,20 @@ What is still not real:
 
 Current Tracer 16 closeout note:
 
-- `athena v0.5.0` runtime truth is complete on `main`
-- `ashton-platform v0.0.23` control-plane closeout is now complete on `main`
+- `athena v0.5.0` runtime truth is shipped
+- `ashton-platform v0.0.23` control-plane closeout is shipped
 - `v0.5.0` and `v0.0.23` are the Tracer 16 release lines
 - deployed truth remains unchanged and bounded to the existing live edge path
+
+Current Tracer 17 closeout note:
+
+- `hermes v0.2.0` runtime truth is now shipped
+- bounded `athena v0.5.1` support is now shipped as a follow-up on the
+  existing durable-history line
+- `ashton-platform v0.0.24` control-plane closeout is now shipped
+- deployed truth remains unchanged: the live HERMES runner still proves only
+  the occupancy slice, and the live ATHENA edge path remains the current
+  deployed physical-truth proof
 
 Phase 2 rule for `Tracer 16`:
 
@@ -141,7 +151,7 @@ Working rule:
 | `Milestone 1.7` | `hermes` + `Prometheus` | `hermes v0.1.2` only if runtime changes, otherwise deploy closeout only, `ashton-platform v0.0.21` | bounded live HERMES deployment proof | no write authority |
 | `Tracer 15` | `ashton-mcp-gateway` + optional `ashton-proto` | `ashton-mcp-gateway v0.2.0`, optional `ashton-proto v0.4.0`, `ashton-platform v0.0.22` | caller identity, persisted audit, and second routed read | no approvals or writes |
 | `Tracer 16` | `athena` + optional `ashton-proto` | `athena v0.5.0`, `ashton-platform v0.0.23` | durable edge history, session-inference groundwork, and fail-open shadow-write rollout | no prediction or broad rollout claims |
-| `Tracer 17` | `hermes` with bounded `athena` support | `hermes v0.2.0`, `ashton-platform v0.0.24` | operator / reconciliation read surface, occupancy reports, and heat-map-style reads over stable history | no overrides or writes |
+| `Tracer 17` | `hermes` with bounded `athena` support | `hermes v0.2.0`, `athena v0.5.1`, `ashton-platform v0.0.24` | operator / reconciliation read surface, occupancy reports, and heat-map-style reads over stable history | no overrides or writes |
 
 ### Phase 2B: Operational And Competition Base
 

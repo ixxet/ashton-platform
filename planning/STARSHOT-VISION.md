@@ -24,10 +24,10 @@ execution narrow, bounded, and testable.
 | --- | --- | --- | --- |
 | ATHENA deploy truth | done | physical-truth pillar is live and credible | done |
 | APOLLO auth / membership / preview | done | member intent pillar exists | done |
-| HERMES | thin | needs observability plus live proof | high |
-| Gateway | thin | needs identity plus audit | high |
-| ATHENA durability | complete on `main`, closure-ready | durable-history groundwork, replay identity hardening, and restart/reload proof are real; durable-branch deployment truth is still unchanged | closeout-ready |
-| HERMES operator surface | missing | real reports, heat maps, and reconciliation still depend on Tracer 17 now that Tracer 16 durability groundwork is real on `main` | high |
+| HERMES | observability-hardened and live-deployed | staff truth is real locally and in one bounded internal deployment slice | done |
+| Gateway | caller-aware and auditable, still narrow | the routed control-plane layer is real even though write governance remains deferred | medium |
+| ATHENA durability | shipped, deployed truth unchanged | durable-history groundwork is real and tagged, and the bounded Tracer 17 support follow-up is shipped without widening deployment truth | done |
+| HERMES operator surface | shipped, still intentionally narrow | one richer reconciliation question is real and tagged while broader workflows remain deferred | done |
 | Facility truth beyond occupancy | missing | hours, zones, and closure metadata still need a clean home | medium-high |
 | Competition substrate | missing | sport, team, session, result, and ratings truth do not exist yet | medium-high |
 | Planner / coaching backend | missing | still important, but explicitly later than the operations/competition base | medium |
@@ -40,12 +40,12 @@ execution narrow, bounded, and testable.
 | `Tracer 11` | shipped | APOLLO member shell is real, but intentionally thin | done |
 | `Tracer 12` | shipped | explicit lobby membership and durable member intent are real | done |
 | `Tracer 13` | shipped | deterministic read-only ARES preview is real | done |
-| `ATHENA runtime` | `v0.4.1` shipped | edge ingress and edge-driven occupancy are real in repo/runtime | done |
+| `ATHENA runtime` | `v0.5.1` shipped; `v0.4.1` still deployed | durable history plus bounded privacy-safe history support are real in repo/runtime while deployed truth stays narrower | done |
 | `ATHENA deployment closeout` | `Prometheus v0.0.3`, `ashton-platform v0.0.19` shipped | bounded live deploy truth is real | done |
 | `APOLLO member runtime` | `v0.9.0` shipped | auth, visits, workouts, recommendations, membership, and deterministic preview are real | done |
-| `HERMES` | `v0.1.0` shipped | one thin staff read exists | `Tracer 14` |
-| `Gateway` | first routed read only | control plane is real but thin | `Tracer 15` |
-| `Platform docs` | mostly synced | control-plane planning truth is much stronger than before | keep synced as work lands |
+| `HERMES` | `v0.2.0` shipped | one thin staff read plus one richer reconciliation read are real | done |
+| `Gateway` | current Tracer 15 line real on `main` | control plane is real, caller-aware, and still intentionally narrow | later gateway widening only if justified |
+| `Platform docs` | synced to current shipped lines | control-plane planning truth now matches current repo and tag truth | keep synced as work lands |
 
 ## What Phase 2 Is For
 
@@ -80,12 +80,12 @@ Those become Phase 3 concerns.
 | Explicit member intent | yes | yes |
 | Deterministic coordination preview | yes | yes |
 | Staff read surface | yes, thin | yes, stronger |
-| Staff observability | no | yes |
-| Staff live deployment truth | no | yes |
+| Staff observability | yes | yes |
+| Staff live deployment truth | yes, bounded | yes |
 | Control-plane routed read | yes, thin | yes |
-| Control-plane identity + audit | no | yes |
-| Durable edge observation history | no | yes |
-| Operator review / reconciliation read surface | no | yes |
+| Control-plane identity + audit | yes, narrow | yes |
+| Durable edge observation history | yes | yes |
+| Operator review / reconciliation read surface | yes, narrow | yes |
 | Facility catalog / hours / zones | no | yes |
 | Sport / team / session / result substrate | no | yes |
 | Planner / coaching backend | partial | yes |
@@ -199,7 +199,7 @@ The exact commands can evolve, but the principle should stay stable:
 | `Milestone 1.7` | `hermes` + deploy repo | `v0.1.2` if runtime changes, otherwise deploy closeout only | prove live HERMES deployment truth | no write authority |
 | `Tracer 15` | `ashton-mcp-gateway` + optional `ashton-proto` | `v0.2.0` / `v0.0.22` | caller identity, persisted audit, second routed read | no approvals/writes yet |
 | `Tracer 16` | `athena` | `v0.5.0` / `v0.0.23` | durable edge-observation history and rebuild groundwork | no prediction rollout |
-| `Tracer 17` | `hermes` | `v0.2.0` / `v0.0.24` | one richer read-only operator/reconciliation question over stable truth | no overrides/writes |
+| `Tracer 17` | `hermes` + bounded `athena` support | `v0.2.0` / `v0.5.1` / `v0.0.24` | one richer read-only operator/reconciliation question over stable truth plus the minimum privacy-safe support follow-up | no overrides/writes |
 | `Tracer 18` | `athena` | `v0.6.0` / `v0.0.25` | facility catalog, hours, zones, closure windows, and per-facility metadata reads | no social or product logic |
 | `Tracer 19` | `apollo` | `v0.10.0` / `v0.0.26` | sport registry, facility-sport capability mapping, and basic sport rules/config for at least two sports | no matchmaking runtime yet |
 | `Tracer 20` | `apollo` | `v0.11.0` / `v0.0.27` | team, roster, session, and match container primitives | no public standings |

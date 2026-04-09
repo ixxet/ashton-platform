@@ -126,11 +126,13 @@ render cleanly and rollout is verified from a real kube context.
 
 ## Current Closeout Line
 
-- `v0.5.0` / `Tracer 16` is complete on `main` in `athena` repo truth and
-  is the current Tracer 16 release line
+- `v0.5.0` / `Tracer 16` is shipped as the durable-history release line
+- `v0.5.1` is now shipped as a bounded Tracer 17 support follow-up on that
+  same durable-history branch
 - what became real: append-only durable edge history, immutable replay
   identity hardening, fail-open shadow-write, restart/reload replay
-  groundwork, and a CLI-only internal history surface
+  groundwork, a CLI-only internal history surface, and one bounded privacy-safe
+  facility-history read for HERMES reconciliation
 - what stayed deferred: prediction, public operator/report surfaces, durable
   deployment closeout, and identity-reconciliation UX
 

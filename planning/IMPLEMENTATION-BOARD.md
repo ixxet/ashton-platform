@@ -136,24 +136,25 @@ Rust remains a later optimization path, not a first-wave dependency.
 | Repo | Current line | Next planned line | Why it is next |
 | --- | --- | --- | --- |
 | `ashton-proto` | `v0.3.0` shipped; current Tracer 15 contract line `v0.4.0` | later than `v0.4.0` | the second routed manifest line is now real in the current repo line; further widening should stay tracer-driven |
-| `athena` | `v0.4.1` shipped; Tracer 16 runtime truth is complete on `main` and aligned to the `v0.5.0` release line | `v0.5.0` | durable edge-observation groundwork is real on `main`; the release line stays narrow and does not widen deployed truth |
+| `athena` | `v0.5.1` shipped; `v0.4.1` remains the current deployed line | `v0.6.0` | the durable-history line is now shipped with one bounded privacy-safe support follow-up; facility truth is the next true widening |
 | `apollo` | `v0.9.0` shipped | `v0.10.0` | sport registry and facility-sport capability mapping now come before planner/coaching because Phase 2 is backend-first and competition-first |
-| `hermes` | `v0.1.1` shipped; Tracer 17 runtime truth is now real on `main` and aligned to the `v0.2.0` release line | `v0.2.0` | the richer read-only reconciliation line is now real in repo truth without widening into writes or broad assistant UX |
+| `hermes` | `v0.2.0` shipped | `v0.3.0` | the richer read-only reconciliation line is now shipped and the first write/approval boundary is the next true widening |
 | `ashton-mcp-gateway` | `v0.0.1` shipped; current Tracer 15 line `v0.2.0` | `v0.3.0` | the caller-aware audited read-only control-plane slice is now real; write governance is the next true widening |
-| `ashton-platform` | `v0.0.21` shipped; current Tracer 15 closeout line `v0.0.22`; Tracer 16 closeout is complete on `main` and aligned to the `v0.0.23` release line | `v0.0.24` | the Tracer 17 control-plane line now closes the richer HERMES reconciliation surface while keeping deployed truth unchanged |
+| `ashton-platform` | `v0.0.24` shipped | `v0.0.25` | the Tracer 17 control-plane line is now shipped and the facility-truth closeout is next |
 
 Current closeout note:
 
 - `athena` now carries Tracer 16 runtime truth on `main` at
-  `a1ade686287b43d128cd26d93ddff80c42b3d2d6`
+  `50d50cb6b164fd58896d799bafa2e39138765620`
 - `athena` now also carries one bounded privacy-safe history read on `main`
-  for Tracer 17 support without widening into a public operator product surface
-- `hermes` now carries Tracer 17 runtime truth on `main`
-- this repo now carries the aligned Tracer 16 control-plane closeout on `main`
-- `v0.5.0` and `v0.0.23` are the Tracer 16 release lines for ATHENA runtime
-  truth and platform closeout truth
+  for Tracer 17 support, and that support follow-up is released as `v0.5.1`
+- `hermes` now carries Tracer 17 runtime truth on `main` at
+  `2a01b61646b3ef985cbbfd4609f7731e5eb13eb3`
+- this repo now carries the aligned Tracer 17 control-plane closeout on `main`
+- `v0.5.1`, `v0.2.0`, and `v0.0.24` are the Tracer 17 release lines for
+  bounded ATHENA support, HERMES runtime truth, and platform closeout truth
 - deployed truth remains unchanged: the bounded live edge path is still real,
-  while the durable-history branch is still local/runtime proof only
+  while the durable-history branch and reconciliation widening remain local/runtime proof only
 
 ## Urgency Snapshot
 
@@ -163,8 +164,8 @@ Current closeout note:
 | APOLLO auth / membership / preview | done | member intent pillar exists | done |
 | HERMES | observability-hardened and live-deployed | published local/runtime truth plus bounded deployment truth | done |
 | Gateway | caller-aware and auditable, still narrow | the Tracer 15 runtime proof is real, while broader control-plane maturity remains deferred | medium |
-| ATHENA durability | complete on `main`, closure-ready | deterministic durable-history groundwork, replay identity hardening, and restart/reload proof are real; durable-branch deployment truth is still unchanged | closeout-ready |
-| HERMES operator surface | complete on `main`, closure-ready | one richer reconciliation question, occupancy reports, and heat-map-style reads are now real in repo truth while deployed truth stays unchanged | closeout-ready |
+| ATHENA durability | shipped | deterministic durable-history groundwork is tagged, bounded support follow-up is released, and durable-branch deployment truth is still unchanged | done |
+| HERMES operator surface | shipped | one richer reconciliation question, occupancy reports, and heat-map-style reads are now shipped while deployed truth stays unchanged | done |
 | Facility catalog / hours | missing | needed before sport scheduling and per-facility product truth stay honest | medium-high |
 | Sport / team / session base | missing | competition runtime cannot grow cleanly without it | medium-high |
 | Ratings / standings / profile stats | missing | needed before truthful competition surfaces or later demos | medium |
@@ -188,15 +189,15 @@ Current closeout note:
 `Cleanup 0` is complete in this docs sync pass. It is intentionally docs-only
 and not a tagged runtime line.
 
-`Tracer 16` is now the current closeout line on `main` for ATHENA durability
-and ingress hardening.
+`Tracer 17` is now the current shipped closeout line for the richer HERMES
+reconciliation surface and bounded ATHENA support release alignment.
 
 | Platform tag | Vertical | Repo lines in scope | Intended purpose | Hard stop |
 | --- | --- | --- | --- | --- |
 | `v0.0.21` | `Milestone 1.7` | `hermes v0.1.2` only if runtime changes later, otherwise deploy-only closeout | live HERMES deployment proof over a bounded `Prometheus` runner slice | no write authority, public ingress, or broad assistant maturity |
 | `v0.0.22` | `Tracer 15` | `ashton-mcp-gateway v0.2.0`, optional `ashton-proto v0.4.0` | caller identity, persisted audit, and second routed read | no write approvals yet |
 | `v0.0.23` | `Tracer 16` | `athena v0.5.0` | durable edge-observation groundwork and ingress hardening | no prediction or broad rollout claims |
-| `v0.0.24` | `Tracer 17` | `hermes v0.2.0`, maybe bounded `athena` read support | one richer read-only operator/reconciliation question | no overrides or writes |
+| `v0.0.24` | `Tracer 17` | `hermes v0.2.0`, `athena v0.5.1` | one richer read-only operator/reconciliation question | no overrides or writes |
 | `v0.0.25` | `Tracer 18` | `athena v0.6.0` | facility catalog, hours, zones, closure windows, and per-facility metadata read surfaces | no social or product logic |
 | `v0.0.26` | `Tracer 19` | `apollo v0.10.0`, optional `ashton-proto` widening only if a shared sport/facility contract is truly needed | sport registry for at least two sports, facility-sport capability mapping, and basic sport rules/config | no matchmaking runtime yet |
 | `v0.0.27` | `Tracer 20` | `apollo v0.11.0` | team, roster, session, and match container primitives | no public standings |
@@ -300,7 +301,7 @@ and ingress hardening.
 2. Treat `Tracer 14` as closure-clean on `main` and keep it strictly observability-only.
 3. Use `Milestone 1.7` to record the same HERMES slice as bounded live deployment truth without widening runtime scope.
 4. Use `Tracer 15` to strengthen gateway trust before any approval or write widening.
-5. Treat `Tracer 16` as complete on `main` for durability and ingress hardening, and use `Tracer 17` to finish the richer operator read surface before product/base widening.
+5. Treat `Tracer 16` and `Tracer 17` as shipped and use `Tracer 18` to finish facility truth before product/base widening.
 6. Use `Tracer 18` through `Tracer 22` to finish the operational and competition base before planner/coaching work.
 7. Use `Tracer 23` through `Tracer 25` to finish the backend/agent-friendly product expansion without turning Phase 2 into a frontend push.
 8. Treat `Milestone 2.0` as the backend/base plateau after all remaining tracers, not as a demo milestone.
