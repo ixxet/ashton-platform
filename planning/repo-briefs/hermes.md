@@ -62,10 +62,13 @@ hermes/
   and unavailable upstream connections are expected destructive checks, not
   happy-path regressions
 - the happy path is a valid occupancy read against a healthy ATHENA runtime
-- HERMES success-path observability is still thin and remains a documented
-  non-blocking carry-forward gap
+- Tracer 14 observability is now real for the current occupancy slice:
+  low-noise structured request / result / outcome logs are part of current
+  runtime truth
 - deployment proof is now real, but the deployed shape stays a bounded
   internal runner and not a broader assistant service
+- broader operator reporting or reconciliation maturity is still deferred to
+  later work; this brief does not imply Tracer 17 is complete
 
 ## Deferred On Purpose
 
