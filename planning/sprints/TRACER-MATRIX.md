@@ -1114,3 +1114,77 @@ Deferred after closure:
 | Feature | broad multi-service registry | deferred | Tracer 15 stays intentionally smaller than the long-range control-plane vision | later gateway tracer |
 | Deploy | live gateway deployment proof | deferred | Tracer 15 proves local/runtime truth only | later bounded deployment workstream |
 | Feature | Redis-backed rate limiting | deferred | there is still no traffic profile that requires it | later gateway tracer |
+
+## Tracer 16: ATHENA Durable Edge-Observation Groundwork
+
+Status: complete on `main`, closure-ready, untagged.
+
+Goal:
+
+- add durable edge-observation groundwork behind the existing live
+  `POST /api/v1/edge/tap` path without breaking the bounded live ingress
+  contract
+- make restart/reload replay explicit and deterministic from committed `pass`
+  observations
+- preserve privacy posture and fail-open shadow-write behavior
+- keep the line internal/CLI-first with no prediction or broad report surface
+
+Repos:
+
+- `athena`
+- `ashton-platform`
+
+Exit criteria:
+
+- append-only durable observation history is real behind the existing tap
+  handler
+- immutable observation identity hardens replay commit attribution
+- restart/reload rebuild from committed `pass` observations is explicit and
+  tested
+- no raw-ID leakage or free-text `status_message` persistence regresses
+- the live tunnel, token, and userscript contract remains unchanged
+- internal CLI history proof is bounded and honest
+- deployed truth remains unchanged for the durable branch
+- docs align across repo-local and control-plane truth
+
+Key outputs:
+
+- `athena` now carries Tracer 16 runtime truth on `main` at
+  `a1ade686287b43d128cd26d93ddff80c42b3d2d6`
+- durable observation records and commit markers now bind through immutable
+  `observation_id` rather than caller-supplied `event_id`
+- ambiguous legacy `event_id`-only commit markers now fail closed instead of
+  silently blessing the wrong observation during replay
+- authorized observations can shadow-write append-only history behind the same
+  live tap handler while durable-write failure stays fail-open for the
+  accept/publish/projection outcome
+- `athena serve` can now replay committed `pass` observations into a fresh
+  projector before it starts listening when the history path is configured
+- `athena edge history` now exposes a bounded CLI-only read over hashed
+  identities and operationally useful fields
+- `ashton-platform` now records the line as complete on `main` and
+  closure-ready while the tag and release decision remains separate
+
+Tracer 16 retrospective:
+
+- The honest seam was behind the existing tap handler, not a new public
+  surface or a broad storage redesign.
+- The first durability closeout attempt was not clean because replay commit
+  truth was keyed only by caller-supplied `event_id`; an `event_id` collision
+  could misattribute commitment during reload.
+- Closure became honest only after ATHENA bound commit markers to immutable
+  durable observations, added the collision regression, and kept ambiguous
+  legacy history fail-closed.
+- The line stayed honest because deployed truth did not widen: the existing
+  live edge path remains the only deployed claim, while the durable-history
+  branch is still local/runtime proof only.
+
+Deferred after closure:
+
+| Type | Item | Status | Why It Was Not Done Here | Future Owner |
+| --- | --- | --- | --- | --- |
+| Feature | prediction rollout | deferred | Tracer 16 stays durability- and ingress-hardening-only | later ATHENA tracer |
+| Feature | public operator or report surfaces over durable history | deferred | the history foundation exists, but read widening belongs to later ATHENA or HERMES lines | `Tracer 17` and later |
+| Feature | override or identity-reconciliation UI | deferred | ingress normalization stayed separate from staff mutation and richer operator UX | later HERMES line |
+| Deploy | durable-history deployment closeout | deferred | deployed truth for the durable branch stayed intentionally unchanged in this tracer | later bounded deployment or release pass if actually proven |
+| Feature | broader session analytics or prediction claims | deferred | replay/rebuild groundwork landed without broad analytics or predictive maturity claims | later ATHENA tracer |

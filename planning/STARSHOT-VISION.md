@@ -26,8 +26,8 @@ execution narrow, bounded, and testable.
 | APOLLO auth / membership / preview | done | member intent pillar exists | done |
 | HERMES | thin | needs observability plus live proof | high |
 | Gateway | thin | needs identity plus audit | high |
-| ATHENA durability | missing | still weak on restart, history, and audit side | high |
-| HERMES operator surface | missing | real reports, heat maps, and reconciliation still depend on Tracer 16 plus Tracer 17 | high |
+| ATHENA durability | complete on `main`, untagged | durable-history groundwork, replay identity hardening, and restart/reload proof are real; durable-branch deployment truth is still unchanged | closeout-ready |
+| HERMES operator surface | missing | real reports, heat maps, and reconciliation still depend on Tracer 17 now that Tracer 16 durability groundwork is real on `main` | high |
 | Facility truth beyond occupancy | missing | hours, zones, and closure metadata still need a clean home | medium-high |
 | Competition substrate | missing | sport, team, session, result, and ratings truth do not exist yet | medium-high |
 | Planner / coaching backend | missing | still important, but explicitly later than the operations/competition base | medium |

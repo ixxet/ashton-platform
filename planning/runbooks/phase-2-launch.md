@@ -69,13 +69,30 @@ What is already real:
 - `ms-gym-01` and `ms-gym-02` are proven live node-level posting paths
 - direction inference from the TouchNet row text is real
 - accepted `pass` rows update live occupancy and identified publish
+- append-only durable edge-observation history is now real on `main` in
+  `athena` behind that same `POST /api/v1/edge/tap` handler
+- immutable replay identity hardening is now real on `main`, so committed
+  history binds to one durable observation rather than bare caller-supplied
+  `event_id`
+- fail-open shadow-write is now real on `main`: durable-write failure does not
+  break the live tap accept/publish/projection path
+- restart/reload replay of committed `pass` observations is now real as
+  local/runtime groundwork when the history path is configured
 
 What is still not real:
 
-- durable append-only edge history
-- restart-safe durable session inference
+- deployed truth for the durable-history branch beyond the already-proven live
+  ingress path
+- prediction or broader session analytics over that history
 - public operator or report surfaces over that history
 - rivalry, teammate, or standings truth
+
+Current Tracer 16 closeout note:
+
+- `athena v0.5.0` runtime truth is complete on `main`
+- `ashton-platform v0.0.23` control-plane closeout is now complete on `main`
+- both tags remain uncreated in this line; the release decision is separate
+- deployed truth remains unchanged and bounded to the existing live edge path
 
 Phase 2 rule for `Tracer 16`:
 

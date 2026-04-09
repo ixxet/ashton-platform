@@ -136,11 +136,21 @@ Rust remains a later optimization path, not a first-wave dependency.
 | Repo | Current line | Next planned line | Why it is next |
 | --- | --- | --- | --- |
 | `ashton-proto` | `v0.3.0` shipped; current Tracer 15 contract line `v0.4.0` | later than `v0.4.0` | the second routed manifest line is now real in the current repo line; further widening should stay tracer-driven |
-| `athena` | `v0.4.1` shipped | `v0.5.0` | durable edge-observation groundwork is the next true ATHENA capability line after the bounded live `v0.4.1` line is trusted |
+| `athena` | `v0.4.1` shipped; Tracer 16 runtime truth is complete on `main` and awaiting the `v0.5.0` tag pass | `v0.5.0` | durable edge-observation groundwork is real on `main`; the planned tag is still separate from runtime truth |
 | `apollo` | `v0.9.0` shipped | `v0.10.0` | sport registry and facility-sport capability mapping now come before planner/coaching because Phase 2 is backend-first and competition-first |
 | `hermes` | `v0.1.1` shipped | `v0.1.2` only if runtime changes later | deployment truth is already closed on the bounded live runner slice; keep the runtime line at `v0.1.1` unless later evidence requires a bump |
 | `ashton-mcp-gateway` | `v0.0.1` shipped; current Tracer 15 line `v0.2.0` | `v0.3.0` | the caller-aware audited read-only control-plane slice is now real; write governance is the next true widening |
-| `ashton-platform` | `v0.0.21` shipped; current Tracer 15 closeout line `v0.0.22` | `v0.0.23` | the current platform line carries Tracer 15 closeout truth; the next line moves to ATHENA durability |
+| `ashton-platform` | `v0.0.21` shipped; current Tracer 15 closeout line `v0.0.22`; Tracer 16 closeout is complete on `main` and awaiting the `v0.0.23` tag pass | `v0.0.23` | the Tracer 16 control-plane line is closure-ready on `main`; the planned tag is still separate from docs closeout |
+
+Current closeout note:
+
+- `athena` now carries Tracer 16 runtime truth on `main` at
+  `a1ade686287b43d128cd26d93ddff80c42b3d2d6`
+- this repo now carries the aligned Tracer 16 control-plane closeout on `main`
+- `v0.5.0` and `v0.0.23` remain planned tags only; this docs pass does not
+  create releases
+- deployed truth remains unchanged: the bounded live edge path is still real,
+  while the durable-history branch is still local/runtime proof only
 
 ## Urgency Snapshot
 
@@ -150,8 +160,8 @@ Rust remains a later optimization path, not a first-wave dependency.
 | APOLLO auth / membership / preview | done | member intent pillar exists | done |
 | HERMES | observability-hardened and live-deployed | published local/runtime truth plus bounded deployment truth | done |
 | Gateway | caller-aware and auditable, still narrow | the Tracer 15 runtime proof is real, while broader control-plane maturity remains deferred | medium |
-| ATHENA durability | missing | still weak on restart, history, and audit side | high |
-| HERMES operator surface | missing | reports, heat maps, and reconciliation still depend on Tracer 16 plus Tracer 17 | high |
+| ATHENA durability | complete on `main`, untagged | deterministic durable-history groundwork, replay identity hardening, and restart/reload proof are real; durable-branch deployment truth is still unchanged | closeout-ready |
+| HERMES operator surface | missing | reports, heat maps, and reconciliation still depend on Tracer 17 now that Tracer 16 durability groundwork is real on `main` | high |
 | Facility catalog / hours | missing | needed before sport scheduling and per-facility product truth stay honest | medium-high |
 | Sport / team / session base | missing | competition runtime cannot grow cleanly without it | medium-high |
 | Ratings / standings / profile stats | missing | needed before truthful competition surfaces or later demos | medium |
@@ -174,6 +184,10 @@ Rust remains a later optimization path, not a first-wave dependency.
 
 `Cleanup 0` is complete in this docs sync pass. It is intentionally docs-only
 and not a tagged runtime line.
+
+`Tracer 16` is now the current untagged closeout line on `main` for ATHENA
+durability and ingress hardening. The later tag and release decision is still a
+separate pass.
 
 | Platform tag | Vertical | Repo lines in scope | Intended purpose | Hard stop |
 | --- | --- | --- | --- | --- |
@@ -284,7 +298,7 @@ and not a tagged runtime line.
 2. Treat `Tracer 14` as closure-clean on `main` and keep it strictly observability-only.
 3. Use `Milestone 1.7` to record the same HERMES slice as bounded live deployment truth without widening runtime scope.
 4. Use `Tracer 15` to strengthen gateway trust before any approval or write widening.
-5. Use `Tracer 16` and `Tracer 17` to finish the structural pillars before product/base widening.
+5. Treat `Tracer 16` as complete on `main` for durability and ingress hardening, and use `Tracer 17` to finish the richer operator read surface before product/base widening.
 6. Use `Tracer 18` through `Tracer 22` to finish the operational and competition base before planner/coaching work.
 7. Use `Tracer 23` through `Tracer 25` to finish the backend/agent-friendly product expansion without turning Phase 2 into a frontend push.
 8. Treat `Milestone 2.0` as the backend/base plateau after all remaining tracers, not as a demo milestone.

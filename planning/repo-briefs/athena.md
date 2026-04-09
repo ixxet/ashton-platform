@@ -15,11 +15,16 @@ The active ATHENA slice is intentionally narrow:
 - push-based edge tap ingress for identified visit-lifecycle publication
 - explicit in-memory edge-driven occupancy projection in `serve`
 - bounded live browser-reachable deployment of that same edge path
+- optional append-only durable edge-observation history behind the same tap
+  handler
+- restart/reload replay of committed `pass` observations into a fresh
+  projection when the history path is configured
 - identified arrival and departure publication through the shared
   `ashton-proto` helper
 
-Prediction, broader adapters, and persistence exist only as authored future
-direction, not as current runtime truth.
+Prediction and broader adapters remain future direction, not current runtime
+truth. Durable edge history is now real as a narrow local/runtime slice; broad
+operator/report surfaces and durable-branch deployment truth remain deferred.
 
 ## Current Real Slice
 
@@ -36,6 +41,8 @@ direction, not as current runtime truth.
 | CSV ingress adapter | Real | `ATHENA_ADAPTER=csv` plus `ATHENA_CSV_PATH` feeds the canonical occupancy read path from one bounded export shape |
 | `POST /api/v1/edge/tap` | Real | Authenticates per-node clients, hashes raw IDs, keeps `fail` local, and can update live occupancy plus identified publish |
 | `athena edge replay-touchnet` | Real | Replays raw TouchNet exports through the same edge ingress path used by the live browser bridge |
+| `athena edge history` | Real, internal-only | Reads recent durable observations from the append-only history file without widening the HTTP surface |
+| append-only durable edge history | Real, local/runtime | Shadow-writes privacy-safe observations behind the existing tap handler and can rebuild projection state from committed `pass` history on restart |
 | prediction runtime | Deferred | Still design-level only |
 | additional real ingress adapters | Deferred | CSV is the only source-backed adapter today |
 
@@ -64,12 +71,22 @@ Tap-in changes physical truth. It does not create social intent.
 - bounded deployed truth now includes live browser-reachable HTTPS edge ingress,
   in-memory occupancy updates, and direct NATS publish from that same accepted
   pass-event stream
+- append-only durable edge-observation groundwork is now real behind the same
+  tap handler in repo truth on `main`
+- immutable replay identity hardening is now real, so replay commit truth no
+  longer relies on bare caller-supplied `event_id`
+- fail-open shadow-write is now real, so durable-write failure does not break
+  the existing live tap response or projection/publish outcome
+- restart/reload replay now rebuilds occupancy from committed `pass`
+  observations when the history path is configured
 - bounded deployed truth still includes the earlier live mock-backed
   `ATHENA -> NATS -> APOLLO` departure-close boundary
 - downstream replay safety is intentionally a consumer responsibility beyond
   ATHENA's in-process dedupe set
 - deployed truth is now real for the bounded `v0.4.1` edge path, not only the
   earlier read deployment line
+- deployed truth for the new durable-history branch remains intentionally
+  unchanged in this tracer
 
 ## Project Shape
 
@@ -107,10 +124,19 @@ render cleanly and rollout is verified from a real kube context.
 - adapter widening beyond the first CSV slice
 - member-intent logic that belongs in APOLLO
 
+## Current Closeout Line
+
+- `v0.5.0` / `Tracer 16` is complete on `main` in `athena` repo truth and
+  remains untagged until the separate release pass
+- what became real: append-only durable edge history, immutable replay
+  identity hardening, fail-open shadow-write, restart/reload replay
+  groundwork, and a CLI-only internal history surface
+- what stayed deferred: prediction, public operator/report surfaces, durable
+  deployment closeout, and identity-reconciliation UX
+
 ## Next Ladder
 
 | Line | Focus | Hard stop |
 | --- | --- | --- |
-| `v0.5.0` / `Tracer 16` | durable edge-observation groundwork plus ingress hardening | do not imply broad ATHENA ingress rollout or finished operator UX |
 | `v0.6.0` / `Tracer 18` | facility catalog, hours, zones, closure windows, and per-facility metadata reads | do not widen into social or product logic |
 | later than `v0.6.0` | broader diagnostics and capacity prediction runtime | do not ship predictive UX before ingress, history, and facility truth are trusted |

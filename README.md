@@ -82,6 +82,10 @@ readable as one coherent platform instead of five drifting repos.
 `Cleanup 0` is complete in this docs pass. It is intentionally docs-only and
 not a tagged runtime line.
 
+`Tracer 16` is now complete on `main` in `athena`, and `v0.0.23` is the
+current untagged control-plane closeout line in this repo. The later tag and
+release decision remains a separate pass.
+
 | Line | Repo focus | Release line | Purpose | Hard stop |
 | --- | --- | --- | --- | --- |
 | `Tracer 14` | `hermes` | `v0.1.1` / `v0.0.20` | observability hardening for the existing occupancy slice | no richer question, no writes |
@@ -382,11 +386,11 @@ flowchart LR
 | Repo | Current line | Next planned line | Why it is next |
 | --- | --- | --- | --- |
 | `ashton-proto` | `v0.3.0` shipped; current Tracer 15 contract line `v0.4.0` | later than `v0.4.0` | the second routed manifest surface is now real in the current repo line; further widening should stay tracer-driven |
-| `athena` | `v0.4.1` shipped | `v0.5.0` | durable edge-observation groundwork is the next real ATHENA capability line after the bounded live `v0.4.1` edge deployment |
+| `athena` | `v0.4.1` shipped; Tracer 16 runtime truth is complete on `main` and awaiting the `v0.5.0` tag pass | `v0.5.0` | durable edge-observation groundwork is real on `main`; the planned tag is still separate from repo truth |
 | `apollo` | `v0.9.0` shipped | `v0.10.0` | sport registry and facility-sport capability mapping now come before planner/coaching because Phase 2 is backend-first and competition-first |
 | `hermes` | `v0.1.1` shipped | `v0.1.2` if runtime changes, otherwise deployment-only closeout | deployment proof is next now that observability hardening is closure-clean |
 | `ashton-mcp-gateway` | `v0.0.1` shipped; current Tracer 15 line `v0.2.0` | `v0.3.0` | caller identity, persisted audit, and a second routed read are now real; write approval is the next bounded widening |
-| `ashton-platform` | `v0.0.21` shipped; current Tracer 15 closeout line `v0.0.22` | `v0.0.23` | the current platform line carries Tracer 15 control-plane truth; the next line moves to ATHENA durability |
+| `ashton-platform` | `v0.0.21` shipped; current Tracer 15 closeout line `v0.0.22`; Tracer 16 closeout is complete on `main` and awaiting the `v0.0.23` tag pass | `v0.0.23` | the Tracer 16 control-plane line is closure-ready on `main`; the planned tag is still separate from docs closeout |
 
 ## Current State Block
 
@@ -405,6 +409,11 @@ flowchart LR
 - `athena` now also proves one bounded live deployment of browser-reachable
   HTTPS edge ingress, in-memory occupancy projection, and direct NATS publish
   from the same accepted pass-event stream
+- `athena` now also has append-only durable edge-observation groundwork behind
+  that same live tap handler, including immutable replay identity hardening,
+  fail-open shadow-write behavior, restart/reload rebuild from committed
+  `pass` observations, and one bounded CLI-only history surface over hashed
+  identities
 - `apollo` can consume those same events, validate them strictly, and open or
   close visits deterministically in Postgres
 - `apollo` can verify member ownership, issue signed sessions, persist profile
@@ -451,6 +460,9 @@ flowchart LR
 The planned release sequence below is the authoritative expansion path. These
 bullets are only the short summary.
 
+- `Tracer 16` runtime and control-plane closeout are now complete on `main`;
+  `v0.5.0` and `v0.0.23` remain planned tags only because this docs pass does
+  not create releases
 - richer `hermes` staff questions only after a later tracer proves a real need
   beyond occupancy
 - the next gateway line only after explicit write approval is actually required
@@ -485,7 +497,7 @@ bullets are only the short summary.
 | `Tracer 13` | APOLLO deterministic ARES match preview | Complete | prove one deterministic, explainable, read-only match preview over explicit joined membership only |
 | `Tracer 14` | HERMES observability hardening | Complete and tagged | make the existing occupancy slice operationally inspectable before any wider staff widening |
 | `Tracer 15` | gateway caller identity, persisted audit, and one second routed read | Implemented and locally verified | turn the first routed read into a trusted narrow control-plane layer |
-| `Tracer 16` | ATHENA durable edge-observation groundwork | Planned | reduce all-memory dependence and set up operator history / reconciliation groundwork |
+| `Tracer 16` | ATHENA durable edge-observation groundwork | Complete on `main`, untagged | durable edge-observation groundwork, immutable replay identity hardening, fail-open shadow-write, and restart/reload replay groundwork are real without widening deployment or product surfaces |
 | `Tracer 17` | one richer read-only HERMES staff question | Planned | extend the staff pillar without widening into overrides or writes |
 
 ## Release History
@@ -510,6 +522,10 @@ bullets are only the short summary.
 | `v0.0.22` | - | Current Tracer 15 closeout line | Tracer 15 control-plane closeout for gateway caller identity, persisted audit, and one second routed read | write approvals, Redis-backed rate limiting, and live gateway deployment proof |
 
 ## Planned Release Lines
+
+The table below is intentionally tag-focused. `Tracer 16` is already complete
+on `main` in `athena` and this repo, but `v0.5.0` and `v0.0.23` remain future
+tags until a separate release pass proves and creates them.
 
 | Planned tag | Intended purpose | Restrictions | What it should not do yet |
 | --- | --- | --- | --- |
