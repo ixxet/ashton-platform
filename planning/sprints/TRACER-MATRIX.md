@@ -1257,3 +1257,67 @@ Deferred after closure:
 | Deploy | live deployment proof for reconciliation | deferred | this tracer widened local/runtime truth only | later bounded deployment pass |
 | Feature | identity-level or alias-level reconciliation reads | deferred | the bounded support contract intentionally excludes hashes, names, and private identifiers | later HERMES line if justified |
 | Feature | broader operator shell or chat UX | deferred | one richer question was the explicit hard stop | later HERMES line only if a real need appears |
+
+## Tracer 18: ATHENA Facility Truth
+
+Status: complete locally; tags pending.
+
+Goal:
+
+- add one bounded ATHENA facility-truth line for facility catalog, hours, zones,
+  closure windows, and bounded metadata
+- keep the surfaces read-only, CLI/internal, and deterministic
+- avoid widening into sport logic, scheduling runtime, product semantics, or
+  writes
+- keep deployed truth unchanged
+
+Repos:
+
+- `athena`
+- `ashton-platform`
+
+Exit criteria:
+
+- `athena facility list` is real
+- `athena facility show --facility <id>` is real
+- `GET /api/v1/facilities` and `GET /api/v1/facilities/{facility_id}` are real
+- malformed hours, missing metadata, bad zone references, and conflicting
+  closure windows fail cleanly
+- no occupancy regression or write path is introduced
+- repo-local and control-plane docs align
+- deployed truth remains unchanged
+
+Key outputs:
+
+- `athena` now owns a validated file-backed facility catalog boundary instead of
+  stretching occupancy, dormant schema files, or shared contracts into catalog
+  truth
+- CLI and internal HTTP surfaces now expose the same facility summaries and
+  per-facility detail for hours, zones, closure windows, and bounded metadata
+- `ashton-proto` remains untouched because ATHENA-owned read surfaces were
+  sufficient
+- the proof set includes full Go tests, repeated internal test runs, `go vet`,
+  `go build ./cmd/athena`, diff hygiene, CLI smoke, and local HTTP smoke
+- deployed truth stays on the earlier bounded edge-ingress line; this tracer is
+  local/runtime truth only
+
+Tracer 18 retrospective:
+
+- The honest shape was a dedicated facility-truth read model, not a widening of
+  occupancy, history, or dormant Postgres plans.
+- Requiring an explicit catalog file was safer than inventing facility defaults
+  from mock config or live occupancy labels.
+- ATHENA-owned internal reads were enough for later consumers; shared contract
+  growth would have been speculative.
+- Closure honesty mattered as much as happy-path output: bad hours, bad zone
+  references, and conflicting closure windows had to fail before runtime use.
+
+Deferred after closure:
+
+| Type | Item | Status | Why It Was Not Done Here | Future Owner |
+| --- | --- | --- | --- | --- |
+| Feature | derived scheduling answers such as `is_open_now` or next-slot logic | deferred | Tracer 18 owns explicit facility facts, not scheduling runtime | later ATHENA or APOLLO line if justified |
+| Feature | sport capability or facility-sport mapping | deferred | facility truth must land before sport truth widens | `Tracer 19` / `apollo` |
+| Feature | writes, overrides, and approval flows | deferred | the line is read-only by design | later ATHENA, HERMES, or gateway line |
+| Deploy | live deployment proof for facility-truth routes | deferred | local/runtime proof was sufficient for this tracer | later bounded deployment pass |
+| Contract | shared `ashton-proto` facility catalog schema | deferred | no real cross-repo contract dependency was proven | later tracer only if justified |

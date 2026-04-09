@@ -34,14 +34,14 @@ readable as one coherent platform instead of five drifting repos.
 
 | Area | State now | Truth level | Meaning |
 | --- | --- | --- | --- |
-| ATHENA runtime | `v0.5.1` shipped; `v0.4.1` still deployed | published runtime truth | durable-history groundwork plus one bounded privacy-safe history-support follow-up are real without widening deployed truth |
+| ATHENA runtime | `v0.5.1` shipped; local Tracer 18 facility truth is now real; `v0.4.1` still deployed | published runtime truth plus local/runtime closeout truth | durable-history groundwork, bounded history support, and config-gated facility catalog/hours/zones/closure/metadata reads are real without widening deployed truth |
 | ATHENA deployment | `Prometheus v0.0.3`, `ashton-platform v0.0.19` shipped | published deployment truth | bounded live edge-ingress deployment truth is real |
 | APOLLO member runtime | `v0.9.0` shipped | published runtime truth | auth, visits, workouts, recommendation, explicit membership, and deterministic preview are real |
 | APOLLO member shell | `v0.7.0` shipped | published runtime truth | thin shell is real and still intentionally narrow |
 | HERMES | `v0.2.0` shipped | published local/runtime truth plus bounded deployment truth | one bounded staff read plus one richer reconciliation read are shipped, while the bounded internal runner deployment in `agents` still proves only the occupancy slice |
 | Gateway | current Tracer 15 line: `v0.2.0` | narrow repo truth | caller identity, persisted audit, and a second routed read are real in the current gateway repo line, while write governance and deployment remain deferred |
 | Prometheus deployment repo | live for bounded ATHENA, APOLLO, and HERMES deployment truth | published deployment truth | bounded HERMES manifests now exist; gateway deployment slices remain deferred |
-| Platform docs | `v0.0.24` shipped | control-plane planning truth | front-facing ladder and shipped lines now match current repo and tag truth |
+| Platform docs | `v0.0.24` shipped; Tracer 18 closeout sync is now local and untagged | control-plane planning truth | front-facing ladder, local/runtime Tracer 18 proof, and deployed-truth boundaries now tell the same story without implying a new tag |
 
 ## Pillar Map
 
@@ -364,7 +364,7 @@ flowchart LR
 | Repo | Owns | Depends On | Current Truth | Docs |
 | --- | --- | --- | --- | --- |
 | `ashton-proto` | Shared proto packages, event schemas, runtime helper rules | - | Shared contract baseline is real and active | [README](https://github.com/ixxet/ashton-proto/blob/main/README.md) |
-| `athena` | Presence, occupancy, ingress source handling, identified visit-lifecycle publication | `ashton-proto` | Mock and CSV-backed ingress still exist, and `v0.4.1` now also proves bounded live edge-driven occupancy deployment truth | [README](https://github.com/ixxet/athena/blob/main/README.md) |
+| `athena` | Presence, occupancy, ingress source handling, facility truth, identified visit-lifecycle publication | `ashton-proto` | Mock and CSV-backed ingress still exist, bounded live edge-driven occupancy deployment truth remains `v0.4.1`, and config-gated facility catalog/hours/zones/closure/metadata reads are now real in local/runtime repo truth | [README](https://github.com/ixxet/athena/blob/main/README.md) |
 | `apollo` | Member auth, profile state, visit ingest and close, derived eligibility, explicit lobby membership, deterministic read-only match preview, workout runtime, deterministic recommendation reads, and one thin member web shell | `ashton-proto`, `athena` | Auth, profile state, visit lifecycle, derived eligibility, explicit lobby membership, deterministic read-only match preview, workout runtime, deterministic recommendation reads, and one local member shell are real | [README](https://github.com/ixxet/apollo/blob/main/README.md) |
 | `hermes` | Staff read-only operations over upstream service truth | `athena` | First occupancy CLI slice is real; write actions, agent orchestration, and deployment stay deferred | [README](https://github.com/ixxet/hermes/blob/main/README.md) |
 | `ashton-mcp-gateway` | Tool discovery, routing, caller identity, and later approval policy | `ashton-proto`, `athena` | Two manifest-backed ATHENA occupancy routes are real, and routed calls now carry explicit caller identity plus persisted audit while approvals stay deferred | [README](https://github.com/ixxet/ashton-mcp-gateway/blob/main/README.md) |
@@ -388,11 +388,11 @@ flowchart LR
 | Repo | Current line | Next planned line | Why it is next |
 | --- | --- | --- | --- |
 | `ashton-proto` | `v0.3.0` shipped; current Tracer 15 contract line `v0.4.0` | later than `v0.4.0` | the second routed manifest surface is now real in the current repo line; further widening should stay tracer-driven |
-| `athena` | `v0.5.1` shipped; `v0.4.1` remains the current deployed line | `v0.6.0` | the durable-history line is now shipped with one bounded privacy-safe support follow-up; facility truth is the next true widening |
+| `athena` | `v0.5.1` shipped; local Tracer 18 facility truth is now real; `v0.4.1` remains the current deployed line | `v0.6.0` | facility truth is now closure-clean in local/runtime repo truth, while tag closeout is the next honest step and deployed truth stays unchanged |
 | `apollo` | `v0.9.0` shipped | `v0.10.0` | sport registry and facility-sport capability mapping now come before planner/coaching because Phase 2 is backend-first and competition-first |
 | `hermes` | `v0.2.0` shipped | `v0.3.0` | the richer read-only reconciliation line is now shipped; explicit write authority is the next true widening |
 | `ashton-mcp-gateway` | `v0.0.1` shipped; current Tracer 15 line `v0.2.0` | `v0.3.0` | caller identity, persisted audit, and a second routed read are now real; write approval is the next bounded widening |
-| `ashton-platform` | `v0.0.24` shipped | `v0.0.25` | the Tracer 17 control-plane line is now shipped and the facility-truth closeout is next |
+| `ashton-platform` | `v0.0.24` shipped; local Tracer 18 control-plane sync is ready | `v0.0.25` | local/runtime control-plane closeout is now aligned; tag closeout is the next honest step |
 
 ## Current State Block
 
@@ -416,6 +416,10 @@ flowchart LR
   fail-open shadow-write behavior, restart/reload rebuild from committed
   `pass` observations, and one bounded CLI-only history surface over hashed
   identities
+- `athena` now also has validated file-backed facility truth through
+  `athena facility list`, `athena facility show`, `GET /api/v1/facilities`, and
+  `GET /api/v1/facilities/{facility_id}` while keeping those reads internal,
+  config-gated, and free of derived scheduling logic
 - `apollo` can consume those same events, validate them strictly, and open or
   close visits deterministically in Postgres
 - `apollo` can verify member ownership, issue signed sessions, persist profile
@@ -467,6 +471,9 @@ bullets are only the short summary.
   `v0.0.23` remain the Tracer 16 release lines
 - `Tracer 17` is now shipped as `hermes v0.2.0`, bounded `athena v0.5.1`, and
   `ashton-platform v0.0.24`; deployed truth remains unchanged
+- Tracer 18 facility truth is now closure-clean in local/runtime repo truth
+  with internal HTTP plus CLI reads, while tags remain pending and deployed
+  truth remains unchanged
 - the next gateway line only after explicit write approval is actually required
 - broader `ashton-proto` contract expansion only when a real cross-repo tracer
   requires it

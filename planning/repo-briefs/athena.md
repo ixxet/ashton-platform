@@ -19,6 +19,8 @@ The active ATHENA slice is intentionally narrow:
   handler
 - restart/reload replay of committed `pass` observations into a fresh
   projection when the history path is configured
+- validated file-backed facility truth for facility catalog, hours, zones,
+  closure windows, and bounded metadata through internal HTTP and CLI reads
 - identified arrival and departure publication through the shared
   `ashton-proto` helper
 
@@ -35,6 +37,10 @@ operator/report surfaces and durable-branch deployment truth remain deferred.
 | `GET /api/v1/presence/count` | Real | Reads through the canonical occupancy path; in explicit projection mode this is the in-memory edge projection |
 | `GET /metrics` | Real | Exposes `athena_current_occupancy` from the same read path |
 | `athena presence count` | Real | CLI read surface using the same service logic |
+| `GET /api/v1/facilities` | Real, internal-only, config-gated | Lists facility summaries from `ATHENA_FACILITY_CATALOG_PATH` |
+| `GET /api/v1/facilities/{facility_id}` | Real, internal-only, config-gated | Returns one facility's hours, zones, closure windows, and bounded metadata from the same validated catalog |
+| `athena facility list` | Real, internal-only | CLI catalog summary read over the same validated facility file |
+| `athena facility show --facility <id>` | Real, internal-only | CLI facility detail read without derived scheduling answers |
 | `athena presence publish-identified` | Real | One-shot identified-arrival publish through NATS |
 | `athena presence publish-identified-departures` | Real | One-shot identified-departure publish through NATS |
 | background publish worker | Real | Enabled only when NATS is configured |
@@ -79,6 +85,9 @@ Tap-in changes physical truth. It does not create social intent.
   the existing live tap response or projection/publish outcome
 - restart/reload replay now rebuilds occupancy from committed `pass`
   observations when the history path is configured
+- validated facility catalog reads are now real for CLI and internal HTTP when
+  `ATHENA_FACILITY_CATALOG_PATH` is set, while missing catalog config still
+  fails cleanly instead of inventing defaults
 - bounded deployed truth still includes the earlier live mock-backed
   `ATHENA -> NATS -> APOLLO` departure-close boundary
 - downstream replay safety is intentionally a consumer responsibility beyond
@@ -94,6 +103,7 @@ Tap-in changes physical truth. It does not create social intent.
 | --- | --- |
 | `cmd/athena/` | CLI entrypoint and serve command |
 | `internal/adapter/` | active adapter interface plus mock and CSV implementations |
+| `internal/facility/` | validated file-backed facility truth loading and read access |
 | `internal/presence/` | canonical occupancy read logic |
 | `internal/publish/` | identified visit-lifecycle build and publish flow |
 | `internal/server/` | health and count HTTP surfaces |
@@ -129,12 +139,20 @@ render cleanly and rollout is verified from a real kube context.
 - `v0.5.0` / `Tracer 16` is shipped as the durable-history release line
 - `v0.5.1` is now shipped as a bounded Tracer 17 support follow-up on that
   same durable-history branch
+- Tracer 18 facility truth is now closure-clean in local/runtime repo truth
+  with config-gated CLI/internal reads, while tags and deployed truth remain
+  unchanged in this pass
 - what became real: append-only durable edge history, immutable replay
   identity hardening, fail-open shadow-write, restart/reload replay
   groundwork, a CLI-only internal history surface, and one bounded privacy-safe
   facility-history read for HERMES reconciliation
+- what also became real for Tracer 18: validated file-backed facility catalog,
+  hours, zones, closure windows, and bounded metadata reads through
+  `athena facility list`, `athena facility show`, `GET /api/v1/facilities`, and
+  `GET /api/v1/facilities/{facility_id}`
 - what stayed deferred: prediction, public operator/report surfaces, durable
-  deployment closeout, and identity-reconciliation UX
+  deployment closeout, identity-reconciliation UX, and any derived scheduling
+  answers such as `is_open_now`
 
 ## Next Ladder
 
