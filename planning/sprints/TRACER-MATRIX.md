@@ -1374,8 +1374,37 @@ Deferred after closure:
 
 | Type | Item | Status | Why It Was Not Done Here | Future Owner |
 | --- | --- | --- | --- | --- |
-| Feature | team, roster, session, and match container primitives | deferred | explicitly later competition-runtime line | later APOLLO tracer |
 | Feature | matchmaking / queue / assignment flow | deferred | explicitly later execution line | later APOLLO tracer |
 | Feature | results, ratings, standings, and member stats | deferred | later truth line after execution exists | later APOLLO tracer |
 | Feature | public sports surfaces or frontend widening | deferred | Phase 3 concern, not Tracer 19 | later product line |
 | Contract | shared `ashton-proto` sport/facility schema | deferred | no real shared dependency was proven | later tracer only if justified |
+
+Current Tracer 20 closeout note:
+
+- APOLLO now carries dedicated competition session, team, roster, and match
+  container truth through the authenticated internal HTTP surface.
+- Session-wide roster exclusivity is schema-backed, and same-user membership
+  remains legal across different sessions.
+- `ashton-proto` remains untouched because no shared container contract blocker
+  was proven.
+- Deployed truth remains unchanged: Tracer 20 is repo/runtime truth only.
+- The current Tracer 20 closeout lines are `apollo v0.11.0` and
+  `ashton-platform v0.0.27`.
+
+Tracer 20 retrospective:
+
+- Keeping the model session-rooted preserved clean separation from lobby
+  membership, ARES preview, and later queue/assignment work.
+- Authenticated internal HTTP was the smallest honest first surface; CLI and
+  public competition reads stayed absent.
+- Schema-backed roster exclusivity closed the only real integrity gap found in
+  the initial local/runtime line.
+
+Deferred after closure:
+
+| Type | Item | Status | Why It Was Not Done Here | Future Owner |
+| --- | --- | --- | --- | --- |
+| Feature | matchmaking / queue / assignment flow | deferred | explicitly Tracer 21 execution-line work | later APOLLO tracer |
+| Feature | results, ratings, standings, and member stats | deferred | explicitly Tracer 22 truth-line work | later APOLLO tracer |
+| Feature | public sports surfaces or frontend widening | deferred | Phase 3 concern, not Tracer 20 | later product line |
+| Deploy | competition runtime deployment widening | deferred | no bounded deployment proof was run in Tracer 20 | later deployment line |

@@ -127,6 +127,19 @@ Current Tracer 19 closeout note:
   truth only
 - `apollo v0.10.0` and `ashton-platform v0.0.26` are the Tracer 19 release lines
 
+Current Tracer 20 closeout note:
+
+- the current APOLLO repo/runtime line now carries authenticated internal HTTP
+  competition session, team, roster, and match container primitives on
+  dedicated APOLLO tables
+- session-wide roster exclusivity is schema-backed, the down migration is
+  clean, and same-user membership remains allowed across different sessions
+- `ashton-proto` remains untouched because no shared competition contract
+  blocker was proven
+- deployed truth remains unchanged: Tracer 20 is still repo/runtime truth only
+- the current Tracer 20 closeout lines are `apollo v0.11.0` and
+  `ashton-platform v0.0.27`
+
 Phase 2 rule for `Tracer 16`:
 
 - keep the same tunnel, token, and userscript contract

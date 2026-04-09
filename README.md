@@ -38,10 +38,11 @@ readable as one coherent platform instead of five drifting repos.
 | ATHENA deployment | `Prometheus v0.0.3`, `ashton-platform v0.0.19` shipped | published deployment truth | bounded live edge-ingress deployment truth is real |
 | APOLLO member runtime | `v0.9.0` shipped | published runtime truth | auth, visits, workouts, recommendation, explicit membership, and deterministic preview are real |
 | APOLLO member shell | `v0.7.0` shipped | published runtime truth | thin shell is real and still intentionally narrow |
+| APOLLO competition runtime | current Tracer 20 repo/runtime line: `v0.11.0`; deployed truth unchanged | current repo/runtime truth | sport registry, facility-sport capability mapping, and authenticated internal HTTP team/roster/session/match container truth are real without widening into queueing, results, ratings, standings, or public competition reads |
 | HERMES | `v0.2.0` shipped | published local/runtime truth plus bounded deployment truth | one bounded staff read plus one richer reconciliation read are shipped, while the bounded internal runner deployment in `agents` still proves only the occupancy slice |
 | Gateway | current Tracer 15 line: `v0.2.0` | narrow repo truth | caller identity, persisted audit, and a second routed read are real in the current gateway repo line, while write governance and deployment remain deferred |
 | Prometheus deployment repo | live for bounded ATHENA, APOLLO, and HERMES deployment truth | published deployment truth | bounded HERMES manifests now exist; gateway deployment slices remain deferred |
-| Platform docs | `v0.0.26` shipped | control-plane planning truth | front-facing ladder, current Tracer 19 release truth, and deployed-truth boundaries now tell the same story without widening deployed claims |
+| Platform docs | current Tracer 20 control-plane line: `v0.0.27`; deployed truth unchanged | control-plane closeout truth | front-facing ladder, current Tracer 20 repo truth, and deployed-truth boundaries now tell the same story without widening deployed claims |
 
 ## Pillar Map
 
@@ -389,10 +390,10 @@ flowchart LR
 | --- | --- | --- | --- |
 | `ashton-proto` | `v0.3.0` shipped; current Tracer 15 contract line `v0.4.0` | later than `v0.4.0` | the second routed manifest surface is now real in the current repo line; further widening should stay tracer-driven |
 | `athena` | `v0.5.1` shipped; the Tracer 18 facility-truth line is now on `main`; `v0.4.1` remains the current deployed line | `v0.6.0` | facility truth is now the current repo line while deployed truth stays unchanged |
-| `apollo` | `v0.10.0` shipped | `v0.11.0` | sport registry and facility-sport capability mapping are now shipped, and team/session container truth is the next bounded widening |
+| `apollo` | current repo/runtime line: `v0.11.0`; deployed truth unchanged | `v0.12.0` | sport registry, facility-sport capability mapping, and team/roster/session/match container truth are now real without widening into matchmaking, results, or public standings |
 | `hermes` | `v0.2.0` shipped | `v0.3.0` | the richer read-only reconciliation line is now shipped; explicit write authority is the next true widening |
 | `ashton-mcp-gateway` | `v0.0.1` shipped; current Tracer 15 line `v0.2.0` | `v0.3.0` | caller identity, persisted audit, and a second routed read are now real; write approval is the next bounded widening |
-| `ashton-platform` | `v0.0.26` shipped | `v0.0.27` | Tracer 19 control-plane closeout is now shipped while deployed truth stays unchanged |
+| `ashton-platform` | current repo/control-plane line: `v0.0.27`; deployed truth unchanged | `v0.0.28` | Tracer 20 control-plane closeout now tracks the APOLLO competition container line while deployment claims remain unchanged |
 
 ## Current State Block
 

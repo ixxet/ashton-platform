@@ -137,10 +137,10 @@ Rust remains a later optimization path, not a first-wave dependency.
 | --- | --- | --- | --- |
 | `ashton-proto` | `v0.3.0` shipped; current Tracer 15 contract line `v0.4.0` | later than `v0.4.0` | the second routed manifest line is now real in the current repo line; further widening should stay tracer-driven |
 | `athena` | `v0.5.1` shipped; the Tracer 18 facility-truth line is now on `main`; `v0.4.1` remains the current deployed line | `v0.6.0` | facility truth is now the current repo line while deployed truth stays unchanged |
-| `apollo` | `v0.10.0` shipped | `v0.11.0` | sport registry and facility-sport capability mapping are now shipped, and team/session container truth is the next bounded widening |
+| `apollo` | current repo/runtime line: `v0.11.0`; deployed truth unchanged | `v0.12.0` | sport registry, facility-sport capability mapping, and team/roster/session/match container truth are now real without widening into matchmaking, results, or public standings |
 | `hermes` | `v0.2.0` shipped | `v0.3.0` | the richer read-only reconciliation line is now shipped and the first write/approval boundary is the next true widening |
 | `ashton-mcp-gateway` | `v0.0.1` shipped; current Tracer 15 line `v0.2.0` | `v0.3.0` | the caller-aware audited read-only control-plane slice is now real; write governance is the next true widening |
-| `ashton-platform` | `v0.0.26` shipped | `v0.0.27` | Tracer 19 control-plane closeout is now shipped while deployed truth stays unchanged |
+| `ashton-platform` | current repo/control-plane line: `v0.0.27`; deployed truth unchanged | `v0.0.28` | Tracer 20 control-plane closeout now tracks the APOLLO competition container line while deployment claims remain unchanged |
 
 Current closeout note:
 
@@ -156,6 +156,12 @@ Current closeout note:
 - this repo now carries the aligned Tracer 17 control-plane closeout on `main`,
   and the Tracer 18 closeout line is now also on `main` with deployed truth
   still unchanged
+- `apollo` now carries Tracer 20 runtime truth in the current repo line through
+  authenticated internal HTTP competition session, team, roster, and match
+  containers backed by dedicated APOLLO tables
+- session-wide roster exclusivity is now schema-backed, `ashton-proto` remains
+  untouched, and deployed truth is still unchanged
+- `v0.11.0` and `v0.0.27` are the Tracer 20 repo/control-plane closeout lines
 - `v0.5.1`, `v0.2.0`, and `v0.0.24` are the Tracer 17 release lines for
   bounded ATHENA support, HERMES runtime truth, and platform closeout truth
 - `v0.6.0` and `v0.0.25` are the Tracer 18 release lines for ATHENA facility
@@ -185,7 +191,7 @@ Current Tracer 19 closeout note:
 | ATHENA durability | shipped | deterministic durable-history groundwork is tagged, bounded support follow-up is released, and durable-branch deployment truth is still unchanged | done |
 | HERMES operator surface | shipped | one richer reconciliation question, occupancy reports, and heat-map-style reads are now shipped while deployed truth stays unchanged | done |
 | Facility catalog / hours | closure-clean on `main` | ATHENA now exposes config-gated facility catalog, hours, zones, closure windows, and bounded metadata reads while deployed truth stays unchanged | done |
-| Sport / team / session base | missing | competition runtime cannot grow cleanly without it | medium-high |
+| Sport / team / session base | closure-clean in repo/runtime; deployed truth unchanged | APOLLO now owns sport registry plus team/roster/session/match container truth without widening into queueing, results, ratings, or public standings | done |
 | Ratings / standings / profile stats | missing | needed before truthful competition surfaces or later demos | medium |
 | Planner / coaching backend | missing | still important, but explicitly later than the operational and competition base | medium |
 | Public/demo/frontend work | intentionally deferred | Phase 3 concern, not a Phase 2 driver | gated |

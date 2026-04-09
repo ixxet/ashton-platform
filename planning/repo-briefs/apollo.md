@@ -111,6 +111,11 @@ Key boundaries:
 - Tracer 19 is now shipped: APOLLO owns badminton and basketball sport
   registry truth, facility-sport capability mapping, and static sport
   rules/config through a CLI-only surface
+- Tracer 20 is now the current repo/runtime line: APOLLO owns authenticated
+  internal HTTP competition session, team, roster, and match container truth
+  through dedicated session-rooted tables
+- session-wide roster exclusivity is schema-backed, `ashton-proto` remains
+  untouched, and deployed truth stays unchanged
 
 ## Project Shape
 
@@ -125,11 +130,12 @@ Key boundaries:
 | `internal/visits/` | visit service and repository boundary |
 | `internal/workouts/` | workout service and repository boundary |
 | `internal/recommendations/` | deterministic recommendation service and repository boundary |
+| `internal/competition/` | competition session, team, roster, and match container repository/service boundary |
 | `internal/sports/` | CLI-only sport registry, facility-sport capability, and static rules/config boundary |
 | `internal/server/web/` | embedded member-shell templates, assets, and browser-side tests |
 | `internal/store/` | sqlc-generated query bindings |
 | `internal/server/` | HTTP handlers, auth middleware, and embedded member-shell wiring |
-| `db/migrations/` | current schema for users, sessions, visits, lobby membership, workouts, ARES, recommendations, and sport substrate truth |
+| `db/migrations/` | current schema for users, sessions, visits, lobby membership, workouts, ARES, recommendations, sport substrate truth, and competition containers |
 | `docs/` | roadmap, runbooks, ADRs, diagrams, and growing pains |
 
 ## Verification Standard
@@ -141,10 +147,13 @@ Treat APOLLO as trustworthy only when:
 - the binary builds
 - migrations work on a fresh Postgres database
 - the local smoke path covers auth, profile, eligibility, workout runtime,
-  explicit lobby membership, deterministic recommendation reads, and the thin
-  member shell
+  explicit lobby membership, deterministic recommendation reads, the thin
+  member shell, and authenticated competition session/team/roster/match
+  container reads and writes
 - the sport substrate is deterministic, bounded, and separate from matchmaking,
   results, ratings, and public sports surfaces
+- competition roster exclusivity is schema-backed at the session level and
+  repeated session detail reads stay deterministic
 - the identified arrival and departure boundary is exercised against real NATS
   and Postgres
 
@@ -153,8 +162,9 @@ Treat APOLLO as trustworthy only when:
 APOLLO owns its runtime, schema, and consumer logic. Milestone 1.6 proves one
 bounded in-cluster APOLLO slice for departure-close truth. That still does not
 imply a broad APOLLO product deployment; auth, eligibility, workout runtime,
-recommendation runtime, and the member shell remain locally proven only unless a
-separate deployment workstream verifies them live.
+recommendation runtime, the member shell, and the competition container runtime
+remain locally proven only unless a separate deployment workstream verifies them
+live.
 
 ## Versioning Discipline
 
