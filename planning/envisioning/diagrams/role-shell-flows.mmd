@@ -1,0 +1,76 @@
+flowchart TD
+  entry["Unified entry<br/>Branded splash + tap-in + sign-in"]
+  auth_mode{"Entry mode"}
+  role{"Resolved role"}
+
+  entry --> auth_mode
+  auth_mode --> tap["Tap-in / E-tap"]
+  auth_mode --> signin["Sign in / Business login"]
+  tap --> role
+  signin --> role
+
+  role --> business["Business booker"]
+  role --> member["Member"]
+  role --> supervisor["Supervisor / Member+"]
+  role --> manager["Manager"]
+  role --> developer["Developer / System admin"]
+
+  business --> business_home["Business booking home"]
+  business_home --> business_calendar["Availability / booking calendar"]
+  business_home --> business_request["Booking request / quote flow"]
+  business_home --> business_reservations["Reservations / invoices / requests"]
+  business_home --> business_settings["Account + facility preferences"]
+
+  member --> member_home["Member home"]
+  member_home --> meals["Meals"]
+  member_home --> workouts["Workouts"]
+  member_home --> tournaments["Tournaments"]
+  member_home --> settings["Settings"]
+  member_home --> profile["Profile from avatar"]
+  member_home --> tap_state["Tap state / streak / facility cards"]
+
+  workouts --> workout_tracker["Tracker"]
+  workouts --> workout_planner["Planner"]
+  workouts --> workout_coaching["Coaching"]
+
+  meals --> meal_tracker["Tracker"]
+  meals --> meal_planner["Planner"]
+  meals --> meal_guidance["Guidance"]
+
+  tournaments --> queue["Queue"]
+  tournaments --> sessions["Sessions"]
+  tournaments --> member_stats["Member stats"]
+  tournaments --> standings["Standings later"]
+
+  settings --> support["Support / FAQ / hours"]
+  settings --> preferences["Theme / defaults / account"]
+
+  supervisor --> supervisor_trust{"Trusted device?"}
+  supervisor_trust -->|No| supervisor_reduced["Member shell + reduced triage"]
+  supervisor_trust -->|Yes| supervisor_ops["Supervisor ops home"]
+  supervisor_ops --> live_board["Live board"]
+  supervisor_ops --> recon["Reconciliation"]
+  supervisor_ops --> session_control["Quick match / queue controls"]
+  supervisor_ops --> incident_notes["Incident notes"]
+  supervisor_ops --> facility_state["Facility state"]
+  supervisor_ops --> member_home
+
+  manager --> manager_trust{"Trusted device?"}
+  manager_trust -->|No| manager_reduced["Member shell + reduced ops"]
+  manager_trust -->|Yes| manager_ops["Manager ops home"]
+  manager_ops --> schedule["Schedule / calendar"]
+  manager_ops --> events["Tournament + event studio"]
+  manager_ops --> bookings["Booking oversight"]
+  manager_ops --> analytics["Analytics / reports"]
+  manager_ops --> roster_admin["Session / queue / roster admin"]
+  manager_ops --> member_home
+
+  developer --> developer_trust{"Trusted device?"}
+  developer_trust -->|No| developer_reduced["Member shell only"]
+  developer_trust -->|Yes| developer_ops["Developer / system home"]
+  developer_ops --> service_health["Service health"]
+  developer_ops --> audit["Audit + routed calls"]
+  developer_ops --> contracts["Contract / manifest explorer"]
+  developer_ops --> approvals["Proposal / approval workspace"]
+  developer_ops --> diagnostics["Runtime diagnostics"]
+  developer_ops --> manager_ops
