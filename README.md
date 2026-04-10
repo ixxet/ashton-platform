@@ -34,15 +34,27 @@ readable as one coherent platform instead of five drifting repos.
 
 | Area | State now | Truth level | Meaning |
 | --- | --- | --- | --- |
-| ATHENA runtime | `v0.5.1` shipped; the Tracer 18 facility-truth line is now on `main`; `v0.4.1` still deployed | published runtime truth plus current repo truth | durable-history groundwork, bounded history support, and config-gated facility catalog/hours/zones/closure/metadata reads are real without widening deployed truth |
+| ATHENA runtime | `v0.5.1` shipped; the Tracer 18 facility-truth line plus the current `v0.6.1` hardening follow-up are now on `main`; `v0.4.1` still deployed | published runtime truth plus current repo truth | durable-history groundwork, bounded history support, config-gated facility catalog/hours/zones/closure/metadata reads, and Milestone 2.0 shutdown/publish hardening are real without widening deployed truth |
 | ATHENA deployment | `Prometheus v0.0.3`, `ashton-platform v0.0.19` shipped | published deployment truth | bounded live edge-ingress deployment truth is real |
 | APOLLO member runtime | `v0.9.0` shipped | published runtime truth | auth, visits, workouts, recommendation, explicit membership, and deterministic preview are real |
 | APOLLO member shell | `v0.7.0` shipped | published runtime truth | thin shell is real and still intentionally narrow |
-| APOLLO backend/runtime | current Tracer 28 repo/runtime closeout line on `main`; deployed truth unchanged | current repo/runtime truth | sport registry, facility-sport capability mapping, authenticated internal HTTP queue/assignment/lifecycle truth, immutable result capture, sport-and-mode-separated ratings, session-scoped standings, self-scoped member stats, planner / exercise-library / template / richer-profile / deterministic-coaching plus bounded nutrition / helper-read / facility-scoped presence substrate, and explicit role/authz with trusted-surface-gated staff competition mutations and durable actor attribution are real without widening into public/social competition reads |
+| APOLLO backend/runtime | current Tracer 28 repo/runtime line plus the current `v0.19.1` hardening follow-up are on `main`; deployed truth unchanged | current repo/runtime truth | sport registry, facility-sport capability mapping, authenticated internal HTTP queue/assignment/lifecycle truth, immutable result capture, sport-and-mode-separated ratings, session-scoped standings, self-scoped member stats, planner / exercise-library / template / richer-profile / deterministic-coaching plus bounded nutrition / helper-read / facility-scoped presence substrate, and explicit role/authz with trusted-surface-gated staff competition mutations and durable actor attribution are real without widening into public/social competition reads |
 | HERMES | `v0.2.0` shipped | published local/runtime truth plus bounded deployment truth | one bounded staff read plus one richer reconciliation read are shipped, while the bounded internal runner deployment in `agents` still proves only the occupancy slice |
-| Gateway | current Tracer 15 line: `v0.2.0` | narrow repo truth | caller identity, persisted audit, and a second routed read are real in the current gateway repo line, while write governance and deployment remain deferred |
+| Gateway | current Tracer 15 line plus the current `v0.2.1` hardening follow-up are on `main` | narrow repo truth | caller identity, persisted audit, stricter caller/manifest/request boundaries, and a second routed read are real in the current gateway repo line, while write governance and deployment remain deferred |
 | Prometheus deployment repo | live for bounded ATHENA, APOLLO, and HERMES deployment truth | published deployment truth | bounded HERMES manifests now exist; gateway deployment slices remain deferred |
-| Platform docs | current Tracer 28 control-plane closeout line on `main`; deployed truth unchanged | current control-plane truth | front-facing ladder, tagged Tracer 24 APOLLO truth, current Tracer 28 APOLLO repo/runtime closeout truth, and deployed-truth boundaries now tell the same story without widening deployed claims |
+| Platform docs | current Milestone 2.0 control-plane closeout line on `main`; deployed truth unchanged | current control-plane truth | front-facing ladder, repo/runtime patch hardening lines, and deployed-truth boundaries now tell the same story without widening deployed claims |
+
+## Milestone 2.0 Reconciliation Snapshot
+
+Canonical note:
+[`planning/audits/2026-04-10-milestone-2.0-reconciliation.md`](planning/audits/2026-04-10-milestone-2.0-reconciliation.md)
+
+| Repo | Current local/runtime truth | Deployed truth |
+| --- | --- | --- |
+| `apollo` | `v0.19.1` hardening follow-up: graceful shutdown, HTTP/NATS/request bounds, single shared-parser ingest path, and workout safety hardening | unchanged |
+| `athena` | `v0.6.1` hardening follow-up: graceful shutdown, HTTP timeouts, bounded publish retry/backoff, and bounded dedupe memory | unchanged at the bounded `v0.4.1` live edge path |
+| `ashton-mcp-gateway` | `v0.2.1` hardening follow-up: constant-time caller comparison, declared-argument enforcement, manifest path hardening, and bounded tool-call decode | unchanged and still undeployed |
+| `Prometheus` | no Milestone 2.0 manifest change | current bounded ATHENA/APOLLO/HERMES deployment truth stands as-is |
 
 ## Pillar Map
 
@@ -412,11 +424,11 @@ flowchart LR
 | Repo | Current line | Next planned line | Why it is next |
 | --- | --- | --- | --- |
 | `ashton-proto` | `v0.3.0` shipped; current Tracer 15 contract line `v0.4.0` | later than `v0.4.0` | the second routed manifest surface is now real in the current repo line; further widening should stay tracer-driven |
-| `athena` | `v0.5.1` shipped; the Tracer 18 facility-truth line is now on `main`; `v0.4.1` remains the current deployed line | `v0.6.0` | facility truth is now the current repo line while deployed truth stays unchanged |
-| `apollo` | current Tracer 28 repo/runtime closeout line on `main`; Tracer 24 remains tagged on `v0.15.0`; `v0.15.1` remains the narrow hardening patch line; deployed truth unchanged | later than `v0.19.0` | Tracer 28 is now the current APOLLO line, so Milestone 2.0 reconciliation or later bounded hardening is the next honest follow-up |
+| `athena` | `v0.5.1` shipped; the Tracer 18 facility-truth line plus the current `v0.6.1` hardening follow-up are now on `main`; `v0.4.1` remains the current deployed line | later than `v0.6.1` | Milestone 2.0 hardens the current ATHENA line without widening deploy truth, so the next honest move is later diagnostics/prediction work only after that boundary is proved |
+| `apollo` | current Tracer 28 repo/runtime line plus the current `v0.19.1` hardening follow-up are on `main`; Tracer 24 remains tagged on `v0.15.0`; `v0.15.1` remains the narrow historical hardening patch line; deployed truth unchanged | later than `v0.19.1` | Milestone 2.0 hardens the current APOLLO line without creating a new feature surface, so the next honest move is later widening after the plateau closes |
 | `hermes` | `v0.2.0` shipped | `v0.3.0` | the richer read-only reconciliation line is now shipped; explicit write authority is the next true widening |
-| `ashton-mcp-gateway` | `v0.0.1` shipped; current Tracer 15 line `v0.2.0` | `v0.3.0` | caller identity, persisted audit, and a second routed read are now real; write approval is the next bounded widening |
-| `ashton-platform` | current Tracer 28 control-plane closeout line on `main`; deployed truth unchanged | `v0.0.36` | the Tracer 28 control-plane line is now current, so Milestone 2.0 is the next honest platform closeout without widening deployed claims |
+| `ashton-mcp-gateway` | `v0.0.1` shipped; current Tracer 15 line plus the current `v0.2.1` hardening follow-up are on `main` | `v0.3.0` | the caller-aware audited routed-read slice is now harder at the boundary; write approval is still the next true widening |
+| `ashton-platform` | current Milestone 2.0 control-plane closeout line on `main`; deployed truth unchanged | later than `v0.0.36` | `v0.0.36` is the plateau ledger line; later work should move to system-proof or Phase 3 instead of reopening Phase 2 boundaries casually |
 
 ## Current State Block
 

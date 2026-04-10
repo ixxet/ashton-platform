@@ -236,8 +236,21 @@ The target is:
 | `Tracer 26` | `apollo` | `v0.17.0` / `v0.0.33` | explanation, summarization, bounded AI helper flows, and thin agent-facing helper surfaces over stable deterministic logic | no public social feed, no LLM-first core, no frontend-first pivot |
 | `Tracer 27` | `apollo` | `v0.18.0` / `v0.0.34` | member presence, tap-link, and streak substrate over explicit visit truth | no fake streak counters or silent visit inference |
 | `Tracer 28` | `apollo` | `v0.19.0` / `v0.0.35` | role/authz, actor attribution, trusted-surface primitives, and staff-runtime boundary substrate | no polished ops suite or speculative contract widening |
-| `Milestone 2.0` | cross-repo closeout | `v0.0.36` unless repo-local patch lines are needed | Phase 2 backend/base plateau: pillars, competition base, planner/coaching/nutrition/presence/authz substrate, CLI/internal surfaces, proposal/apply rails, and docs/deploy truth aligned | not a broad demo milestone |
+| `Milestone 2.0` | cross-repo closeout | `v0.0.36`, plus `apollo v0.19.1`, `athena v0.6.1`, and `ashton-mcp-gateway v0.2.1` only where real hardening lands | Phase 2 backend/base plateau: pillars, competition base, planner/coaching/nutrition/presence/authz substrate, CLI/internal surfaces, proposal/apply rails, and docs/deploy truth aligned | not a broad demo milestone |
 | `System-Proof Milestone` | cross-repo | later than `v0.0.36` | verify runtime truth, deployment truth, modularity, and maintenance model across the ladder | no new feature surface |
+
+## Milestone 2.0 Current Ruling
+
+Canonical note:
+`planning/audits/2026-04-10-milestone-2.0-reconciliation.md`
+
+- APOLLO, ATHENA, and the gateway each needed a narrow patch-line hardening
+  follow-up, not a new capability line
+- the live ATHENA deploy remains the bounded `v0.4.1` edge path with quick
+  tunnel ingress and no proved history-path rollout
+- proposal/apply safety stays explicit by remaining narrow: gateway is still
+  read-only, and APOLLO trusted-surface writes stay capability-gated
+- Phase 3 remains blocked on this backend/base plateau staying honest
 
 ## Scope Bounds By Tracer
 

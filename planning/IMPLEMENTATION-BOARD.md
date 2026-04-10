@@ -136,11 +136,11 @@ Rust remains a later optimization path, not a first-wave dependency.
 | Repo | Current line | Next planned line | Why it is next |
 | --- | --- | --- | --- |
 | `ashton-proto` | `v0.3.0` shipped; current Tracer 15 contract line `v0.4.0` | later than `v0.4.0` | the second routed manifest line is now real in the current repo line; further widening should stay tracer-driven |
-| `athena` | `v0.5.1` shipped; the Tracer 18 facility-truth line is now on `main`; `v0.4.1` remains the current deployed line | `v0.6.0` | facility truth is now the current repo line while deployed truth stays unchanged |
-| `apollo` | current Tracer 28 repo/runtime closeout line on `main`; Tracer 24 remains tagged on `v0.15.0`; `v0.15.1` remains the narrow hardening patch line; deployed truth unchanged | later than `v0.19.0` | Tracer 28 is now the current APOLLO line, so Milestone 2.0 reconciliation or later bounded hardening is the next honest follow-up |
+| `athena` | `v0.5.1` shipped; the Tracer 18 facility-truth line plus the current `v0.6.1` hardening follow-up are now on `main`; `v0.4.1` remains the current deployed line | later than `v0.6.1` | Milestone 2.0 hardens the current ATHENA line without widening deploy truth, so later diagnostics/prediction remains the next true widening |
+| `apollo` | current Tracer 28 repo/runtime line plus the current `v0.19.1` hardening follow-up are on `main`; Tracer 24 remains tagged on `v0.15.0`; `v0.15.1` remains the narrow historical hardening patch line; deployed truth unchanged | later than `v0.19.1` | Milestone 2.0 hardens the current APOLLO line without a new feature surface, so later widening belongs after the plateau closes |
 | `hermes` | `v0.2.0` shipped | `v0.3.0` | the richer read-only reconciliation line is now shipped and the first write/approval boundary is the next true widening |
-| `ashton-mcp-gateway` | `v0.0.1` shipped; current Tracer 15 line `v0.2.0` | `v0.3.0` | the caller-aware audited read-only control-plane slice is now real; write governance is the next true widening |
-| `ashton-platform` | current Tracer 28 control-plane closeout line on `main`; deployed truth unchanged | `v0.0.36` | the Tracer 28 control-plane line is now current, so Milestone 2.0 is the next honest platform closeout while deployment claims remain unchanged |
+| `ashton-mcp-gateway` | `v0.0.1` shipped; current Tracer 15 line plus the current `v0.2.1` hardening follow-up are on `main` | `v0.3.0` | the caller-aware audited read-only control-plane slice is now harder at the boundary; write governance is still the next true widening |
+| `ashton-platform` | current Milestone 2.0 control-plane closeout line on `main`; deployed truth unchanged | later than `v0.0.36` | `v0.0.36` is the Phase 2 plateau ledger line; later work should move to system-proof or Phase 3 instead of reopening deploy claims casually |
 
 Current closeout note:
 
@@ -286,6 +286,26 @@ Current Tracer 28 closeout note:
   `main`, while tags, deployment claims, and Milestone 2.0 reconciliation stay
   separate
 
+Current Milestone 2.0 reconciliation note:
+
+- `apollo v0.19.1` is now the current local/runtime hardening follow-up on the
+  Tracer 28 line: graceful shutdown, HTTP/NATS/request bounds, single
+  shared-parser identified-lifecycle truth, and workout safety hardening are
+  now real without widening APOLLO capability
+- `athena v0.6.1` is now the current local/runtime hardening follow-up on the
+  Tracer 18 line: graceful shutdown, bounded server timeouts, bounded publish
+  retry/backoff, and bounded dedupe memory are now real without widening live
+  semantics
+- `ashton-mcp-gateway v0.2.1` is now the current local/runtime hardening
+  follow-up on the Tracer 15 line: constant-time caller-secret comparison,
+  declared-argument enforcement, manifest path hardening, and bounded request
+  decoding are now real without widening routing scope
+- deployed truth remains unchanged: the canonical live ATHENA claim is still
+  the bounded `v0.4.1` edge deployment with quick-tunnel ingress and no proved
+  durable history path
+- the canonical ledger for this ruling is
+  `planning/audits/2026-04-10-milestone-2.0-reconciliation.md`
+
 - `v0.5.1`, `v0.2.0`, and `v0.0.24` are the Tracer 17 release lines for
   bounded ATHENA support, HERMES runtime truth, and platform closeout truth
 - `v0.6.0` and `v0.0.25` are the Tracer 18 release lines for ATHENA facility
@@ -358,7 +378,7 @@ reconciliation surface and bounded ATHENA support release alignment.
 | `v0.0.33` | `Tracer 26` | `apollo v0.17.0` | explanation, summarization, bounded AI helper flows, and thin agent-facing helper surfaces over stable deterministic logic | no public social feed, no LLM-first core, no frontend-first pivot |
 | `v0.0.34` | `Tracer 27` | `apollo v0.18.0` | member presence, tap-link, and streak substrate over explicit visit truth | no fake streak counters or silent visit inference |
 | `v0.0.35` | `Tracer 28` | `apollo v0.19.0` | role/authz, actor attribution, trusted-surface primitives, and staff-runtime boundary substrate | no polished ops suite or speculative contract widening |
-| `v0.0.36` | `Milestone 2.0` | patch closeout only unless runtime truth changes | Phase 2 backend/base plateau: structural pillars, competition base, planner/coaching/nutrition/presence/authz substrate, deploy truth, agent-safe proposal/apply rails, and docs aligned | not a broad demo milestone |
+| `v0.0.36` | `Milestone 2.0` | `apollo v0.19.1`, `athena v0.6.1`, `ashton-mcp-gateway v0.2.1`, and docs-only `ashton-platform` closeout; `Prometheus` unchanged unless deploy truth changes | Phase 2 backend/base plateau: structural pillars, competition base, planner/coaching/nutrition/presence/authz substrate, deploy truth, agent-safe proposal/apply rails, and docs aligned | not a broad demo milestone |
 | later than `Milestone 2.0` | long-horizon ladder in `planning/STARSHOT-VISION.md` | Phase 3 demos and later system-proof | meaningful frontend, demos, and broader presentation only after the backend/base ladder is closed cleanly | do not widen frontend during Phase 2 |
 
 ## What Each Next Line Must Achieve

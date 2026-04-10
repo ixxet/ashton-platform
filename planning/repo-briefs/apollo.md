@@ -34,8 +34,8 @@ diagnosis, or opaque helper-owned logic.
 
 The active APOLLO slice now spans the following narrow runtime boundaries:
 
-- identified-arrival consume -> visit record
-- identified-departure consume -> visit close
+- identified-arrival consume -> visit record through the shared parser only
+- identified-departure consume -> visit close through the shared parser only
 - student ID + email verification -> signed session cookie auth
 - persisted `visibility_mode` / `availability_mode` -> derived lobby eligibility
 - explicit member action -> durable lobby membership join/leave state
@@ -205,6 +205,11 @@ Key boundaries:
   competition capabilities, trusted-surface gating for privileged competition
   mutations, and durable actor attribution rows without widening into a role
   management product, persistent approvals, or ATHENA ingress storage work
+- the current Milestone 2.0 hardening follow-up now also adds graceful
+  shutdown, bounded HTTP/NATS/request handling, one shared-parser
+  identified-lifecycle contract path, batched workout exercise list reads, and
+  conservative per-workout exercise count limits without widening APOLLO's
+  product surface
 - competition provenance columns such as `owner_user_id` and
   `recorded_by_user_id` remain useful domain truth, but they no longer act as
   the sole authorization key
@@ -290,6 +295,7 @@ only unless a separate deployment workstream verifies them live.
 | `v0.17.0` / `Tracer 26` | explanation, summarization, and thin agent-facing helper surfaces | do not let explanation become the core engine |
 | `v0.18.0` / `Tracer 27` | member presence / tap-link / streak substrate over explicit visit truth | do not invent fake streak counters or silent visit inference |
 | `v0.19.0` / `Tracer 28` | role/authz, actor attribution, trusted-surface primitives, and staff runtime boundary substrate | do not widen into polished ops product or speculative contracts |
+| `v0.19.1` / `Milestone 2.0` hardening follow-up | graceful shutdown, bounded ingest/runtime edges, and workout safety on the existing APOLLO line | do not widen into new member/staff product capability or deploy claims |
 
 ## Deferred On Purpose
 

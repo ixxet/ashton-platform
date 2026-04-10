@@ -261,6 +261,20 @@ Current Tracer 28 closeout note:
   `main`, while tags, deployment claims, and Milestone 2.0 reconciliation stay
   separate
 
+Current Milestone 2.0 closeout note:
+
+- `apollo v0.19.1` is the current local/runtime hardening follow-up on top of
+  the Tracer 28 line
+- `athena v0.6.1` is the current local/runtime hardening follow-up on top of
+  the Tracer 18 line
+- `ashton-mcp-gateway v0.2.1` is the current local/runtime hardening follow-up
+  on top of the Tracer 15 line
+- `ashton-platform v0.0.36` is the control-plane ledger line for this plateau
+- deployed truth remains unchanged: live ATHENA is still the bounded `v0.4.1`
+  edge deployment with quick-tunnel ingress and no proved durable history path
+- the canonical Milestone 2.0 ledger is
+  `planning/audits/2026-04-10-milestone-2.0-reconciliation.md`
+
 Phase 2 rule for `Tracer 16`:
 
 - keep the same tunnel, token, and userscript contract
@@ -330,7 +344,7 @@ Working rule:
 | `Tracer 26` | `apollo` | `apollo v0.17.0`, `ashton-platform v0.0.33` | explanation, summarization, bounded AI helper flows, and thin agent-facing helper surfaces over stable deterministic logic | no public social feed, no frontend-first product pivot |
 | `Tracer 27` | `apollo` | `apollo v0.18.0`, `ashton-platform v0.0.34` | member presence, tap-link, and streak substrate over explicit visit truth | no fake streak counters or silent visit inference |
 | `Tracer 28` | `apollo` | `apollo v0.19.0`, `ashton-platform v0.0.35` | role/authz, actor attribution, trusted-surface primitives, and staff runtime boundary substrate | no polished ops suite or speculative contract widening |
-| `Milestone 2.0` | cross-repo closeout | `ashton-platform v0.0.36`, companion patch lines only where needed | Phase 2 backend/base plateau: structural pillars, competition base, planner/coaching/nutrition/presence/authz substrate, CLI/internal surfaces, proposal/apply rails, and docs/deploy truth aligned | not a broad demo milestone |
+| `Milestone 2.0` | cross-repo closeout | `ashton-platform v0.0.36`, plus `apollo v0.19.1`, `athena v0.6.1`, and `ashton-mcp-gateway v0.2.1` where real hardening lands | Phase 2 backend/base plateau: structural pillars, competition base, planner/coaching/nutrition/presence/authz substrate, CLI/internal surfaces, proposal/apply rails, and docs/deploy truth aligned | not a broad demo milestone |
 
 ## Milestone Naming Rule
 
