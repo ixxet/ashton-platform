@@ -216,8 +216,11 @@ them live.
 | `v0.12.0` / `Tracer 21` | matchmaking / queue / assignment flow and session lifecycle | do not widen into rivalry or badge logic |
 | `v0.13.0` / `Tracer 22` | result capture, ratings, rudimentary standings, and member profile stats | do not widen into a broad public social layer |
 | `v0.14.0` / `Tracer 23` | planner, exercise library, templates / loadouts, and richer profile inputs as backend/CLI-first truth | do not widen into meaningful frontend work yet |
-| `v0.15.0` / `Tracer 24` | conservative deterministic fitness coaching plus calorie / macro ranges and low-friction meal logging | do not widen into diagnosis or opaque black-box logic |
-| `v0.16.0` / `Tracer 25` | explanation, summarization, and thin agent-facing helper surfaces | do not let explanation become the core engine |
+| `v0.15.0` / `Tracer 24` | deterministic coaching substrate over planner, profile, and workout history | do not widen into diagnosis or opaque black-box logic |
+| `v0.16.0` / `Tracer 25` | conservative nutrition substrate with meal logging and calorie / macro ranges | do not widen into diagnosis or obsessive nutrition sprawl |
+| `v0.17.0` / `Tracer 26` | explanation, summarization, and thin agent-facing helper surfaces | do not let explanation become the core engine |
+| `v0.18.0` / `Tracer 27` | member presence / tap-link / streak substrate over explicit visit truth | do not invent fake streak counters or silent visit inference |
+| `v0.19.0` / `Tracer 28` | role/authz, actor attribution, trusted-surface primitives, and staff runtime boundary substrate | do not widen into polished ops product or speculative contracts |
 
 ## Deferred On Purpose
 

@@ -30,7 +30,7 @@ execution narrow, bounded, and testable.
 | HERMES operator surface | shipped, still intentionally narrow | one richer reconciliation question is real and tagged while broader workflows remain deferred | done |
 | Facility truth beyond occupancy | closure-clean on `main`, deployed truth unchanged | facility catalog, hours, zones, and closure metadata now have a clean ATHENA-owned home without widening deployment truth | done |
 | Competition execution and history runtime | closure-clean in repo/runtime; deployed truth unchanged | sport registry, facility-sport capability mapping, queue/assignment/lifecycle truth, team/roster/session/match execution containers, immutable result capture, sport-and-mode ratings, session-scoped standings, self-scoped member stats, and the planner substrate now exist without widening into public competition reads | done |
-| Planner / coaching backend | repo/runtime real; deployed truth unchanged | planner, templates/loadouts, and richer profile inputs are now real in repo/runtime, but deployed truth remains narrower | medium |
+| Planner / coaching / nutrition / presence / authz backend | repo/runtime real only in the early planner slice; later substrate lines still planned | planner, templates/loadouts, and richer profile inputs are now real in repo/runtime, while coaching, nutrition, presence, and role/authz widenings remain intentionally staged | medium |
 | Meaningful frontend | intentionally deferred | Phase 3 concern, not a Phase 2 driver | gated |
 
 ## Current Truth
@@ -59,7 +59,8 @@ It should leave behind:
 - auditable control-plane truth
 - facility and sport truth
 - session, result, rating, and stats truth
-- planner and coaching backends that are still modular and deterministic
+- planner, coaching, nutrition, presence, and role/authz backends that are still modular and deterministic
+- typed helper reads, proposal objects, and approval rails that later AI and agents can use safely
 - CLI/internal surfaces that agents can work with directly
 
 Phase 2 should not be judged by:
@@ -88,8 +89,11 @@ Those become Phase 3 concerns.
 | Durable edge observation history | yes | yes |
 | Operator review / reconciliation read surface | yes, narrow | yes |
 | Facility catalog / hours / zones | yes | yes |
-| Sport / team / session / result substrate | no | yes |
-| Planner / coaching backend | partial | yes |
+| Sport / team / session / result substrate | yes | yes |
+| Planner / coaching / nutrition substrate | partial | yes |
+| Presence / tap-link / streak substrate | no | yes |
+| Role/authz and staff boundary substrate | no | yes |
+| Agentic proposal/apply rails | partial | yes |
 | Public/demo/frontend polish | no | still deferred |
 
 ## Building Analogy
@@ -103,7 +107,7 @@ Those become Phase 3 concerns.
 | mechanical room | deploy, audit, history, runbooks | hidden but essential systems work |
 | staff office | HERMES | inspect, review, reconcile, and observe without mutating everything |
 | competition floor | sports, teams, sessions, ratings | where execution truth becomes real |
-| training floor | planner, templates, coaching | later than the competition substrate in the new Phase 2 order |
+| training floor | planner, templates, coaching, nutrition, and presence rails | later than the competition substrate in the new Phase 2 order |
 | showroom | demos and front end | Phase 3 only |
 
 ## Execution Rules
@@ -142,13 +146,29 @@ Phase 2 should leave behind surfaces that agents can reason over directly.
 | --- | --- |
 | `athena` | CLI/internal reads for observations, sessions, facilities, hours, and metadata |
 | `hermes` | CLI/operator reads for occupancy, heat maps, reports, and reconciliation |
-| `apollo` | API/CLI-first sport, team, session, result, planner, and coaching primitives |
+| `apollo` | API/CLI-first sport, team, session, result, planner, coaching, presence, and approval-capable primitives |
 | `ashton-mcp-gateway` | actor-aware routed reads and persisted audit |
 | `Prometheus` | deploy/runbook truth, not product logic |
 
 The exact commands can evolve, but the principle should stay stable:
 
 - agents should not need a thick UI to inspect or harden Phase 2 truth
+
+## Agentic-Native Phase 2 Target
+
+By the end of Phase 2, ASHTON should be agent-friendly because the backend is
+tool-shaped and auditable, not because a chat endpoint owns the product.
+
+The target is:
+
+- typed helper read models
+- typed proposal objects
+- explicit plan diffs
+- dry-run or preview semantics for important mutations
+- actor attribution and capability checks
+- audit-friendly apply steps
+- idempotent, race-safe writes
+- CLI and HTTP parity over shared domain services
 
 ## Table Placement Map
 
@@ -176,8 +196,12 @@ The exact commands can evolve, but the principle should stay stable:
 | Result capture, ratings, standings, and member stats | Must have | `apollo` | yes | `Tracer 22` | required before truthful competition reads |
 | Workout planner / weekly plan / machine dropdowns | Must have | `apollo` | no | `Tracer 23` | move planner after the competition/operations base is real |
 | Exercise library / templates / richer profile inputs | Must have | `apollo` | no | `Tracer 23` | planner and recommendation substrate |
-| Deterministic coaching and conservative nutrition guidance | Must have | `apollo` | partial | `Tracer 24` | no opaque or medical core |
-| Explanation and agent-facing helper layer | Good later | `apollo` | yes | `Tracer 25` | explanation layer only, not the decision engine |
+| Deterministic coaching substrate | Must have | `apollo` | partial | `Tracer 24` | no opaque or medical core |
+| Conservative nutrition substrate | Must have | `apollo` | no | `Tracer 25` | no diagnosis, no obsessive nutrition sprawl |
+| Explanation and agent-facing helper layer | Good later | `apollo` | yes | `Tracer 26` | explanation layer only, not the decision engine |
+| Member-facing tap-link and streak substrate | Must have | `apollo` | yes | `Tracer 27` | presence should become explicit product truth, not a fake badge |
+| Role/authz and staff-runtime boundary substrate | Must have | `apollo` | no | `Tracer 28` | required before a truthful ops shell or broader agent approvals |
+| Agent-safe proposal/apply rails | Must have | `apollo` | no | `Tracer 28` and later | agents should propose and preview changes, not bypass domain validation |
 | Rivalries, badges, rematch prompts, public highlights | Good later | `apollo` | yes | later than `Tracer 22` and likely Phase 3+ | depends on trusted competition truth |
 | Public leaderboards | Dangerous too early | `apollo` | yes | later than `Tracer 22` | requires trusted results and anti-abuse basics |
 | Full social feed / chat | Dangerous too early | `apollo` | no | later than real product traction | high complexity, moderation burden, low foundation value |
@@ -188,7 +212,7 @@ The exact commands can evolve, but the principle should stay stable:
 | --- | --- | --- |
 | structural pillars first | `14 -> 1.7 -> 15 -> 16 -> 17` | finish weak platform pillars first |
 | operational / competition base next | `18 -> 19 -> 20 -> 21 -> 22` | gives the platform honest facility, sport, session, result, and standings truth |
-| planner / coaching backend after that | `23 -> 24 -> 25` | keep fitness logic real, but do it after the operations/competition base exists |
+| planner / coaching / nutrition / AI-helper / presence / authz backend after that | `23 -> 24 -> 25 -> 26 -> 27 -> 28` | keep fitness, presence, and staff-boundary logic real, but do it after the operations/competition base exists |
 | demos and frontend later | Phase 3 only | do not let presentation pressure distort Phase 2 modularity |
 
 ## Future Tracer Ladder
@@ -207,10 +231,13 @@ The exact commands can evolve, but the principle should stay stable:
 | `Tracer 21` | `apollo` | `v0.12.0` / `v0.0.28` | matchmaking / queue / assignment flow and session lifecycle | no rivalry or badge logic |
 | `Tracer 22` | `apollo` | `v0.13.0` / `v0.0.29` | result capture, ratings, rudimentary standings, and member profile stats | no broad public social layer |
 | `Tracer 23` | `apollo` | `v0.14.0` / `v0.0.30` | planner, exercise library, templates/loadouts, and richer profile inputs as backend/CLI-first truth | no meaningful frontend widening |
-| `Tracer 24` | `apollo` | `v0.15.0` / `v0.0.31` | deterministic coaching, conservative calorie/macro ranges, and low-friction meal logging | no diagnosis, no opaque core |
-| `Tracer 25` | `apollo` | `v0.16.0` / `v0.0.32` | explanation, summarization, and thin agent-facing helper surfaces over stable deterministic logic | no public social feed or frontend-first pivot |
-| `Milestone 2.0` | cross-repo closeout | `v0.0.33` unless repo-local patch lines are needed | Phase 2 backend/base plateau: pillars, competition base, planner/coaching substrate, CLI/internal surfaces, and docs/deploy truth aligned | not a broad demo milestone |
-| `System-Proof Milestone` | cross-repo | later than `v0.0.33` | verify runtime truth, deployment truth, modularity, and maintenance model across the ladder | no new feature surface |
+| `Tracer 24` | `apollo` | `v0.15.0` / `v0.0.31` | deterministic coaching substrate over planner, profile, and workout history | no diagnosis, no opaque core |
+| `Tracer 25` | `apollo` | `v0.16.0` / `v0.0.32` | conservative nutrition substrate with meal logging and calorie/macro ranges | no diagnosis or obsessive nutrition sprawl |
+| `Tracer 26` | `apollo` | `v0.17.0` / `v0.0.33` | explanation, summarization, bounded AI helper flows, and thin agent-facing helper surfaces over stable deterministic logic | no public social feed, no LLM-first core, no frontend-first pivot |
+| `Tracer 27` | `apollo` | `v0.18.0` / `v0.0.34` | member presence, tap-link, and streak substrate over explicit visit truth | no fake streak counters or silent visit inference |
+| `Tracer 28` | `apollo` | `v0.19.0` / `v0.0.35` | role/authz, actor attribution, trusted-surface primitives, and staff-runtime boundary substrate | no polished ops suite or speculative contract widening |
+| `Milestone 2.0` | cross-repo closeout | `v0.0.36` unless repo-local patch lines are needed | Phase 2 backend/base plateau: pillars, competition base, planner/coaching/nutrition/presence/authz substrate, CLI/internal surfaces, proposal/apply rails, and docs/deploy truth aligned | not a broad demo milestone |
+| `System-Proof Milestone` | cross-repo | later than `v0.0.36` | verify runtime truth, deployment truth, modularity, and maintenance model across the ladder | no new feature surface |
 
 ## Scope Bounds By Tracer
 
@@ -251,13 +278,16 @@ The exact commands can evolve, but the principle should stay stable:
 | `Tracer 21` | queueing, assignment, lifecycle transitions | rivalry/badge logic |
 | `Tracer 22` | results, ratings, rudimentary standings, member stats | broad public social reads |
 
-### `Tracer 23` through `Tracer 25`
+### `Tracer 23` through `Tracer 28`
 
 | Line | In scope | Out of scope |
 | --- | --- | --- |
 | `Tracer 23` | planner, exercise library, templates/loadouts, richer profile inputs as backend/CLI-first truth | meaningful frontend widening |
-| `Tracer 24` | deterministic conservative coaching and low-friction nutrition guidance | diagnosis, clinical advice, opaque model outputs |
-| `Tracer 25` | explanation, summarization, and thin agent-facing helpers over stable deterministic logic | public social feed, frontend-first presentation, LLM-first core decisions |
+| `Tracer 24` | deterministic conservative coaching substrate | diagnosis, clinical advice, opaque model outputs |
+| `Tracer 25` | conservative nutrition substrate and low-friction meal logging | diagnosis, clinical advice, obsessive nutrition sprawl |
+| `Tracer 26` | explanation, summarization, and thin agent-facing helpers over stable deterministic logic | public social feed, frontend-first presentation, LLM-first core decisions |
+| `Tracer 27` | member-facing tap-link, visit association, streak state, and streak events | fake streak counters, silent visit inference, broad gamified identity |
+| `Tracer 28` | explicit roles, capability checks, actor attribution, trusted-surface primitives, and approval substrate | polished ops suite, speculative shared contracts, broad admin manipulation |
 
 ## Phase 3 Boundary
 
@@ -269,6 +299,34 @@ Phase 3 is where these become allowed:
 - public or semi-public product storytelling
 
 Phase 2 should not be back-solved around a UI.
+
+## Phase 3 Shape
+
+### Phase 3A
+
+`Real member web product`
+
+- polished member shell
+- truthful planner / tracker / coaching / meals / competition surfaces
+- progress graphs, streak presentation, and PR views
+- installable PWA quality
+
+### Phase 3B
+
+`Real ops product`
+
+- supervisor dashboard
+- manager event, schedule, and competition control
+- owner analytics and policy surfaces
+- booking and scheduling composition only after the role/authz boundary is real
+
+### Phase 3C
+
+`Distribution, identity, and assistant presentation`
+
+- avatars, badges, and public or semi-public identity surfaces if earned
+- visible assistant persona only after recommendation and proposal rails are trustworthy
+- native packaging only if the member web product proves out
 
 ## Destructive Harness Expectations
 
@@ -285,7 +343,11 @@ Phase 2 should not be back-solved around a UI.
 | `Tracer 22` | tampered results, stale standings recompute, per-sport separation, anti-garbage-data checks |
 | `Tracer 23` | invalid planner inputs, duplicate templates, impossible states, no cross-domain mutation |
 | `Tracer 24` | extreme body stats, missing history, cold start, deterministic reruns, no-medical-overclaim checks |
-| `Tracer 25` | explanation drift, hallucinated unsupported advice, no-hidden-core-decision proof |
+| `Tracer 25` | dietary restriction conflicts, budget/cooking edge cases, conservative reruns, no-medical-overclaim checks |
+| `Tracer 26` | explanation drift, hallucinated unsupported advice, no-hidden-core-decision proof |
+| `Tracer 27` | spoofed tap links, duplicate streak events, cross-facility confusion, fake inferred presence, and stale visit-link replay |
+| `Tracer 28` | role escalation, trusted-surface bypass, actor-attribution gaps, unauthorized staff/member mutation, and approval-path drift |
+| `Milestone 2.0` | repo audit, deploy audit, decision-doc alignment, CLI/internal coherence, and proposal/apply safety checks across the full ladder |
 
 ## System-Proof Target
 
@@ -306,5 +368,17 @@ Phase 2 should not be back-solved around a UI.
 | 2 | keep tracer prompts explicit about formal pre-`1.0.0` semver, granular commits, and push-on-`main` | prevent drift |
 | 3 | keep Phase 2 backend-first and CLI-first | prevent premature UI pressure |
 | 4 | treat `Tracer 18` through `Tracer 22` as the competition/operations base, not demo polish | keep the ladder structurally honest |
-| 5 | treat `Tracer 23` through `Tracer 25` as backend product expansion, still without real frontend widening | keep the platform modular |
+| 5 | treat `Tracer 23` through `Tracer 28` as backend product expansion, still without real frontend widening | keep the platform modular |
 | 6 | begin demo/front-end planning only after `Milestone 2.0` is closure-clean | keep Phase 3 honest |
+
+## Decision Docs
+
+For UI and AI planning, the decision docs are:
+
+- `planning/envisioning/ui-truth-consolidation.md`
+- `planning/envisioning/coaching-nutrition-ai-architecture.md`
+
+Treat `ui-truth-consolidation.md` as the buildability arbiter for UI work,
+`coaching-nutrition-ai-architecture.md` as the buildability arbiter for
+coaching/nutrition/AI-helper work, and `ui-product-vision.md` as deliberate gap
+discovery and directional design.

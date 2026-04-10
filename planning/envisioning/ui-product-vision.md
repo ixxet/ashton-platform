@@ -7,6 +7,12 @@ It is not a release ledger.
 It is the working product and UX vision for the future member and operations
 surfaces so the direction stays coherent before the frontend runtime is built.
 
+Use this document for gap discovery and directional product thinking.
+Arbitrate buildability and tracer sequencing against:
+
+- `planning/envisioning/ui-truth-consolidation.md`
+- `planning/envisioning/coaching-nutrition-ai-architecture.md`
+
 ## Intent
 
 | Area | Position |

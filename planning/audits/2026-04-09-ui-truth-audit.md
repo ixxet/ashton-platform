@@ -293,7 +293,7 @@ manifests, but it does not yet provide a broad frontend contract layer.
 | Tap in / streak | `Partial` | ATHENA edge tap and APOLLO visit ingest exist; streak logic and member-facing presence UX do not |
 | Workout tracker | `Ready-ish` | Real backend and real thin UI in APOLLO |
 | Workout planner | `Partial` | Backend substrate is real; browser product surface is missing |
-| Meals / macros | `Missing` | Explicitly planned later in APOLLO `v0.15.0` |
+| Meals / macros | `Missing` | Explicitly planned later in APOLLO `v0.16.0` after the coaching-first `v0.15.0` split |
 | Profile identity / badges / avatar | `Missing` | No backend runtime yet beyond bounded profile/coaching inputs |
 | Competition tab | `Partial` | Real internal backend substrate, no broad member-facing shell |
 | Public leaderboards / standings / rivalry | `Missing` | Current competition history is internal and self-scoped, not public/social |

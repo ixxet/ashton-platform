@@ -126,8 +126,8 @@ That remains the right call.
 | Page | Status | Backend truth | Consolidated decision |
 | --- | --- | --- | --- |
 | Login splash | `Ready` | APOLLO auth/session is real | Build now over real auth; polish is a frontend concern |
-| Tap-in entry | `Partial` | ATHENA edge tap exists; APOLLO visit ingest exists | Build only after a bounded member-facing tap-link / visit model exists |
-| QR e-tap confirmation | `Partial` | physical truth exists, member linking does not | Keep as a Phase 2 target only if explicit tag/link state is added |
+| Tap-in entry | `Partial` | ATHENA edge tap exists; APOLLO visit ingest exists | Build only after the bounded member-facing tap-link / streak model lands in `Tracer 27` |
+| QR e-tap confirmation | `Partial` | physical truth exists, member linking does not | Keep as a Phase 2 target only if explicit link state lands in `Tracer 27` |
 | Home dashboard | `Partial` | workouts, recommendation, membership, profile, occupancy/facility reads exist in pieces | Build now as a composition page over real reads; keep cards honest |
 | Profile home | `Partial` | bounded profile state exists | Build over current profile truth, but keep identity features narrow |
 | Badges / achievements | `Missing` | no runtime | Do not invent yet; hold the slot in profile IA only |
@@ -306,7 +306,7 @@ It is role and authorization truth.
 
 | Page | Status | Backend truth | Consolidated decision |
 | --- | --- | --- | --- |
-| Ops login entry | `Missing` | no supervisor/manager/owner authz model | Needs backend widening first |
+| Ops login entry | `Missing` | no supervisor/manager/owner authz model | Needs `Tracer 28` backend widening first |
 | Supervisor live dashboard | `Missing` | no staff web runtime | Design now, do not implement as real product yet |
 | Live occupancy board | `Partial` | ATHENA occupancy is real | Can build as read-only internal UI if access path is intentional |
 | Reconciliation page | `Partial` | HERMES reconciliation truth is real but CLI-only | Needs HTTP/session layer before honest web runtime |
@@ -350,13 +350,15 @@ So the correct consolidation decision is:
 2. create a separate scheduling / booking composition layer when the time comes
 3. use raw ATHENA facility truth as an input, not the full answer
 
-## Tracer 24 Through Tracer 26 Consolidation
+## Tracer 24 Through Tracer 28 Consolidation
 
 The official Phase 2 split should be:
 
 - `Tracer 24`: deterministic coaching substrate
 - `Tracer 25`: conservative nutrition substrate
 - `Tracer 26`: explanation and bounded AI helper layer
+- `Tracer 27`: member presence / tap-link / streak substrate
+- `Tracer 28`: role/authz and staff runtime boundary substrate
 
 ## Official Split
 
@@ -413,6 +415,41 @@ Make real:
 
 This keeps the LLM subordinate to the state model instead of letting it become
 the source of truth.
+
+### Tracer 27
+
+`Member presence / tap-link / streak substrate`
+
+Make real:
+
+- explicit facility-presence linking from ATHENA truth into member-visible
+  product truth
+- member-facing tap-link state
+- streak state and streak events
+- no-fake-presence product reads
+
+Do not include:
+
+- hidden visit inference beyond approved link logic
+- broad gamified identity
+- staff authz or ops workflow expansion
+
+### Tracer 28
+
+`Role/authz and staff runtime boundary substrate`
+
+Make real:
+
+- explicit `member`, `supervisor`, `manager`, and `owner` roles
+- capability checks and actor attribution
+- trusted-device or trusted-surface primitives for elevated actions
+- safe staff-runtime boundary for future ops UI and later agent approvals
+
+Do not include:
+
+- polished ops product
+- broad admin manipulation tools
+- speculative shared-contract widening
 
 ## LLM Architecture Consolidation
 
@@ -536,14 +573,14 @@ Phase 2 is ready to stop when these are true:
 
 1. member auth/session truth is stable
 2. workout tracker + planner + recommendation substrate are stable
-3. visits / tap-link / streak truth is either real or explicitly deferred
+3. visits / tap-link / streak truth is real
 4. competition truth is honest about who can see and control what
-5. role/authz model is real if ops UI is expected soon
+5. role/authz model is real because ops UI is expected soon after `Milestone 2.0`
 6. coaching and nutrition substrates are split or scoped tightly enough to stay
    conservative
 7. scheduling/booking is either backed by a real derived model or explicitly
    deferred
-8. docs match runtime truth
+8. docs and proposal/apply posture match runtime truth
 
 ## Immediate Consolidation Decisions
 
@@ -552,8 +589,8 @@ These are the decisions this document supports right now:
 1. Expand the member shell before building a real ops shell.
 2. Add member-facing visits/tap-link/streak truth before pretending tap-in is a
    mature product feature.
-3. Keep coaching, nutrition, and AI-helper work split across `Tracer 24`,
-   `Tracer 25`, and `Tracer 26`.
+3. Keep coaching, nutrition, AI-helper, presence, and role/authz work split
+   across `Tracer 24` through `Tracer 28`.
 4. Keep the LLM as a bounded helper over deterministic substrates, not the core
    engine.
 5. Keep scheduling and booking out of ATHENA.
@@ -614,7 +651,7 @@ For each gap found, always name:
 The next pass must not invent:
 
 - meal intelligence before `Tracer 25`
-- staff ops truth before role/authz
+- staff ops truth before `Tracer 28`
 - booking/calendar truth before a real scheduling layer
 - public competition/social surfaces
 - chat as the core runtime
@@ -654,5 +691,9 @@ So yes, agents can already inspect and help modularly.
 No, they should not yet be allowed to freely shift things around as autonomous
 write actors.
 
-`Tracer 26` is the right place for that to start becoming real in a bounded
-way.
+`Tracer 26` is the right place for helper reads, explanations, and structured
+proposal shapes to start becoming real in a bounded way.
+`Tracer 28` is the right place for capability, actor, and approval rails to
+make broader safe mutation honest.
+`Milestone 2.0` should prove the combined inspect/propose posture across the
+full Phase 2 ladder.

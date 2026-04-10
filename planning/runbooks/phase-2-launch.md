@@ -235,9 +235,12 @@ Working rule:
 | Line | Lead repo(s) | Release line | Purpose | Hard stop |
 | --- | --- | --- | --- | --- |
 | `Tracer 23` | `apollo` | `apollo v0.14.0`, `ashton-platform v0.0.30` | planner, exercise library, templates/loadouts, and richer profile inputs as backend/CLI-first truth | no meaningful frontend widening |
-| `Tracer 24` | `apollo` | `apollo v0.15.0`, `ashton-platform v0.0.31` | deterministic coaching, conservative calorie/macro ranges, and low-friction meal logging | no diagnosis, no opaque core |
-| `Tracer 25` | `apollo` | `apollo v0.16.0`, `ashton-platform v0.0.32` | explanation, summarization, and thin agent-facing helper surfaces over stable deterministic logic | no public social feed, no frontend-first product pivot |
-| `Milestone 2.0` | cross-repo closeout | `ashton-platform v0.0.33`, companion patch lines only where needed | Phase 2 backend/base plateau: structural pillars, competition base, planner/coaching substrate, CLI/internal surfaces, and docs/deploy truth aligned | not a broad demo milestone |
+| `Tracer 24` | `apollo` | `apollo v0.15.0`, `ashton-platform v0.0.31` | deterministic coaching substrate over planner, profile, and workout history | no diagnosis, no opaque core |
+| `Tracer 25` | `apollo` | `apollo v0.16.0`, `ashton-platform v0.0.32` | conservative nutrition substrate with meal logging and calorie/macro ranges | no diagnosis, no obsessive nutrition sprawl |
+| `Tracer 26` | `apollo` | `apollo v0.17.0`, `ashton-platform v0.0.33` | explanation, summarization, bounded AI helper flows, and thin agent-facing helper surfaces over stable deterministic logic | no public social feed, no frontend-first product pivot |
+| `Tracer 27` | `apollo` | `apollo v0.18.0`, `ashton-platform v0.0.34` | member presence, tap-link, and streak substrate over explicit visit truth | no fake streak counters or silent visit inference |
+| `Tracer 28` | `apollo` | `apollo v0.19.0`, `ashton-platform v0.0.35` | role/authz, actor attribution, trusted-surface primitives, and staff runtime boundary substrate | no polished ops suite or speculative contract widening |
+| `Milestone 2.0` | cross-repo closeout | `ashton-platform v0.0.36`, companion patch lines only where needed | Phase 2 backend/base plateau: structural pillars, competition base, planner/coaching/nutrition/presence/authz substrate, CLI/internal surfaces, proposal/apply rails, and docs/deploy truth aligned | not a broad demo milestone |
 
 ## Milestone Naming Rule
 
