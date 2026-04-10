@@ -25,7 +25,7 @@ readable as one coherent platform instead of five drifting repos.
 | --- | --- | --- | --- |
 | `ashton-proto` | Shared contracts, schemas, runtime helpers | Real and active | Keeps producers and consumers from hand-rolling wire contracts |
 | `athena` | Physical truth for presence and occupancy | Real and executable | First Go service, first operational data surface, active visit-lifecycle publisher, and bounded live edge-driven occupancy deployment over a browser-reachable ingress path |
-| `apollo` | Member-facing application and intent state | Real and executable, but intentionally narrow | First member auth, profile-state, visit-history, visit-closing, derived eligibility, explicit lobby membership, explicit workout runtime, deterministic recommendation slice, and thin member shell |
+| `apollo` | Member-facing application, competition runtime, and planner substrate | Real and executable, but intentionally narrow | First member auth, profile-state, visit-history, visit-closing, derived eligibility, explicit lobby membership, explicit workout runtime, deterministic recommendation slice, thin member shell, and current Tracer 23 planner / exercise-library / template / richer-profile substrate on `main`; deployed truth unchanged |
 | `hermes` | Staff-facing operations assistant | Real and executable, but intentionally narrow | Read-only occupancy plus one richer reconciliation question over ATHENA current + stable-history truth, with deployment proof still bounded to the earlier occupancy runner slice |
 | `ashton-mcp-gateway` | Shared tool routing layer, with approvals still deferred | Real and executable, but intentionally narrow | Two caller-aware audited ATHENA reads are real without widening into writes or broad orchestration |
 | `Prometheus` | Deployment truth and GitOps control plane | Real and active, but intentionally selective | Carries the bounded live ATHENA edge deployment plus the bounded `ATHENA -> NATS -> APOLLO` cluster proof, and now also the bounded HERMES runner slice while gateway deployment slices remain deferred |
@@ -38,11 +38,11 @@ readable as one coherent platform instead of five drifting repos.
 | ATHENA deployment | `Prometheus v0.0.3`, `ashton-platform v0.0.19` shipped | published deployment truth | bounded live edge-ingress deployment truth is real |
 | APOLLO member runtime | `v0.9.0` shipped | published runtime truth | auth, visits, workouts, recommendation, explicit membership, and deterministic preview are real |
 | APOLLO member shell | `v0.7.0` shipped | published runtime truth | thin shell is real and still intentionally narrow |
-| APOLLO competition runtime | current Tracer 22 repo/runtime line on `main`; deployed truth unchanged | current repo/runtime truth | sport registry, facility-sport capability mapping, authenticated internal HTTP queue/assignment/lifecycle truth, immutable result capture, sport-and-mode-separated ratings, session-scoped standings, and self-scoped member stats are real without widening into public/social competition reads |
+| APOLLO competition runtime | current Tracer 23 repo/runtime line on `main`; deployed truth unchanged | current repo/runtime truth | sport registry, facility-sport capability mapping, authenticated internal HTTP queue/assignment/lifecycle truth, immutable result capture, sport-and-mode-separated ratings, session-scoped standings, self-scoped member stats, and the planner / exercise-library / template / richer-profile substrate are real without widening into public/social competition reads |
 | HERMES | `v0.2.0` shipped | published local/runtime truth plus bounded deployment truth | one bounded staff read plus one richer reconciliation read are shipped, while the bounded internal runner deployment in `agents` still proves only the occupancy slice |
 | Gateway | current Tracer 15 line: `v0.2.0` | narrow repo truth | caller identity, persisted audit, and a second routed read are real in the current gateway repo line, while write governance and deployment remain deferred |
 | Prometheus deployment repo | live for bounded ATHENA, APOLLO, and HERMES deployment truth | published deployment truth | bounded HERMES manifests now exist; gateway deployment slices remain deferred |
-| Platform docs | current Tracer 22 control-plane line on `main`; deployed truth unchanged | current control-plane truth | front-facing ladder, current APOLLO competition-history repo truth, and deployed-truth boundaries now tell the same story without widening deployed claims |
+| Platform docs | current Tracer 23 control-plane line on `main`; deployed truth unchanged | current control-plane truth | front-facing ladder, current APOLLO planner/profile repo truth, and deployed-truth boundaries now tell the same story without widening deployed claims |
 
 ## Pillar Map
 
@@ -366,7 +366,7 @@ flowchart LR
 | --- | --- | --- | --- | --- |
 | `ashton-proto` | Shared proto packages, event schemas, runtime helper rules | - | Shared contract baseline is real and active | [README](https://github.com/ixxet/ashton-proto/blob/main/README.md) |
 | `athena` | Presence, occupancy, ingress source handling, facility truth, identified visit-lifecycle publication | `ashton-proto` | Mock and CSV-backed ingress still exist, bounded live edge-driven occupancy deployment truth remains `v0.4.1`, and config-gated facility catalog/hours/zones/closure/metadata reads are now real in local/runtime repo truth | [README](https://github.com/ixxet/athena/blob/main/README.md) |
-| `apollo` | Member auth, profile state, visit ingest and close, derived eligibility, explicit lobby membership, deterministic read-only match preview, workout runtime, deterministic recommendation reads, one thin member web shell, and bounded competition execution/history runtime | `ashton-proto`, `athena` | Auth, profile state, visit lifecycle, derived eligibility, explicit lobby membership, deterministic read-only match preview, workout runtime, deterministic recommendation reads, one local member shell, and bounded competition queue/assignment/lifecycle plus competition-history truth are real on `main` | [README](https://github.com/ixxet/apollo/blob/main/README.md) |
+| `apollo` | Member auth, profile state, visit ingest and close, derived eligibility, explicit lobby membership, deterministic read-only match preview, workout runtime, deterministic recommendation reads, planner substrate, one thin member web shell, and bounded competition execution/history runtime | `ashton-proto`, `athena` | Auth, profile state, visit lifecycle, derived eligibility, explicit lobby membership, deterministic read-only match preview, workout runtime, deterministic recommendation reads, planner substrate, one local member shell, and bounded competition queue/assignment/lifecycle plus competition-history truth are real on `main` | [README](https://github.com/ixxet/apollo/blob/main/README.md) |
 | `hermes` | Staff read-only operations over upstream service truth | `athena` | First occupancy CLI slice is real; write actions, agent orchestration, and deployment stay deferred | [README](https://github.com/ixxet/hermes/blob/main/README.md) |
 | `ashton-mcp-gateway` | Tool discovery, routing, caller identity, and later approval policy | `ashton-proto`, `athena` | Two manifest-backed ATHENA occupancy routes are real, and routed calls now carry explicit caller identity plus persisted audit while approvals stay deferred | [README](https://github.com/ixxet/ashton-mcp-gateway/blob/main/README.md) |
 
@@ -390,10 +390,10 @@ flowchart LR
 | --- | --- | --- | --- |
 | `ashton-proto` | `v0.3.0` shipped; current Tracer 15 contract line `v0.4.0` | later than `v0.4.0` | the second routed manifest surface is now real in the current repo line; further widening should stay tracer-driven |
 | `athena` | `v0.5.1` shipped; the Tracer 18 facility-truth line is now on `main`; `v0.4.1` remains the current deployed line | `v0.6.0` | facility truth is now the current repo line while deployed truth stays unchanged |
-| `apollo` | current Tracer 22 repo/runtime line on `main`; deployed truth unchanged | `v0.14.0` | competition history is now real over the Tracer 21 execution model, so planner/profile widening is the next bounded APOLLO line |
+| `apollo` | current Tracer 23 repo/runtime line on `main`; deployed truth unchanged | `v0.14.0` | planner/profile widening is now real over the Tracer 22 competition-history line, so the next bounded APOLLO line stays backend-first |
 | `hermes` | `v0.2.0` shipped | `v0.3.0` | the richer read-only reconciliation line is now shipped; explicit write authority is the next true widening |
 | `ashton-mcp-gateway` | `v0.0.1` shipped; current Tracer 15 line `v0.2.0` | `v0.3.0` | caller identity, persisted audit, and a second routed read are now real; write approval is the next bounded widening |
-| `ashton-platform` | current Tracer 22 control-plane line on `main`; deployed truth unchanged | `v0.0.30` | current docs now track the APOLLO competition-history closeout honestly while deployment claims remain unchanged |
+| `ashton-platform` | current Tracer 23 control-plane line on `main`; deployed truth unchanged | `v0.0.30` | current docs now track the APOLLO planner/profile closeout honestly while deployment claims remain unchanged |
 
 ## Current State Block
 
@@ -441,6 +441,9 @@ flowchart LR
   execution runtime: queue open/join/remove, deterministic assignment, explicit
   lifecycle start/archive control, and deterministic session detail reads over
   existing session/team/roster/match containers
+- `apollo` now also serves one bounded authenticated internal planner substrate:
+  exercise library, equipment refs, templates/loadouts, weekly plans, and typed
+  profile inputs over the same APOLLO-owned state
 - `hermes` now serves two executable read-only staff flows:
   `hermes ask occupancy --facility <id>` and
   `hermes ask reconciliation --facility <id> --window <duration> --bin <duration>`
@@ -450,7 +453,7 @@ flowchart LR
   endpoint, require explicit caller identity on `tools/call`, and persist
   sanitized audit rows for routed outcomes
 - `apollo` keeps visit history separate from workout history and from
-  recommendation logic and from competition execution truth
+  recommendation logic and from competition execution truth and planner truth
 - repo-local roadmaps, runbooks, ADRs, and growing-pains logs exist across the
   stack
 
@@ -512,6 +515,7 @@ bullets are only the short summary.
 | `Tracer 15` | gateway caller identity, persisted audit, and one second routed read | Implemented and locally verified | turn the first routed read into a trusted narrow control-plane layer |
 | `Tracer 16` | ATHENA durable edge-observation groundwork | Complete and tagged | durable edge-observation groundwork, immutable replay identity hardening, fail-open shadow-write, and restart/reload replay groundwork are real without widening deployment or product surfaces |
 | `Tracer 17` | one richer read-only HERMES reconciliation question | Complete and tagged | extend the staff pillar with occupancy reports and heat-map-style reads without widening into overrides or writes |
+| `Tracer 23` | APOLLO planner/profile widening | Complete in repo/runtime truth on `main`, untagged | exercise library, equipment refs, templates/loadouts, planner weeks/sessions/items, and richer profile inputs are real without widening into coaching, nutrition, or meaningful frontend work |
 
 ## Release History
 
@@ -555,7 +559,7 @@ path already proven.
 | `v0.0.27` | Tracer 20 control-plane closeout for APOLLO team, roster, session, and match container primitives | keep the line infrastructural for competition runtime | do not widen into public standings |
 | `v0.0.28` | Tracer 21 control-plane closeout for APOLLO matchmaking / queue / assignment flow and session lifecycle | keep the line deterministic and bounded | do not widen into rivalry or badge logic |
 | `v0.0.29` | Current Tracer 22 control-plane closeout for APOLLO results, ratings, standings, and member stats | keep the line truth-first | do not widen into a broad public social layer |
-| `v0.0.30` | Tracer 23 control-plane closeout for APOLLO planner/profile widening as backend/CLI-first truth | keep the line backend-first | do not widen into meaningful frontend work |
+| `v0.0.30` | Tracer 23 control-plane closeout for APOLLO planner/profile widening as backend/CLI-first truth on `main`, still untagged | keep the line backend-first | do not widen into meaningful frontend work |
 | `v0.0.31` | Tracer 24 control-plane closeout for APOLLO deterministic coaching | keep the line deterministic and conservative | do not widen into diagnosis or opaque logic |
 | `v0.0.32` | Tracer 25 control-plane closeout for explanation and thin agent-facing helpers | keep explanation subordinate to deterministic core logic | do not widen into public social or frontend-first work |
 | `v0.0.33` | Milestone 2.0 backend/base plateau closeout | align deploy truth, docs, and repo-local closure across the full Phase 2 ladder | do not present this as the first major demo milestone |

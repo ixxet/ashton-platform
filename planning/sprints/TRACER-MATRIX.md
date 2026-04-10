@@ -1477,3 +1477,37 @@ Deferred after closure:
 | Feature | season, ladder, league, and tournament constructs beyond session scope | deferred | the honest standing model stays session-scoped in Tracer 22 | later APOLLO tracer |
 | Deploy | competition-history deployment widening | deferred | no bounded deployment proof was run in Tracer 22 | later deployment line |
 | Contract | shared competition-history contract widening in `ashton-proto` | deferred | no real shared dependency was proven | later tracer only if justified |
+
+Current Tracer 23 closeout note:
+
+- APOLLO now carries planner, exercise-library, equipment-ref,
+  template/loadout, planner-week/session/item, and typed `coaching_profile`
+  truth on `main`.
+- the planner substrate stays authenticated/internal-only and separate from
+  workout history, deterministic recommendation reads, visits, membership,
+  competition history, and later coaching logic.
+- `ashton-proto` remains untouched because no shared-contract blocker was
+  proven.
+- Deployed truth remains unchanged: Tracer 23 is repo/runtime truth, not
+  deployed truth.
+- The intended Tracer 23 closeout lines are `apollo v0.14.0` and
+  `ashton-platform v0.0.30`, and neither tag exists yet.
+
+Tracer 23 retrospective:
+
+- planner truth had to stay relational and owner-scoped so workout history
+  remained history instead of becoming a second planning home.
+- deterministic recommendation reads stayed honest only because they were left
+  as narrow consumers of workout history instead of being widened into the
+  planning substrate.
+- richer profile inputs were safe to widen only when they stayed explicit,
+  non-medical, and inert outside the profile seam.
+
+Deferred after closure:
+
+| Type | Item | Status | Why It Was Not Done Here | Future Owner |
+| --- | --- | --- | --- | --- |
+| Feature | deterministic coaching / plan scoring | deferred | that is the next layer and must stay separate from substrate truth | later APOLLO tracer |
+| Feature | calorie, macro, and meal logging | deferred | explicitly outside Tracer 23 scope | later APOLLO tracer |
+| Feature | meaningful frontend widening | deferred | Phase 3 concern, not Tracer 23 | later product line |
+| Feature | shared contract widening | deferred | no real cross-repo dependency was proven | later tracer only if justified |

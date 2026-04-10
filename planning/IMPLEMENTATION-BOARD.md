@@ -137,10 +137,10 @@ Rust remains a later optimization path, not a first-wave dependency.
 | --- | --- | --- | --- |
 | `ashton-proto` | `v0.3.0` shipped; current Tracer 15 contract line `v0.4.0` | later than `v0.4.0` | the second routed manifest line is now real in the current repo line; further widening should stay tracer-driven |
 | `athena` | `v0.5.1` shipped; the Tracer 18 facility-truth line is now on `main`; `v0.4.1` remains the current deployed line | `v0.6.0` | facility truth is now the current repo line while deployed truth stays unchanged |
-| `apollo` | current Tracer 22 repo/runtime line on `main`; deployed truth unchanged | `v0.14.0` | competition history is now real over the Tracer 21 execution model, so planner/profile widening is the next bounded APOLLO line |
+| `apollo` | current Tracer 23 repo/runtime line on `main`; deployed truth unchanged | `v0.14.0` | planner/profile widening is now real over the Tracer 22 competition-history line, so the next bounded APOLLO line stays backend-first |
 | `hermes` | `v0.2.0` shipped | `v0.3.0` | the richer read-only reconciliation line is now shipped and the first write/approval boundary is the next true widening |
 | `ashton-mcp-gateway` | `v0.0.1` shipped; current Tracer 15 line `v0.2.0` | `v0.3.0` | the caller-aware audited read-only control-plane slice is now real; write governance is the next true widening |
-| `ashton-platform` | current Tracer 22 control-plane line on `main`; deployed truth unchanged | `v0.0.30` | current docs now track the APOLLO competition-history closeout honestly while deployment claims remain unchanged |
+| `ashton-platform` | current Tracer 23 control-plane line on `main`; deployed truth unchanged | `v0.0.30` | current docs now track the APOLLO planner/profile closeout honestly while deployment claims remain unchanged |
 
 Current closeout note:
 
@@ -180,6 +180,22 @@ Current closeout note:
   contract blocker was proven
 - the intended Tracer 22 release lines are `apollo v0.13.0` and
   `ashton-platform v0.0.29`
+
+Current Tracer 23 closeout note:
+
+- `apollo` now also carries planner, exercise-library, equipment-ref,
+  template/loadout, planner-week/session/item, and typed `coaching_profile`
+  truth on `main`
+- the planner substrate stays authenticated/internal-only and separate from
+  workout history, deterministic recommendation reads, visits, membership,
+  competition history, and later coaching logic
+- `ashton-proto` remains untouched because no shared-contract blocker was
+  proven
+- deployed truth remains unchanged: Tracer 23 is repo/runtime truth, not
+  deployed truth
+- the intended Tracer 23 closeout lines are `apollo v0.14.0` and
+  `ashton-platform v0.0.30`, and neither tag exists yet
+
 - `v0.5.1`, `v0.2.0`, and `v0.0.24` are the Tracer 17 release lines for
   bounded ATHENA support, HERMES runtime truth, and platform closeout truth
 - `v0.6.0` and `v0.0.25` are the Tracer 18 release lines for ATHENA facility
@@ -211,7 +227,7 @@ Current Tracer 19 closeout note:
 | Facility catalog / hours | closure-clean on `main` | ATHENA now exposes config-gated facility catalog, hours, zones, closure windows, and bounded metadata reads while deployed truth stays unchanged | done |
 | Competition execution runtime | closure-clean in repo/runtime; deployed truth unchanged | APOLLO now owns sport registry plus queue/assignment/lifecycle truth over team/roster/session/match containers as the settled execution substrate for later competition history | done |
 | Ratings / standings / profile stats | closure-clean in repo/runtime; deployed truth unchanged | APOLLO now owns immutable result capture, sport-and-mode-separated ratings, session-scoped standings, and self-scoped member stats without widening into public/social competition reads | done |
-| Planner / coaching backend | missing | still important, but explicitly later than the operational and competition base | medium |
+| Planner / coaching backend | repo/runtime truth present on `main`; deployed truth unchanged | current repo/runtime truth | APOLLO now owns the planner, exercise-library, template/loadout, and richer profile substrate without a deployment claim |
 | Public/demo/frontend work | intentionally deferred | Phase 3 concern, not a Phase 2 driver | gated |
 
 ## Phase 2 Execution Posture
@@ -245,7 +261,7 @@ reconciliation surface and bounded ATHENA support release alignment.
 | `v0.0.27` | `Tracer 20` | `apollo v0.11.0` | team, roster, session, and match container primitives | no public standings |
 | `v0.0.28` | `Tracer 21` | `apollo v0.12.0` | matchmaking / queue / assignment flow and session lifecycle | no rivalry or badge logic |
 | `v0.0.29` | `Tracer 22` | `apollo v0.13.0`, optional `ashton-proto` widening only if result or rating contracts become truly shared | result capture, ratings, rudimentary standings, and member profile stats | no broad public social layer |
-| `v0.0.30` | `Tracer 23` | `apollo v0.14.0` | planner, exercise library, templates/loadouts, and richer profile inputs as backend/CLI-first truth | no meaningful frontend widening |
+| `v0.0.30` | `Tracer 23` | `apollo v0.14.0` | planner, exercise library, templates/loadouts, and richer profile inputs as backend/CLI-first truth on `main`, still untagged | no meaningful frontend widening |
 | `v0.0.31` | `Tracer 24` | `apollo v0.15.0` | deterministic coaching, conservative calorie/macro ranges, and low-friction meal logging | no diagnosis or opaque black box |
 | `v0.0.32` | `Tracer 25` | `apollo v0.16.0` | explanation, summarization, and thin agent-facing helper surfaces over stable deterministic logic | no public social feed or frontend-first pivot |
 | `v0.0.33` | `Milestone 2.0` | patch closeout only unless runtime truth changes | Phase 2 backend/base plateau: structural pillars, competition base, planner/coaching substrate, deploy truth, and docs aligned | not a broad demo milestone |

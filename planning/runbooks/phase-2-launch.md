@@ -156,6 +156,21 @@ Current Tracer 22 closeout note:
 - the intended Tracer 22 closeout lines are `apollo v0.13.0` and
   `ashton-platform v0.0.29`
 
+Current Tracer 23 closeout note:
+
+- the current APOLLO repo/runtime line now carries planner, exercise-library,
+  equipment-ref, template/loadout, planner-week/session/item, and typed
+  `coaching_profile` truth on `main`
+- the planner substrate stays authenticated/internal-only and separate from
+  workout history, deterministic recommendation reads, visits, membership,
+  competition history, and later coaching logic
+- `ashton-proto` remains untouched because no shared-contract blocker was
+  proven
+- deployed truth remains unchanged: Tracer 23 is repo/runtime truth, not
+  deployed truth
+- the intended Tracer 23 closeout lines are `apollo v0.14.0` and
+  `ashton-platform v0.0.30`, and neither tag exists yet
+
 Phase 2 rule for `Tracer 16`:
 
 - keep the same tunnel, token, and userscript contract
