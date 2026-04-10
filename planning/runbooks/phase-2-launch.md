@@ -240,6 +240,27 @@ Current Tracer 27 closeout note:
 - the Tracer 27 closeout line maps to `apollo v0.18.0` and
   `ashton-platform v0.0.34`
 
+Current Tracer 28 closeout note:
+
+- the current APOLLO local/runtime line now also carries explicit principal
+  roles (`member`, `supervisor`, `manager`, `owner`) plus deterministic
+  competition capabilities derived from that role
+- competition staff reads now require explicit capability truth, and
+  privileged competition mutations now require both capability and
+  trusted-surface proof instead of inheriting authority from
+  `competition_sessions.owner_user_id`
+- successful staff-sensitive competition mutations now write durable actor
+  attribution rows carrying actor user/session/role, capability,
+  trusted-surface key, action, and relevant competition target ids
+- `ashton-proto` remains untouched because no shared-contract blocker was
+  proven, and no persistent approval object or ATHENA ingress-storage widening
+  was added
+- the Tracer 28 closeout lines map to `apollo v0.19.0` and
+  `ashton-platform v0.0.35`
+- deployed truth remains unchanged: Tracer 28 is current repo/runtime truth on
+  `main`, while tags, deployment claims, and Milestone 2.0 reconciliation stay
+  separate
+
 Phase 2 rule for `Tracer 16`:
 
 - keep the same tunnel, token, and userscript contract

@@ -24,13 +24,15 @@ internal helper reads, bounded `why` flows, and read-only coaching/nutrition
 variation previews over those deterministic cores. Tracer 27 now also adds
 authenticated facility-scoped presence reads, explicit tap-link truth per
 member-visible visit, and facility-scoped streak state/events over explicit
-linked visit days only. It does not own raw
-presence truth, staff workflows, public competition surfaces, diagnosis, or
-opaque helper-owned logic.
+linked visit days only. Tracer 28 now also adds explicit role/authz,
+trusted-surface-gated competition staff mutations, and durable actor
+attribution over that same competition control surface. It does not own raw
+presence truth, broad staff product workflows, public competition surfaces,
+diagnosis, or opaque helper-owned logic.
 
 ## Current Role
 
-The active APOLLO slice now spans twenty-six narrow runtime boundaries:
+The active APOLLO slice now spans the following narrow runtime boundaries:
 
 - identified-arrival consume -> visit record
 - identified-departure consume -> visit close
@@ -103,11 +105,11 @@ results, or public competition reads.
 | `GET /app` | Real | Protected minimal member shell over the existing APOLLO APIs |
 | `apollo visit list` | Real | Member-facing visit history readback |
 | NATS identified-arrival/departure consumer | Real | Consumes `athena.identified_presence.arrived` and `athena.identified_presence.departed` using the shared helper |
-| `GET/POST /api/v1/competition/sessions` plus session detail | Real | Authenticated owner-scoped session reads and writes over APOLLO-owned competition containers |
-| `POST /api/v1/competition/sessions/{id}/queue/open`, queue join/remove, assignment, and `start` | Shipped | Authenticated owner-scoped queue/assignment/lifecycle runtime over explicit lobby membership plus current eligibility |
+| `GET /api/v1/competition/sessions` plus session detail | Real in repo/runtime truth | Authenticated competition staff reads now require explicit `competition_read` capability instead of owner-scoped filtering |
+| `POST /api/v1/competition/sessions` plus queue, assignment, lifecycle, team, roster, match, and result mutations | Real in repo/runtime truth | Staff competition mutations now require explicit capability plus trusted-surface proof, and successful writes record durable actor attribution |
 | recommendation storage | Schema authored | `apollo.recommendations` exists, but Tracer 7 recommendation reads are derived at read time |
 | lobby membership runtime | Real | Explicit join and leave are real durable member intent only |
-| results/history plus presence runtime | Current Tracer 27 repo/runtime closeout on `main` | Tracer 22 competition-history truth, Tracer 23 planner/profile substrate, Tracer 24 deterministic coaching substrate, Tracer 25 bounded nutrition substrate, Tracer 26 helper reads, and Tracer 27 facility-scoped presence/tap-link/streak truth are all real while public competition reads and role/authz remain deferred |
+| results/history plus presence/authz runtime | Tracer 28 is the current repo/runtime closeout line on `main` | Tracer 22 competition-history truth, Tracer 23 planner/profile substrate, Tracer 24 deterministic coaching substrate, Tracer 25 bounded nutrition substrate, Tracer 26 helper reads, Tracer 27 facility-scoped presence/tap-link/streak truth, and Tracer 28 explicit role/authz plus actor attribution are real on `main` while public competition reads, broader staff product, and deployment truth remain deferred |
 
 ## Ownership Rules
 
@@ -115,11 +117,11 @@ results, or public competition reads.
 | --- | --- |
 | member account ownership and session state | raw facility presence truth |
 | profile visibility and availability state | occupancy counting |
-| visit history as member context | staff workflows |
+| visit history as member context | broad staff workflows outside the bounded competition control boundary |
 | explicit workout history runtime | raw workout inference from visits |
 | deterministic recommendation runtime | raw recommendation inference from visits or profile state |
 | derived lobby eligibility, explicit lobby membership, bounded competition execution runtime, and bounded competition-history truth | invites, parties, public competition reads, or broad social product surfaces |
-| bounded planner substrate, exercise-library truth, equipment refs, templates/loadouts, richer profile-input truth, bounded deterministic coaching substrate, and bounded conservative nutrition substrate | raw workout inference, diagnosis, meal-plan chatbot logic, opaque helper-owned decisions, or public competition reads |
+| bounded planner substrate, exercise-library truth, equipment refs, templates/loadouts, richer profile-input truth, bounded deterministic coaching substrate, bounded conservative nutrition substrate, and the bounded competition staff authz substrate | raw workout inference, diagnosis, meal-plan chatbot logic, opaque helper-owned decisions, broad staff product workflows, or public competition reads |
 | future recommendation domains | shared contract authorship |
 
 Key boundaries:
@@ -198,6 +200,14 @@ Key boundaries:
   truth, and facility-scoped streak state/events over linked visit days only
   without mutating workouts, planner, nutrition, lobby membership, ARES, or
   competition state
+- the current Tracer 28 repo/runtime closeout line now also adds explicit principal
+  roles (`member`, `supervisor`, `manager`, `owner`), deterministic
+  competition capabilities, trusted-surface gating for privileged competition
+  mutations, and durable actor attribution rows without widening into a role
+  management product, persistent approvals, or ATHENA ingress storage work
+- competition provenance columns such as `owner_user_id` and
+  `recorded_by_user_id` remain useful domain truth, but they no longer act as
+  the sole authorization key
 - `ashton-proto` remains untouched because no shared-contract blocker was
   proven, and deployed truth stays unchanged
 
@@ -207,6 +217,7 @@ Key boundaries:
 | --- | --- |
 | `cmd/apollo/` | CLI entrypoint and serve command |
 | `internal/auth/` | verification token lifecycle, sessions, and signed cookie logic |
+| `internal/authz/` | role, capability, and trusted-surface boundary helpers |
 | `internal/profile/` | authenticated member profile read and update |
 | `internal/eligibility/` | derived lobby-eligibility logic |
 | `internal/membership/` | explicit lobby-membership repository and service |
@@ -239,7 +250,8 @@ Treat APOLLO as trustworthy only when:
   explicit lobby membership, deterministic recommendation reads, the thin
   member shell, authenticated competition session/team/roster/match
   container plus queue/assignment/lifecycle/history reads and writes, and the
-  bounded planner/template/profile/coaching/nutrition substrate
+  bounded planner/template/profile/coaching/nutrition substrate plus the
+  trusted-surface-gated competition staff boundary
 - the sport substrate is deterministic, bounded, and separate from matchmaking,
   public competition reads, and public sports surfaces
 - competition roster exclusivity is schema-backed at the session level and
