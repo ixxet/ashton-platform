@@ -223,6 +223,23 @@ Current Tracer 26 closeout note:
 - the Tracer 26 closeout line maps to `apollo v0.17.0` and
   `ashton-platform v0.0.33`
 
+Current Tracer 27 closeout note:
+
+- the current APOLLO `main` line now also carries authenticated/internal
+  `GET /api/v1/presence` for facility-scoped member-visible presence reads over
+  explicit linked visit truth
+- tap-link state is now explicit per visit, and streak state plus streak
+  events are now explicit and facility-scoped instead of being inferred on read
+- arrival/departure truth still flows through the existing visit ingest/close
+  lifecycle; no hidden visit inference, fake streak counters, or
+  cross-facility merge layer was added
+- `ashton-proto` remains untouched because no shared-contract blocker was
+  proven
+- deployed truth remains unchanged: Tracer 27 is current repo/runtime closeout
+  truth on `main`, not current deployed truth
+- the Tracer 27 closeout line maps to `apollo v0.18.0` and
+  `ashton-platform v0.0.34`
+
 Phase 2 rule for `Tracer 16`:
 
 - keep the same tunnel, token, and userscript contract

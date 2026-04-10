@@ -21,13 +21,16 @@ meal-template and meal-log truth, and conservative read-only nutrition
 recommendation ranges over explicit profile/history truth, still backend-first
 and authenticated/internal-only. Tracer 26 now also adds authenticated
 internal helper reads, bounded `why` flows, and read-only coaching/nutrition
-variation previews over those deterministic cores. It does not own raw
+variation previews over those deterministic cores. Tracer 27 now also adds
+authenticated facility-scoped presence reads, explicit tap-link truth per
+member-visible visit, and facility-scoped streak state/events over explicit
+linked visit days only. It does not own raw
 presence truth, staff workflows, public competition surfaces, diagnosis, or
 opaque helper-owned logic.
 
 ## Current Role
 
-The active APOLLO slice now spans twenty-five narrow runtime boundaries:
+The active APOLLO slice now spans twenty-six narrow runtime boundaries:
 
 - identified-arrival consume -> visit record
 - identified-departure consume -> visit close
@@ -54,13 +57,15 @@ The active APOLLO slice now spans twenty-five narrow runtime boundaries:
 - authenticated nutrition helper reads -> thin agent/operator helper truth
 - authenticated nutrition `why` reads -> bounded deterministic explanation slices
 - authenticated nutrition variation reads -> read-only guidance proposal variants
+- authenticated facility-scoped presence reads -> explicit tap-link and facility streak truth over linked visit rows only
 
 That is enough to prove member ownership, state persistence, and the first real
 intent-behavior, explicit lobby-membership, workout-history, deterministic
 workout recommendation, bounded planner substrate, bounded deterministic
 coaching substrate, bounded conservative nutrition substrate, thin
-agent-facing helper reads, and one bounded competition execution line without
-widening into generated apply paths, results, or public competition reads.
+agent-facing helper reads, one facility-scoped presence substrate, and one
+bounded competition execution line without widening into generated apply paths,
+results, or public competition reads.
 
 ## Current Real Slice
 
@@ -92,6 +97,7 @@ widening into generated apply paths, results, or public competition reads.
 | `GET/POST /api/v1/nutrition/meal-logs` plus `PUT /api/v1/nutrition/meal-logs/{id}` | Real in repo/runtime | Authenticated owner-scoped explicit meal-log truth with deterministic template reuse and explicit update payloads |
 | `GET /api/v1/recommendations/nutrition` | Real in repo/runtime | Authenticated conservative nutrition read with calorie/macro ranges, strategy flags, and thin non-clinical limitation output |
 | `GET /api/v1/helpers/nutrition`, `/why`, and `/variation` | Real in repo/runtime | Authenticated helper reads over deterministic nutrition truth with bounded explanation topics and read-only cheaper/simpler guidance proposals |
+| `GET /api/v1/presence` | Real in repo/runtime | Authenticated facility-scoped presence read over explicit linked visit rows, explicit tap-link state, recent visit context, and facility streak state/events only |
 | `GET /` | Real | Session-aware redirect into the member shell |
 | `GET /app/login` | Real | Public HTML verification bootstrap page |
 | `GET /app` | Real | Protected minimal member shell over the existing APOLLO APIs |
@@ -101,7 +107,7 @@ widening into generated apply paths, results, or public competition reads.
 | `POST /api/v1/competition/sessions/{id}/queue/open`, queue join/remove, assignment, and `start` | Shipped | Authenticated owner-scoped queue/assignment/lifecycle runtime over explicit lobby membership plus current eligibility |
 | recommendation storage | Schema authored | `apollo.recommendations` exists, but Tracer 7 recommendation reads are derived at read time |
 | lobby membership runtime | Real | Explicit join and leave are real durable member intent only |
-| results/history/public competition runtime | Current Tracer 26 repo/runtime closeout on `main` | Tracer 22 competition-history truth, Tracer 23 planner/profile substrate, Tracer 24 deterministic coaching substrate, Tracer 25 bounded nutrition substrate, and Tracer 26 helper reads are all real while public competition reads remain deferred |
+| results/history plus presence runtime | Current Tracer 27 repo/runtime closeout on `main` | Tracer 22 competition-history truth, Tracer 23 planner/profile substrate, Tracer 24 deterministic coaching substrate, Tracer 25 bounded nutrition substrate, Tracer 26 helper reads, and Tracer 27 facility-scoped presence/tap-link/streak truth are all real while public competition reads and role/authz remain deferred |
 
 ## Ownership Rules
 
@@ -187,6 +193,11 @@ Key boundaries:
   internal helper reads for coaching and nutrition, bounded `why` topics, and
   read-only variation previews/proposals without mutating planner, nutrition,
   workouts, visits, or competition state
+- the current Tracer 27 repo/runtime closeout line now also adds
+  authenticated/internal `GET /api/v1/presence`, explicit per-visit tap-link
+  truth, and facility-scoped streak state/events over linked visit days only
+  without mutating workouts, planner, nutrition, lobby membership, ARES, or
+  competition state
 - `ashton-proto` remains untouched because no shared-contract blocker was
   proven, and deployed truth stays unchanged
 
@@ -207,12 +218,13 @@ Key boundaries:
 | `internal/planner/` | planner, template, and weekly-substrate service and repository boundary |
 | `internal/coaching/` | deterministic coaching recommendation and feedback boundary |
 | `internal/nutrition/` | conservative nutrition recommendation plus meal-template and meal-log boundary |
+| `internal/presence/` | facility-scoped presence read, tap-link, and streak boundary over explicit visit truth |
 | `internal/competition/` | competition queue, assignment, lifecycle, session, team, roster, and match container repository/service boundary |
 | `internal/sports/` | CLI-only sport registry, facility-sport capability, and static rules/config boundary |
 | `internal/server/web/` | embedded member-shell templates, assets, and browser-side tests |
 | `internal/store/` | sqlc-generated query bindings |
 | `internal/server/` | HTTP handlers, auth middleware, and embedded member-shell wiring |
-| `db/migrations/` | current schema for users, sessions, visits, lobby membership, workouts, ARES, recommendations, sport substrate truth, and competition execution/runtime tables |
+| `db/migrations/` | current schema for users, sessions, visits, tap-link/streak presence truth, lobby membership, workouts, ARES, recommendations, sport substrate truth, and competition execution/runtime tables |
 | `docs/` | roadmap, runbooks, ADRs, diagrams, and growing pains |
 
 ## Verification Standard
