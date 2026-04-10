@@ -79,9 +79,9 @@ results, or public competition reads.
 | `PUT /api/v1/workouts/{id}/effort-feedback` | Real | Authenticated owner-scoped finished-workout effort feedback write with one bounded enum per workout |
 | `PUT /api/v1/workouts/{id}/recovery-feedback` | Real | Authenticated owner-scoped finished-workout recovery feedback write with one bounded enum per workout |
 | `GET /api/v1/recommendations/coaching?week_start=...` | Real | Authenticated deterministic coaching read over planner/profile/workout truth with structured proposal/explanation output and no planner mutation |
-| `GET/POST /api/v1/nutrition/meal-templates` plus `PUT /api/v1/nutrition/meal-templates/{id}` | Real in local/runtime | Authenticated owner-scoped reusable meal-template truth with duplicate-name and bounded-payload validation |
-| `GET/POST /api/v1/nutrition/meal-logs` plus `PUT /api/v1/nutrition/meal-logs/{id}` | Real in local/runtime | Authenticated owner-scoped explicit meal-log truth with deterministic template reuse and explicit update payloads |
-| `GET /api/v1/recommendations/nutrition` | Real in local/runtime | Authenticated conservative nutrition read with calorie/macro ranges, strategy flags, and thin non-clinical limitation output |
+| `GET/POST /api/v1/nutrition/meal-templates` plus `PUT /api/v1/nutrition/meal-templates/{id}` | Real in repo/runtime | Authenticated owner-scoped reusable meal-template truth with duplicate-name and bounded-payload validation |
+| `GET/POST /api/v1/nutrition/meal-logs` plus `PUT /api/v1/nutrition/meal-logs/{id}` | Real in repo/runtime | Authenticated owner-scoped explicit meal-log truth with deterministic template reuse and explicit update payloads |
+| `GET /api/v1/recommendations/nutrition` | Real in repo/runtime | Authenticated conservative nutrition read with calorie/macro ranges, strategy flags, and thin non-clinical limitation output |
 | `GET /` | Real | Session-aware redirect into the member shell |
 | `GET /app/login` | Real | Public HTML verification bootstrap page |
 | `GET /app` | Real | Protected minimal member shell over the existing APOLLO APIs |
@@ -91,7 +91,7 @@ results, or public competition reads.
 | `POST /api/v1/competition/sessions/{id}/queue/open`, queue join/remove, assignment, and `start` | Shipped | Authenticated owner-scoped queue/assignment/lifecycle runtime over explicit lobby membership plus current eligibility |
 | recommendation storage | Schema authored | `apollo.recommendations` exists, but Tracer 7 recommendation reads are derived at read time |
 | lobby membership runtime | Real | Explicit join and leave are real durable member intent only |
-| results/history/public competition runtime | Tagged Tracer 24 closeout on `main`, plus current Tracer 25 nutrition local/runtime truth | Tracer 22 competition-history truth, Tracer 23 planner/profile substrate, Tracer 24 deterministic coaching substrate, and Tracer 25 bounded nutrition substrate are all real while public competition reads remain deferred |
+| results/history/public competition runtime | Current Tracer 25 repo/runtime closeout on `main` | Tracer 22 competition-history truth, Tracer 23 planner/profile substrate, Tracer 24 deterministic coaching substrate, and Tracer 25 bounded nutrition substrate are all real while public competition reads remain deferred |
 
 ## Ownership Rules
 
@@ -168,7 +168,7 @@ Key boundaries:
   effort/recovery feedback writes plus deterministic coaching recommendation
   reads with structured proposal/explanation output over the settled planner,
   profile, and workout runtime substrates without mutating planner truth
-- the current Tracer 25 local/runtime line now also adds typed
+- the current Tracer 25 repo/runtime closeout line now also adds typed
   `nutrition_profile` inputs, owner-scoped meal-template and meal-log truth,
   and conservative read-only nutrition recommendation ranges over explicit
   profile/history inputs without mutating planner, workouts, visits, or

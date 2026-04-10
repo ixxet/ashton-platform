@@ -187,7 +187,7 @@ Current Tracer 24 closeout note:
 - the Tracer 24 closeout lines are `apollo v0.15.0` and
   `ashton-platform v0.0.31`
 
-Current Tracer 25 local/runtime note:
+Current Tracer 25 closeout note:
 
 - the current APOLLO `main` line now also carries typed non-clinical
   `nutrition_profile` inputs, owner-scoped meal-template and meal-log truth,
@@ -197,9 +197,9 @@ Current Tracer 25 local/runtime note:
   role/authz widening
 - `ashton-proto` remains untouched because no shared-contract blocker was
   proven
-- deployed truth remains unchanged: Tracer 25 is current local/runtime truth on
-  `main`, not current tagged or deployed truth
-- the intended Tracer 25 closeout lines remain `apollo v0.16.0` and
+- deployed truth remains unchanged: Tracer 25 is current repo/runtime closeout
+  truth on `main`, not current deployed truth
+- the Tracer 25 closeout line maps to `apollo v0.16.0` and
   `ashton-platform v0.0.32`
 
 Phase 2 rule for `Tracer 16`:

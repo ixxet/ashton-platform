@@ -1511,3 +1511,77 @@ Deferred after closure:
 | Feature | calorie, macro, and meal logging | deferred | explicitly outside Tracer 23 scope | later APOLLO tracer |
 | Feature | meaningful frontend widening | deferred | Phase 3 concern, not Tracer 23 | later product line |
 | Feature | shared contract widening | deferred | no real cross-repo dependency was proven | later tracer only if justified |
+
+Current Tracer 24 closeout note:
+
+- APOLLO now carries owner-scoped finished-workout effort/recovery feedback
+  writes plus deterministic coaching recommendation reads over
+  planner/profile/workout truth with structured proposal/explanation output and
+  no silent planner mutation.
+- `apollo v0.15.1` is the narrow post-closeout hardening patch line for that
+  same Tracer 24 coaching substrate, not a product widening.
+- `ashton-proto` remains untouched because no shared-contract blocker was
+  proven.
+- Deployed truth remains unchanged: Tracer 24 is repo/runtime truth, not
+  deployed truth.
+- The Tracer 24 closeout lines are `apollo v0.15.0` and
+  `ashton-platform v0.0.31`.
+
+Tracer 24 retrospective:
+
+- Coaching stayed honest only because it proposed bounded structured diffs over
+  planner truth instead of pretending workout history and planner state already
+  shared exact per-exercise identity.
+- Finished-workout effort and recovery feedback were the smallest truthful new
+  inputs; widening straight into helper-owned explanations or silent plan
+  mutation would have overclaimed the substrate.
+- Repeated hardening only became trustworthy after Postgres harness behavior
+  and package-timeout ceiling language were separated from actual product
+  instability.
+
+Deferred after closure:
+
+| Type | Item | Status | Why It Was Not Done Here | Future Owner |
+| --- | --- | --- | --- | --- |
+| Feature | calorie, macro, and meal logging | deferred | explicitly Tracer 25 substrate work after coaching truth exists | later APOLLO tracer |
+| Feature | explanation/helper widening | deferred | explicitly Tracer 26 work after deterministic coaching stays stable | later APOLLO tracer |
+| Feature | presence/tap-link/streak substrate | deferred | explicitly Tracer 27 work and must stay separate from coaching | later APOLLO tracer |
+| Feature | role/authz and staff-runtime boundary substrate | deferred | explicitly Tracer 28 work | later APOLLO tracer |
+
+Current Tracer 25 closeout note:
+
+- APOLLO now carries typed non-clinical `nutrition_profile` inputs,
+  owner-scoped meal-template and meal-log truth, and conservative read-only
+  nutrition recommendation ranges on `main`.
+- The nutrition surface stays authenticated/internal, non-clinical, and
+  separate from planner mutation, helper-first AI, presence/streak, and
+  role/authz widening.
+- `ashton-proto` remains untouched because no shared-contract blocker was
+  proven.
+- Deployed truth remains unchanged: Tracer 25 is current repo/runtime closeout
+  truth on `main`, not current deployed truth.
+- The Tracer 25 closeout line maps to `apollo v0.16.0` and
+  `ashton-platform v0.0.32`.
+
+Tracer 25 retrospective:
+
+- Nutrition stayed honest only because typed profile intent remained bounded in
+  `users.preferences` while durable meal-template and meal-log truth moved into
+  dedicated relational tables.
+- Meal templates and meal logs had to share one runtime boundary because
+  template-backed log reuse is the actual product seam; splitting them into
+  separate fake layers would have weakened the narrative.
+- Recommendation ranges stayed safe only because they remained deterministic,
+  read-only, and explicitly non-clinical instead of borrowing Tracer 24
+  plan-diff semantics or helper-owned decisioning early.
+
+Deferred after closure:
+
+| Type | Item | Status | Why It Was Not Done Here | Future Owner |
+| --- | --- | --- | --- | --- |
+| Feature | richer explanation and bounded helper surfaces | deferred | explicitly Tracer 26 work after conservative nutrition truth is stable | later APOLLO tracer |
+| Feature | presence/tap-link/streak substrate | deferred | explicitly Tracer 27 work and should not be inferred from nutrition state | later APOLLO tracer |
+| Feature | role/authz and actor-attribution substrate | deferred | explicitly Tracer 28 work | later APOLLO tracer |
+| Feature | public/social nutrition surfaces or meaningful frontend widening | deferred | Tracer 25 stays authenticated/internal-first and backend-first | later product line |
+| Deploy | nutrition deployment widening | deferred | no bounded deployment proof was run in Tracer 25 | later deployment line |
+| Contract | shared nutrition contract widening in `ashton-proto` | deferred | no real shared dependency was proven | later tracer only if justified |
