@@ -178,12 +178,29 @@ Current Tracer 24 closeout note:
   feedback writes plus deterministic coaching recommendation reads over
   planner/profile/workout truth with structured proposal/explanation output and
   no silent planner mutation
+- `apollo v0.15.1` is the narrow post-closeout hardening patch line for that
+  same Tracer 24 coaching substrate, not a product widening
 - `ashton-proto` remains untouched because no shared-contract blocker was
   proven
 - deployed truth remains unchanged: Tracer 24 is repo/runtime truth, not
   deployed truth
 - the Tracer 24 closeout lines are `apollo v0.15.0` and
   `ashton-platform v0.0.31`
+
+Current Tracer 25 local/runtime note:
+
+- the current APOLLO `main` line now also carries typed non-clinical
+  `nutrition_profile` inputs, owner-scoped meal-template and meal-log truth,
+  and conservative read-only calorie/macro recommendation ranges
+- the nutrition surface stays authenticated/internal, non-clinical, and
+  separate from planner mutation, helper-first AI, presence/streak, and
+  role/authz widening
+- `ashton-proto` remains untouched because no shared-contract blocker was
+  proven
+- deployed truth remains unchanged: Tracer 25 is current local/runtime truth on
+  `main`, not current tagged or deployed truth
+- the intended Tracer 25 closeout lines remain `apollo v0.16.0` and
+  `ashton-platform v0.0.32`
 
 Phase 2 rule for `Tracer 16`:
 
