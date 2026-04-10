@@ -171,6 +171,20 @@ Current Tracer 23 closeout note:
 - the Tracer 23 closeout lines are `apollo v0.14.0` and
   `ashton-platform v0.0.30`
 
+Current Tracer 24 closeout note:
+
+- the current APOLLO repo/runtime line now carries deterministic coaching
+  substrate truth through owner-scoped finished-workout effort/recovery
+  feedback writes plus deterministic coaching recommendation reads over
+  planner/profile/workout truth with structured proposal/explanation output and
+  no silent planner mutation
+- `ashton-proto` remains untouched because no shared-contract blocker was
+  proven
+- deployed truth remains unchanged: Tracer 24 is repo/runtime truth, not
+  deployed truth
+- the Tracer 24 closeout lines are `apollo v0.15.0` and
+  `ashton-platform v0.0.31`
+
 Phase 2 rule for `Tracer 16`:
 
 - keep the same tunnel, token, and userscript contract

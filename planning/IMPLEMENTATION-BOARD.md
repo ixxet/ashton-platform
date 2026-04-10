@@ -137,10 +137,10 @@ Rust remains a later optimization path, not a first-wave dependency.
 | --- | --- | --- | --- |
 | `ashton-proto` | `v0.3.0` shipped; current Tracer 15 contract line `v0.4.0` | later than `v0.4.0` | the second routed manifest line is now real in the current repo line; further widening should stay tracer-driven |
 | `athena` | `v0.5.1` shipped; the Tracer 18 facility-truth line is now on `main`; `v0.4.1` remains the current deployed line | `v0.6.0` | facility truth is now the current repo line while deployed truth stays unchanged |
-| `apollo` | current Tracer 23 repo/runtime line on `main`; deployed truth unchanged | `v0.15.0` | the planner/profile widening line is now tagged, so deterministic coaching is the next bounded APOLLO line |
+| `apollo` | current Tracer 24 repo/runtime line on `main`; deployed truth unchanged | `v0.16.0` | deterministic coaching is now the current APOLLO line, so conservative nutrition is the next bounded widening |
 | `hermes` | `v0.2.0` shipped | `v0.3.0` | the richer read-only reconciliation line is now shipped and the first write/approval boundary is the next true widening |
 | `ashton-mcp-gateway` | `v0.0.1` shipped; current Tracer 15 line `v0.2.0` | `v0.3.0` | the caller-aware audited read-only control-plane slice is now real; write governance is the next true widening |
-| `ashton-platform` | current Tracer 23 control-plane line on `main`; deployed truth unchanged | `v0.0.31` | the next control-plane line should record the coaching split and longer Phase 2 ladder honestly while deployment claims remain unchanged |
+| `ashton-platform` | current Tracer 24 control-plane line on `main`; deployed truth unchanged | `v0.0.32` | the deterministic coaching closeout line is now current, so the next control-plane line should record the conservative nutrition split honestly while deployment claims remain unchanged |
 
 Current closeout note:
 
@@ -196,6 +196,20 @@ Current Tracer 23 closeout note:
 - the Tracer 23 closeout lines are `apollo v0.14.0` and
   `ashton-platform v0.0.30`
 
+Current Tracer 24 closeout note:
+
+- `apollo` now also carries deterministic coaching substrate truth on `main`
+  through owner-scoped finished-workout effort/recovery feedback writes and
+  deterministic coaching recommendation reads over planner/profile/workout
+  truth with structured proposal/explanation output and no silent planner
+  mutation
+- `ashton-proto` remains untouched because no shared-contract blocker was
+  proven
+- deployed truth remains unchanged: Tracer 24 is repo/runtime truth, not
+  deployed truth
+- the Tracer 24 closeout lines are `apollo v0.15.0` and
+  `ashton-platform v0.0.31`
+
 - `v0.5.1`, `v0.2.0`, and `v0.0.24` are the Tracer 17 release lines for
   bounded ATHENA support, HERMES runtime truth, and platform closeout truth
 - `v0.6.0` and `v0.0.25` are the Tracer 18 release lines for ATHENA facility
@@ -227,7 +241,7 @@ Current Tracer 19 closeout note:
 | Facility catalog / hours | closure-clean on `main` | ATHENA now exposes config-gated facility catalog, hours, zones, closure windows, and bounded metadata reads while deployed truth stays unchanged | done |
 | Competition execution runtime | closure-clean in repo/runtime; deployed truth unchanged | APOLLO now owns sport registry plus queue/assignment/lifecycle truth over team/roster/session/match containers as the settled execution substrate for later competition history | done |
 | Ratings / standings / profile stats | closure-clean in repo/runtime; deployed truth unchanged | APOLLO now owns immutable result capture, sport-and-mode-separated ratings, session-scoped standings, and self-scoped member stats without widening into public/social competition reads | done |
-| Planner / coaching backend | repo/runtime truth present on `main`; deployed truth unchanged | current repo/runtime truth | APOLLO now owns the planner, exercise-library, template/loadout, and richer profile substrate without a deployment claim |
+| Planner / coaching backend | repo/runtime truth present on `main`; deployed truth unchanged | current repo/runtime truth | APOLLO now owns the planner, deterministic coaching substrate, exercise-library, template/loadout, richer profile inputs, and finished-workout feedback capture without a deployment claim |
 | Public/demo/frontend work | intentionally deferred | Phase 3 concern, not a Phase 2 driver | gated |
 
 ## Phase 2 Execution Posture

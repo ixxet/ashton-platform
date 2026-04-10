@@ -12,14 +12,18 @@ capability mapping, and basic sport rules/config for badminton and basketball.
 It now also owns one bounded competition execution-runtime slice: APOLLO-owned
 queue state, deterministic assignment, and explicit session lifecycle control
 over the Tracer 20 container model. Tracer 23 now adds bounded planner /
-exercise-library / template-loadout / richer-profile truth on `main`, still
-backend-first and authenticated/internal-only. It does not own raw presence
-truth, staff workflows, or public competition surfaces, and it does not widen
-into meaningful frontend, coaching, or nutrition logic.
+exercise-library / template-loadout / richer-profile truth on `main`, and
+Tracer 24 now adds bounded deterministic coaching truth on `main` through
+owner-scoped finished-workout effort/recovery feedback plus deterministic
+coaching recommendation/proposal/explanation reads over planner/profile/workout
+truth, still backend-first and authenticated/internal-only. It does not own
+raw presence truth, staff workflows, or public competition surfaces, and it
+does not widen into meaningful frontend, nutrition, or opaque helper-owned
+logic.
 
 ## Current Role
 
-The active APOLLO slice now spans twelve narrow runtime boundaries:
+The active APOLLO slice now spans fifteen narrow runtime boundaries:
 
 - identified-arrival consume -> visit record
 - identified-departure consume -> visit close
@@ -33,12 +37,15 @@ The active APOLLO slice now spans twelve narrow runtime boundaries:
 - authenticated internal HTTP competition containers -> session/team/roster/match substrate truth
 - authenticated internal HTTP queue/assignment/start/archive routes -> bounded competition execution truth
 - authenticated planner/catalog/template/week routes -> bounded planner substrate truth
+- authenticated finished-workout effort feedback writes -> deterministic coaching input truth
+- authenticated finished-workout recovery feedback writes -> deterministic coaching input truth
+- authenticated coaching recommendation reads -> structured deterministic coaching proposal/explanation truth
 
 That is enough to prove member ownership, state persistence, and the first real
 intent-behavior, explicit lobby-membership, workout-history, deterministic
-coaching, and planner substrate slices plus one bounded competition execution
-line without widening into generated plans, results, or public competition
-reads.
+workout recommendation, bounded planner substrate, and bounded deterministic
+coaching substrate slices plus one bounded competition execution line without
+widening into generated plans, results, or public competition reads.
 
 ## Current Real Slice
 
@@ -62,6 +69,9 @@ reads.
 | `POST /api/v1/workouts/{id}/finish` | Real | Authenticated finish for a non-empty `in_progress` workout |
 | `GET /api/v1/recommendations/workout` | Real | Authenticated deterministic coaching read derived from explicit workout history only |
 | planner catalog / templates / weeks routes | Real | Authenticated internal planner substrate reads and writes over exercise, template, and weekly plan truth |
+| `PUT /api/v1/workouts/{id}/effort-feedback` | Real | Authenticated owner-scoped finished-workout effort feedback write with one bounded enum per workout |
+| `PUT /api/v1/workouts/{id}/recovery-feedback` | Real | Authenticated owner-scoped finished-workout recovery feedback write with one bounded enum per workout |
+| `GET /api/v1/recommendations/coaching?week_start=...` | Real | Authenticated deterministic coaching read over planner/profile/workout truth with structured proposal/explanation output and no planner mutation |
 | `GET /` | Real | Session-aware redirect into the member shell |
 | `GET /app/login` | Real | Public HTML verification bootstrap page |
 | `GET /app` | Real | Protected minimal member shell over the existing APOLLO APIs |
@@ -71,7 +81,7 @@ reads.
 | `POST /api/v1/competition/sessions/{id}/queue/open`, queue join/remove, assignment, and `start` | Shipped | Authenticated owner-scoped queue/assignment/lifecycle runtime over explicit lobby membership plus current eligibility |
 | recommendation storage | Schema authored | `apollo.recommendations` exists, but Tracer 7 recommendation reads are derived at read time |
 | lobby membership runtime | Real | Explicit join and leave are real durable member intent only |
-| results/history/public competition runtime | Current Tracer 23 repo/runtime line on `main` | Tracer 22 competition-history truth and Tracer 23 planner/profile substrate are both real while public competition reads remain deferred |
+| results/history/public competition runtime | Current Tracer 24 repo/runtime line on `main` | Tracer 22 competition-history truth, Tracer 23 planner/profile substrate, and Tracer 24 deterministic coaching substrate are all real while public competition reads remain deferred |
 
 ## Ownership Rules
 
@@ -83,7 +93,7 @@ reads.
 | explicit workout history runtime | raw workout inference from visits |
 | deterministic recommendation runtime | raw recommendation inference from visits or profile state |
 | derived lobby eligibility, explicit lobby membership, bounded competition execution runtime, and bounded competition-history truth | invites, parties, public competition reads, or broad social product surfaces |
-| bounded planner substrate, exercise-library truth, equipment refs, templates/loadouts, and richer profile-input truth | raw workout inference, coaching auto-magic, or public competition reads |
+| bounded planner substrate, exercise-library truth, equipment refs, templates/loadouts, richer profile-input truth, and bounded deterministic coaching substrate | raw workout inference, nutrition runtime, opaque coaching auto-magic, or public competition reads |
 | future recommendation domains | shared contract authorship |
 
 Key boundaries:
@@ -144,6 +154,10 @@ Key boundaries:
   session items, exercise and equipment refs, templates/loadouts, and typed
   `coaching_profile` inputs over the settled workout and competition runtime
   substrates
+- the current Tracer 24 line now adds owner-scoped finished-workout
+  effort/recovery feedback writes plus deterministic coaching recommendation
+  reads with structured proposal/explanation output over the settled planner,
+  profile, and workout runtime substrates without mutating planner truth
 - `ashton-proto` remains untouched because no shared-contract blocker was
   proven, and deployed truth stays unchanged
 
@@ -182,7 +196,7 @@ Treat APOLLO as trustworthy only when:
   explicit lobby membership, deterministic recommendation reads, the thin
   member shell, authenticated competition session/team/roster/match
   container plus queue/assignment/lifecycle/history reads and writes, and the
-  bounded planner/template/profile substrate
+  bounded planner/template/profile/coaching substrate
 - the sport substrate is deterministic, bounded, and separate from matchmaking,
   public competition reads, and public sports surfaces
 - competition roster exclusivity is schema-backed at the session level and
@@ -196,9 +210,9 @@ APOLLO owns its runtime, schema, and consumer logic. Milestone 1.6 proves one
 bounded in-cluster APOLLO slice for departure-close truth. That still does not
 imply a broad APOLLO product deployment; auth, eligibility, workout runtime,
 recommendation runtime, the member shell, the competition execution runtime
-plus competition-history runtime, and the planner/template/profile substrate
-remain locally proven only unless a separate deployment workstream verifies
-them live.
+plus competition-history runtime, and the planner/template/profile/coaching
+substrate remain locally proven only unless a separate deployment workstream
+verifies them live.
 
 ## Versioning Discipline
 
@@ -207,7 +221,7 @@ them live.
 - `MINOR` lines cover new bounded member capabilities or intentional contract
   changes
 
-## Next Ladder
+## Release Ladder
 
 | Line | Focus | Hard stop |
 | --- | --- | --- |

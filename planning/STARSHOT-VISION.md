@@ -30,7 +30,7 @@ execution narrow, bounded, and testable.
 | HERMES operator surface | shipped, still intentionally narrow | one richer reconciliation question is real and tagged while broader workflows remain deferred | done |
 | Facility truth beyond occupancy | closure-clean on `main`, deployed truth unchanged | facility catalog, hours, zones, and closure metadata now have a clean ATHENA-owned home without widening deployment truth | done |
 | Competition execution and history runtime | closure-clean in repo/runtime; deployed truth unchanged | sport registry, facility-sport capability mapping, queue/assignment/lifecycle truth, team/roster/session/match execution containers, immutable result capture, sport-and-mode ratings, session-scoped standings, self-scoped member stats, and the planner substrate now exist without widening into public competition reads | done |
-| Planner / coaching / nutrition / presence / authz backend | repo/runtime real only in the early planner slice; later substrate lines still planned | planner, templates/loadouts, and richer profile inputs are now real in repo/runtime, while coaching, nutrition, presence, and role/authz widenings remain intentionally staged | medium |
+| Planner / coaching / nutrition / presence / authz backend | repo/runtime real through the deterministic coaching slice; later substrate lines still planned | planner, templates/loadouts, richer profile inputs, finished-workout coaching feedback, and deterministic coaching proposals are now real in repo/runtime, while nutrition, presence, and role/authz widenings remain intentionally staged | medium |
 | Meaningful frontend | intentionally deferred | Phase 3 concern, not a Phase 2 driver | gated |
 
 ## Current Truth
@@ -43,10 +43,10 @@ execution narrow, bounded, and testable.
 | `ATHENA runtime` | `v0.5.1` shipped; the Tracer 18 facility-truth line is now on `main`; `v0.4.1` still deployed | durable history, bounded privacy-safe history support, and facility truth are real in repo/runtime while deployed truth stays narrower | done |
 | `ATHENA deployment closeout` | `Prometheus v0.0.3`, `ashton-platform v0.0.19` shipped | bounded live deploy truth is real | done |
 | `APOLLO member runtime` | `v0.9.0` shipped | auth, visits, workouts, recommendations, membership, and deterministic preview are real | done |
-| `APOLLO competition runtime` | current Tracer 23 repo/runtime line on `main`; deployed truth unchanged | sport registry, facility-sport capability mapping, queue/assignment/lifecycle truth, team/roster/session/match execution containers, immutable result capture, sport-and-mode-separated ratings, session-scoped standings, self-scoped member stats, and the planner substrate are real while public competition reads remain deferred | done |
+| `APOLLO competition runtime` | current Tracer 24 repo/runtime line on `main`; deployed truth unchanged | sport registry, facility-sport capability mapping, queue/assignment/lifecycle truth, team/roster/session/match execution containers, immutable result capture, sport-and-mode-separated ratings, session-scoped standings, self-scoped member stats, and the planner/deterministic-coaching substrate are real while public competition reads remain deferred | done |
 | `HERMES` | `v0.2.0` shipped | one thin staff read plus one richer reconciliation read are real | done |
 | `Gateway` | current Tracer 15 line real on `main` | control plane is real, caller-aware, and still intentionally narrow | later gateway widening only if justified |
-| `Platform docs` | synced to current repo truth and release lines | control-plane planning truth now matches the current Tracer 23 repo state without widening deployed claims | keep synced as work lands |
+| `Platform docs` | synced to current repo truth and release lines | control-plane planning truth now matches the current Tracer 24 repo state without widening deployed claims | keep synced as work lands |
 
 ## What Phase 2 Is For
 
