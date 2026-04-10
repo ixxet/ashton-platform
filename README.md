@@ -515,7 +515,7 @@ bullets are only the short summary.
 | `Tracer 15` | gateway caller identity, persisted audit, and one second routed read | Implemented and locally verified | turn the first routed read into a trusted narrow control-plane layer |
 | `Tracer 16` | ATHENA durable edge-observation groundwork | Complete and tagged | durable edge-observation groundwork, immutable replay identity hardening, fail-open shadow-write, and restart/reload replay groundwork are real without widening deployment or product surfaces |
 | `Tracer 17` | one richer read-only HERMES reconciliation question | Complete and tagged | extend the staff pillar with occupancy reports and heat-map-style reads without widening into overrides or writes |
-| `Tracer 23` | APOLLO planner/profile widening | Complete in repo/runtime truth on `main`, untagged | exercise library, equipment refs, templates/loadouts, planner weeks/sessions/items, and richer profile inputs are real without widening into coaching, nutrition, or meaningful frontend work |
+| `Tracer 23` | APOLLO planner/profile widening | Complete in repo/runtime truth on `main` | exercise library, equipment refs, templates/loadouts, planner weeks/sessions/items, and richer profile inputs are real without widening into coaching, nutrition, or meaningful frontend work |
 
 ## Release History
 
@@ -559,7 +559,7 @@ path already proven.
 | `v0.0.27` | Tracer 20 control-plane closeout for APOLLO team, roster, session, and match container primitives | keep the line infrastructural for competition runtime | do not widen into public standings |
 | `v0.0.28` | Tracer 21 control-plane closeout for APOLLO matchmaking / queue / assignment flow and session lifecycle | keep the line deterministic and bounded | do not widen into rivalry or badge logic |
 | `v0.0.29` | Current Tracer 22 control-plane closeout for APOLLO results, ratings, standings, and member stats | keep the line truth-first | do not widen into a broad public social layer |
-| `v0.0.30` | Tracer 23 control-plane closeout for APOLLO planner/profile widening as backend/CLI-first truth on `main`, still untagged | keep the line backend-first | do not widen into meaningful frontend work |
+| `v0.0.30` | Tracer 23 control-plane closeout for APOLLO planner/profile widening as backend/CLI-first truth on `main` | keep the line backend-first | do not widen into meaningful frontend work |
 | `v0.0.31` | Tracer 24 control-plane closeout for APOLLO deterministic coaching | keep the line deterministic and conservative | do not widen into diagnosis or opaque logic |
 | `v0.0.32` | Tracer 25 control-plane closeout for explanation and thin agent-facing helpers | keep explanation subordinate to deterministic core logic | do not widen into public social or frontend-first work |
 | `v0.0.33` | Milestone 2.0 backend/base plateau closeout | align deploy truth, docs, and repo-local closure across the full Phase 2 ladder | do not present this as the first major demo milestone |

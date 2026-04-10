@@ -168,8 +168,8 @@ Current Tracer 23 closeout note:
   proven
 - deployed truth remains unchanged: Tracer 23 is repo/runtime truth, not
   deployed truth
-- the intended Tracer 23 closeout lines are `apollo v0.14.0` and
-  `ashton-platform v0.0.30`, and neither tag exists yet
+- the Tracer 23 closeout lines are `apollo v0.14.0` and
+  `ashton-platform v0.0.30`
 
 Phase 2 rule for `Tracer 16`:
 

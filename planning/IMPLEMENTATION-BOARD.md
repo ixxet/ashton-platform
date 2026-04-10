@@ -193,8 +193,8 @@ Current Tracer 23 closeout note:
   proven
 - deployed truth remains unchanged: Tracer 23 is repo/runtime truth, not
   deployed truth
-- the intended Tracer 23 closeout lines are `apollo v0.14.0` and
-  `ashton-platform v0.0.30`, and neither tag exists yet
+- the Tracer 23 closeout lines are `apollo v0.14.0` and
+  `ashton-platform v0.0.30`
 
 - `v0.5.1`, `v0.2.0`, and `v0.0.24` are the Tracer 17 release lines for
   bounded ATHENA support, HERMES runtime truth, and platform closeout truth
@@ -261,7 +261,7 @@ reconciliation surface and bounded ATHENA support release alignment.
 | `v0.0.27` | `Tracer 20` | `apollo v0.11.0` | team, roster, session, and match container primitives | no public standings |
 | `v0.0.28` | `Tracer 21` | `apollo v0.12.0` | matchmaking / queue / assignment flow and session lifecycle | no rivalry or badge logic |
 | `v0.0.29` | `Tracer 22` | `apollo v0.13.0`, optional `ashton-proto` widening only if result or rating contracts become truly shared | result capture, ratings, rudimentary standings, and member profile stats | no broad public social layer |
-| `v0.0.30` | `Tracer 23` | `apollo v0.14.0` | planner, exercise library, templates/loadouts, and richer profile inputs as backend/CLI-first truth on `main`, still untagged | no meaningful frontend widening |
+| `v0.0.30` | `Tracer 23` | `apollo v0.14.0` | planner, exercise library, templates/loadouts, and richer profile inputs as backend/CLI-first truth on `main` | no meaningful frontend widening |
 | `v0.0.31` | `Tracer 24` | `apollo v0.15.0` | deterministic coaching, conservative calorie/macro ranges, and low-friction meal logging | no diagnosis or opaque black box |
 | `v0.0.32` | `Tracer 25` | `apollo v0.16.0` | explanation, summarization, and thin agent-facing helper surfaces over stable deterministic logic | no public social feed or frontend-first pivot |
 | `v0.0.33` | `Milestone 2.0` | patch closeout only unless runtime truth changes | Phase 2 backend/base plateau: structural pillars, competition base, planner/coaching substrate, deploy truth, and docs aligned | not a broad demo milestone |
