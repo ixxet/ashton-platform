@@ -137,10 +137,10 @@ Rust remains a later optimization path, not a first-wave dependency.
 | --- | --- | --- | --- |
 | `ashton-proto` | `v0.3.0` shipped; current Tracer 15 contract line `v0.4.0` | later than `v0.4.0` | the second routed manifest line is now real in the current repo line; further widening should stay tracer-driven |
 | `athena` | `v0.5.1` shipped; the Tracer 18 facility-truth line is now on `main`; `v0.4.1` remains the current deployed line | `v0.6.0` | facility truth is now the current repo line while deployed truth stays unchanged |
-| `apollo` | current Tracer 25 repo/runtime closeout line on `main`; Tracer 24 remains tagged on `v0.15.0`; `v0.15.1` remains the narrow hardening patch line; deployed truth unchanged | `v0.17.0` | conservative nutrition is now the current APOLLO line, so the explanation/helper split is the next bounded widening |
+| `apollo` | current Tracer 26 repo/runtime closeout line on `main`; Tracer 24 remains tagged on `v0.15.0`; `v0.15.1` remains the narrow hardening patch line; deployed truth unchanged | `v0.18.0` | the explanation/helper split is now the current APOLLO line, so presence/tap-link/streak truth is the next bounded widening |
 | `hermes` | `v0.2.0` shipped | `v0.3.0` | the richer read-only reconciliation line is now shipped and the first write/approval boundary is the next true widening |
 | `ashton-mcp-gateway` | `v0.0.1` shipped; current Tracer 15 line `v0.2.0` | `v0.3.0` | the caller-aware audited read-only control-plane slice is now real; write governance is the next true widening |
-| `ashton-platform` | current Tracer 25 control-plane closeout line on `main`; deployed truth unchanged | `v0.0.33` | the conservative nutrition closeout line is now current, so the next control-plane line should record the explanation/helper split honestly while deployment claims remain unchanged |
+| `ashton-platform` | current Tracer 26 control-plane closeout line on `main`; deployed truth unchanged | `v0.0.34` | the explanation/helper closeout line is now current, so the next control-plane line should record the presence/tap-link/streak split honestly while deployment claims remain unchanged |
 
 Current closeout note:
 
@@ -227,6 +227,27 @@ Current Tracer 25 closeout note:
 - the Tracer 25 closeout line maps to `apollo v0.16.0` and
   `ashton-platform v0.0.32`
 
+Current Tracer 26 closeout note:
+
+- `apollo` now also carries authenticated internal helper reads on `main` for
+  coaching and nutrition over the settled deterministic planner/profile/
+  workout/meal substrate
+- coaching helper reads now expose bounded `why` topics and read-only
+  `easier` / `harder` variation previews over the existing deterministic
+  `PlanChangeProposal` surface without mutating planner truth
+- nutrition helper reads now expose bounded `why` topics and read-only
+  `cheaper` / `simpler` guidance proposals while preserving the current
+  calorie and macro targets without claiming an apply path
+- helper surfaces stay authenticated/internal, read-only, and separate from
+  helper persistence, model-backed calls, presence/streak, role/authz, and
+  deployment widening
+- `ashton-proto` remains untouched because no shared-contract blocker was
+  proven
+- deployed truth remains unchanged: Tracer 26 is current repo/runtime closeout
+  truth on `main`, not current deployed truth
+- the Tracer 26 closeout line maps to `apollo v0.17.0` and
+  `ashton-platform v0.0.33`
+
 - `v0.5.1`, `v0.2.0`, and `v0.0.24` are the Tracer 17 release lines for
   bounded ATHENA support, HERMES runtime truth, and platform closeout truth
 - `v0.6.0` and `v0.0.25` are the Tracer 18 release lines for ATHENA facility
@@ -258,7 +279,7 @@ Current Tracer 19 closeout note:
 | Facility catalog / hours | closure-clean on `main` | ATHENA now exposes config-gated facility catalog, hours, zones, closure windows, and bounded metadata reads while deployed truth stays unchanged | done |
 | Competition execution runtime | closure-clean in repo/runtime; deployed truth unchanged | APOLLO now owns sport registry plus queue/assignment/lifecycle truth over team/roster/session/match containers as the settled execution substrate for later competition history | done |
 | Ratings / standings / profile stats | closure-clean in repo/runtime; deployed truth unchanged | APOLLO now owns immutable result capture, sport-and-mode-separated ratings, session-scoped standings, and self-scoped member stats without widening into public/social competition reads | done |
-| Planner / coaching / nutrition backend | current Tracer 25 repo/runtime closeout truth on `main`; deployed truth unchanged | current repo/runtime truth | APOLLO now owns the planner, deterministic coaching substrate, exercise-library, template/loadout, richer profile inputs, finished-workout feedback capture, typed nutrition inputs, meal-template/log truth, and conservative nutrition ranges without a deployment claim |
+| Planner / coaching / nutrition backend | current Tracer 26 repo/runtime closeout truth on `main`; deployed truth unchanged | current repo/runtime truth | APOLLO now owns the planner, deterministic coaching substrate, exercise-library, template/loadout, richer profile inputs, finished-workout feedback capture, typed nutrition inputs, meal-template/log truth, conservative nutrition ranges, and authenticated helper reads without a deployment claim |
 | Public/demo/frontend work | intentionally deferred | Phase 3 concern, not a Phase 2 driver | gated |
 
 ## Phase 2 Execution Posture

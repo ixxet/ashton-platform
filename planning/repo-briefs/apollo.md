@@ -19,13 +19,15 @@ coaching substrate. Tracer 25 now also adds bounded conservative nutrition
 truth on `main` through typed `nutrition_profile` inputs, owner-scoped
 meal-template and meal-log truth, and conservative read-only nutrition
 recommendation ranges over explicit profile/history truth, still backend-first
-and authenticated/internal-only. It does not own raw presence truth, staff
-workflows, public competition surfaces, diagnosis, or opaque helper-owned
-logic.
+and authenticated/internal-only. Tracer 26 now also adds authenticated
+internal helper reads, bounded `why` flows, and read-only coaching/nutrition
+variation previews over those deterministic cores. It does not own raw
+presence truth, staff workflows, public competition surfaces, diagnosis, or
+opaque helper-owned logic.
 
 ## Current Role
 
-The active APOLLO slice now spans nineteen narrow runtime boundaries:
+The active APOLLO slice now spans twenty-five narrow runtime boundaries:
 
 - identified-arrival consume -> visit record
 - identified-departure consume -> visit close
@@ -42,17 +44,23 @@ The active APOLLO slice now spans nineteen narrow runtime boundaries:
 - authenticated finished-workout effort feedback writes -> deterministic coaching input truth
 - authenticated finished-workout recovery feedback writes -> deterministic coaching input truth
 - authenticated coaching recommendation reads -> structured deterministic coaching proposal/explanation truth
+- authenticated coaching helper reads -> thin agent/operator helper truth
+- authenticated coaching `why` reads -> bounded deterministic explanation slices
+- authenticated coaching variation reads -> read-only plan-diff preview variants
 - authenticated profile nutrition writes -> typed non-clinical nutrition input truth
 - authenticated meal-template routes -> owner-scoped reusable meal-template truth
 - authenticated meal-log routes -> owner-scoped explicit nutrition-history truth
 - authenticated nutrition recommendation reads -> conservative read-only nutrition range truth
+- authenticated nutrition helper reads -> thin agent/operator helper truth
+- authenticated nutrition `why` reads -> bounded deterministic explanation slices
+- authenticated nutrition variation reads -> read-only guidance proposal variants
 
 That is enough to prove member ownership, state persistence, and the first real
 intent-behavior, explicit lobby-membership, workout-history, deterministic
 workout recommendation, bounded planner substrate, bounded deterministic
-coaching substrate, and bounded conservative nutrition substrate plus one
-bounded competition execution line without widening into generated plans,
-results, or public competition reads.
+coaching substrate, bounded conservative nutrition substrate, thin
+agent-facing helper reads, and one bounded competition execution line without
+widening into generated apply paths, results, or public competition reads.
 
 ## Current Real Slice
 
@@ -79,9 +87,11 @@ results, or public competition reads.
 | `PUT /api/v1/workouts/{id}/effort-feedback` | Real | Authenticated owner-scoped finished-workout effort feedback write with one bounded enum per workout |
 | `PUT /api/v1/workouts/{id}/recovery-feedback` | Real | Authenticated owner-scoped finished-workout recovery feedback write with one bounded enum per workout |
 | `GET /api/v1/recommendations/coaching?week_start=...` | Real | Authenticated deterministic coaching read over planner/profile/workout truth with structured proposal/explanation output and no planner mutation |
+| `GET /api/v1/helpers/coaching`, `/why`, and `/variation` | Real in repo/runtime | Authenticated helper reads over deterministic coaching truth with bounded explanation topics and read-only variation previews |
 | `GET/POST /api/v1/nutrition/meal-templates` plus `PUT /api/v1/nutrition/meal-templates/{id}` | Real in repo/runtime | Authenticated owner-scoped reusable meal-template truth with duplicate-name and bounded-payload validation |
 | `GET/POST /api/v1/nutrition/meal-logs` plus `PUT /api/v1/nutrition/meal-logs/{id}` | Real in repo/runtime | Authenticated owner-scoped explicit meal-log truth with deterministic template reuse and explicit update payloads |
 | `GET /api/v1/recommendations/nutrition` | Real in repo/runtime | Authenticated conservative nutrition read with calorie/macro ranges, strategy flags, and thin non-clinical limitation output |
+| `GET /api/v1/helpers/nutrition`, `/why`, and `/variation` | Real in repo/runtime | Authenticated helper reads over deterministic nutrition truth with bounded explanation topics and read-only cheaper/simpler guidance proposals |
 | `GET /` | Real | Session-aware redirect into the member shell |
 | `GET /app/login` | Real | Public HTML verification bootstrap page |
 | `GET /app` | Real | Protected minimal member shell over the existing APOLLO APIs |
@@ -91,7 +101,7 @@ results, or public competition reads.
 | `POST /api/v1/competition/sessions/{id}/queue/open`, queue join/remove, assignment, and `start` | Shipped | Authenticated owner-scoped queue/assignment/lifecycle runtime over explicit lobby membership plus current eligibility |
 | recommendation storage | Schema authored | `apollo.recommendations` exists, but Tracer 7 recommendation reads are derived at read time |
 | lobby membership runtime | Real | Explicit join and leave are real durable member intent only |
-| results/history/public competition runtime | Current Tracer 25 repo/runtime closeout on `main` | Tracer 22 competition-history truth, Tracer 23 planner/profile substrate, Tracer 24 deterministic coaching substrate, and Tracer 25 bounded nutrition substrate are all real while public competition reads remain deferred |
+| results/history/public competition runtime | Current Tracer 26 repo/runtime closeout on `main` | Tracer 22 competition-history truth, Tracer 23 planner/profile substrate, Tracer 24 deterministic coaching substrate, Tracer 25 bounded nutrition substrate, and Tracer 26 helper reads are all real while public competition reads remain deferred |
 
 ## Ownership Rules
 
@@ -173,6 +183,10 @@ Key boundaries:
   and conservative read-only nutrition recommendation ranges over explicit
   profile/history inputs without mutating planner, workouts, visits, or
   competition state
+- the current Tracer 26 repo/runtime closeout line now also adds authenticated
+  internal helper reads for coaching and nutrition, bounded `why` topics, and
+  read-only variation previews/proposals without mutating planner, nutrition,
+  workouts, visits, or competition state
 - `ashton-proto` remains untouched because no shared-contract blocker was
   proven, and deployed truth stays unchanged
 
