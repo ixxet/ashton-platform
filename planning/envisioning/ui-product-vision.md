@@ -65,6 +65,10 @@ Both shells should still share:
 | Manager | supervisor powers plus event and schedule management | owner-only governance and full sensitive exports |
 | Owner / system admin | all surfaces plus sensitive metrics, export, governance, role management | unnecessary day-to-day friction for basic operations |
 
+Supervisors should be treated as a constrained `member-plus` role.
+They can enter through the same unified login flow, but privileged tools should
+only unlock on trusted devices or approved machines.
+
 ## Navigation Model
 
 The member shell should use a bottom navigation bar with a hard cap of five
@@ -154,16 +158,41 @@ Likely sub-surfaces:
 
 This area should feel energizing without becoming visually noisy.
 
+### Profile And Identity
+
+Profile should feel like a member identity surface, not a settings form.
+
+It should eventually hold:
+
+- profile photo or default avatar
+- badges and achievement display
+- progression and streak highlights
+- favorite sports or signature preferences
+- future shareable profile card or QR identity
+
+Badges belong here because they are part of identity and social display.
+Settings can link to badge history, but the profile should be the place where
+earned status is shown.
+
 ### Settings
 
 Settings should hold lower-frequency but still important controls such as:
 
-- support and contact
+- account controls like export data and account deletion
+- notification preferences
+- signed waiver access and other membership paperwork
+- badge, waiver, and notification history where useful
+- support, issue reporting, and feedback collection
 - facility switcher
 - facility hours
 - FAQ and assistant access
 - theme preferences
 - app-level behavior preferences
+
+Settings can also carry page-behavior preferences such as:
+
+- preferred default opening page
+- future navigation customization if that earns its complexity
 
 ## Identity, Presence, And Login
 
@@ -182,6 +211,11 @@ member can confirm real presence by scanning a facility QR code.
 
 The authentication entrypoint can stay visually unified while role-aware routing
 determines the destination after login.
+
+Trusted-device rules should gate higher-privilege operations access.
+If a supervisor or manager signs in on an untrusted device, the system should
+prefer dropping them to the member shell or a reduced triage mode rather than
+exposing the full operations surface.
 
 ## Ops Shell Vision
 
@@ -210,6 +244,83 @@ Recommended phone posture:
 | Manager | event setup, schedules, tournament controls, queue rules, broader facility management |
 | Owner / system admin | analytics, sensitive member data, exports, AI governance, role management |
 
+## Calendar And Scheduling Vision
+
+The product should eventually have one shared scheduling model with
+role-filtered views instead of completely separate calendars.
+
+That shared model can power:
+
+- facility operating hours
+- closures and blackout windows
+- tournaments and events
+- court or space rentals
+- business booking requests
+- staff-facing conflict detection
+
+This means the same scheduling truth can look different depending on role:
+
+| Role | Calendar view emphasis |
+| --- | --- |
+| Member | what is happening, what is open, and what they can join |
+| Business booker | what can be requested or booked |
+| Supervisor | what is active right now and what small operational changes are allowed |
+| Manager | the full operational schedule with event and rental conflicts |
+| Owner / system admin | all scheduling truth plus policy and reporting layers |
+
+The manager experience should make overlap visible.
+Examples:
+
+- a tournament overlaps with facility closure
+- a booking request conflicts with a reserved court block
+- a rental request collides with a staff-run event
+
+FullCalendar is a mature web calendar UI library.
+If used here, it would likely serve as the calendar and scheduling presentation
+layer for:
+
+- event views
+- booking views
+- manager scheduling dashboards
+- day, week, month, and agenda layouts
+
+It is not the scheduling engine by itself.
+It is the visual interface sitting on top of the actual scheduling data and
+rules.
+
+If the product only needs basic calendar views at first, a narrow in-house
+calendar could also work.
+If it grows into resource scheduling for courts, rooms, lanes, or event blocks,
+a dedicated calendar library becomes much more attractive.
+
+## Facility Maps And Floor Plans
+
+MapLibre is useful for geographic mapping, outdoor context, and showing where a
+facility is located in relation to the real world.
+
+It is not automatically an indoor floor-plan solution.
+
+For indoor facility overlays, the more realistic future path is:
+
+1. create or commission simplified floor plans
+2. model important zones, courts, rooms, or equipment areas
+3. render those plans as interactive SVG or image overlays
+4. optionally pair that later with mapping tools if geographic context matters
+
+This means floor plans are likely a later asset-creation task, not an automatic
+library feature.
+
+The product does not need indoor mapping on day one.
+Earlier versions can still show:
+
+- facility address and directions
+- operating hours
+- court or room names
+- schedule by zone or area without a full visual map
+
+If indoor spatial views become valuable later, a custom SVG-based facility map
+is likely the cleanest first implementation.
+
 ## Design Direction For 2026+
 
 The product should look current and fluid without falling into generic SaaS
@@ -234,6 +345,8 @@ Universal UI rules:
 - use a real token system for color, type, motion, radius, spacing, and banners
 - prefer meaningful transitions over constant animation
 - optimize perceived speed with skeletons, progressive loading, and live states
+- leave room for future re-skinning so the product can eventually support
+  different brands without a rewrite
 
 ## Launch Reality
 
@@ -280,6 +393,8 @@ Recommended starting stack:
 | Backend | existing Go service boundaries | preserves the platform architecture already in motion |
 | Core data store | Postgres | practical default for operational and member data |
 | Visualization | Apache ECharts | strong dashboard and telemetry potential |
+| Calendar UI | FullCalendar if scheduling grows complex; otherwise start narrower | useful for event, booking, and operations calendar views |
+| Facility visuals | custom SVG floor plans first, MapLibre only where real geographic context helps | indoor mapping usually needs product-owned assets |
 
 ## Repository Direction
 
