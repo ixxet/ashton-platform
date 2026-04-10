@@ -580,7 +580,7 @@ bullets are only the short summary.
 | `v0.0.31` | `v0.0.31` | Shipped | Tracer 24 control-plane closeout for APOLLO deterministic coaching substrate | nutrition runtime, helper-first AI, deployment widening, and opaque decision cores |
 | `v0.0.32` | `v0.0.32` | Shipped | Tracer 25 control-plane closeout for APOLLO conservative nutrition substrate | diagnosis, obsessive nutrition sprawl, helper-first AI, and deployment widening |
 | `v0.0.33` | `v0.0.33` | Shipped | Tracer 26 control-plane closeout for explanation, bounded AI helpers, and thin agent-facing helper reads | helper persistence, model-backed calls, public social widening, and deployment widening |
-| `v0.0.34` | - | Implemented on `main`, still untagged | Tracer 27 control-plane closeout for authenticated facility-scoped member presence, explicit tap-link rows, and facility-scoped streak state/events | fake counters, cross-facility merging, role/authz widening, `ashton-proto` widening, and deployment widening |
+| `v0.0.34` | - | Closure-clean on `main` | Tracer 27 control-plane closeout for authenticated facility-scoped member presence, explicit tap-link rows, and facility-scoped streak state/events | fake counters, cross-facility merging, role/authz widening, `ashton-proto` widening, and deployment widening |
 
 ## Current And Planned Release Lines
 
