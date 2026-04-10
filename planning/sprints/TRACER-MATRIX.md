@@ -1585,3 +1585,48 @@ Deferred after closure:
 | Feature | public/social nutrition surfaces or meaningful frontend widening | deferred | Tracer 25 stays authenticated/internal-first and backend-first | later product line |
 | Deploy | nutrition deployment widening | deferred | no bounded deployment proof was run in Tracer 25 | later deployment line |
 | Contract | shared nutrition contract widening in `ashton-proto` | deferred | no real shared dependency was proven | later tracer only if justified |
+
+Current Tracer 26 closeout note:
+
+- APOLLO now carries authenticated/internal helper reads for coaching and
+  nutrition over the settled deterministic planner/profile/workout/meal
+  substrate on `main`.
+- Coaching helper reads expose bounded `why` topics and read-only `easier` /
+  `harder` variation previews over the existing deterministic
+  `PlanChangeProposal` surface without mutating planner truth.
+- Nutrition helper reads expose bounded `why` topics and read-only `cheaper` /
+  `simpler` guidance proposals while preserving the current calorie and macro
+  targets without claiming an apply path.
+- Helper surfaces stay authenticated/internal, read-only, and separate from
+  helper persistence, model-backed calls, presence/streak, role/authz, and
+  deployment widening.
+- `ashton-proto` remains untouched because no shared-contract blocker was
+  proven.
+- Deployed truth remains unchanged: Tracer 26 is current repo/runtime closeout
+  truth on `main`, not current deployed truth.
+- The Tracer 26 closeout line maps to `apollo v0.17.0` and
+  `ashton-platform v0.0.33`.
+
+Tracer 26 retrospective:
+
+- Helper widening stayed honest only because explanation and variation
+  surfaces wrapped existing deterministic coaching and nutrition contracts
+  instead of inventing a helper-owned decision engine.
+- Coaching and nutrition had to stay intentionally asymmetric: coaching
+  reuses the existing `PlanChangeProposal` contract, while nutrition exposes
+  read-only guidance proposals that preserve calorie and macro targets.
+- Authenticated/internal HTTP helper reads were enough to make the line real;
+  adding helper persistence, CLI parity, model-backed calls, or shared-
+  contract widening here would have overclaimed the tracer.
+
+Deferred after closure:
+
+| Type | Item | Status | Why It Was Not Done Here | Future Owner |
+| --- | --- | --- | --- | --- |
+| Feature | helper apply / approval rails | deferred | Tracer 26 stays preview/read-only and does not authorize helper mutation | later APOLLO tracer |
+| Feature | helper persistence and audit substrate | deferred | no durable helper state is justified before actor-safe apply rails exist | later APOLLO tracer |
+| Feature | presence/tap-link/streak substrate | deferred | explicitly Tracer 27 work and must stay separate from helper reads | later APOLLO tracer |
+| Feature | role/authz and actor-attribution substrate | deferred | explicitly Tracer 28 work | later APOLLO tracer |
+| Feature | model-backed helper calls or chat-first product surface | deferred | Tracer 26 stays deterministic and helper-shaped only | later APOLLO tracer |
+| Deploy | helper deployment widening | deferred | no bounded deployment proof was run in Tracer 26 | later deployment line |
+| Contract | shared helper contract widening in `ashton-proto` | deferred | no real shared dependency was proven | later tracer only if justified |

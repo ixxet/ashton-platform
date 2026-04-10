@@ -202,6 +202,27 @@ Current Tracer 25 closeout note:
 - the Tracer 25 closeout line maps to `apollo v0.16.0` and
   `ashton-platform v0.0.32`
 
+Current Tracer 26 closeout note:
+
+- the current APOLLO `main` line now also carries authenticated/internal helper
+  reads for coaching and nutrition over the settled deterministic
+  planner/profile/workout/meal substrate
+- coaching helper reads now expose bounded `why` topics and read-only
+  `easier` / `harder` variation previews over the existing deterministic
+  `PlanChangeProposal` surface without mutating planner truth
+- nutrition helper reads now expose bounded `why` topics and read-only
+  `cheaper` / `simpler` guidance proposals while preserving the current
+  calorie and macro targets without claiming an apply path
+- helper surfaces stay authenticated/internal, read-only, and separate from
+  helper persistence, model-backed calls, presence/streak, role/authz, and
+  deployment widening
+- `ashton-proto` remains untouched because no shared-contract blocker was
+  proven
+- deployed truth remains unchanged: Tracer 26 is current repo/runtime closeout
+  truth on `main`, not current deployed truth
+- the Tracer 26 closeout line maps to `apollo v0.17.0` and
+  `ashton-platform v0.0.33`
+
 Phase 2 rule for `Tracer 16`:
 
 - keep the same tunnel, token, and userscript contract
