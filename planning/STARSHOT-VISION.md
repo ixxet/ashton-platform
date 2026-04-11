@@ -311,9 +311,27 @@ Phase 3 is where these become allowed:
 - broader presentation layers
 - public or semi-public product storytelling
 
+Phase 3 may also justify new backend or storage work when a real product or
+demo surface proves a hard blocker.
+
+The rule is still narrow:
+
+- mutate the substrate first
+- then build the screen over that substrate
+- do not fake the screen to avoid the substrate work
+
 Phase 2 should not be back-solved around a UI.
 
 ## Phase 3 Shape
+
+Shared Phase 3 substrate lines may land before either shell when product truth
+requires them:
+
+- ATHENA Postgres-backed edge observation storage, derived session facts, and
+  bounded internal analytics reads for manager-grade occupancy, flow, and
+  mapping surfaces
+- a dedicated scheduling and booking substrate above ATHENA facility truth so
+  calendars, requests, quotes, and conflict checks are real instead of implied
 
 ### Phase 3A
 
@@ -331,6 +349,8 @@ Phase 2 should not be back-solved around a UI.
 - supervisor dashboard
 - manager event, schedule, and competition control
 - owner analytics and policy surfaces
+- manager occupancy and booking analytics only over real historical/session and
+  scheduling truth
 - booking and scheduling composition only after the role/authz boundary is real
 
 ### Phase 3C

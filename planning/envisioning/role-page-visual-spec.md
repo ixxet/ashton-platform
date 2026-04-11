@@ -208,8 +208,19 @@ Cards or rows should show:
 ### Technical Backing
 
 Current backend truth is not enough for this to be real yet.
-This page family depends on a future scheduling and booking layer above raw
+This page family depends on a real scheduling and booking layer above raw
 ATHENA facility truth.
+
+To make this page family truthful in Phase 3, it should gain:
+
+- dedicated scheduling truth for availability blocks, holds, request state,
+  quote state, and conflict checks
+- ATHENA facility truth as input for facility, zone, hours, and closure data
+- later ATHENA session and occupancy analytics as advisory context, not as the
+  booking source of truth
+
+Do not let raw current occupancy or a fake calendar stand in for reservable
+availability.
 
 ## Member
 
@@ -689,6 +700,24 @@ Visuals:
 - event performance
 - booking conversion later if real
 
+### Technical Backing
+
+Current truthful backend already covers the role/capability boundary, facility
+truth, and competition base.
+
+To make manager analytics and scheduling real in Phase 3, the platform should
+add:
+
+- ATHENA Postgres-backed edge observation storage
+- derived session facts for stay duration, repeat visits, and unmatched or
+  anomalous entry/exit states
+- bounded internal analytics reads by facility, zone, node, and time window
+- a separate scheduling and booking substrate for calendar, request, quote, and
+  conflict truth
+
+Without those lines, occupancy trend cards and booking analytics would be
+decorative rather than operationally useful.
+
 ## Developer / System Admin
 
 ### Purpose
@@ -780,6 +809,7 @@ Do not visually promise these as real until the backend is ready:
 - meal intelligence before `Tracer 25`
 - staff ops truth before role/authz
 - booking/calendar truth before a real scheduling layer
+- manager analytics before real observation/session storage
 - public competition / social surfaces
 - chat as the core runtime
 

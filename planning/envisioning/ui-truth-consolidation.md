@@ -539,8 +539,17 @@ Phase 3 should mean:
   models
 - the AI layer becomes a visible helper over already-trusted deterministic cores
 - distribution, branding, and later native packaging become worthwhile
+- when a real page proves a data blocker, the narrow backend or storage line
+  should land before the polished surface that depends on it
 
 ## Suggested Phase 3 Shape
+
+Shared Phase 3 substrate lines may land before shell polish when needed:
+
+- ATHENA Postgres-backed observation and derived-session analytics for
+  manager-grade occupancy, flow, and mapping views
+- a separate scheduling and booking substrate above ATHENA facility truth for
+  calendars, requests, quotes, and conflict checks
 
 ### Phase 3A
 
@@ -593,10 +602,14 @@ These are the decisions this document supports right now:
    across `Tracer 24` through `Tracer 28`.
 4. Keep the LLM as a bounded helper over deterministic substrates, not the core
    engine.
-5. Keep scheduling and booking out of ATHENA.
+5. Keep scheduling and booking domain logic out of ATHENA; let ATHENA own
+   facility, presence, history, and analytics inputs while a separate
+   scheduling layer owns booking truth.
 6. Add a real role/authz model before building supervisor/manager/owner product
    workflows.
-7. Keep public competition and social features deferred until the competition
+7. If the first demo must sell manager value, land a real manager-data
+   substrate before charts, booking dashboards, or analytics copy.
+8. Keep public competition and social features deferred until the competition
    substrate is stable enough to deserve them.
 
 ## Decision Status
