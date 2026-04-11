@@ -699,6 +699,8 @@ Visuals:
 - queue load
 - event performance
 - booking conversion later if real
+- smart occupancy summary later only if it is grounded in real historical,
+  session, and prediction truth
 
 ### Technical Backing
 
@@ -714,6 +716,10 @@ add:
 - bounded internal analytics reads by facility, zone, node, and time window
 - a separate scheduling and booking substrate for calendar, request, quote, and
   conflict truth
+
+Any later AI occupancy summary should sit above that substrate as a helper
+surface, not as the source of the numbers or the first place the reasoning
+lives.
 
 Without those lines, occupancy trend cards and booking analytics would be
 decorative rather than operationally useful.
@@ -810,6 +816,8 @@ Do not visually promise these as real until the backend is ready:
 - staff ops truth before role/authz
 - booking/calendar truth before a real scheduling layer
 - manager analytics before real observation/session storage
+- AI smart occupancy summaries before real observation/session storage and
+  bounded analytics reads
 - public competition / social surfaces
 - chat as the core runtime
 

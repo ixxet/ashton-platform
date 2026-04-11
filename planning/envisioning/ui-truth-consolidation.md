@@ -348,7 +348,12 @@ So the correct consolidation decision is:
 
 1. do not put booking or scheduling logic into `athena`
 2. create a separate scheduling / booking composition layer when the time comes
-3. use raw ATHENA facility truth as an input, not the full answer
+3. let that layer own typed HTTP and CLI surfaces over Postgres-backed booking,
+   quote, conflict, and schedule truth
+4. use raw ATHENA facility truth as an input, not the full answer
+5. use calendar libraries as presentation only; do not let a plugin or
+   third-party booking engine become the system of record unless it can meet
+   the same typed, inspectable, AI-safe contract standard
 
 ## Tracer 24 Through Tracer 28 Consolidation
 
@@ -611,6 +616,8 @@ These are the decisions this document supports right now:
    substrate before charts, booking dashboards, or analytics copy.
 8. Keep public competition and social features deferred until the competition
    substrate is stable enough to deserve them.
+9. Defer any AI-written occupancy or booking summary until real storage,
+   derived session facts, and bounded analytics reads exist underneath it.
 
 ## Decision Status
 

@@ -294,6 +294,16 @@ It is not the scheduling engine by itself.
 It is the visual interface sitting on top of the actual scheduling data and
 rules.
 
+The same rule should hold for any later booking technology choice:
+
+- UI libraries are acceptable
+- helper libraries for recurrence, calendars, and time math are acceptable
+- the core scheduling and booking truth should stay product-owned and typed so
+  CLI, agents, and later AI helpers can call the same source of truth directly
+- do not let a clunky plugin or monolithic booking product become the hidden
+  system of record unless it can satisfy those same contract and ownership
+  rules
+
 If the product only needs basic calendar views at first, a narrow in-house
 calendar could also work.
 If it grows into resource scheduling for courts, rooms, lanes, or event blocks,
@@ -401,6 +411,12 @@ Recommended starting stack:
 | Visualization | Apache ECharts | strong dashboard and telemetry potential |
 | Calendar UI | FullCalendar if scheduling grows complex; otherwise start narrower | useful for event, booking, and operations calendar views |
 | Facility visuals | custom SVG floor plans first, MapLibre only where real geographic context helps | indoor mapping usually needs product-owned assets |
+
+Calendar and charting libraries are presentation dependencies, not booking or
+analytics truth owners.
+
+The booking engine and analytics reads should stay in product-owned services
+with typed HTTP/CLI contracts over Postgres-backed truth.
 
 ## Repository Direction
 
