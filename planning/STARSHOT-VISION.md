@@ -40,8 +40,8 @@ execution narrow, bounded, and testable.
 | `Tracer 11` | shipped | APOLLO member shell is real, but intentionally thin | done |
 | `Tracer 12` | shipped | explicit lobby membership and durable member intent are real | done |
 | `Tracer 13` | shipped | deterministic read-only ARES preview is real | done |
-| `ATHENA runtime` | `v0.5.1` shipped; the Tracer 18 facility-truth line is now on `main`; `v0.4.1` still deployed | durable history, bounded privacy-safe history support, and facility truth are real in repo/runtime while deployed truth stays narrower | done |
-| `ATHENA deployment closeout` | `Prometheus v0.0.3`, `ashton-platform v0.0.19` shipped | bounded live deploy truth is real | done |
+| `ATHENA runtime` | `v0.5.1` shipped; the Tracer 18 facility-truth line plus the `v0.6.1` hardening follow-up are on `main`; `v0.7.0` is now live | durable history, facility truth, Postgres-backed observations, derived sessions, and bounded internal analytics are real in repo/runtime and on the bounded live deploy line | done |
+| `ATHENA deployment closeout` | earlier `Prometheus v0.0.3` / `ashton-platform v0.0.19` closeout remains historical; current live cluster runs `athena v0.7.0` | bounded live deploy truth is real | done |
 | `APOLLO member runtime` | `v0.9.0` shipped | auth, visits, workouts, recommendations, membership, and deterministic preview are real | done |
 | `APOLLO backend/runtime` | current Tracer 28 repo/runtime closeout line on `main`; deployed truth unchanged | sport registry, facility-sport capability mapping, queue/assignment/lifecycle truth, team/roster/session/match execution containers, immutable result capture, sport-and-mode-separated ratings, session-scoped standings, self-scoped member stats, the planner/deterministic-coaching plus bounded nutrition/helper and facility-scoped presence surfaces, and the bounded competition role/authz substrate are real while public competition reads and broader staff product remain deferred | done |
 | `HERMES` | `v0.2.0` shipped | one thin staff read plus one richer reconciliation read are real | done |
@@ -246,8 +246,12 @@ Canonical note:
 
 - APOLLO, ATHENA, and the gateway each needed a narrow patch-line hardening
   follow-up, not a new capability line
-- the live ATHENA deploy remains the bounded `v0.4.1` edge path with quick
-  tunnel ingress and no proved history-path rollout
+- at Milestone 2.0 closeout time, the live ATHENA deploy remained the bounded
+  `v0.4.1` edge path with quick tunnel ingress and no proved history-path
+  rollout
+- that historical deploy ruling is now superseded by the later bounded live
+  `athena v0.7.0` rollout with Postgres-backed observations, derived session
+  facts, and bounded internal history/analytics reads
 - proposal/apply safety stays explicit by remaining narrow: gateway is still
   read-only, and APOLLO trusted-surface writes stay capability-gated
 - Phase 3 remains blocked on this backend/base plateau staying honest

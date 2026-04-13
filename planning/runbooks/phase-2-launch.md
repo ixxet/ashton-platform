@@ -54,11 +54,14 @@ Primary label:
 Authoritative ruling:
 
 - this workstream is real
-- it layered on top of shipped `athena v0.4.1`
+- it originally layered on top of shipped `athena v0.4.1`
 - it did not consume `Tracer 14`
 - it did not consume `Tracer 15`
 - it did not consume `Tracer 16`
 - it created real deployment truth and planning preconditions for `Tracer 16`
+- the later bounded `athena v0.7.0` rollout superseded that earlier deploy
+  point as current ATHENA live truth while preserving the same narrow external
+  surface
 
 What is already real:
 
@@ -81,18 +84,19 @@ What is already real:
 
 What is still not real:
 
-- deployed truth for the durable-history branch beyond the already-proven live
-  ingress path
 - prediction or broader session analytics over that history
 - public operator or report surfaces over that history
 - rivalry, teammate, or standings truth
+- booking or scheduling runtime over ATHENA facility truth
+- AI occupancy summary or broader manager dashboards over that history
 
 Current Tracer 16 closeout note:
 
 - `athena v0.5.0` runtime truth is shipped
 - `ashton-platform v0.0.23` control-plane closeout is shipped
 - `v0.5.0` and `v0.0.23` are the Tracer 16 release lines
-- deployed truth remains unchanged and bounded to the existing live edge path
+- at Tracer 16 closeout time, deployed truth remained unchanged and bounded to
+  the existing live edge path
 
 Current Tracer 17 closeout note:
 
@@ -100,9 +104,9 @@ Current Tracer 17 closeout note:
 - bounded `athena v0.5.1` support is now shipped as a follow-up on the
   existing durable-history line
 - `ashton-platform v0.0.24` control-plane closeout is now shipped
-- deployed truth remains unchanged: the live HERMES runner still proves only
-  the occupancy slice, and the live ATHENA edge path remains the current
-  deployed physical-truth proof
+- at Tracer 17 closeout time, deployed truth remained unchanged: the live
+  HERMES runner still proved only the occupancy slice, and the live ATHENA
+  edge path remained the current deployed physical-truth proof
 
 Current Tracer 18 closeout note:
 
@@ -111,8 +115,8 @@ Current Tracer 18 closeout note:
 - the real surfaces are `athena facility list`, `athena facility show`,
   `GET /api/v1/facilities`, and `GET /api/v1/facilities/{facility_id}`
 - `ashton-proto` remains untouched because ATHENA-owned reads are sufficient
-- deployed truth remains unchanged: the live ATHENA edge path is still the
-  current deployed physical-truth proof
+- at Tracer 18 closeout time, deployed truth remained unchanged: the live
+  ATHENA edge path was still the current deployed physical-truth proof
 - `athena v0.6.0` and `ashton-platform v0.0.25` are the Tracer 18 release
   lines
 
@@ -270,8 +274,14 @@ Current Milestone 2.0 closeout note:
 - `ashton-mcp-gateway v0.2.1` is the current local/runtime hardening follow-up
   on top of the Tracer 15 line
 - `ashton-platform v0.0.36` is the control-plane ledger line for this plateau
-- deployed truth remains unchanged: live ATHENA is still the bounded `v0.4.1`
-  edge deployment with quick-tunnel ingress and no proved durable history path
+- at Milestone 2.0 closeout time, deployed truth remained unchanged: live
+  ATHENA was still the bounded `v0.4.1` edge deployment with quick-tunnel
+  ingress and no proved durable history path
+- that historical deploy ruling is now superseded by the later bounded live
+  `athena v0.7.0` rollout: Postgres-backed append-only observations, derived
+  session facts, and bounded internal history/analytics reads are now live
+  while the external surface remains `/api/v1/edge/tap` and
+  `/api/v1/health`
 - the canonical Milestone 2.0 ledger is
   `planning/audits/2026-04-10-milestone-2.0-reconciliation.md`
 

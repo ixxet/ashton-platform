@@ -136,7 +136,7 @@ Rust remains a later optimization path, not a first-wave dependency.
 | Repo | Current line | Next planned line | Why it is next |
 | --- | --- | --- | --- |
 | `ashton-proto` | `v0.3.0` shipped; current Tracer 15 contract line `v0.4.0` | later than `v0.4.0` | the second routed manifest line is now real in the current repo line; further widening should stay tracer-driven |
-| `athena` | `v0.5.1` shipped; the Tracer 18 facility-truth line plus the current `v0.6.1` hardening follow-up are now on `main`; `v0.4.1` remains the current deployed line | later than `v0.6.1` | Milestone 2.0 hardens the current ATHENA line without widening deploy truth, so later diagnostics/prediction remains the next true widening |
+| `athena` | `v0.5.1` shipped; the Tracer 18 facility-truth line plus the `v0.6.1` hardening follow-up are on `main`; `v0.7.0` is now shipped and live as the bounded Postgres-backed storage/analytics deployment line | later than `v0.7.0` | Postgres-backed observations, derived session facts, and bounded internal analytics are now the current ATHENA substrate, so later diagnostics/prediction is the next true widening |
 | `apollo` | current Tracer 28 repo/runtime line plus the current `v0.19.1` hardening follow-up are on `main`; Tracer 24 remains tagged on `v0.15.0`; `v0.15.1` remains the narrow historical hardening patch line; deployed truth unchanged | later than `v0.19.1` | Milestone 2.0 hardens the current APOLLO line without a new feature surface, so later widening belongs after the plateau closes |
 | `hermes` | `v0.2.0` shipped | `v0.3.0` | the richer read-only reconciliation line is now shipped and the first write/approval boundary is the next true widening |
 | `ashton-mcp-gateway` | `v0.0.1` shipped; current Tracer 15 line plus the current `v0.2.1` hardening follow-up are on `main` | `v0.3.0` | the caller-aware audited read-only control-plane slice is now harder at the boundary; write governance is still the next true widening |
@@ -300,18 +300,24 @@ Current Milestone 2.0 reconciliation note:
   follow-up on the Tracer 15 line: constant-time caller-secret comparison,
   declared-argument enforcement, manifest path hardening, and bounded request
   decoding are now real without widening routing scope
-- deployed truth remains unchanged: the canonical live ATHENA claim is still
-  the bounded `v0.4.1` edge deployment with quick-tunnel ingress and no proved
-  durable history path
 - the canonical ledger for this ruling is
   `planning/audits/2026-04-10-milestone-2.0-reconciliation.md`
+- at Milestone 2.0 closeout time, deployed ATHENA truth was still the bounded
+  `v0.4.1` edge deployment with quick-tunnel ingress and no proved durable
+  history path
+- that historical deploy ruling is now superseded by the later bounded
+  `athena v0.7.0` Prometheus rollout: Postgres-backed append-only
+  observations, derived session facts, and bounded internal history/analytics
+  reads are now live while the external surface remains `/api/v1/edge/tap` and
+  `/api/v1/health`
 
 - `v0.5.1`, `v0.2.0`, and `v0.0.24` are the Tracer 17 release lines for
   bounded ATHENA support, HERMES runtime truth, and platform closeout truth
 - `v0.6.0` and `v0.0.25` are the Tracer 18 release lines for ATHENA facility
   truth and platform control-plane closeout
-- deployed truth remains unchanged: the bounded live edge path is still real,
-  while the durable-history branch and reconciliation widening remain local/runtime proof only
+- `v0.7.0` is the later Phase 3 shared substrate A line for Postgres-backed
+  observations, derived sessions, bounded internal analytics, and the bounded
+  live storage/analytics deploy closeout over the existing edge path
 
 Current Tracer 19 closeout note:
 
@@ -332,7 +338,7 @@ Current Tracer 19 closeout note:
 | APOLLO auth / membership / preview | done | member intent pillar exists | done |
 | HERMES | observability-hardened and live-deployed | published local/runtime truth plus bounded deployment truth | done |
 | Gateway | caller-aware and auditable, still narrow | the Tracer 15 runtime proof is real, while broader control-plane maturity remains deferred | medium |
-| ATHENA durability | shipped | deterministic durable-history groundwork is tagged, bounded support follow-up is released, and durable-branch deployment truth is still unchanged | done |
+| ATHENA durability | shipped and live | Postgres-backed append-only observations, derived session facts, and bounded internal analytics are now real on the bounded ATHENA deploy path | done |
 | HERMES operator surface | shipped | one richer reconciliation question, occupancy reports, and heat-map-style reads are now shipped while deployed truth stays unchanged | done |
 | Facility catalog / hours | closure-clean on `main` | ATHENA now exposes config-gated facility catalog, hours, zones, closure windows, and bounded metadata reads while deployed truth stays unchanged | done |
 | Competition execution runtime | closure-clean in repo/runtime; deployed truth unchanged | APOLLO now owns sport registry plus queue/assignment/lifecycle truth over team/roster/session/match containers as the settled execution substrate for later competition history | done |

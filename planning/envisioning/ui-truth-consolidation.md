@@ -57,7 +57,10 @@ So the consolidation decision is:
 - explicit workout tracking
 - deterministic workout recommendation
 - planner substrate APIs
+- nutrition profile, meal template, meal log, and bounded nutrition guidance APIs
 - competition substrate APIs
+- explicit member role/capability model
+- member-facing presence, tap-link, and streak reads
 - facility occupancy reads
 - facility catalog, hours, zones, and closure reads
 - bounded read-only staff occupancy and reconciliation truth
@@ -73,11 +76,8 @@ So the consolidation decision is:
 
 ### Missing Now
 
-- role model for `supervisor`, `manager`, `owner`
 - booking / rental / calendar conflict engine
-- meal and nutrition runtime
 - badges / avatars / public profile identity
-- member-facing tap history and streak model
 - staff web runtime
 - public competition reads and social layer
 
@@ -126,8 +126,8 @@ That remains the right call.
 | Page | Status | Backend truth | Consolidated decision |
 | --- | --- | --- | --- |
 | Login splash | `Ready` | APOLLO auth/session is real | Build now over real auth; polish is a frontend concern |
-| Tap-in entry | `Partial` | ATHENA edge tap exists; APOLLO visit ingest exists | Build only after the bounded member-facing tap-link / streak model lands in `Tracer 27` |
-| QR e-tap confirmation | `Partial` | physical truth exists, member linking does not | Keep as a Phase 2 target only if explicit link state lands in `Tracer 27` |
+| Tap-in entry | `Partial` | ATHENA edge tap exists; APOLLO visit ingest plus member-facing presence/tap-link/streak truth exist | Build now if it stays honest about link state and uses the current member-owned APIs |
+| QR e-tap confirmation | `Partial` | physical truth and explicit tap-link state exist, but the shell contract is not settled | Build only if it stays subordinate to the current member presence/tap-link model instead of inventing new link semantics |
 | Home dashboard | `Partial` | workouts, recommendation, membership, profile, occupancy/facility reads exist in pieces | Build now as a composition page over real reads; keep cards honest |
 | Profile home | `Partial` | bounded profile state exists | Build over current profile truth, but keep identity features narrow |
 | Badges / achievements | `Missing` | no runtime | Do not invent yet; hold the slot in profile IA only |
@@ -136,10 +136,10 @@ That remains the right call.
 | Workout history | `Ready-ish` | real workout list/detail | Safe to widen now |
 | Workout planner | `Partial` | planner APIs are real | Safe to build now over existing planner substrate |
 | Coaching switcher | `Partial` | recommendation is real, broader coaching is not | Build as IA only if clearly split into current recommendation vs future coaching |
-| Meals landing | `Missing` | no meal runtime | Allowed only as an honest placeholder, not as a fake feature |
-| Meal tracker | `Missing` | no meal log model | Requires bounded backend widening first |
-| Meal planner | `Missing` | no nutrition plan model | Requires bounded backend widening first |
-| Nutrition coaching | `Missing` | no nutrition engine | Requires bounded backend widening first |
+| Meals landing | `Partial` | nutrition profile, meal template/log truth, and bounded nutrition guidance exist | Safe to build now if it stays clearly bounded and non-clinical |
+| Meal tracker | `Partial` | meal log model is real | Safe to build now over current owner-scoped meal log truth |
+| Meal planner | `Partial` | meal templates and conservative nutrition guidance exist, but no broad scheduling layer does | Build now as bounded templates/guidance, not as a fake adaptive planner |
+| Nutrition coaching | `Partial` | bounded nutrition guidance exists | Build only as structured conservative guidance over the current deterministic substrate |
 | Tournaments landing | `Partial` | competition substrate is real | Build only over self-scoped/internal truths first |
 | Queue / join flow | `Partial` | APOLLO queue state exists, but current semantics are owner-scoped | Needs backend mutation before honest member self-service queue UX |
 | Session / match detail | `Partial` | session/team/roster/match runtime exists | Possible, but current access semantics need review |
@@ -306,7 +306,7 @@ It is role and authorization truth.
 
 | Page | Status | Backend truth | Consolidated decision |
 | --- | --- | --- | --- |
-| Ops login entry | `Missing` | no supervisor/manager/owner authz model | Needs `Tracer 28` backend widening first |
+| Ops login entry | `Partial` | explicit `member`, `supervisor`, `manager`, and `owner` role/capability truth exists, but no settled staff web runtime exists | Build only after the staff shell decides how trusted-surface/session routing should work |
 | Supervisor live dashboard | `Missing` | no staff web runtime | Design now, do not implement as real product yet |
 | Live occupancy board | `Partial` | ATHENA occupancy is real | Can build as read-only internal UI if access path is intentional |
 | Reconciliation page | `Partial` | HERMES reconciliation truth is real but CLI-only | Needs HTTP/session layer before honest web runtime |
@@ -317,7 +317,7 @@ It is role and authorization truth.
 | Competition control | `Partial` | APOLLO competition runtime exists but is owner-scoped | Needs authz mutation before staff UX is honest |
 | Match intervention | `Partial` | some competition state mutation exists | Needs staff role semantics and safe workflow design |
 | Member lookup | `Missing` | no staff member-search runtime | Do not fake |
-| Owner-only private stats view | `Missing` | no owner role model | Needs explicit role/authz widening |
+| Owner-only private stats view | `Missing` | owner role model exists, but no owner-only product/runtime surface exists | Needs bounded owner-facing runtime widening, not another role-model tracer |
 | FAQ / content admin | `Missing` | no content runtime | Defer until content ownership is real |
 | Role management | `Missing` | no role model | Needs backend widening first |
 | Audit / routed call logs | `Partial` | gateway audit is real, but narrow and internal | Internal-only for now |
