@@ -142,6 +142,62 @@ Rust remains a later optimization path, not a first-wave dependency.
 | `ashton-mcp-gateway` | `v0.0.1` shipped; current Tracer 15 line plus the current `v0.2.1` hardening follow-up are on `main` | `v0.3.0` | the caller-aware audited read-only control-plane slice is now harder at the boundary; write governance is still the next true widening |
 | `ashton-platform` | current Milestone 2.0 control-plane closeout line on `main`; deployed truth unchanged | later than `v0.0.36` | `v0.0.36` is the Phase 2 plateau ledger line; later work should move to system-proof or Phase 3 instead of reopening deploy claims casually |
 
+## 2026-04-13 Backend Logic Audit Ledger
+
+This ledger captures the verified backend logic audit after the ATHENA
+`v0.7.0` deploy widening closed. It narrows what actually needs code work next
+instead of letting chat-only findings drift into fake urgency.
+
+### Verification Narrative
+
+| Repo | Command rerun | Result | Why it matters |
+| --- | --- | --- | --- |
+| `apollo` | `go test -count=1 ./...` | pass | reran presence, workouts, competition, server, and runtime bootstrap under the committed `v0.19.1` line |
+| `athena` | `go test -count=1 ./...` | pass | reran projector, edge, edgehistory, server, and Postgres-backed storage/analytics paths under the committed `v0.7.0` line |
+| `hermes` | `go test -count=1 ./...` | pass | reran occupancy and reconciliation reads against the shipped `v0.2.0` line |
+| `ashton-mcp-gateway` | `go test -count=1 ./...` | pass | reran routed read, caller identity, audit, manifest, and server paths under the committed `v0.2.1` line |
+
+### Audit Outcome
+
+| Finding | Repo | Severity | Ruling | Meaning |
+| --- | --- | --- | --- | --- |
+| audit persistence still blocks a successful routed response | `ashton-mcp-gateway` | High | verified | this is the only verified item in the audit that can turn a successful upstream read into a user-facing `500` |
+| projector identity retention is still unbounded | `athena` | Medium | verified | this is the only confirmed scale-risk item carried forward from the audit |
+| reconciliation bin boundary semantics are asymmetric | `hermes` | Medium | verified | current bins are half-open except the last bin, and boundary tests do not pin the intended rule yet |
+| NATS identified-presence handlers still use `context.Background()` | `apollo` | Low | verified | shutdown cancellation still does not flow into in-flight message handlers |
+| metrics occupancy callback still uses `context.Background()` | `athena` | Low | verified | cleanup only, not a capability issue |
+| projector clock constructor is more confusing than it needs to be | `athena` | Low | verified | readability cleanup only |
+| query-instantiation cleanup is broader than workouts alone | `apollo` | Low | verified with narrowed scope | the pattern still appears in multiple APOLLO repositories, so it should be treated as a broader mechanical cleanup rather than a workouts-only bug |
+
+### Disproved Or Narrowed Claims
+
+| Claim | Ruling | Why it narrowed |
+| --- | --- | --- |
+| APOLLO streak active-status off-by-one | disproved | the existing logic keeps the full next UTC day active; the proposed `+2` change would have introduced a real bug |
+| APOLLO streak reset failed to update `currentStartDay` | disproved | `currentStartDay` already initializes to `creditDay`, and the reset path preserves that value correctly |
+| APOLLO competition tiebreak could flip after team deletion/recreation | narrowed | `SideIndex` remains the final deterministic tiebreak, but the stated failure mode is blocked because team removal is draft-only and referenced teams cannot be removed once matches exist |
+| workouts was the only remaining `store.New(...)` per-call repository | disproved | the pattern is still present in multiple APOLLO repositories |
+
+### Commit Ladder For This Docs Pass
+
+| Order | Repo | Commit target | Purpose |
+| --- | --- | --- | --- |
+| 1 | `ashton-mcp-gateway` | `docs: record gateway audit carry-forward after v0.2.1` | lock the current fail-closed audit behavior as an explicit next policy decision instead of a silent runtime quirk |
+| 2 | `athena` | `docs: record ATHENA audit carry-forward after v0.7.0` | lock projector retention as the first real post-storage hardening target and keep prediction/dashboard pressure deferred |
+| 3 | `hermes` | `docs: record HERMES audit carry-forward after v0.2.0` | make the reconciliation boundary rule explicit before any later HERMES widening |
+| 4 | `apollo` | `docs: record APOLLO audit carry-forward after v0.19.1` | stop false streak fixes from reopening correct code and carry forward only the real low-severity cleanup items |
+| 5 | `ashton-platform` | `docs: add backend logic audit ledger` | keep the cross-repo result visible in the control-plane source of truth after repo-local docs are aligned |
+
+### Next Code Ladder
+
+| Order | Repo | Likely line | Why it is next |
+| --- | --- | --- | --- |
+| 1 | `ashton-mcp-gateway` | bounded follow-up later than `v0.2.1` | the audit-failure policy is the only verified item with direct user-facing availability impact |
+| 2 | `athena` | first bounded hardening line later than `v0.7.0` | projector retention is the only confirmed scale-risk item and should land before prediction, dashboards, or AI summary work |
+| 3 | `apollo` | bounded `v0.19.x` follow-up only if the line reopens | add explicit streak regression tests and the NATS context cleanup without pretending a new capability line is needed |
+| 4 | `hermes` | bounded `v0.2.1` if the current surface needs a hardening patch | decide and test exact bin-boundary semantics before any later write or approval widening |
+| 5 | Phase 3 product work | separate packet | booking/scheduling substrate, member shell, and later manager surfaces remain separate from this audit hardening ladder |
+
 Current closeout note:
 
 - `athena` now carries Tracer 16 runtime truth on `main` at
