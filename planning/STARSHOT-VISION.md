@@ -225,8 +225,8 @@ deployed truth or public booking.
 
 | Line | Repo focus | Release line | Purpose | Hard stop |
 | --- | --- | --- | --- | --- |
-| `Phase 3A.1` | `apollo` | later than shared substrate B | member shell foundation over already-real member APIs and later real schedule reads only if they exist | no fake booking UI, no staff-shell drift, and no demo-only surfaces |
-| later APOLLO authz/admin widening only if earned | `apollo` | later | add a distinct `admin` role only if real runtime/product needs justify it, then let admin do owner-like graph work intentionally | no accidental role widening hidden inside shell work |
+| `Phase 3A.2` | later frontend repo | after closed `Phase 3A.1` | frontend repo bootstrap over already-real member APIs and the closed APOLLO member-shell foundation, reopening APOLLO only if the audit proves one tiny helper is needed | no fake booking UI, no staff-shell drift, and no APOLLO shell reopen as the main line |
+| later APOLLO authz/admin widening only if earned | `apollo` | later | add a distinct `admin` role only if real runtime/product needs justify it, then let admin do owner-like graph work intentionally | no accidental role widening hidden inside frontend bootstrap |
 | `Phase 3B` | `apollo` plus later `hermes` when earned | later | supervisor/manager/owner ops product over the settled role/authz and scheduling substrate | no broad admin blob or fake operational truth |
 | `Phase 3C` | cross-product | later | presentation, identity, packaging, and assistant presentation only after member and ops truth are real | no persona-first product before trustworthy rails |
 
@@ -422,8 +422,8 @@ requires them:
 
 | Order | Action | Outcome |
 | --- | --- | --- |
-| 1 | keep `Phase 3 shared substrate B` closed in APOLLO repo/runtime truth | make the member shell and later ops work build on already-real scheduling truth instead of reopening substrate work |
-| 2 | open `Phase 3A.1` now that the substrate line is closed | keep member UI honest and backend-backed |
+| 1 | keep `Phase 3 shared substrate B` and `Phase 3A.1` closed in APOLLO repo/runtime truth | make frontend bootstrap and later ops work build on already-real scheduling and member-shell truth instead of reopening APOLLO by default |
+| 2 | open `Phase 3A.2` frontend repo bootstrap now that the embedded-shell line is closed | move the active blocker to frontend repo posture without backsliding into shell rework |
 | 3 | keep the RFC3339-only calendar boundary as the anti-ambiguity runtime contract while letting later shells render friendlier local formats | preserve precise scheduling truth without forcing end-user display to look like raw transport data |
 | 4 | keep ATHENA deploy truth separate from ATHENA repo/runtime closeout | prevent an optional deploy repin from blocking the product ladder |
 | 5 | leave HERMES and gateway follow-ups deferred until those surfaces are about to be used | prevent sidecar hardening from distorting the product ladder |
