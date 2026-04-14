@@ -25,7 +25,7 @@ readable as one coherent platform instead of five drifting repos.
 | --- | --- | --- | --- |
 | `ashton-proto` | Shared contracts, schemas, runtime helpers | Real and active | Keeps producers and consumers from hand-rolling wire contracts |
 | `athena` | Physical truth for presence and occupancy | Real and executable | First Go service, first operational data surface, active visit-lifecycle publisher, and bounded live edge-driven occupancy deployment now widened to the `v0.7.0` storage/analytics line over the same browser-reachable ingress path |
-| `apollo` | Member-facing application, competition runtime, planner substrate, deterministic coaching substrate, bounded nutrition substrate, facility-scoped presence substrate, and helper read layer | Real and executable, but intentionally narrow | First member auth, profile-state, visit-history, visit-closing, derived eligibility, explicit lobby membership, explicit workout runtime, deterministic recommendation slice, thin member shell, tagged Tracer 24 planner/coaching truth on `main`, the narrow `v0.15.1` hardening patch line, and the current Tracer 28 authz/staff-boundary repo/runtime closeout line on `main`; deployed truth unchanged |
+| `apollo` | Member-facing application, competition runtime, planner substrate, deterministic coaching substrate, bounded nutrition substrate, facility-scoped presence substrate, scheduling substrate, and helper read layer | Real and executable, but intentionally narrow | First member auth, profile-state, visit-history, visit-closing, derived eligibility, explicit lobby membership, explicit workout runtime, deterministic recommendation slice, thin member shell, tagged Tracer 24 planner/coaching truth on `main`, the narrow `v0.15.1` hardening patch line, the current Tracer 28 authz/staff-boundary repo/runtime closeout line, and the later `Phase 3 shared substrate B` scheduling line on `main`; deployed truth unchanged |
 | `hermes` | Staff-facing operations assistant | Real and executable, but intentionally narrow | Read-only occupancy plus one richer reconciliation question over ATHENA current + stable-history truth, with deployment proof still bounded to the earlier occupancy runner slice |
 | `ashton-mcp-gateway` | Shared tool routing layer, with approvals still deferred | Real and executable, but intentionally narrow | Two caller-aware audited ATHENA reads are real without widening into writes or broad orchestration |
 | `Prometheus` | Deployment truth and GitOps control plane | Real and active, but intentionally selective | Carries the bounded live ATHENA `v0.7.0` edge deployment plus the bounded `ATHENA -> NATS -> APOLLO` cluster proof, and now also the bounded HERMES runner slice while gateway deployment slices remain deferred |
@@ -38,11 +38,11 @@ readable as one coherent platform instead of five drifting repos.
 | ATHENA deployment | earlier `Prometheus v0.0.3` / `ashton-platform v0.0.19` closeout remains historical; live cluster now runs `athena v0.7.0` | published deployment truth | bounded live edge-ingress deployment truth is real and now includes the storage/analytics repin over the same narrow external surface |
 | APOLLO member runtime | `v0.9.0` shipped | published runtime truth | auth, visits, workouts, recommendation, explicit membership, and deterministic preview are real |
 | APOLLO member shell | `v0.7.0` shipped | published runtime truth | thin shell is real and still intentionally narrow |
-| APOLLO backend/runtime | current Tracer 28 repo/runtime line plus the current `v0.19.1` hardening follow-up are on `main`; deployed truth unchanged | current repo/runtime truth | sport registry, facility-sport capability mapping, authenticated internal HTTP queue/assignment/lifecycle truth, immutable result capture, sport-and-mode-separated ratings, session-scoped standings, self-scoped member stats, planner / exercise-library / template / richer-profile / deterministic-coaching plus bounded nutrition / helper-read / facility-scoped presence substrate, and explicit role/authz with trusted-surface-gated staff competition mutations and durable actor attribution are real without widening into public/social competition reads |
+| APOLLO backend/runtime | current Tracer 28 repo/runtime line plus the current `v0.19.1` hardening follow-up and the later `Phase 3 shared substrate B` line are on `main`; deployed truth unchanged | current repo/runtime truth | sport registry, facility-sport capability mapping, authenticated internal HTTP queue/assignment/lifecycle truth, immutable result capture, sport-and-mode-separated ratings, session-scoped standings, self-scoped member stats, planner / exercise-library / template / richer-profile / deterministic-coaching plus bounded nutrition / helper-read / facility-scoped presence substrate, explicit role/authz with trusted-surface-gated staff competition mutations and durable actor attribution, and APOLLO-owned schedule resources/resource-graph/typed-block truth are real without widening into public/social competition reads or public booking |
 | HERMES | `v0.2.0` shipped | published local/runtime truth plus bounded deployment truth | one bounded staff read plus one richer reconciliation read are shipped, while the bounded internal runner deployment in `agents` still proves only the occupancy slice |
 | Gateway | current Tracer 15 line plus the current `v0.2.1` hardening follow-up are on `main` | narrow repo truth | caller identity, persisted audit, stricter caller/manifest/request boundaries, and a second routed read are real in the current gateway repo line, while write governance and deployment remain deferred |
 | Prometheus deployment repo | live for bounded ATHENA, APOLLO, and HERMES deployment truth | published deployment truth | bounded HERMES manifests now exist; gateway deployment slices remain deferred |
-| Platform docs | current Milestone 2.0 control-plane closeout line on `main`; current ATHENA deploy truth is later than that closeout note | current control-plane truth | front-facing ladder, repo/runtime patch hardening lines, and deployed-truth boundaries should now be read with the later bounded `athena v0.7.0` deploy widening in mind |
+| Platform docs | current Milestone 2.0 control-plane closeout line on `main`; current ATHENA deploy truth and later APOLLO shared substrate B truth are both later than that closeout note | current control-plane truth | front-facing ladder, repo/runtime patch hardening lines, and deployed-truth boundaries should now be read with the later bounded `athena v0.7.0` deploy widening and APOLLO scheduling closeout in mind |
 
 ## Milestone 2.0 Reconciliation Snapshot
 
@@ -99,12 +99,22 @@ closed the bounded projector absent-state retention patch, and the later
 changing replay authority. Deployed truth remains on immutable `athena v0.7.0`,
 and that deploy closeout is separate from the active implementation ladder.
 
+`Phase 3 shared substrate B` is now also closed in APOLLO repo/runtime truth
+on `main`: schedule resources, resource-graph truth, typed blocks,
+RFC3339-only calendar windows, block-timezone recurrence, explicit exceptions,
+and active-plus-bookable inventory-claim semantics are now real. That RFC3339
+contract is the anti-ambiguity runtime boundary; later shells may render
+friendlier local formats, but they should translate back into explicit
+RFC3339 boundaries instead of reintroducing date-only semantics. The planning
+phrase `owner/admin CLI first` still maps to owner-only runtime truth today
+because APOLLO has no distinct `admin` role yet.
+
 The active next ladder is now:
 
 | Order | Line | Repo focus | Purpose | Hard stop |
 | --- | --- | --- | --- | --- |
-| 1 | `Phase 3 shared substrate B` | `apollo` | APOLLO-owned scheduling/booking substrate above ATHENA facility truth, with zones staying first-class and bookable truth widening to resource refs plus a resource graph | no business booking requests, quotes/payments, public booking entrypoint, dashboards, prediction, AI summaries, or HERMES write orchestration |
-| 2 | `Phase 3A.1` | `apollo` | member shell foundation over already-real APIs and later real schedule reads only if they exist | no fake booking UI or ops-shell drift |
+| 1 | `Phase 3A.1` | `apollo` | member shell foundation over already-real APIs and later real schedule reads only if they exist | no fake booking UI or ops-shell drift |
+| 2 | later APOLLO authz/admin widening only if earned | `apollo` | add a distinct `admin` role only if real runtime/product needs justify it, then let admin do owner-like graph work intentionally | no accidental role widening hidden inside shell work |
 
 ## Post-ATHENA Ladder
 
@@ -441,7 +451,7 @@ flowchart LR
 | --- | --- | --- | --- |
 | `ashton-proto` | `v0.3.0` shipped; current Tracer 15 contract line `v0.4.0` | later than `v0.4.0` | the second routed manifest surface is now real in the current repo line; further widening should stay tracer-driven |
 | `athena` | `v0.5.1` shipped; the Tracer 18 facility-truth line plus the `v0.6.1` hardening follow-up are on `main`; `v0.7.0` is now shipped and live as the bounded storage/analytics deployment line | `v0.7.1` | projector absent-state retention is the first honest post-`v0.7.0` hardening patch before any broader ATHENA widening |
-| `apollo` | current Tracer 28 repo/runtime line plus the current `v0.19.1` hardening follow-up are on `main`; Tracer 24 remains tagged on `v0.15.0`; `v0.15.1` remains the narrow historical hardening patch line; deployed truth unchanged | later than `v0.19.1` | the next honest widening is `Phase 3 shared substrate B`: an APOLLO-owned scheduling/booking substrate above ATHENA facility truth |
+| `apollo` | current Tracer 28 repo/runtime line plus the current `v0.19.1` hardening follow-up and the later `Phase 3 shared substrate B` line are on `main`; Tracer 24 remains tagged on `v0.15.0`; `v0.15.1` remains the narrow historical hardening patch line; deployed truth unchanged | later than shared substrate B | the next honest widening is `Phase 3A.1`: member shell foundation over already-real member and scheduling truth |
 | `hermes` | `v0.2.0` shipped | `v0.3.0` | the richer read-only reconciliation line is now shipped; explicit write authority is the next true widening |
 | `ashton-mcp-gateway` | `v0.0.1` shipped; current Tracer 15 line plus the current `v0.2.1` hardening follow-up are on `main` | `v0.3.0` | the caller-aware audited routed-read slice is now harder at the boundary; write approval is still the next true widening |
 | `ashton-platform` | current Milestone 2.0 control-plane closeout line on `main`; deployed truth unchanged | later than `v0.0.36` | `v0.0.36` is the plateau ledger line; the next honest docs/planning work is the Phase 3 ladder sync, not a casual Phase 2 reopen |

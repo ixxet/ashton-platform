@@ -43,10 +43,10 @@ execution narrow, bounded, and testable.
 | `ATHENA runtime` | `v0.5.1` shipped; the Tracer 18 facility-truth line plus the `v0.6.1` hardening follow-up are on `main`; `v0.7.0` is now live | durable history, facility truth, Postgres-backed observations, derived sessions, and bounded internal analytics are real in repo/runtime and on the bounded live deploy line | done |
 | `ATHENA deployment closeout` | earlier `Prometheus v0.0.3` / `ashton-platform v0.0.19` closeout remains historical; current live cluster runs `athena v0.7.0` | bounded live deploy truth is real | done |
 | `APOLLO member runtime` | `v0.9.0` shipped | auth, visits, workouts, recommendations, membership, and deterministic preview are real | done |
-| `APOLLO backend/runtime` | current Tracer 28 repo/runtime closeout line on `main`; deployed truth unchanged | sport registry, facility-sport capability mapping, queue/assignment/lifecycle truth, team/roster/session/match execution containers, immutable result capture, sport-and-mode-separated ratings, session-scoped standings, self-scoped member stats, the planner/deterministic-coaching plus bounded nutrition/helper and facility-scoped presence surfaces, and the bounded competition role/authz substrate are real while public competition reads and broader staff product remain deferred | done |
+| `APOLLO backend/runtime` | current Tracer 28 repo/runtime closeout line plus the later `Phase 3 shared substrate B` line are on `main`; deployed truth unchanged | sport registry, facility-sport capability mapping, queue/assignment/lifecycle truth, team/roster/session/match execution containers, immutable result capture, sport-and-mode-separated ratings, session-scoped standings, self-scoped member stats, the planner/deterministic-coaching plus bounded nutrition/helper and facility-scoped presence surfaces, the bounded competition role/authz substrate, and the first real scheduling substrate are real while public competition reads, public booking, and broader staff product remain deferred | done |
 | `HERMES` | `v0.2.0` shipped | one thin staff read plus one richer reconciliation read are real | done |
 | `Gateway` | current Tracer 15 line real on `main` | control plane is real, caller-aware, and still intentionally narrow | later gateway widening only if justified |
-| `Platform docs` | synced to current repo truth and release lines | control-plane planning truth now matches the later `athena v0.7.0` deploy line plus current APOLLO `v0.19.1` closeout truth without widening deployed claims | keep synced as work lands |
+| `Platform docs` | synced to current repo truth and release lines | control-plane planning truth now matches the later `athena v0.7.0` deploy line plus current APOLLO `v0.19.1` and shared substrate B closeout truth without widening deployed claims | keep synced as work lands |
 
 ## What Phase 2 Is For
 
@@ -217,10 +217,16 @@ The target is:
 
 ## Active Post-Milestone 2.0 Ladder
 
+`Phase 3 shared substrate B` is now closed in APOLLO repo/runtime truth on
+`main`: schedule resources, resource-graph truth, typed blocks, RFC3339-only
+calendar windows, block-timezone recurrence, explicit exceptions, and
+active-plus-bookable inventory-claim semantics are real without widening
+deployed truth or public booking.
+
 | Line | Repo focus | Release line | Purpose | Hard stop |
 | --- | --- | --- | --- | --- |
-| `Phase 3 shared substrate B` | `apollo` | later than `v0.19.1` | APOLLO-owned scheduling/booking substrate over facility/zone refs, resource refs, schedule blocks, and resource-graph truth | no business booking requests, quotes/payments, public booking entrypoint, dashboards, prediction, AI summaries, or HERMES write orchestration |
 | `Phase 3A.1` | `apollo` | later than shared substrate B | member shell foundation over already-real member APIs and later real schedule reads only if they exist | no fake booking UI, no staff-shell drift, and no demo-only surfaces |
+| later APOLLO authz/admin widening only if earned | `apollo` | later | add a distinct `admin` role only if real runtime/product needs justify it, then let admin do owner-like graph work intentionally | no accidental role widening hidden inside shell work |
 | `Phase 3B` | `apollo` plus later `hermes` when earned | later | supervisor/manager/owner ops product over the settled role/authz and scheduling substrate | no broad admin blob or fake operational truth |
 | `Phase 3C` | cross-product | later | presentation, identity, packaging, and assistant presentation only after member and ops truth are real | no persona-first product before trustworthy rails |
 
@@ -345,10 +351,11 @@ requires them:
   durable projector-miss guardrail while keeping replay authoritative and
   source/site ordering redesign deferred
 - `Phase 3 shared substrate B`: an APOLLO-owned scheduling and booking
-  substrate above ATHENA facility truth so calendars and conflict checks are
-  real instead of implied, with zones staying first-class and bookable truth
-  widening to resource refs plus a resource graph authored by migrations plus
-  owner/admin CLI first
+  substrate above ATHENA facility truth is now closed in repo/runtime truth,
+  so calendars and conflict checks are real instead of implied; zones stay
+  first-class, bookable truth widened to resource refs plus a resource graph,
+  graph authoring is migrations plus owner-first CLI today, and any later
+  distinct admin parity with owner must be an explicit APOLLO authz widening
 
 ### Phase 3A
 
@@ -415,11 +422,12 @@ requires them:
 
 | Order | Action | Outcome |
 | --- | --- | --- |
-| 1 | land `Phase 3 shared substrate B` in APOLLO | make scheduling and booking truth real above ATHENA facility inputs |
-| 2 | open `Phase 3A.1` only after the substrate lines close | keep member UI honest and backend-backed |
-| 3 | keep ATHENA deploy truth separate from ATHENA repo/runtime closeout | prevent an optional deploy repin from blocking the product ladder |
-| 4 | leave HERMES and gateway follow-ups deferred until those surfaces are about to be used | prevent sidecar hardening from distorting the product ladder |
-| 5 | keep docs-first truth and fresh planning-chat seeding as standard practice | keep packet generation tied to committed repo truth |
+| 1 | keep `Phase 3 shared substrate B` closed in APOLLO repo/runtime truth | make the member shell and later ops work build on already-real scheduling truth instead of reopening substrate work |
+| 2 | open `Phase 3A.1` now that the substrate line is closed | keep member UI honest and backend-backed |
+| 3 | keep the RFC3339-only calendar boundary as the anti-ambiguity runtime contract while letting later shells render friendlier local formats | preserve precise scheduling truth without forcing end-user display to look like raw transport data |
+| 4 | keep ATHENA deploy truth separate from ATHENA repo/runtime closeout | prevent an optional deploy repin from blocking the product ladder |
+| 5 | leave HERMES and gateway follow-ups deferred until those surfaces are about to be used | prevent sidecar hardening from distorting the product ladder |
+| 6 | keep docs-first truth and fresh planning-chat seeding as standard practice | keep packet generation tied to committed repo truth |
 
 ## Decision Docs
 
