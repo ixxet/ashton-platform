@@ -219,7 +219,6 @@ The target is:
 
 | Line | Repo focus | Release line | Purpose | Hard stop |
 | --- | --- | --- | --- | --- |
-| `ATHENA v0.7.1` | `athena` | `v0.7.1` | bound projector absent-state retention and close adjacent low-risk cleanup | no prediction, dashboards, AI summaries, or deploy widening |
 | `Phase 3 shared substrate B` | `apollo` | later than `v0.19.1` | APOLLO-owned scheduling/booking substrate over facility/zone refs, resource refs, schedule blocks, and resource-graph truth | no business booking requests, quotes/payments, public booking entrypoint, dashboards, prediction, AI summaries, or HERMES write orchestration |
 | `Phase 3A.1` | `apollo` | later than shared substrate B | member shell foundation over already-real member APIs and later real schedule reads only if they exist | no fake booking UI, no staff-shell drift, and no demo-only surfaces |
 | `Phase 3B` | `apollo` plus later `hermes` when earned | later | supervisor/manager/owner ops product over the settled role/authz and scheduling substrate | no broad admin blob or fake operational truth |
@@ -341,8 +340,10 @@ Phase 2 should not be back-solved around a UI.
 Shared Phase 3 substrate lines may land before either shell when product truth
 requires them:
 
-- `ATHENA v0.7.1`: projector absent-state retention hardening plus adjacent
-  low-risk cleanup before broader ATHENA widening
+- `ATHENA v0.7.x` closeout in repo/runtime truth: `v0.7.1` closed bounded
+  projector absent-state retention, and the later `main` line added a compact
+  durable projector-miss guardrail while keeping replay authoritative and
+  source/site ordering redesign deferred
 - `Phase 3 shared substrate B`: an APOLLO-owned scheduling and booking
   substrate above ATHENA facility truth so calendars and conflict checks are
   real instead of implied, with zones staying first-class and bookable truth
@@ -414,9 +415,9 @@ requires them:
 
 | Order | Action | Outcome |
 | --- | --- | --- |
-| 1 | close `ATHENA v0.7.1` | remove the only confirmed ATHENA scale-risk carry-forward before broader product widening |
-| 2 | land `Phase 3 shared substrate B` in APOLLO | make scheduling and booking truth real above ATHENA facility inputs |
-| 3 | open `Phase 3A.1` only after the substrate lines close | keep member UI honest and backend-backed |
+| 1 | land `Phase 3 shared substrate B` in APOLLO | make scheduling and booking truth real above ATHENA facility inputs |
+| 2 | open `Phase 3A.1` only after the substrate lines close | keep member UI honest and backend-backed |
+| 3 | keep ATHENA deploy truth separate from ATHENA repo/runtime closeout | prevent an optional deploy repin from blocking the product ladder |
 | 4 | leave HERMES and gateway follow-ups deferred until those surfaces are about to be used | prevent sidecar hardening from distorting the product ladder |
 | 5 | keep docs-first truth and fresh planning-chat seeding as standard practice | keep packet generation tied to committed repo truth |
 

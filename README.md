@@ -92,14 +92,19 @@ Canonical note:
 
 ## Post-Milestone 2.0 Next Ladder
 
-`Phase 3 shared substrate A` is already closed on the later `athena v0.7.0`
-line. The active next ladder is now:
+`Phase 3 shared substrate A` is already closed in repo/runtime truth on the
+later `athena v0.7.x` line: `v0.7.0` established the substrate, `v0.7.1`
+closed the bounded projector absent-state retention patch, and the later
+`athena main` line added a compact durable projector-miss guardrail without
+changing replay authority. Deployed truth remains on immutable `athena v0.7.0`,
+and that deploy closeout is separate from the active implementation ladder.
+
+The active next ladder is now:
 
 | Order | Line | Repo focus | Purpose | Hard stop |
 | --- | --- | --- | --- | --- |
-| 1 | `ATHENA v0.7.1` | `athena` | projector absent-state retention hardening plus adjacent low-risk cleanup | no prediction, dashboards, AI summaries, or deploy widening |
-| 2 | `Phase 3 shared substrate B` | `apollo` | APOLLO-owned scheduling/booking substrate above ATHENA facility truth, with zones staying first-class and bookable truth widening to resource refs plus a resource graph | no business booking requests, quotes/payments, public booking entrypoint, dashboards, prediction, AI summaries, or HERMES write orchestration |
-| 3 | `Phase 3A.1` | `apollo` | member shell foundation over already-real APIs and later real schedule reads only if they exist | no fake booking UI or ops-shell drift |
+| 1 | `Phase 3 shared substrate B` | `apollo` | APOLLO-owned scheduling/booking substrate above ATHENA facility truth, with zones staying first-class and bookable truth widening to resource refs plus a resource graph | no business booking requests, quotes/payments, public booking entrypoint, dashboards, prediction, AI summaries, or HERMES write orchestration |
+| 2 | `Phase 3A.1` | `apollo` | member shell foundation over already-real APIs and later real schedule reads only if they exist | no fake booking UI or ops-shell drift |
 
 ## Post-ATHENA Ladder
 

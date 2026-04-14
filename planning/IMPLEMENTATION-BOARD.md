@@ -40,25 +40,30 @@ Use this order when planning or implementing:
 
 ## Current Coding Blockers
 
-Milestone 2.0 is closed. The active blockers before the next implementation
-legs are now:
+Milestone 2.0 is closed. ATHENA repo/runtime closeout is also closed on
+`main`: `v0.7.1` landed the bounded projector absent-state retention patch, and
+the later `main` line added a compact durable projector-miss guardrail without
+changing replay authority. Prometheus/live remains on immutable `athena v0.7.0`,
+and that deploy truth should stay separate from the active implementation
+ladder.
 
-1. `athena`
-   - close `v0.7.1` as a bounded hardening patch for projector absent-state
-     retention and adjacent low-risk cleanup
-   - do not widen that patch into prediction, dashboards, AI summaries, or
-     deploy changes
-2. `apollo`
+The active blockers before the next implementation legs are now:
+
+1. `apollo`
    - land `Phase 3 shared substrate B` as the first real scheduling/booking
      substrate above ATHENA facility truth
    - keep the first line staff-first, keep zones first-class, and widen bookable
      truth to resource refs plus a resource graph
    - keep graph authoring on migrations plus owner/admin CLI first
-3. `Phase 3A.1`
+2. `Phase 3A.1`
    - open the member shell foundation only after the substrate lines above are
      closed
    - do not fake booking UI or back-solve product pages around missing substrate
      truth
+3. `athena` deploy truth
+   - keep any later `v0.7.x` deploy repin or smoke closeout separate from
+     repo/runtime truth
+   - do not let a deploy-only ATHENA packet block `Phase 3 shared substrate B`
 4. `hermes` and `ashton-mcp-gateway`
    - keep carry-forward hardening deferred until those surfaces are about to be
      used
@@ -187,11 +192,10 @@ instead of letting chat-only findings drift into fake urgency.
 
 | Order | Repo | Likely line | Why it is next |
 | --- | --- | --- | --- |
-| 1 | `athena` | `v0.7.1` hardening patch | projector absent-state retention is the first confirmed post-`v0.7.0` scale-risk fix and should land before broader ATHENA widening |
-| 2 | `apollo` | `Phase 3 shared substrate B` later than `v0.19.1` | scheduling/booking truth should become real in APOLLO before member or manager UI widens around it |
-| 3 | `apollo` | `Phase 3A.1` later than shared substrate B | member shell foundation should build over closed substrate truth, not speculative UI state |
-| 4 | `hermes` / `ashton-mcp-gateway` | bounded follow-ups only when their surfaces are about to be used | keep sidecar carry-forward items from distorting the primary ladder |
-| 5 | later Phase 3 product work | separate packets | member shell, ops shell, and later presentation work should widen only after the substrate lines close |
+| 1 | `apollo` | `Phase 3 shared substrate B` later than `v0.19.1` | scheduling/booking truth should become real in APOLLO before member or manager UI widens around it |
+| 2 | `apollo` | `Phase 3A.1` later than shared substrate B | member shell foundation should build over closed substrate truth, not speculative UI state |
+| 3 | `hermes` / `ashton-mcp-gateway` | bounded follow-ups only when their surfaces are about to be used | keep sidecar carry-forward items from distorting the primary ladder |
+| 4 | later Phase 3 product work | separate packets | member shell, ops shell, and later presentation work should widen only after the substrate lines close |
 
 Current closeout note:
 
@@ -369,6 +373,10 @@ Current Milestone 2.0 reconciliation note:
 - `v0.7.0` is the later Phase 3 shared substrate A line for Postgres-backed
   observations, derived sessions, bounded internal analytics, and the bounded
   live storage/analytics deploy closeout over the existing edge path
+- `athena main` now also carries the post-`v0.7.0` Substrate A hardening tail:
+  `v0.7.1` bounded projector absent-state retention, and a later compact
+  durable projector-miss guardrail narrowed the old evicted-miss risk without
+  changing replay authority or deployed truth
 
 Current Tracer 19 closeout note:
 
@@ -412,16 +420,21 @@ Current Tracer 19 closeout note:
 
 ## Active Post-Milestone 2.0 Ladder
 
-`Phase 3 shared substrate A` is closed on the later `athena v0.7.0` line.
+`Phase 3 shared substrate A` is closed in repo/runtime truth on the later
+`athena v0.7.x` line: `v0.7.0` established the substrate, `v0.7.1` closed the
+bounded absent-state retention patch, and the later `main` line added a compact
+durable projector-miss guardrail without changing replay authority. Deployed
+truth remains on immutable `athena v0.7.0`, and that deploy closeout is
+separate from the active implementation ladder.
+
 The active next ladder is now:
 
 | Order | Line | Repo focus | Release line | Purpose | Hard stop |
 | --- | --- | --- | --- | --- | --- |
-| 1 | `ATHENA v0.7.1` | `athena` | `v0.7.1` | bound projector absent-state retention and close adjacent low-risk cleanup | no prediction, dashboards, AI summaries, or deploy widening |
-| 2 | `Phase 3 shared substrate B` | `apollo` | later than `v0.19.1` | APOLLO-owned scheduling/booking substrate over facility/zone refs, resource refs, schedule blocks, and resource-graph truth | no business booking requests, quotes/payments, public booking entrypoint, dashboards, prediction, AI summaries, or HERMES write orchestration |
-| 3 | `Phase 3A.1` | `apollo` | later than shared substrate B | member shell foundation over already-real APIs and later real schedule reads only if they exist | no fake booking UI, no staff-shell drift, and no demo-only surfaces |
-| 4 | `Phase 3B` | `apollo` plus later `hermes` if earned | later | supervisor/manager/owner ops product over the settled role/authz and scheduling substrate | no broad admin blob or fake operational truth |
-| 5 | `Phase 3C` | cross-product | later | presentation, identity, packaging, and assistant presentation | no persona-first product before trustworthy rails |
+| 1 | `Phase 3 shared substrate B` | `apollo` | later than `v0.19.1` | APOLLO-owned scheduling/booking substrate over facility/zone refs, resource refs, schedule blocks, and resource-graph truth | no business booking requests, quotes/payments, public booking entrypoint, dashboards, prediction, AI summaries, or HERMES write orchestration |
+| 2 | `Phase 3A.1` | `apollo` | later than shared substrate B | member shell foundation over already-real APIs and later real schedule reads only if they exist | no fake booking UI, no staff-shell drift, and no demo-only surfaces |
+| 3 | `Phase 3B` | `apollo` plus later `hermes` if earned | later | supervisor/manager/owner ops product over the settled role/authz and scheduling substrate | no broad admin blob or fake operational truth |
+| 4 | `Phase 3C` | cross-product | later | presentation, identity, packaging, and assistant presentation | no persona-first product before trustworthy rails |
 
 ## Historical Phase 2 Ladder
 
