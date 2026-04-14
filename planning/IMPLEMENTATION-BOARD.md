@@ -40,35 +40,30 @@ Use this order when planning or implementing:
 
 ## Current Coding Blockers
 
-Tracer 10 is now closure-clean and Milestone 1.6 now proves the bounded live
-departure-close boundary. The remaining active blockers before the next major
-implementation slice are:
+Milestone 2.0 is closed. The active blockers before the next implementation
+legs are now:
 
-1. `ashton-mcp-gateway`
-   - keep the line narrower than the future control-plane vision even after
-     caller identity and audit are real
-   - do not widen beyond two read-only ATHENA routes until a later tracer
-     explicitly justifies it
-2. `ashton-proto`
-   - keep manifest expansion tracer-driven now that the first ATHENA manifest is
-     real
-3. `athena`
-   - keep the new bounded live edge-ingress deployment narrower than any broad
-     source-backed ingress rollout
-   - do not widen into broader prediction, persistence, or admin workflow work
-     next
-4. `hermes`
-   - keep staff operations read-only and source-backed; the deploy-only
-     Milestone 1.7 closeout now proves the bounded live runner slice without
-     widening runtime truth
-   - keep any later operator surface narrower than a broader assistant or
-     write-authority claim
-5. `apollo`
-   - keep explicit lobby membership narrower than future ARES, invites, or
-     social coordination flows
-   - do not let eligibility, visits, workouts, or recommendations auto-create
-     membership
-6. terminology cleanup
+1. `athena`
+   - close `v0.7.1` as a bounded hardening patch for projector absent-state
+     retention and adjacent low-risk cleanup
+   - do not widen that patch into prediction, dashboards, AI summaries, or
+     deploy changes
+2. `apollo`
+   - land `Phase 3 shared substrate B` as the first real scheduling/booking
+     substrate above ATHENA facility truth
+   - keep the first line staff-first, keep zones first-class, and widen bookable
+     truth to resource refs plus a resource graph
+   - keep graph authoring on migrations plus owner/admin CLI first
+3. `Phase 3A.1`
+   - open the member shell foundation only after the substrate lines above are
+     closed
+   - do not fake booking UI or back-solve product pages around missing substrate
+     truth
+4. `hermes` and `ashton-mcp-gateway`
+   - keep carry-forward hardening deferred until those surfaces are about to be
+     used
+   - do not let sidecar hardening reopen the ladder out of order
+5. terminology cleanup
    - keep using `presence` instead of `check-in` in current working docs
    - keep using `lobby` for product-facing matchmaking terminology in APOLLO
 
@@ -136,8 +131,8 @@ Rust remains a later optimization path, not a first-wave dependency.
 | Repo | Current line | Next planned line | Why it is next |
 | --- | --- | --- | --- |
 | `ashton-proto` | `v0.3.0` shipped; current Tracer 15 contract line `v0.4.0` | later than `v0.4.0` | the second routed manifest line is now real in the current repo line; further widening should stay tracer-driven |
-| `athena` | `v0.5.1` shipped; the Tracer 18 facility-truth line plus the `v0.6.1` hardening follow-up are on `main`; `v0.7.0` is now shipped and live as the bounded Postgres-backed storage/analytics deployment line | later than `v0.7.0` | Postgres-backed observations, derived session facts, and bounded internal analytics are now the current ATHENA substrate, so later diagnostics/prediction is the next true widening |
-| `apollo` | current Tracer 28 repo/runtime line plus the current `v0.19.1` hardening follow-up are on `main`; Tracer 24 remains tagged on `v0.15.0`; `v0.15.1` remains the narrow historical hardening patch line; deployed truth unchanged | later than `v0.19.1` | Milestone 2.0 hardens the current APOLLO line without a new feature surface, so later widening belongs after the plateau closes |
+| `athena` | `v0.5.1` shipped; the Tracer 18 facility-truth line plus the `v0.6.1` hardening follow-up are on `main`; `v0.7.0` is now shipped and live as the bounded Postgres-backed storage/analytics deployment line | `v0.7.1` | projector absent-state retention is the first honest post-`v0.7.0` hardening patch before any broader diagnostics or prediction widening |
+| `apollo` | current Tracer 28 repo/runtime line plus the current `v0.19.1` hardening follow-up are on `main`; Tracer 24 remains tagged on `v0.15.0`; `v0.15.1` remains the narrow historical hardening patch line; deployed truth unchanged | later than `v0.19.1` | the next honest widening is `Phase 3 shared substrate B`: an APOLLO-owned scheduling/booking substrate above ATHENA facility truth |
 | `hermes` | `v0.2.0` shipped | `v0.3.0` | the richer read-only reconciliation line is now shipped and the first write/approval boundary is the next true widening |
 | `ashton-mcp-gateway` | `v0.0.1` shipped; current Tracer 15 line plus the current `v0.2.1` hardening follow-up are on `main` | `v0.3.0` | the caller-aware audited read-only control-plane slice is now harder at the boundary; write governance is still the next true widening |
 | `ashton-platform` | current Milestone 2.0 control-plane closeout line on `main`; deployed truth unchanged | later than `v0.0.36` | `v0.0.36` is the Phase 2 plateau ledger line; later work should move to system-proof or Phase 3 instead of reopening deploy claims casually |
@@ -192,11 +187,11 @@ instead of letting chat-only findings drift into fake urgency.
 
 | Order | Repo | Likely line | Why it is next |
 | --- | --- | --- | --- |
-| 1 | `ashton-mcp-gateway` | bounded follow-up later than `v0.2.1` | the audit-failure policy is the only verified item with direct user-facing availability impact |
-| 2 | `athena` | first bounded hardening line later than `v0.7.0` | projector retention is the only confirmed scale-risk item and should land before prediction, dashboards, or AI summary work |
-| 3 | `apollo` | bounded `v0.19.x` follow-up only if the line reopens | add explicit streak regression tests and the NATS context cleanup without pretending a new capability line is needed |
-| 4 | `hermes` | bounded `v0.2.1` if the current surface needs a hardening patch | decide and test exact bin-boundary semantics before any later write or approval widening |
-| 5 | Phase 3 product work | separate packet | booking/scheduling substrate, member shell, and later manager surfaces remain separate from this audit hardening ladder |
+| 1 | `athena` | `v0.7.1` hardening patch | projector absent-state retention is the first confirmed post-`v0.7.0` scale-risk fix and should land before broader ATHENA widening |
+| 2 | `apollo` | `Phase 3 shared substrate B` later than `v0.19.1` | scheduling/booking truth should become real in APOLLO before member or manager UI widens around it |
+| 3 | `apollo` | `Phase 3A.1` later than shared substrate B | member shell foundation should build over closed substrate truth, not speculative UI state |
+| 4 | `hermes` / `ashton-mcp-gateway` | bounded follow-ups only when their surfaces are about to be used | keep sidecar carry-forward items from distorting the primary ladder |
+| 5 | later Phase 3 product work | separate packets | member shell, ops shell, and later presentation work should widen only after the substrate lines close |
 
 Current closeout note:
 
@@ -415,7 +410,20 @@ Current Tracer 19 closeout note:
 | `ashton-proto` | widen only when a tracer creates a real shared dependency |
 | Docs | repo-local docs first, then `ashton-platform` as the control-plane ledger |
 
-## Post-ATHENA Ladder
+## Active Post-Milestone 2.0 Ladder
+
+`Phase 3 shared substrate A` is closed on the later `athena v0.7.0` line.
+The active next ladder is now:
+
+| Order | Line | Repo focus | Release line | Purpose | Hard stop |
+| --- | --- | --- | --- | --- | --- |
+| 1 | `ATHENA v0.7.1` | `athena` | `v0.7.1` | bound projector absent-state retention and close adjacent low-risk cleanup | no prediction, dashboards, AI summaries, or deploy widening |
+| 2 | `Phase 3 shared substrate B` | `apollo` | later than `v0.19.1` | APOLLO-owned scheduling/booking substrate over facility/zone refs, resource refs, schedule blocks, and resource-graph truth | no business booking requests, quotes/payments, public booking entrypoint, dashboards, prediction, AI summaries, or HERMES write orchestration |
+| 3 | `Phase 3A.1` | `apollo` | later than shared substrate B | member shell foundation over already-real APIs and later real schedule reads only if they exist | no fake booking UI, no staff-shell drift, and no demo-only surfaces |
+| 4 | `Phase 3B` | `apollo` plus later `hermes` if earned | later | supervisor/manager/owner ops product over the settled role/authz and scheduling substrate | no broad admin blob or fake operational truth |
+| 5 | `Phase 3C` | cross-product | later | presentation, identity, packaging, and assistant presentation | no persona-first product before trustworthy rails |
+
+## Historical Phase 2 Ladder
 
 `Cleanup 0` is complete in this docs sync pass. It is intentionally docs-only
 and not a tagged runtime line.
@@ -443,7 +451,7 @@ reconciliation surface and bounded ATHENA support release alignment.
 | `v0.0.36` | `Milestone 2.0` | `apollo v0.19.1`, `athena v0.6.1`, `ashton-mcp-gateway v0.2.1`, and docs-only `ashton-platform` closeout; `Prometheus` unchanged unless deploy truth changes | Phase 2 backend/base plateau: structural pillars, competition base, planner/coaching/nutrition/presence/authz substrate, deploy truth, agent-safe proposal/apply rails, and docs aligned | not a broad demo milestone |
 | later than `Milestone 2.0` | long-horizon ladder in `planning/STARSHOT-VISION.md` | Phase 3 demos and later system-proof | meaningful frontend, demos, and broader presentation only after the backend/base ladder is closed cleanly | do not widen frontend during Phase 2 |
 
-## What Each Next Line Must Achieve
+## Historical Phase 2 Outcomes
 
 | Line | Concrete outcome | Why it matters |
 | --- | --- | --- |
@@ -466,7 +474,7 @@ reconciliation surface and bounded ATHENA support release alignment.
 | `Milestone 2.0` | the backend/base ladder is closure-clean across repos, deploy truth, and agent-safe proposal/apply discipline | turns the platform from a pile of tracers into a modular backend plateau ready for Phase 3 demos |
 | `System-Proof Milestone` | system-level proof of runtime truth, deployment truth, modularity, and maintenance model | shifts the platform from a pile of tracers to a coherent system |
 
-## Scope Bounds For The Remaining Phase 2 Lines
+## Historical Phase 2 Scope Bounds
 
 | Line | In scope | Out of scope |
 | --- | --- | --- |
@@ -520,7 +528,7 @@ auditable way rather than a freeform chat-owned way.
 | idempotency and optimistic concurrency | `Tracer 28` and later | agent writes should fail safely instead of duplicating or racing |
 | CLI parity with HTTP over shared services | `Milestone 2.0` proof | the system should be toolable without creating a second source of truth |
 
-## Test / Proof Plan By Line
+## Historical Phase 2 Proof Plan
 
 | Line | Minimum proof |
 | --- | --- |
@@ -554,7 +562,7 @@ auditable way rather than a freeform chat-owned way.
 | Maintenance | runbooks, CLIs, tests, and hardening artifacts let future work land without collapsing boundaries |
 | Agentic workflow | future agents can work repo by repo with narrow prompts, hardening discipline, and clear source-of-truth docs |
 
-## Immediate Next Steps
+## Historical Phase 2 Immediate Next Steps
 
 1. Treat `v0.0.19` as the shipped bounded ATHENA deployment closeout line.
 2. Treat `Tracer 14` as closure-clean on `main` and keep it strictly observability-only.

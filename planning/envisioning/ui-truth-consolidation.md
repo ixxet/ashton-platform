@@ -553,8 +553,10 @@ Shared Phase 3 substrate lines may land before shell polish when needed:
 
 - ATHENA Postgres-backed observation and derived-session analytics for
   manager-grade occupancy, flow, and mapping views
-- a separate scheduling and booking substrate above ATHENA facility truth for
-  calendars, requests, quotes, and conflict checks
+- `Phase 3 shared substrate B`: an APOLLO-owned scheduling and booking
+  substrate above ATHENA facility truth for calendars, conflict checks, and
+  later requests/quotes; zones remain first-class, while bookable truth expands
+  to resource refs plus a resource graph
 
 ### Phase 3A
 
@@ -608,8 +610,8 @@ These are the decisions this document supports right now:
 4. Keep the LLM as a bounded helper over deterministic substrates, not the core
    engine.
 5. Keep scheduling and booking domain logic out of ATHENA; let ATHENA own
-   facility, presence, history, and analytics inputs while a separate
-   scheduling layer owns booking truth.
+   facility, presence, history, and analytics inputs while APOLLO owns the
+   first real scheduling/booking substrate in Phase 3 shared substrate B.
 6. Add a real role/authz model before building supervisor/manager/owner product
    workflows.
 7. If the first demo must sell manager value, land a real manager-data
@@ -618,6 +620,9 @@ These are the decisions this document supports right now:
    substrate is stable enough to deserve them.
 9. Defer any AI-written occupancy or booking summary until real storage,
    derived session facts, and bounded analytics reads exist underneath it.
+10. Keep the first scheduling graph-authoring surface on migrations plus
+    owner/admin CLI; manager UI authoring can come later once the model is
+    proven.
 
 ## Decision Status
 

@@ -216,6 +216,20 @@ Key boundaries:
 - `ashton-proto` remains untouched because no shared-contract blocker was
   proven, and deployed truth stays unchanged
 
+## Next Planned Line
+
+The next honest APOLLO widening later than `v0.19.1` is `Phase 3 shared
+substrate B`.
+
+| Topic | Locked statement |
+| --- | --- |
+| repo owner | APOLLO |
+| booking ownership | keep booking/scheduling out of ATHENA |
+| substrate shape | facilities and zones remain first-class inputs, while bookable truth expands to resource refs plus resource-graph relationships |
+| first audience | supervisors read; managers and owners write |
+| first authoring shape | graph seeded and maintained by migrations plus owner/admin CLI |
+| first hard stops | no business booking requests, quotes/payments, public booking entrypoint, dashboards, prediction, AI summaries, or HERMES write orchestration |
+
 ## Project Shape
 
 | Path | Purpose |

@@ -90,6 +90,17 @@ Canonical note:
 | Modularity target | make each tracer a narrow backend pillar that agents can inspect and harden cleanly |
 | Ordering bias | structural pillars first, then operational/competition base, then planner/coaching/nutrition/presence/authz backend |
 
+## Post-Milestone 2.0 Next Ladder
+
+`Phase 3 shared substrate A` is already closed on the later `athena v0.7.0`
+line. The active next ladder is now:
+
+| Order | Line | Repo focus | Purpose | Hard stop |
+| --- | --- | --- | --- | --- |
+| 1 | `ATHENA v0.7.1` | `athena` | projector absent-state retention hardening plus adjacent low-risk cleanup | no prediction, dashboards, AI summaries, or deploy widening |
+| 2 | `Phase 3 shared substrate B` | `apollo` | APOLLO-owned scheduling/booking substrate above ATHENA facility truth, with zones staying first-class and bookable truth widening to resource refs plus a resource graph | no business booking requests, quotes/payments, public booking entrypoint, dashboards, prediction, AI summaries, or HERMES write orchestration |
+| 3 | `Phase 3A.1` | `apollo` | member shell foundation over already-real APIs and later real schedule reads only if they exist | no fake booking UI or ops-shell drift |
+
 ## Post-ATHENA Ladder
 
 `Cleanup 0` is complete in this docs pass. It is intentionally docs-only and
@@ -424,11 +435,11 @@ flowchart LR
 | Repo | Current line | Next planned line | Why it is next |
 | --- | --- | --- | --- |
 | `ashton-proto` | `v0.3.0` shipped; current Tracer 15 contract line `v0.4.0` | later than `v0.4.0` | the second routed manifest surface is now real in the current repo line; further widening should stay tracer-driven |
-| `athena` | `v0.5.1` shipped; the Tracer 18 facility-truth line plus the `v0.6.1` hardening follow-up are on `main`; `v0.7.0` is now shipped and live as the bounded storage/analytics deployment line | later than `v0.7.0` | Postgres-backed observations, derived session facts, and bounded internal analytics are now the current ATHENA substrate, so the next honest move is later diagnostics/prediction work only after that boundary is proved |
-| `apollo` | current Tracer 28 repo/runtime line plus the current `v0.19.1` hardening follow-up are on `main`; Tracer 24 remains tagged on `v0.15.0`; `v0.15.1` remains the narrow historical hardening patch line; deployed truth unchanged | later than `v0.19.1` | Milestone 2.0 hardens the current APOLLO line without creating a new feature surface, so the next honest move is later widening after the plateau closes |
+| `athena` | `v0.5.1` shipped; the Tracer 18 facility-truth line plus the `v0.6.1` hardening follow-up are on `main`; `v0.7.0` is now shipped and live as the bounded storage/analytics deployment line | `v0.7.1` | projector absent-state retention is the first honest post-`v0.7.0` hardening patch before any broader ATHENA widening |
+| `apollo` | current Tracer 28 repo/runtime line plus the current `v0.19.1` hardening follow-up are on `main`; Tracer 24 remains tagged on `v0.15.0`; `v0.15.1` remains the narrow historical hardening patch line; deployed truth unchanged | later than `v0.19.1` | the next honest widening is `Phase 3 shared substrate B`: an APOLLO-owned scheduling/booking substrate above ATHENA facility truth |
 | `hermes` | `v0.2.0` shipped | `v0.3.0` | the richer read-only reconciliation line is now shipped; explicit write authority is the next true widening |
 | `ashton-mcp-gateway` | `v0.0.1` shipped; current Tracer 15 line plus the current `v0.2.1` hardening follow-up are on `main` | `v0.3.0` | the caller-aware audited routed-read slice is now harder at the boundary; write approval is still the next true widening |
-| `ashton-platform` | current Milestone 2.0 control-plane closeout line on `main`; deployed truth unchanged | later than `v0.0.36` | `v0.0.36` is the plateau ledger line; later work should move to system-proof or Phase 3 instead of reopening Phase 2 boundaries casually |
+| `ashton-platform` | current Milestone 2.0 control-plane closeout line on `main`; deployed truth unchanged | later than `v0.0.36` | `v0.0.36` is the plateau ledger line; the next honest docs/planning work is the Phase 3 ladder sync, not a casual Phase 2 reopen |
 
 ## Current State Block
 
