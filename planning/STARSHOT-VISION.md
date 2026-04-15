@@ -223,11 +223,16 @@ calendar windows, block-timezone recurrence, explicit exceptions, and
 active-plus-bookable inventory-claim semantics are real without widening
 deployed truth or public booking.
 
+`Phase 3B.1` is now also closed in APOLLO repo/runtime truth on `main`: one
+read-only ops overview composes APOLLO schedule truth with ATHENA current
+occupancy and bounded aggregate analytics for supervisor, manager, and owner
+users only. Deployed truth remains unchanged.
+
 | Line | Repo focus | Release line | Purpose | Hard stop |
 | --- | --- | --- | --- | --- |
-| `Phase 3A.4` | `apollo` plus `hestia` only if the audit proves one tiny consumer change is needed | after closed `Phase 3A.3` | member-safe schedule calendar over the closed `Hestia` runtime so the member product consumes one honest APOLLO-owned calendar read without widening into booking | no booking UI, no public booking, no staff-shell drift, and no reopening `Hestia` or APOLLO wider than the calendar truth requires |
-| later APOLLO authz/admin widening only if earned | `apollo` | later | add a distinct `admin` role only if real runtime/product needs justify it, then let admin do owner-like graph work intentionally | no accidental role widening hidden inside `Phase 3A.4` |
-| `Phase 3B` | `apollo` plus later `hermes` when earned | later | supervisor/manager/owner ops product over the settled role/authz and scheduling substrate | no broad admin blob or fake operational truth |
+| `Phase 3B.2` | staff/ops consumer repo after audit; APOLLO only if a contract gap is proven | after closed `Phase 3B.1` | first honest ops shell/read foundation over the APOLLO ops overview contract | no booking UI, no public booking, no manager writes, no owner policy writes, no broad admin blob, no ATHENA widening, and no deploy claim |
+| later APOLLO authz/admin widening only if earned | `apollo` | later | add a distinct `admin` role only if real runtime/product needs justify it, then let admin do owner-like graph work intentionally | no accidental role widening hidden inside `Phase 3B.2` |
+| later `Phase 3B` widening | `apollo` plus later `hermes`/staff shell when earned | later | supervisor/manager/owner ops product over the settled role/authz, scheduling, and ops-read substrate | no broad admin blob or fake operational truth |
 | `Phase 3C` | cross-product | later | presentation, identity, packaging, and assistant presentation only after member and ops truth are real | no persona-first product before trustworthy rails |
 
 ## Historical Phase 2 Ladder
@@ -422,9 +427,9 @@ requires them:
 
 | Order | Action | Outcome |
 | --- | --- | --- |
-| 1 | keep `Phase 3 shared substrate B`, `Phase 3A.1`, and `Phase 3A.2` closed in repo/runtime truth | make member completion and later ops work build on already-real scheduling, APOLLO shell, and `Hestia` frontend truth instead of reopening finished lines |
-| 2 | open `Phase 3A.4` member-safe schedule calendar now that `Phase 3A.3` is closed | move the active blocker to one honest schedule read without backsliding into booking, staff schedule, or frontend bootstrap rework |
-| 3 | keep the RFC3339-only calendar boundary as the anti-ambiguity runtime contract while letting later shells render friendlier local formats | preserve precise scheduling truth without forcing end-user display to look like raw transport data |
+| 1 | keep `Phase 3 shared substrate B`, `Phase 3A.1`, `Phase 3A.2`, `Phase 3A.4`, and `Phase 3B.1` closed in repo/runtime truth | make later ops work build on already-real scheduling, member-shell, Hestia frontend, member-safe calendar, and APOLLO ops-read truth instead of reopening finished lines |
+| 2 | open `Phase 3B.2 ops shell foundation` planning now that `Phase 3B.1` is closed | move the active blocker to one honest internal ops-shell/read consumer without backsliding into booking, public entrypoints, manager writes, gateway work, or deploy work |
+| 3 | keep the RFC3339-only calendar/ops window boundary as the anti-ambiguity runtime contract while letting later shells render friendlier local formats | preserve precise scheduling and ops truth without forcing end-user display to look like raw transport data |
 | 4 | keep ATHENA deploy truth separate from ATHENA repo/runtime closeout | prevent an optional deploy repin from blocking the product ladder |
 | 5 | leave HERMES and gateway follow-ups deferred until those surfaces are about to be used | prevent sidecar hardening from distorting the product ladder |
 | 6 | keep docs-first truth and fresh planning-chat seeding as standard practice | keep packet generation tied to committed repo truth |
