@@ -109,12 +109,17 @@ RFC3339 boundaries instead of reintroducing date-only semantics. The planning
 phrase `owner/admin CLI first` still maps to owner-only runtime truth today
 because APOLLO has no distinct `admin` role yet.
 
-The active next ladder is now:
+`Phase 3A.4` is now closed in APOLLO and `Hestia` repo/runtime truth: the
+member-safe schedule calendar line is real, and the member product now consumes
+one honest APOLLO-owned calendar read without widening into booking.
+
+No active next ladder is assigned yet. The next worker packet needs an explicit
+planning decision first:
 
 | Order | Line | Repo focus | Purpose | Hard stop |
 | --- | --- | --- | --- | --- |
-| 1 | `Phase 3A.4` | `apollo` plus `hestia` only if the audit proves one tiny consumer change is needed | member-safe schedule calendar over the closed `Hestia` runtime so the member product consumes one honest APOLLO-owned calendar read without widening into booking | no booking UI, no public booking, no ops-shell drift, and no reopening `Hestia` or APOLLO wider than the calendar truth requires |
-| 2 | later APOLLO authz/admin widening only if earned | `apollo` | add a distinct `admin` role only if real runtime/product needs justify it, then let admin do owner-like graph work intentionally | no accidental role widening hidden inside `Phase 3A.4` |
+| 1 | planning decision required | `apollo` plus `hestia` only if earned | choose the next bounded member/runtime line explicitly before reopening either repo | no improvised runtime widening, no hidden booking drift, and no accidental role/product expansion |
+| 2 | later APOLLO authz/admin widening only if earned | `apollo` | add a distinct `admin` role only if real runtime/product needs justify it, then let admin do owner-like graph work intentionally | no accidental role widening hidden inside the next member/runtime line |
 
 ## Post-ATHENA Ladder
 
@@ -450,9 +455,9 @@ flowchart LR
 | Repo | Current line | Next planned line | Why it is next |
 | --- | --- | --- | --- |
 | `ashton-proto` | `v0.3.0` shipped; current Tracer 15 contract line `v0.4.0` | later than `v0.4.0` | the second routed manifest surface is now real in the current repo line; further widening should stay tracer-driven |
-| `athena` | `v0.5.1` shipped; the Tracer 18 facility-truth line plus the `v0.6.1` hardening follow-up are on `main`; `v0.7.0` is now shipped and live as the bounded storage/analytics deployment line, and the later `v0.7.x` repo/runtime closeout is already on `main`; deploy truth remains separate | no active ladder line; separate deploy packet only if needed | ATHENA repo/runtime closeout is already done, and any later deploy repin or broader ATHENA widening must stay separate from `Phase 3A.4` |
-| `apollo` | current Tracer 28 repo/runtime line plus the current `v0.19.1` hardening follow-up, the later `Phase 3 shared substrate B` line, the later `Phase 3A.1` member shell foundation line, and the later `Phase 3A.3` member truth completion line are on `main`; Tracer 24 remains tagged on `v0.15.0`; `v0.15.1` remains the narrow historical hardening patch line; deployed truth unchanged | `Phase 3A.4` | `Phase 3A.3` is closed in APOLLO and `Hestia`, and APOLLO should now reopen only for one bounded member-safe schedule calendar read |
-| `hestia` | `Phase 3A.2` standalone member frontend bootstrap is on `main`; pushed repo truth now names `Hestia`, keeps APOLLO as auth/session authority, records future privileged split to `Themis`, and now also carries the closed `Phase 3A.3` thin member-truth consumption line | no active ladder line; reopen only if `Phase 3A.4` earns a tiny consumer change | `Hestia` runtime bootstrap is closed and should now consume only real member-safe APOLLO truth instead of widening on its own |
+| `athena` | `v0.5.1` shipped; the Tracer 18 facility-truth line plus the `v0.6.1` hardening follow-up are on `main`; `v0.7.0` is now shipped and live as the bounded storage/analytics deployment line, and the later `v0.7.x` repo/runtime closeout is already on `main`; deploy truth remains separate | no active ladder line; separate deploy packet only if needed | ATHENA repo/runtime closeout is already done, and any later deploy repin or broader ATHENA widening must stay separate from the next bounded member/runtime line |
+| `apollo` | current Tracer 28 repo/runtime line plus the current `v0.19.1` hardening follow-up, the later `Phase 3 shared substrate B` line, the later `Phase 3A.1` member shell foundation line, the later `Phase 3A.3` member truth completion line, and the later `Phase 3A.4` member-safe schedule calendar line are on `main`; Tracer 24 remains tagged on `v0.15.0`; `v0.15.1` remains the narrow historical hardening patch line; deployed truth unchanged | no active ladder line; planning decision required before the next packet | `Phase 3A.4` is closed in APOLLO and `Hestia`, and APOLLO should now reopen only for an explicitly chosen next bounded line |
+| `hestia` | `Phase 3A.2` standalone member frontend bootstrap is on `main`; pushed repo truth now names `Hestia`, keeps APOLLO as auth/session authority, records future privileged split to `Themis`, and now also carries the closed `Phase 3A.3` thin member-truth consumption line plus the closed `Phase 3A.4` Home schedule-outlook consumption line | no active ladder line; planning decision required before the next packet | `Hestia` runtime bootstrap is closed and should reopen only for an explicitly chosen next bounded line |
 | `hermes` | `v0.2.0` shipped | `v0.3.0` | the richer read-only reconciliation line is now shipped; explicit write authority is the next true widening |
 | `ashton-mcp-gateway` | `v0.0.1` shipped; current Tracer 15 line plus the current `v0.2.1` hardening follow-up are on `main` | `v0.3.0` | the caller-aware audited routed-read slice is now harder at the boundary; write approval is still the next true widening |
 | `ashton-platform` | current Milestone 2.0 control-plane closeout line on `main`; deployed truth unchanged | later than `v0.0.36` | `v0.0.36` is the plateau ledger line; the next honest docs/planning work is the Phase 3 ladder sync, not a casual Phase 2 reopen |

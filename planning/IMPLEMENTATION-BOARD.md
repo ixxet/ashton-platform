@@ -50,27 +50,25 @@ implementation ladder.
 
 The active blockers before the next implementation legs are now:
 
-1. `Phase 3A.4`
-   - open one bounded member-safe schedule calendar line now that `Phase 3A.3`
-     member truth completion is closed in APOLLO and `Hestia` repo/runtime
-     truth
-   - keep `Hestia` member-only and reopen it only if APOLLO exposes a real
-     member-safe schedule read that needs one tiny consumer change
-   - land only one honest member-safe schedule calendar read over the existing
-     APOLLO schedule substrate
-   - do not widen into booking, public booking, staff or ops shell work,
-     gateway coupling, or fake schedule and booking truth
+1. next bounded `Phase 3` planning choice
+   - `Phase 3A.4` member-safe schedule calendar is now closed in APOLLO and
+     `Hestia` repo/runtime truth
+   - do not reopen APOLLO or `Hestia` for more runtime work until the next
+     bounded line is chosen explicitly
+   - keep the next packet honest: either one bounded member-product hardening
+     line over already-real truth or one more atomized `3A.x` line, but not an
+     improvised widening blob
 2. `apollo` role/authz widening only if later work truly needs it
    - the current planning stance still says migrations plus owner/admin CLI for
      first-line graph authoring, but APOLLO runtime still has no distinct
      `admin` role
    - today that policy maps to owner-only graph authoring in runtime truth; any
      future admin parity with owner must be an explicit APOLLO authz/runtime
-     widening, not an accidental side effect of `Phase 3A.4`
+     widening, not an accidental side effect of the next member/runtime line
 3. `athena` deploy truth
    - keep any later `v0.7.x` deploy repin or smoke closeout separate from
      repo/runtime truth
-   - do not let a deploy-only ATHENA packet block `Phase 3A.4`
+   - do not let a deploy-only ATHENA packet block the next bounded runtime line
 4. `hermes` and `ashton-mcp-gateway`
    - keep carry-forward hardening deferred until those surfaces are about to be
      used
@@ -143,9 +141,9 @@ Rust remains a later optimization path, not a first-wave dependency.
 | Repo | Current line | Next planned line | Why it is next |
 | --- | --- | --- | --- |
 | `ashton-proto` | `v0.3.0` shipped; current Tracer 15 contract line `v0.4.0` | later than `v0.4.0` | the second routed manifest line is now real in the current repo line; further widening should stay tracer-driven |
-| `athena` | `v0.5.1` shipped; the Tracer 18 facility-truth line plus the `v0.6.1` hardening follow-up are on `main`; `v0.7.0` is now shipped and live as the bounded Postgres-backed storage/analytics deployment line, and the later `v0.7.x` repo/runtime closeout is already on `main`; deploy truth remains separate | no active ladder line; separate deploy packet only if needed | ATHENA repo/runtime closeout is already done, and any later deploy repin or broader ATHENA widening must stay separate from `Phase 3A.4` |
-| `apollo` | current Tracer 28 repo/runtime line plus the current `v0.19.1` hardening follow-up, the later `Phase 3 shared substrate B` repo/runtime line, the later `Phase 3A.1` member shell foundation line, and the later `Phase 3A.3` member truth completion line are on `main`; Tracer 24 remains tagged on `v0.15.0`; `v0.15.1` remains the narrow historical hardening patch line; deployed truth unchanged | `Phase 3A.4` | `Phase 3A.3` is now closed, and APOLLO should reopen only for one bounded member-safe schedule calendar read |
-| `hestia` | `Phase 3A.2` standalone member frontend bootstrap is on `main`; pushed repo truth now names `Hestia`, keeps APOLLO as auth/session authority, records future privileged split to `Themis`, and now also carries the closed `Phase 3A.3` thin member-truth consumption line | no active ladder line; reopen only if `Phase 3A.4` earns a tiny consumer change | `Hestia` should stay thin and member-only, reopening only if APOLLO exposes one honest member-safe schedule calendar read |
+| `athena` | `v0.5.1` shipped; the Tracer 18 facility-truth line plus the `v0.6.1` hardening follow-up are on `main`; `v0.7.0` is now shipped and live as the bounded Postgres-backed storage/analytics deployment line, and the later `v0.7.x` repo/runtime closeout is already on `main`; deploy truth remains separate | no active ladder line; separate deploy packet only if needed | ATHENA repo/runtime closeout is already done, and any later deploy repin or broader ATHENA widening must stay separate from the next bounded member/runtime line |
+| `apollo` | current Tracer 28 repo/runtime line plus the current `v0.19.1` hardening follow-up, the later `Phase 3 shared substrate B` repo/runtime line, the later `Phase 3A.1` member shell foundation line, the later `Phase 3A.3` member truth completion line, and the later `Phase 3A.4` member-safe schedule calendar line are on `main`; Tracer 24 remains tagged on `v0.15.0`; `v0.15.1` remains the narrow historical hardening patch line; deployed truth unchanged | no active ladder line; planning decision required before the next packet | `Phase 3A.4` is now closed, and APOLLO should reopen only after the next bounded member/runtime line is chosen explicitly |
+| `hestia` | `Phase 3A.2` standalone member frontend bootstrap is on `main`; pushed repo truth now names `Hestia`, keeps APOLLO as auth/session authority, records future privileged split to `Themis`, and now also carries the closed `Phase 3A.3` thin member-truth consumption line plus the closed `Phase 3A.4` Home schedule-outlook consumption line | no active ladder line; planning decision required before the next packet | `Hestia` should stay thin and member-only, reopening only for an explicitly chosen next bounded line |
 | `hermes` | `v0.2.0` shipped | `v0.3.0` | the richer read-only reconciliation line is now shipped and the first write/approval boundary is the next true widening |
 | `ashton-mcp-gateway` | `v0.0.1` shipped; current Tracer 15 line plus the current `v0.2.1` hardening follow-up are on `main` | `v0.3.0` | the caller-aware audited read-only control-plane slice is now harder at the boundary; write governance is still the next true widening |
 | `ashton-platform` | current Milestone 2.0 control-plane closeout line on `main`; deployed truth unchanged | later than `v0.0.36` | `v0.0.36` is the Phase 2 plateau ledger line; later work should move to system-proof or Phase 3 instead of reopening deploy claims casually |
@@ -200,7 +198,7 @@ instead of letting chat-only findings drift into fake urgency.
 
 | Order | Repo | Likely line | Why it is next |
 | --- | --- | --- | --- |
-| 1 | `apollo` | `Phase 3A.4` after closed `Phase 3A.3` | member-safe schedule calendar truth should expose one honest schedule read behind the closed `Hestia` runtime and reopen `Hestia` only if one tiny consumer change is proven necessary |
+| 1 | `apollo` plus `hestia` only if earned | planning decision required after closed `Phase 3A.4` | the member-safe schedule calendar line is now closed, so the next bounded member/runtime line must be chosen explicitly before either repo reopens |
 | 2 | `apollo` | later APOLLO authz/admin widening only if earned | current runtime still maps the first-line owner/admin graph-authoring policy to owner-only because no distinct admin role exists yet |
 | 3 | `hermes` / `ashton-mcp-gateway` | bounded follow-ups only when their surfaces are about to be used | keep sidecar carry-forward items from distorting the primary ladder |
 | 4 | later Phase 3 product work | separate packets | ops shell, presentation, and later product widening should build on already-closed substrate truth |
@@ -405,8 +403,8 @@ Current Phase 3 shared substrate B closeout note:
 - `Phase 3A.2` frontend repo bootstrap is now closed in `Hestia` repo/runtime truth
 - `Phase 3A.3` member truth completion is now closed in APOLLO and `Hestia`
   repo/runtime truth
-- `Phase 3A.4` member-safe schedule calendar is now the active implementation
-  blocker
+- `Phase 3A.4` member-safe schedule calendar is now closed in APOLLO and
+  `Hestia` repo/runtime truth
 
 Current Tracer 19 closeout note:
 
@@ -469,12 +467,13 @@ frontend runtime, same-origin APOLLO bridge, member-only IA, explicit
 schedule-out boundary, and repo-local docs/test proof are all on `main`
 without reopening APOLLO.
 
-The active next ladder is now:
+No active next ladder is assigned yet. The next worker packet needs an
+explicit planning decision first:
 
 | Order | Line | Repo focus | Release line | Purpose | Hard stop |
 | --- | --- | --- | --- | --- | --- |
-| 1 | `Phase 3A.4` | `apollo` plus `hestia` only if the audit earns a tiny consumer change | after closed `Phase 3A.3` | member-safe schedule calendar over the closed `Hestia` runtime: expose one honest calendar read over APOLLO schedule truth and keep the shell consuming only that member-safe view | no booking UI, no public booking, no staff-shell drift, and no reopening `Hestia` or APOLLO wider than the calendar truth requires |
-| 2 | later APOLLO authz/admin widening only if earned | `apollo` | later | add a distinct `admin` role only if real product/runtime needs prove it, then let admin do owner-like graph work intentionally instead of by implication | no accidental role widening hidden inside `Phase 3A.4` |
+| 1 | planning decision required | `apollo` plus `hestia` only if earned | after closed `Phase 3A.4` | choose the next bounded member/runtime line explicitly before reopening either repo | no improvised runtime widening, no hidden booking drift, and no accidental role/product expansion |
+| 2 | later APOLLO authz/admin widening only if earned | `apollo` | later | add a distinct `admin` role only if real product/runtime needs prove it, then let admin do owner-like graph work intentionally instead of by implication | no accidental role widening hidden inside the next member/runtime line |
 | 3 | `Phase 3B` | `apollo` plus later `hermes` if earned | later | supervisor/manager/owner ops product over the settled role/authz and scheduling substrate | no broad admin blob or fake operational truth |
 | 4 | `Phase 3C` | cross-product | later | presentation, identity, packaging, and assistant presentation | no persona-first product before trustworthy rails |
 
