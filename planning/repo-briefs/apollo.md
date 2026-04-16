@@ -227,18 +227,21 @@ Key boundaries:
 - `ashton-proto` remains untouched because no shared-contract blocker was
   proven, and deployed truth stays unchanged
 
-## Next Planned Line
+## Phase 3B.2 Closeout And Next Fork
 
-The next platform blocker after closed `Phase 3B.1` is `Phase 3B.2 ops shell
-foundation`.
+`Phase 3B.2 ops shell foundation` is now closed in Themis repo/runtime truth.
+APOLLO stayed closed for that packet: Themis consumes APOLLO auth/session/profile
+and the existing APOLLO ops overview route without backend drift. Deployed truth
+is unchanged, and Hestia, ATHENA, HERMES, gateway, and deploy were not touched.
 
 | Topic | Locked statement |
 | --- | --- |
-| repo owner | planning first; staff/ops consumer repo only after audit, with APOLLO reopening only if a contract gap is proven |
+| current shell owner | Themis is the first privileged read-only ops shell |
 | current APOLLO truth | `Phase 3B.1` is closed on `main` with one read-only ops overview over schedule plus ATHENA occupancy/analytics truth |
-| first audience | supervisor, manager, and owner reads only |
-| first consumer shape | consume the APOLLO ops overview contract without inventing booking, policy, or write semantics |
-| first hard stops | no booking requests, quotes/payments, public booking entrypoint, dashboards, prediction, AI summaries, owner policy writes, gateway widening, deploy work, or HERMES/Themis widening unless the `Phase 3B.2` audit proves a narrow read-only need |
+| Themis consumption | APOLLO auth/session/profile plus `GET /api/v1/ops/facilities/{facilityKey}/overview` only |
+| next fork | `Phase 3B.3 manager scheduling controls` if staff schedule-control rails are required before booking intake; `Phase 3B.4 request-first booking workspace` if the current read-only ops shell is enough for intake and triage |
+| APOLLO reopen rule | APOLLO should reopen only if the chosen next packet proves a narrow contract gap or write surface |
+| hard stops | no public booking, owner policy writes, broad admin role work, gateway widening, deploy work, prediction, AI summaries, or HERMES widening by implication |
 
 ## Project Shape
 

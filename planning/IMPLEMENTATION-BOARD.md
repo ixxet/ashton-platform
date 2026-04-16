@@ -44,21 +44,25 @@ Milestone 2.0 is closed. ATHENA repo/runtime closeout is also closed on
 `main`: `v0.7.1` landed the bounded projector absent-state retention patch, and
 the later `main` line added a compact durable projector-miss guardrail without
 changing replay authority. `Phase 3 shared substrate B` and `Phase 3B.1 ops read
-foundation` are now also closed in APOLLO repo/runtime truth on `main`.
+foundation` are now also closed in APOLLO repo/runtime truth on `main`, and
+`Phase 3B.2 ops shell foundation` is now closed in Themis repo/runtime truth on
+`main`.
 Prometheus/live remains on immutable `athena v0.7.0`, and that deploy truth
 should stay separate from the active implementation ladder.
 
 The active blockers before the next implementation legs are now:
 
-1. `Phase 3B.2 ops shell foundation` planning packet
-   - `Phase 3B.1` is now closed in APOLLO repo/runtime truth with one read-only
-     ops overview over APOLLO schedule truth plus ATHENA occupancy/analytics
-     truth
-   - the next worker packet must decide the first honest ops-shell consumer over
-     that contract before any runtime repo reopens
-   - keep the next packet narrow: shell/read consumption over already-real ops
-     truth only, not booking, public entrypoints, manager writes, deploy work, or
-     broad HERMES/Themis/admin expansion
+1. next Phase 3B planning fork after closed `Phase 3B.2`
+   - Themis is now the first privileged read-only ops shell; it consumes APOLLO
+     auth/session/profile plus
+     `GET /api/v1/ops/facilities/{facilityKey}/overview`
+   - choose `Phase 3B.3 manager scheduling controls` if staff
+     schedule-control rails are required before booking intake can be honest
+   - choose `Phase 3B.4 request-first booking workspace` if the current
+     read-only ops shell is enough for intake and triage
+   - keep the next packet narrow: no public booking, no owner policy writes, no
+     broad admin role work, no ATHENA/HERMES/gateway/deploy widening unless the
+     next packet proves a specific contract need
 2. `apollo` role/authz widening only if later work truly needs it
    - the current planning stance still says migrations plus owner/admin CLI for
      first-line graph authoring, but APOLLO runtime still has no distinct
@@ -72,7 +76,7 @@ The active blockers before the next implementation legs are now:
    - do not let a deploy-only ATHENA packet block the next bounded runtime line
 4. `hermes` and `ashton-mcp-gateway`
    - keep carry-forward hardening deferred until those surfaces are about to be
-     used by the explicit `Phase 3B.2` packet
+     used by an explicit later Phase 3B packet
    - do not let sidecar hardening reopen the ladder out of order
 5. terminology cleanup
    - keep using `presence` instead of `check-in` in current working docs
@@ -142,9 +146,10 @@ Rust remains a later optimization path, not a first-wave dependency.
 | Repo | Current line | Next planned line | Why it is next |
 | --- | --- | --- | --- |
 | `ashton-proto` | `v0.3.0` shipped; current Tracer 15 contract line `v0.4.0` | later than `v0.4.0` | the second routed manifest line is now real in the current repo line; further widening should stay tracer-driven |
-| `athena` | `v0.5.1` shipped; the Tracer 18 facility-truth line plus the `v0.6.1` hardening follow-up are on `main`; `v0.7.0` is now shipped and live as the bounded Postgres-backed storage/analytics deployment line, and the later `v0.7.x` repo/runtime closeout is already on `main`; deploy truth remains separate | no active ladder line; separate deploy packet only if needed | ATHENA repo/runtime closeout is already done, and any later deploy repin or broader ATHENA widening must stay separate from the next bounded `Phase 3B.2` packet |
-| `apollo` | current Tracer 28 repo/runtime line plus the current `v0.19.1` hardening follow-up, the later `Phase 3 shared substrate B` repo/runtime line, the later `Phase 3A.1` member shell foundation line, the later `Phase 3A.3` member truth completion line, the later `Phase 3A.4` member-safe schedule calendar line, and the later `Phase 3B.1` ops read foundation line are on `main`; Tracer 24 remains tagged on `v0.15.0`; `v0.15.1` remains the narrow historical hardening patch line; deployed truth unchanged | `Phase 3B.2 ops shell foundation` planning packet | `Phase 3B.1` is closed, and APOLLO should reopen only if the shell audit proves a narrow contract gap over the already-real ops overview |
+| `athena` | `v0.5.1` shipped; the Tracer 18 facility-truth line plus the `v0.6.1` hardening follow-up are on `main`; `v0.7.0` is now shipped and live as the bounded Postgres-backed storage/analytics deployment line, and the later `v0.7.x` repo/runtime closeout is already on `main`; deploy truth remains separate | no active ladder line; separate deploy packet only if needed | ATHENA repo/runtime closeout is already done, and any later deploy repin or broader ATHENA widening must stay separate from the next bounded Phase 3B packet |
+| `apollo` | current Tracer 28 repo/runtime line plus the current `v0.19.1` hardening follow-up, the later `Phase 3 shared substrate B` repo/runtime line, the later `Phase 3A.1` member shell foundation line, the later `Phase 3A.3` member truth completion line, the later `Phase 3A.4` member-safe schedule calendar line, and the later `Phase 3B.1` ops read foundation line are on `main`; Tracer 24 remains tagged on `v0.15.0`; `v0.15.1` remains the narrow historical hardening patch line; deployed truth unchanged | no active ladder line; reopen only if a later Phase 3B packet proves a contract gap or write surface | APOLLO stayed closed for `Phase 3B.2`; Themis now consumes the existing APOLLO auth/session/profile and ops overview routes without backend drift |
 | `hestia` | `Phase 3A.2` standalone member frontend bootstrap is on `main`; pushed repo truth now names `Hestia`, keeps APOLLO as auth/session authority, records future privileged split to `Themis`, and now also carries the closed `Phase 3A.3` thin member-truth consumption line plus the closed `Phase 3A.4` Home schedule-outlook consumption line | no active ladder line; planning decision required before the next packet | `Hestia` should stay thin and member-only, reopening only for an explicitly chosen next bounded line |
+| `themis` | `Phase 3B.2` standalone privileged ops shell foundation is on `main`; pushed repo truth names Themis, keeps APOLLO as auth/session/API authority, and consumes the APOLLO ops overview route read-only | planning fork between `Phase 3B.3 manager scheduling controls` and `Phase 3B.4 request-first booking workspace` | Themis is the first privileged read-only ops shell; deployed truth is unchanged, and APOLLO, Hestia, ATHENA, HERMES, gateway, and deploy were not touched |
 | `hermes` | `v0.2.0` shipped | `v0.3.0` | the richer read-only reconciliation line is now shipped and the first write/approval boundary is the next true widening |
 | `ashton-mcp-gateway` | `v0.0.1` shipped; current Tracer 15 line plus the current `v0.2.1` hardening follow-up are on `main` | `v0.3.0` | the caller-aware audited read-only control-plane slice is now harder at the boundary; write governance is still the next true widening |
 | `ashton-platform` | current Milestone 2.0 control-plane closeout line on `main`; deployed truth unchanged | later than `v0.0.36` | `v0.0.36` is the Phase 2 plateau ledger line; later work should move to system-proof or Phase 3 instead of reopening deploy claims casually |
@@ -199,7 +204,7 @@ instead of letting chat-only findings drift into fake urgency.
 
 | Order | Repo | Likely line | Why it is next |
 | --- | --- | --- | --- |
-| 1 | staff/ops consumer repo only after audit; APOLLO only if a contract gap is proven | `Phase 3B.2 ops shell foundation` planning packet | the ops read foundation is now closed, so the next bounded line should consume the overview contract without silently widening APOLLO, HERMES, Themis, booking, gateway, or deploy truth |
+| 1 | `themis` plus APOLLO only if a contract gap or write surface is proven | planning fork between `Phase 3B.3 manager scheduling controls` and `Phase 3B.4 request-first booking workspace` | choose manager scheduling controls if staff schedule-control rails are required before booking intake; choose request-first booking if the current read-only ops shell is enough for intake and triage |
 | 2 | `apollo` | later APOLLO authz/admin widening only if earned | current runtime still maps the first-line owner/admin graph-authoring policy to owner-only because no distinct admin role exists yet |
 | 3 | `hermes` / `ashton-mcp-gateway` | bounded follow-ups only when their surfaces are about to be used | keep sidecar carry-forward items from distorting the primary ladder |
 | 4 | later Phase 3 product work | separate packets | ops shell, presentation, and later product widening should build on already-closed substrate truth |
@@ -475,15 +480,20 @@ frontend runtime, same-origin APOLLO bridge, member-only IA, explicit
 schedule-out boundary, and repo-local docs/test proof are all on `main`
 without reopening APOLLO.
 
-The active next ladder is now `Phase 3B.2 ops shell foundation`. The next worker
-packet still needs an explicit controller/audit pass before any runtime repo
-opens:
+`Phase 3B.2` is now closed in `Themis` repo/runtime truth: standalone
+privileged read-only ops shell, same-origin APOLLO bridge, supervisor/manager/
+owner overview entry, unsupported-role state for members, degraded ATHENA config
+state, and repo-local docs/test proof are all on `main` without reopening
+APOLLO, Hestia, ATHENA, HERMES, gateway, deploy, or ashton-platform runtime
+truth. Deployed truth is unchanged.
+
+The active next ladder is now a Phase 3B planning fork:
 
 | Order | Line | Repo focus | Release line | Purpose | Hard stop |
 | --- | --- | --- | --- | --- | --- |
-| 1 | `Phase 3B.2 ops shell foundation` | staff/ops consumer repo only after audit; APOLLO only if a contract gap is proven | after closed `Phase 3B.1` | consume the APOLLO ops overview contract in the first honest internal ops shell/read experience | no booking, public booking, manager writes, owner policy writes, broad admin role work, ATHENA widening, gateway widening, or deploy claims |
-| 2 | later APOLLO authz/admin widening only if earned | `apollo` | later | add a distinct `admin` role only if real product/runtime needs prove it, then let admin do owner-like graph work intentionally instead of by implication | no accidental role widening hidden inside the next ops-shell line |
-| 3 | later `Phase 3B` widening | `apollo` plus later `hermes`/staff shell only if earned | later | supervisor/manager/owner ops product over the settled role/authz, scheduling, and ops-read substrate | no broad admin blob or fake operational truth |
+| 1 | `Phase 3B.3 manager scheduling controls` | likely `apollo` plus `themis` only if write rails are required | after closed `Phase 3B.2` | add staff schedule-control rails only if booking intake needs them first | no public booking, owner policy writes, broad admin role work, ATHENA widening, gateway widening, or deploy claims |
+| 2 | `Phase 3B.4 request-first booking workspace` | likely `themis` plus APOLLO only for narrow booking-request contracts | after closed `Phase 3B.2`, or after `3B.3` if staff controls are required first | start request-first booking intake if the current read-only ops shell is enough for intake and triage | no public booking, payment/quote sprawl, owner policy writes, broad admin role work, gateway widening, or deploy claims |
+| 3 | later APOLLO authz/admin widening only if earned | `apollo` | later | add a distinct `admin` role only if real product/runtime needs prove it, then let admin do owner-like graph work intentionally instead of by implication | no accidental role widening hidden inside a product packet |
 | 4 | `Phase 3C` | cross-product | later | presentation, identity, packaging, and assistant presentation | no persona-first product before trustworthy rails |
 
 ## Historical Phase 2 Ladder

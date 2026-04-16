@@ -228,11 +228,16 @@ read-only ops overview composes APOLLO schedule truth with ATHENA current
 occupancy and bounded aggregate analytics for supervisor, manager, and owner
 users only. Deployed truth remains unchanged.
 
+`Phase 3B.2` is now closed in Themis repo/runtime truth on `main`: Themis is
+the first privileged read-only ops shell, consumes APOLLO auth/session/profile
+plus the APOLLO ops overview route, and does not widen deployed truth. APOLLO,
+Hestia, ATHENA, HERMES, gateway, and deploy were not touched.
+
 | Line | Repo focus | Release line | Purpose | Hard stop |
 | --- | --- | --- | --- | --- |
-| `Phase 3B.2` | staff/ops consumer repo after audit; APOLLO only if a contract gap is proven | after closed `Phase 3B.1` | first honest ops shell/read foundation over the APOLLO ops overview contract | no booking UI, no public booking, no manager writes, no owner policy writes, no broad admin blob, no ATHENA widening, and no deploy claim |
-| later APOLLO authz/admin widening only if earned | `apollo` | later | add a distinct `admin` role only if real runtime/product needs justify it, then let admin do owner-like graph work intentionally | no accidental role widening hidden inside `Phase 3B.2` |
-| later `Phase 3B` widening | `apollo` plus later `hermes`/staff shell when earned | later | supervisor/manager/owner ops product over the settled role/authz, scheduling, and ops-read substrate | no broad admin blob or fake operational truth |
+| `Phase 3B.3 manager scheduling controls` | likely `apollo` plus `themis` only if write rails are required | after closed `Phase 3B.2` | add staff schedule-control rails if booking intake needs them first | no public booking, owner policy writes, broad admin blob, ATHENA widening, gateway widening, or deploy claim |
+| `Phase 3B.4 request-first booking workspace` | likely `themis` plus APOLLO only for narrow booking-request contracts | after closed `Phase 3B.2`, or after `3B.3` if staff controls are required first | start request-first booking if the current read-only ops shell is enough for intake and triage | no public booking, payment/quote sprawl, owner policy writes, broad admin blob, gateway widening, or deploy claim |
+| later APOLLO authz/admin widening only if earned | `apollo` | later | add a distinct `admin` role only if real runtime/product needs justify it, then let admin do owner-like graph work intentionally | no accidental role widening hidden inside a product packet |
 | `Phase 3C` | cross-product | later | presentation, identity, packaging, and assistant presentation only after member and ops truth are real | no persona-first product before trustworthy rails |
 
 ## Historical Phase 2 Ladder
@@ -427,8 +432,8 @@ requires them:
 
 | Order | Action | Outcome |
 | --- | --- | --- |
-| 1 | keep `Phase 3 shared substrate B`, `Phase 3A.1`, `Phase 3A.2`, `Phase 3A.4`, and `Phase 3B.1` closed in repo/runtime truth | make later ops work build on already-real scheduling, member-shell, Hestia frontend, member-safe calendar, and APOLLO ops-read truth instead of reopening finished lines |
-| 2 | open `Phase 3B.2 ops shell foundation` planning now that `Phase 3B.1` is closed | move the active blocker to one honest internal ops-shell/read consumer without backsliding into booking, public entrypoints, manager writes, gateway work, or deploy work |
+| 1 | keep `Phase 3 shared substrate B`, `Phase 3A.1`, `Phase 3A.2`, `Phase 3A.4`, `Phase 3B.1`, and `Phase 3B.2` closed in repo/runtime truth | make later ops and booking work build on already-real scheduling, member-shell, Hestia frontend, member-safe calendar, APOLLO ops-read truth, and Themis read-only ops shell truth instead of reopening finished lines |
+| 2 | choose the next Phase 3B fork: `3B.3 manager scheduling controls` if staff schedule-control rails are required before booking intake, or `3B.4 request-first booking workspace` if the current read-only ops shell is enough for intake and triage | move the active blocker beyond the ops shell without backsliding into public booking, owner policy writes, broad admin role work, gateway work, or deploy work |
 | 3 | keep the RFC3339-only calendar/ops window boundary as the anti-ambiguity runtime contract while letting later shells render friendlier local formats | preserve precise scheduling and ops truth without forcing end-user display to look like raw transport data |
 | 4 | keep ATHENA deploy truth separate from ATHENA repo/runtime closeout | prevent an optional deploy repin from blocking the product ladder |
 | 5 | leave HERMES and gateway follow-ups deferred until those surfaces are about to be used | prevent sidecar hardening from distorting the product ladder |
