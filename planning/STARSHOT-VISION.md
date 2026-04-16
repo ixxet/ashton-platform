@@ -43,7 +43,8 @@ execution narrow, bounded, and testable.
 | `ATHENA runtime` | `v0.5.1` shipped; the Tracer 18 facility-truth line plus the `v0.6.1` hardening follow-up are on `main`; `v0.7.0` is now live | durable history, facility truth, Postgres-backed observations, derived sessions, and bounded internal analytics are real in repo/runtime and on the bounded live deploy line | done |
 | `ATHENA deployment closeout` | earlier `Prometheus v0.0.3` / `ashton-platform v0.0.19` closeout remains historical; current live cluster runs `athena v0.7.0` | bounded live deploy truth is real | done |
 | `APOLLO member runtime` | `v0.9.0` shipped | auth, visits, workouts, recommendations, membership, and deterministic preview are real | done |
-| `APOLLO backend/runtime` | current Tracer 28 repo/runtime closeout line plus the later `Phase 3 shared substrate B`, `Phase 3B.1`, `Phase 3B.4`, and `Phase 3B.5` lines are on `main`; deployed truth unchanged | sport registry, facility-sport capability mapping, queue/assignment/lifecycle truth, team/roster/session/match execution containers, immutable result capture, sport-and-mode-separated ratings, session-scoped standings, self-scoped member stats, the planner/deterministic-coaching plus bounded nutrition/helper and facility-scoped presence surfaces, the bounded competition role/authz substrate, the first real scheduling substrate, read-only ops overview, internal request-first booking truth, and approved linked-reservation cancellation are real while public competition reads, public booking, payments, quotes, and broader staff product remain deferred | done |
+| `APOLLO backend/runtime` | current Tracer 28 repo/runtime closeout line plus the later `Phase 3 shared substrate B`, `Phase 3B.1`, `Phase 3B.4`, `Phase 3B.5`, and `Phase 3B.6` lines are on `main`; deployed truth unchanged | sport registry, facility-sport capability mapping, queue/assignment/lifecycle truth, team/roster/session/match execution containers, immutable result capture, sport-and-mode-separated ratings, session-scoped standings, self-scoped member stats, the planner/deterministic-coaching plus bounded nutrition/helper and facility-scoped presence surfaces, the bounded competition role/authz substrate, the first real scheduling substrate, read-only ops overview, internal request-first booking truth, approved linked-reservation cancellation, and public request intake API truth are real while public competition reads, instant booking, payments, quotes, and broader staff product remain deferred | done |
+| `Hestia customer shell` | public intake at `/intake` plus authenticated member app under `/app/**` are on `main`; deployed truth unchanged | Hestia is the customer-facing shell without staff controls, payments, quotes, or deployment claims | done |
 | `HERMES` | `v0.2.0` shipped | one thin staff read plus one richer reconciliation read are real | done |
 | `Gateway` | current Tracer 15 line real on `main` | control plane is real, caller-aware, and still intentionally narrow | later gateway widening only if justified |
 | `Platform docs` | synced to current repo truth and release lines | control-plane planning truth now matches the later `athena v0.7.0` deploy line plus current APOLLO `v0.19.1`, shared substrate B, ops-read, request-first booking, and approved booking lifecycle closeout truth without widening deployed claims | keep synced as work lands |
@@ -221,7 +222,7 @@ The target is:
 `main`: schedule resources, resource-graph truth, typed blocks, RFC3339-only
 calendar windows, block-timezone recurrence, explicit exceptions, and
 active-plus-bookable inventory-claim semantics are real without widening
-deployed truth or public booking.
+deployed truth, public request intake, or UI claims.
 
 `Phase 3B.1` is now also closed in APOLLO repo/runtime truth on `main`: one
 read-only ops overview composes APOLLO schedule truth with ATHENA current
@@ -237,8 +238,9 @@ Hestia, ATHENA, HERMES, gateway, and deploy were not touched.
 APOLLO owns booking request persistence, state transitions, trusted-surface-gated
 mutations, availability preview, and conflict-aware approval into linked internal
 reservation blocks. Themis owns the internal `/ops/bookings` staff workspace.
-Deployed truth is unchanged, and public booking, payments, quotes, Hestia
-booking, owner policy, admin role, gateway, HERMES, and deploy remain deferred.
+Deployed truth is unchanged, and public request intake, instant booking,
+payments, quotes, customer shell work, owner policy, admin role, gateway,
+HERMES, and deploy remained deferred in that line.
 
 `Phase 3B.5 approved booking lifecycle` is now closed in APOLLO and Themis
 repo/runtime truth on `main`: APOLLO owns approved cancellation through the
@@ -248,12 +250,20 @@ booking-to-schedule linkage for audit. Themis exposes approved cancellation only
 to manager/owner sessions and keeps supervisors read-only. Deployed truth is
 unchanged.
 
+`Phase 3B.6 public request entrypoint` is now closed in APOLLO, Themis, and
+Hestia repo/runtime truth on `main`: APOLLO owns the public intake API,
+idempotency, source/channel, validation, and no-reservation-on-submit truth;
+Hestia owns public booking-request intake at `/intake` plus authenticated member
+app routes under `/app/**`; Themis stays privileged ops only and blocks
+`/api/v1/public/*` through its broad APOLLO proxy. `ashton-booking-intake`
+remains local-only donor truth. Deployed truth is unchanged.
+
 | Line | Repo focus | Release line | Purpose | Hard stop |
 | --- | --- | --- | --- | --- |
-| public request entrypoint | APOLLO plus public/member surface only when earned | after closed `Phase 3B.5` if intake is the next proven gap | expose request entry only after internal request-first and approved-cancellation truth stays stable | no checkout/deposit/quote sprawl, no conflict-truth bypass, no gateway/deploy claim by implication |
-| pending/approved booking edit or rebook flow | likely `apollo` plus `themis` | after closed `Phase 3B.5` if request changes are the next honest gap | model request changes without bypassing schedule conflict truth | no payment/quote sprawl, public booking, owner policy writes, broad admin blob, or Hestia/member booking UI |
-| bounded staff scheduling controls | likely `apollo` plus `themis` only if write rails are required | after closed `Phase 3B.5` | add staff schedule-control rails only if operators need them before more booking work | no public booking, owner policy writes, broad admin blob, ATHENA widening, gateway widening, or deploy claim |
-| later APOLLO authz/admin widening only if earned | `apollo` | later | add a distinct `admin` role only if real runtime/product needs justify it, then let admin do owner-like graph work intentionally | no accidental role widening hidden inside a product packet |
+| customer status/communication | likely `apollo` plus `hestia`, with Themis only if staff triage needs it | after closed `Phase 3B.6` if public follow-up is the next honest customer gap | let public submitters receive honest request-status or contact updates without exposing internal conflict truth | no customer self-booking, no raw staff notes, no payment or quote readiness, no deploy claim |
+| pending/approved booking edit or rebook flow | likely `apollo` plus `themis` | after closed `Phase 3B.6` if request changes are the next honest gap | model request changes without bypassing schedule conflict truth | no payment/quote sprawl, owner policy writes, broad admin blob, Hestia staff controls, or member self-booking UI |
+| bounded staff scheduling controls | likely `apollo` plus `themis` only if write rails are required | after closed `Phase 3B.6` | add staff schedule-control rails only if operators need them before more booking work | no public availability calendar, owner policy writes, broad admin blob, ATHENA widening, gateway widening, or deploy claim |
+| payment/quote planning | planning-first unless a runtime contract is explicitly earned | later | map deposits, quotes, invoices, and cancellation policy without implying checkout readiness | no payment processor integration, no checkout UI, no deploy claim |
 | `Phase 3C` | cross-product | later | presentation, identity, packaging, and assistant presentation only after member and ops truth are real | no persona-first product before trustworthy rails |
 
 ## Historical Phase 2 Ladder
@@ -448,8 +458,8 @@ requires them:
 
 | Order | Action | Outcome |
 | --- | --- | --- |
-| 1 | keep `Phase 3 shared substrate B`, `Phase 3A.1`, `Phase 3A.2`, `Phase 3A.4`, `Phase 3B.1`, `Phase 3B.2`, `Phase 3B.4`, and `Phase 3B.5` closed in repo/runtime truth | make later ops and booking work build on already-real scheduling, member-shell, Hestia frontend, member-safe calendar, APOLLO ops-read/booking truth, approved lifecycle truth, and Themis ops/booking shell truth instead of reopening finished lines |
-| 2 | choose the next Phase 3B fork: public request entrypoint, pending/approved edit or rebook flow, or bounded staff scheduling controls depending on the next proven operational gap | move the active blocker beyond internal approved cancellation without backsliding into payments, quotes, owner policy writes, broad admin role work, Hestia booking UI, gateway work, or deploy work |
+| 1 | keep `Phase 3 shared substrate B`, `Phase 3A.1`, `Phase 3A.2`, `Phase 3A.4`, `Phase 3B.1`, `Phase 3B.2`, `Phase 3B.4`, `Phase 3B.5`, and `Phase 3B.6` closed in repo/runtime truth | make later ops and booking work build on already-real scheduling, member-shell, Hestia frontend, member-safe calendar, APOLLO ops-read/booking/public-intake truth, approved lifecycle truth, and Themis ops/booking shell truth instead of reopening finished lines |
+| 2 | choose the next Phase 3B fork: customer status/communication, pending/approved edit or rebook flow, bounded staff scheduling controls, or payment/quote planning depending on the next proven operational gap | move the active blocker beyond public request intake without backsliding into customer self-booking, payments, quotes, owner policy writes, broad admin role work, Hestia staff controls, gateway work, or deploy work |
 | 3 | keep the RFC3339-only calendar/ops window boundary as the anti-ambiguity runtime contract while letting later shells render friendlier local formats | preserve precise scheduling and ops truth without forcing end-user display to look like raw transport data |
 | 4 | keep ATHENA deploy truth separate from ATHENA repo/runtime closeout | prevent an optional deploy repin from blocking the product ladder |
 | 5 | leave HERMES and gateway follow-ups deferred until those surfaces are about to be used | prevent sidecar hardening from distorting the product ladder |
