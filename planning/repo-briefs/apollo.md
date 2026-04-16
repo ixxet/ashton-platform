@@ -28,8 +28,9 @@ linked visit days only. Tracer 28 now also adds explicit role/authz,
 trusted-surface-gated competition staff mutations, and durable actor
 attribution over that same competition control surface. It now also owns the
 `Phase 3B.1` read-only ops overview over APOLLO schedule truth plus ATHENA
-occupancy and bounded aggregate analytics truth, and the `Phase 3B.4`
-request-first booking runtime over APOLLO schedule/resource conflict truth. It
+occupancy and bounded aggregate analytics truth, the `Phase 3B.4`
+request-first booking runtime over APOLLO schedule/resource conflict truth, and
+the `Phase 3B.5` approved booking lifecycle over linked reservation truth. It
 does not own raw presence truth, broad staff product workflows, public booking,
 payments, quotes, public competition surfaces, diagnosis, or opaque helper-owned
 logic.
@@ -140,7 +141,7 @@ public competition reads.
 | derived lobby eligibility, explicit lobby membership, bounded competition execution runtime, and bounded competition-history truth | invites, parties, public competition reads, or broad social product surfaces |
 | bounded planner substrate, exercise-library truth, equipment refs, templates/loadouts, richer profile-input truth, bounded deterministic coaching substrate, bounded conservative nutrition substrate, and the bounded competition staff authz substrate | raw workout inference, diagnosis, meal-plan chatbot logic, opaque helper-owned decisions, broad staff product workflows, or public competition reads |
 | read-only ops composition over APOLLO schedule truth and ATHENA occupancy/analytics truth | raw tap identities, identity-level presence search, ATHENA analytics semantics, staff shell UI, or deployment orchestration |
-| booking request persistence, state transitions, availability preview, and conflict-aware approval into internal schedule reservation blocks | public booking, customer self-booking UI, payment/quote/invoice/deposit flows, owner policy editing, or Hestia/member booking UI |
+| booking request persistence, state transitions, availability preview, conflict-aware approval into internal schedule reservation blocks, and approved cancellation of those linked blocks | public booking, customer self-booking UI, in-place approved editing, payment/quote/invoice/deposit flows, owner policy editing, or Hestia/member booking UI |
 | future recommendation domains | shared contract authorship |
 
 Key boundaries:
@@ -239,13 +240,20 @@ Key boundaries:
   conflict-aware approval into linked internal `reservation` / `hard_reserve`
   schedule blocks; public booking, payments, quotes, Hestia booking UI, owner
   policy writes, admin role widening, gateway, HERMES, and deploy remain deferred
+- `Phase 3B.5` now adds approved booking cancellation through the existing
+  trusted-surface-gated, expected-versioned `/cancel` transition. APOLLO
+  atomically cancels the linked internal reservation block, retains
+  `schedule_block_id` for audit, and refuses stale booking versions or linked
+  schedule drift; in-place approved editing, public booking, payments, quotes,
+  Hestia booking UI, owner policy writes, admin role widening, gateway, HERMES,
+  and deploy remain deferred
 - competition provenance columns such as `owner_user_id` and
   `recorded_by_user_id` remain useful domain truth, but they no longer act as
   the sole authorization key
 - `ashton-proto` remains untouched because no shared-contract blocker was
   proven, and deployed truth stays unchanged
 
-## Phase 3B.4 Closeout And Next Fork
+## Phase 3B.5 Closeout And Next Fork
 
 `Phase 3B.2 ops shell foundation` is now closed in Themis repo/runtime truth.
 APOLLO stayed closed for that packet: Themis consumes APOLLO auth/session/profile
@@ -257,13 +265,18 @@ repo/runtime truth. APOLLO owns booking request runtime truth and linked schedul
 reservation approval. Themis owns the internal staff workspace at `/ops/bookings`.
 Deployed truth is unchanged.
 
+`Phase 3B.5 approved booking lifecycle` is now closed in APOLLO and Themis
+repo/runtime truth. APOLLO owns approved cancellation of linked internal
+reservation blocks, and Themis exposes that action only to manager/owner staff.
+Deployed truth is unchanged.
+
 | Topic | Locked statement |
 | --- | --- |
 | current shell owner | Themis is the privileged internal ops shell for read-only overview and request-first booking workflows |
-| current APOLLO truth | `Phase 3B.1` read-only ops overview and `Phase 3B.4` booking request runtime are closed on `main` |
+| current APOLLO truth | `Phase 3B.1` read-only ops overview, `Phase 3B.4` booking request runtime, and `Phase 3B.5` approved booking lifecycle are closed on `main` |
 | Themis consumption | APOLLO auth/session/profile, ops overview, and booking request APIs only |
-| next fork | staff scheduling controls, approved-booking cancellation/editing, or public booking entrypoint depending on the next proven operational gap |
-| APOLLO reopen rule | APOLLO should reopen only if the next packet proves a narrow booking lifecycle, schedule-control, or public-entry contract gap |
+| next fork | public request entrypoint, pending/approved edit or rebook flow, or bounded staff scheduling controls depending on the next proven operational gap |
+| APOLLO reopen rule | APOLLO should reopen only if the next packet proves a narrow edit/rebook, schedule-control, or public-entry contract gap |
 | hard stops | no payment/quote/invoice/deposit work, owner policy writes, broad admin role work, gateway widening, deploy work, prediction, AI summaries, Hestia booking UI, or HERMES widening by implication |
 
 ## Project Shape
@@ -353,6 +366,7 @@ unless a separate deployment workstream verifies them live.
 | `v0.19.1` / `Milestone 2.0` hardening follow-up | graceful shutdown, bounded ingest/runtime edges, and workout safety on the existing APOLLO line | do not widen into new member/staff product capability or deploy claims |
 | `Phase 3B.1` | read-only facility ops overview over APOLLO schedule truth plus ATHENA occupancy and bounded aggregate analytics truth | do not widen into booking, public entrypoints, staff shell UI, policy writes, HERMES widening, gateway work, or deploy claims |
 | `Phase 3B.4` | request-first booking runtime with versioned internal requests, APOLLO availability/conflict truth, and linked internal reservation approval | do not widen into public booking, payments, quotes, customer self-service, owner policy writes, broad admin role work, gateway work, HERMES, or deploy claims |
+| `Phase 3B.5` | approved booking cancellation with atomic linked reservation cancellation and retained audit linkage | do not widen into public booking, in-place approved editing, payments, quotes, customer self-service, owner policy writes, broad admin role work, gateway work, HERMES, or deploy claims |
 
 ## Deferred On Purpose
 
