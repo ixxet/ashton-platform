@@ -110,6 +110,10 @@ cluster expansion, NATS clustering, read replicas, PgBouncer, projector
 partitioning, OpenAPI/RFC 7807 contract stabilization, and AI/school-integration
 ideas. None of those reopen the active ladder without an explicit packet.
 
+Expected UI and backend behavior for current flows is tracked in
+[`FLOWS.md`](FLOWS.md). Update it whenever a packet adds or changes button
+behavior, background system steps, success states, or failure classifications.
+
 ## Redis Guidance
 
 Redis is useful when you need low-latency derived state that should not force a
@@ -531,9 +535,10 @@ The active next ladder is now a post-`Phase 3B.6` planning fork:
 | --- | --- | --- | --- | --- | --- |
 | 1 | customer status/communication | likely `apollo` plus `hestia`, with Themis only if staff triage needs it | after closed `Phase 3B.6` if public follow-up is the next honest customer gap | let public submitters receive honest request-status or contact updates without exposing internal conflict truth | no customer self-booking, no raw staff notes, no payment or quote readiness, no deploy claim |
 | 2 | pending/approved booking edit or rebook flow | likely `apollo` plus `themis` | after closed `Phase 3B.6` if operators need honest request changes | model edits without skipping schedule conflict truth, likely as cancel-and-new-request unless a narrower in-place proof is earned | no payments, quote sprawl, owner policy writes, broad admin role work, Hestia staff controls, or member self-booking UI |
-| 3 | bounded staff scheduling controls | likely `apollo` plus `themis` | after closed `Phase 3B.6` only if operational schedule-control rails are needed | add bounded staff schedule-control rails without turning Themis into a broad admin console | no public availability calendar, owner policy writes, broad admin role work, ATHENA widening, gateway widening, or deploy claims |
-| 4 | payment/quote planning | planning-first unless a runtime contract is explicitly earned | later | map deposits, quotes, invoices, and cancellation policy without implying checkout readiness | no payment processor integration, no checkout UI, no deploy claim |
-| 5 | `Phase 3C` | cross-product | later | presentation, identity, packaging, and assistant presentation | no persona-first product before trustworthy rails |
+| 3 | public availability/request calendar | likely `apollo` plus `hestia`, with Themis review context later | future booking-product line after status truth | let customers choose requestable slices from facility hours and unavailable approved blocks while still submitting requests | no self-confirmed booking, public conflict truth, contact info, quote promise, or deploy claim |
+| 4 | bounded staff scheduling controls | likely `apollo` plus `themis` | after closed `Phase 3B.6` only if operational schedule-control rails are needed | add bounded staff schedule-control rails without turning Themis into a broad admin console | no public calendar by implication, owner policy writes, broad admin role work, ATHENA widening, gateway widening, or deploy claims |
+| 5 | payment/quote planning | planning-first unless a runtime contract is explicitly earned | later | map deposits, quotes, invoices, and cancellation policy without implying checkout readiness | no payment processor integration, no checkout UI, no deploy claim |
+| 6 | `Phase 3C` | cross-product | later | presentation, identity, packaging, and assistant presentation | no persona-first product before trustworthy rails |
 
 ## Historical Phase 2 Ladder
 

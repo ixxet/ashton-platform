@@ -886,6 +886,7 @@ Tracer 8 stays intentionally narrower than a broad assistant or workflow layer:
 | Current implementation truth | repo-local `README.md`, `docs/roadmap.md`, ADRs, migrations, schemas, and [`planning/sprints/TRACER-MATRIX.md`](planning/sprints/TRACER-MATRIX.md) | These files track what is actually real now |
 | Cross-repo arbitration | [`planning/IMPLEMENTATION-BOARD.md`](planning/IMPLEMENTATION-BOARD.md) and [`planning/runbooks/control-plane.md`](planning/runbooks/control-plane.md) | These files lock ownership, terminology, and tracer discipline |
 | Deferred and watch-later scope | [`planning/DEFERMENTS.md`](planning/DEFERMENTS.md) | This file is the living register for deferred, closed, deprecated, replaced, and post-launch items |
+| UI and system behavior flows | [`planning/FLOWS.md`](planning/FLOWS.md) | This file records expected button, page, backend, and failure behavior for current and near-current flows |
 | Future-state ideas and background rationale | [`planning/architecture/portfolio-architecture.md`](planning/architecture/portfolio-architecture.md) and [`planning/architecture/ashton-addendum-v2.md`](planning/architecture/ashton-addendum-v2.md) | These are background references, not runtime status documents |
 
 The architecture essays still matter, but they are future-leaning. They should
@@ -900,6 +901,7 @@ pretend that planned services already exist.
 | `planning/diagrams/` | standalone Mermaid sources for platform-level diagrams |
 | `planning/hardening/` | standalone milestone hardening artifacts and policy notes |
 | `planning/DEFERMENTS.md` | living deferments and watch-later register |
+| `planning/FLOWS.md` | expected UI and backend flow behavior for current and near-current surfaces |
 | `planning/repo-briefs/` | canonical repo briefs and ownership model |
 | `planning/runbooks/` | control-plane and tracer-closure discipline |
 | `planning/sprints/` | build order and tracer sequencing |
@@ -909,6 +911,7 @@ pretend that planned services already exist.
 - [Stack audit: 2026-04-04](planning/audits/2026-04-04-stack-audit.md)
 - [Implementation board](planning/IMPLEMENTATION-BOARD.md)
 - [Deferments register](planning/DEFERMENTS.md)
+- [Flow truth](planning/FLOWS.md)
 - [Tracer matrix](planning/sprints/TRACER-MATRIX.md)
 - [Build order](planning/sprints/BUILD-ORDER.md) - historical planning reference
 - [Hardening artifacts](planning/hardening/README.md)
