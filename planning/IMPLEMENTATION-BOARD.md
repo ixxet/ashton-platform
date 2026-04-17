@@ -100,19 +100,15 @@ The active blockers before the next implementation legs are now:
 
 ## Deferred But Planned
 
-These are documented and expected, but they are not blockers for the first line of Go:
+These are documented and expected, but they are not active blockers. The durable
+register is [`DEFERMENTS.md`](DEFERMENTS.md); update it whenever a future packet
+defers, closes, deprecates, replaces, or moves work post-launch.
 
-- Redis
-  - `ATHENA`: fast occupancy counters and short-lived zone aggregate caching
-  - `APOLLO`: caching expensive visit/workout aggregation reads and later lobby hot state
-  - `HERMES` and `ashton-mcp-gateway`: rate limiting and ephemeral session state
-- AlertManager rules in `Prometheus`
-- Loki and full observability refinements
-- Mermaid diagram refresh
-- Full MCP gateway rollout
-- TOON / `incur` experimentation
-- Rust rewrite of the gateway
-- Cluster expansion and workload scheduling milestones in `Prometheus`
+Current watch-later themes include Redis/cache/rate-limit utility work,
+AlertManager and Loki observability, gateway rollout/performance choices,
+cluster expansion, NATS clustering, read replicas, PgBouncer, projector
+partitioning, OpenAPI/RFC 7807 contract stabilization, and AI/school-integration
+ideas. None of those reopen the active ladder without an explicit packet.
 
 ## Redis Guidance
 
@@ -526,8 +522,8 @@ Hestia repo/runtime truth: APOLLO owns public intake API truth, validation,
 source/channel, idempotency, and no-reservation-on-submit behavior; Hestia owns
 public booking-request intake at `/intake` plus authenticated member app routes
 under `/app/**`; Themis remains privileged ops only and blocks `/api/v1/public/*`
-from its broad APOLLO proxy. `ashton-booking-intake` remains local-only donor
-truth and is not a pushed repo line. Deployed truth is unchanged.
+from its broad APOLLO proxy. `ashton-booking-intake` was folded into Hestia and
+removed from active repo inventory. Deployed truth is unchanged.
 
 The active next ladder is now a post-`Phase 3B.6` planning fork:
 
