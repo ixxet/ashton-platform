@@ -255,8 +255,9 @@ Hestia repo/runtime truth on `main`: APOLLO owns the public intake API,
 idempotency, source/channel, validation, and no-reservation-on-submit truth;
 Hestia owns public booking-request intake at `/intake` plus authenticated member
 app routes under `/app/**`; Themis stays privileged ops only and blocks
-`/api/v1/public/*` through its broad APOLLO proxy. `ashton-booking-intake`
-remains local-only donor truth. Deployed truth is unchanged.
+`/api/v1/public/*` through its broad APOLLO proxy. `ashton-booking-intake` was
+folded into Hestia and removed from active repo inventory. Deployed truth is
+unchanged.
 
 | Line | Repo focus | Release line | Purpose | Hard stop |
 | --- | --- | --- | --- | --- |

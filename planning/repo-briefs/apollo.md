@@ -282,8 +282,8 @@ advisory-lock-serialized idempotency, source/channel attribution, validation,
 and no reservation creation on submit. Hestia owns public booking-request intake
 at `/intake` plus the authenticated member app under `/app/**`. Themis remains
 privileged ops only and blocks `/api/v1/public/*` through its broad APOLLO proxy.
-`ashton-booking-intake` remains local-only donor truth and is not a pushed repo
-line. Deployed truth is unchanged.
+`ashton-booking-intake` was folded into Hestia and removed from active repo
+inventory. Deployed truth is unchanged.
 
 | Topic | Locked statement |
 | --- | --- |

@@ -148,8 +148,8 @@ Hestia repo/runtime truth: APOLLO owns public intake API truth, validation,
 source/channel, idempotency, and no-reservation-on-submit behavior; Hestia owns
 public booking-request intake at `/intake` plus authenticated member app routes
 under `/app/**`; Themis remains privileged ops only and blocks `/api/v1/public/*`
-from its broad APOLLO proxy. `ashton-booking-intake` remains local-only donor
-truth and is not a pushed repo line. Deployed truth is unchanged.
+from its broad APOLLO proxy. `ashton-booking-intake` was folded into Hestia and
+removed from active repo inventory. Deployed truth is unchanged.
 
 The active next ladder is a post-`Phase 3B.6` planning fork:
 
@@ -471,9 +471,17 @@ flowchart LR
 | --- | --- | --- | --- | --- |
 | `ashton-proto` | Shared proto packages, event schemas, runtime helper rules | - | Shared contract baseline is real and active | [README](https://github.com/ixxet/ashton-proto/blob/main/README.md) |
 | `athena` | Presence, occupancy, ingress source handling, facility truth, identified visit-lifecycle publication | `ashton-proto` | Mock and CSV-backed ingress still exist, bounded live edge-driven occupancy deployment truth is now the `v0.7.0` storage/analytics line, and config-gated facility catalog/hours/zones/closure/metadata plus Postgres-backed observation/session/analytics truth are real | [README](https://github.com/ixxet/athena/blob/main/README.md) |
-| `apollo` | Member auth, profile state, visit ingest and close, derived eligibility, explicit lobby membership, deterministic read-only match preview, workout runtime, deterministic recommendation reads, planner substrate, one thin member web shell, bounded competition execution/history runtime, scheduling, ops-read, and booking request runtime | `ashton-proto`, `athena` | Auth, profile state, visit lifecycle, derived eligibility, explicit lobby membership, deterministic read-only match preview, workout runtime, deterministic recommendation reads, planner substrate, one local member shell, bounded competition queue/assignment/lifecycle plus competition-history truth, schedule truth, ops-read truth, and internal booking request approval truth are real on `main` | [README](https://github.com/ixxet/apollo/blob/main/README.md) |
+| `apollo` | Member auth, profile state, visit ingest and close, derived eligibility, explicit lobby membership, deterministic read-only match preview, workout runtime, deterministic recommendation reads, planner substrate, bounded competition execution/history runtime, scheduling, ops-read, and booking request runtime | `ashton-proto`, `athena` | Auth, profile state, visit lifecycle, derived eligibility, lobby membership, deterministic match preview, workout/recommendation/planner truth, bounded competition truth, schedule truth, ops-read truth, internal booking approval/cancellation, and public request intake API truth are real on `main` | [README](https://github.com/ixxet/apollo/blob/main/README.md) |
+| `hestia` | Customer-facing frontend shell with public `/intake` and authenticated `/app/**` | `apollo` | Public request intake and member app shell are real on `main`; Hestia does not own booking truth, staff controls, payment/quote flows, or deploy claims | [README](https://github.com/ixxet/hestia/blob/main/README.md) |
+| `themis` | Privileged internal ops shell | `apollo` | Supervisor/manager/owner ops overview and booking workspace are real on `main`; `/api/v1/public/*` remains blocked through Themis | [README](https://github.com/ixxet/themis/blob/main/README.md) |
 | `hermes` | Staff read-only operations over upstream service truth | `athena` | First occupancy CLI slice is real; write actions, agent orchestration, and deployment stay deferred | [README](https://github.com/ixxet/hermes/blob/main/README.md) |
 | `ashton-mcp-gateway` | Tool discovery, routing, caller identity, and later approval policy | `ashton-proto`, `athena` | Two manifest-backed ATHENA occupancy routes are real, and routed calls now carry explicit caller identity plus persisted audit while approvals stay deferred | [README](https://github.com/ixxet/ashton-mcp-gateway/blob/main/README.md) |
+| `Prometheus` | Deployment truth and GitOps control plane | service repos | Bounded ATHENA/APOLLO/HERMES deployment truth is tracked separately from repo/runtime truth; gateway/deploy widening remains deferred | internal deployment repo |
+
+Folded/local donor repos are excluded from active inventory. `ashton-booking-intake`
+was folded into Hestia during Phase 3B.6, removed from the active ASHTON
+workspace during Phase 3B.6.1, and must not be pushed or treated as a runtime
+line.
 
 ## Versioning Policy
 
@@ -877,6 +885,7 @@ Tracer 8 stays intentionally narrower than a broad assistant or workflow layer:
 | --- | --- | --- |
 | Current implementation truth | repo-local `README.md`, `docs/roadmap.md`, ADRs, migrations, schemas, and [`planning/sprints/TRACER-MATRIX.md`](planning/sprints/TRACER-MATRIX.md) | These files track what is actually real now |
 | Cross-repo arbitration | [`planning/IMPLEMENTATION-BOARD.md`](planning/IMPLEMENTATION-BOARD.md) and [`planning/runbooks/control-plane.md`](planning/runbooks/control-plane.md) | These files lock ownership, terminology, and tracer discipline |
+| Deferred and watch-later scope | [`planning/DEFERMENTS.md`](planning/DEFERMENTS.md) | This file is the living register for deferred, closed, deprecated, replaced, and post-launch items |
 | Future-state ideas and background rationale | [`planning/architecture/portfolio-architecture.md`](planning/architecture/portfolio-architecture.md) and [`planning/architecture/ashton-addendum-v2.md`](planning/architecture/ashton-addendum-v2.md) | These are background references, not runtime status documents |
 
 The architecture essays still matter, but they are future-leaning. They should
@@ -890,6 +899,7 @@ pretend that planned services already exist.
 | `planning/architecture/` | background architecture essays and technology rationale |
 | `planning/diagrams/` | standalone Mermaid sources for platform-level diagrams |
 | `planning/hardening/` | standalone milestone hardening artifacts and policy notes |
+| `planning/DEFERMENTS.md` | living deferments and watch-later register |
 | `planning/repo-briefs/` | canonical repo briefs and ownership model |
 | `planning/runbooks/` | control-plane and tracer-closure discipline |
 | `planning/sprints/` | build order and tracer sequencing |
@@ -898,6 +908,7 @@ pretend that planned services already exist.
 
 - [Stack audit: 2026-04-04](planning/audits/2026-04-04-stack-audit.md)
 - [Implementation board](planning/IMPLEMENTATION-BOARD.md)
+- [Deferments register](planning/DEFERMENTS.md)
 - [Tracer matrix](planning/sprints/TRACER-MATRIX.md)
 - [Build order](planning/sprints/BUILD-ORDER.md) - historical planning reference
 - [Hardening artifacts](planning/hardening/README.md)
