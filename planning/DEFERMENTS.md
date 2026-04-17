@@ -11,7 +11,6 @@ truth. This file records coordination truth and hard stops.
 
 | Item | Current status | Owning repo or likely repo | Why deferred | Reopen trigger | Hard stop / non-goal | Last touched phase |
 | --- | --- | --- | --- | --- | --- | --- |
-| Customer status/communication | Deferred | `apollo`, `hestia`; Themis only for staff triage | Public intake now stops at neutral receipt | Public submitters need honest status/contact updates | No raw conflict truth, staff notes, self-booking, payment, or deploy claim | Phase 3B.6 |
 | Edit/rebook flow | Deferred | `apollo`, `themis` | Approval/cancellation truth closed first | Operators need request changes without schedule-truth bypass | No payment sprawl, owner policy writes, or Hestia staff controls | Phase 3B.6 |
 | Public availability/request calendar | Deferred | `apollo`, `hestia`; Themis only for staff review context | Current public intake accepts requested windows without public availability guidance | Customers need to choose requestable slices from facility hours and unavailable blocks | No self-confirmed booking, public conflict truth, contact info, quote promise, or deploy claim | Phase 3B.7 planning |
 | Bounded staff scheduling controls | Deferred | `apollo`, `themis` | Current line proves booking request workflow only | Operators need direct schedule rails before more booking work | No public calendar by implication, admin blob, ATHENA widening, gateway, or deploy claim | Phase 3B.6 |
@@ -48,6 +47,7 @@ truth. This file records coordination truth and hard stops.
 | Item | Current status | Owning repo or likely repo | Why deferred | Reopen trigger | Hard stop / non-goal | Last touched phase |
 | --- | --- | --- | --- | --- | --- | --- |
 | Public booking-request intake | Closed as request-only intake | `apollo`, `hestia`, `themis` | Deferred until internal booking truth existed | Reopen only for status/edit/scheduling/payment planning | No self-booking, availability calendar, payment, or deploy claim | Phase 3B.6 |
+| Customer status/communication | Closed as receipt status/message lookup | `apollo`, `hestia`, `themis` | Deferred until public intake had receipt truth | Reopen only for broader customer self-service, delivery channels, or edit/rebook | No raw conflict truth, internal notes, self-booking, payment, quote, AI/LLM negotiation, or deploy claim | Phase 3B.7 |
 | Themis `/api/v1/public/*` proxy denial | Closed | `themis` | Needed once APOLLO public routes existed | Proxy behavior changes | Themis must not become a public surface | Phase 3B.6 |
 | Public intake source/channel triage | Closed | `apollo`, `themis` | Needed for honest staff review | New intake channels are added | Do not treat anonymous submitters as staff | Phase 3B.6 |
 

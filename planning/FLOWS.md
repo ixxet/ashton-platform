@@ -75,7 +75,8 @@ User-visible steps:
 1. Customer sees request-only copy, public booking options, requested time fields,
    contact fields, and purpose fields.
 2. Customer submits a booking request.
-3. The form shows a neutral received state, not a confirmed booking.
+3. The form shows a neutral received state and APOLLO receipt code, not a
+   confirmed booking.
 
 Invisible system steps:
 1. Hestia loads APOLLO public options server-side.
@@ -85,10 +86,12 @@ Invisible system steps:
    public_web`.
 4. APOLLO creates only a `requested` booking request and records source/channel
    truth.
-5. APOLLO creates no schedule block on public submit.
+5. APOLLO creates an opaque public receipt linked internally to the request.
+6. APOLLO creates no schedule block on public submit.
 
 Expected success state:
-Customer sees that the request was received and staff will review it.
+Customer sees that the request was received, gets a receipt code, and can move
+to `/intake/status`.
 
 Expected failure states:
 - Button does not press: inspect Hestia form validation and disabled state.
@@ -102,11 +105,67 @@ Expected failure states:
 
 Backend truth:
 `POST /api/v1/public/booking/requests` writes a requested booking request and
-public idempotency row. It does not write a schedule reservation.
+public idempotency row, returns a public receipt code, and does not write a
+schedule reservation.
 
 Hard stops:
 No payment, quote promise, confirmed booking, raw conflict details, schedule
 block ID, staff notes, or trusted-surface proof.
+
+## Customer Booking Status And Public Message
+
+Surface:
+Hestia public `/intake/status`, APOLLO public booking status API, Themis
+internal booking detail for public-message staff input.
+
+Entry:
+Customer has a receipt code from public intake. Staff may optionally save a
+public-safe message from Themis.
+
+User-visible steps:
+1. Customer enters the receipt code on `/intake/status` or follows the intake
+   success link.
+2. Hestia shows kind public status copy: Received, Under review, More
+   information needed, Approved, Not approved, or Cancelled.
+3. Hestia shows APOLLO's public message if staff saved one.
+4. The page shows requested start/end and last updated time only.
+
+Invisible system steps:
+1. Hestia calls APOLLO status lookup server-side with only `receipt_code`.
+2. APOLLO maps internal request status to public status:
+   `requested -> received`, `under_review -> under_review`,
+   `needs_changes -> more_information_needed`, `approved -> approved`,
+   `rejected -> declined`, `cancelled -> cancelled`.
+3. APOLLO omits request UUIDs, schedule block IDs, internal notes, conflicts,
+   staff IDs, trusted-surface fields, quote/payment fields, and private contact
+   data from the public response.
+4. Themis manager/owner can save APOLLO `public_message` through trusted-surface
+   staff APIs. Supervisors can only read it.
+5. `public_message` stays separate from `internal_notes`.
+
+Expected success state:
+Customer sees a customer-safe request status, optional public-safe message,
+requested window, and update time. Staff can update only the public message
+from Themis when APOLLO returns a public receipt context.
+
+Expected failure states:
+- Unknown receipt: Hestia shows a neutral not-found message.
+- APOLLO status API unavailable: Hestia shows retry-safe unavailable copy.
+- Supervisor save attempt: APOLLO rejects through `booking_manage`; Themis does
+  not render the save control.
+- Missing trusted surface: APOLLO rejects the staff update.
+
+Backend truth:
+`apollo.public_booking_receipts` stores opaque receipt codes and optional
+public-safe messages linked internally to booking requests. APOLLO remains the
+status authority. Hestia is presentation only. Themis remains internal ops only.
+Deployed truth is unchanged.
+
+Hard stops:
+No request UUID, schedule block ID, raw conflict truth, internal notes, staff
+IDs, trusted-surface fields, private contact data, payment/quote/deposit/invoice
+fields, self-confirmed booking, public availability/request calendar,
+edit/rebook, AI/LLM runtime, or deploy claim.
 
 ## Staff Booking Request Create
 
@@ -315,8 +374,6 @@ These are intentional placeholders, not implementation claims.
 
 | Flow | Status | Notes |
 | --- | --- | --- |
-| Customer booking status lookup | Next likely packet | Public submitter can see honest status without internal notes or conflict truth |
-| Customer-facing booking communication | Next likely packet | Staff may send public-safe update text; no raw internal notes |
 | Pending/approved edit or rebook | Deferred | Likely cancel-and-new-request unless narrower in-place proof is earned |
 | Public availability/request calendar | Deferred future | May show facility hours, unavailable slices, public event labels, and requestable times; still no self-confirmed booking before staff policy earns it |
 | Bounded staff schedule controls | Deferred | Themis/APOLLO rails for operational holds, delays, closures, or schedule edits if needed |
