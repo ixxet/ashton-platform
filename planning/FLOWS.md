@@ -333,6 +333,57 @@ Hard stops:
 No raw tap hashes, no foreign member claim, no staff metadata, no direct booking
 or payment coupling.
 
+## ATHENA Recognized-Denied Testing Admission
+
+Surface:
+ATHENA edge ingress and owner CLI policy controls.
+
+Entry:
+TouchNet browser bridge posts a `fail` row with a populated name while an
+explicit facility testing policy is active and
+`ATHENA_EDGE_POLICY_ACCEPTANCE_ENABLED=true`.
+
+User-visible steps:
+1. Operator still sees the original TouchNet deny on the source system.
+2. No extra workstation action is required in ATHENA for the tap itself.
+3. Internal ATHENA history and analytics can later show that the source result
+   was `fail` while accepted presence was still created through testing policy.
+
+Invisible system steps:
+1. ATHENA authenticates the node token and writes one immutable observation row.
+2. ATHENA normalizes the fail as `recognized_denied`, `bad_account_number`, or
+   `unclassified_fail`.
+3. ATHENA evaluates the active facility or subject policy only for
+   `recognized_denied`.
+4. If admitted, ATHENA writes a separate accepted-presence row with explicit
+   acceptance path and reason code.
+5. Live occupancy, replay truth, and downstream publish follow accepted
+   presence.
+6. Current `edge_sessions` remain source-pass-only in this line.
+
+Expected success state:
+ATHENA history shows source `result='fail'` plus separate accepted presence
+with `acceptance_path='facility_window'` or another explicit policy path.
+Occupancy and publish reflect accepted physical presence without claiming
+TouchNet passed it.
+
+Expected failure states:
+- No active policy or runtime flag off: observation is stored, but no accepted presence is created.
+- `bad_account_number`: observation only; never admitted by testing policy in this line.
+- Policy/acceptance write failure: source observation still remains immutable; acceptance is absent.
+- Duplicate/replay: existing dedupe/projector rules still decide whether occupancy changes.
+
+Backend truth:
+`athena.edge_observations`, `athena.edge_access_policies`,
+`athena.edge_access_policy_versions`, `athena.edge_identity_subjects`,
+`athena.edge_identity_links`, and `athena.edge_presence_acceptances` change.
+`edge_sessions` does not widen to policy-backed admissions in this line.
+
+Hard stops:
+No rewrite from source deny to source pass, no name-based auto-merge, no public
+report surface, no HTTP admin surface, and no session-duration claim for
+policy-backed accepted fails.
+
 ## Hestia Member Session Entry
 
 Surface:

@@ -26,6 +26,10 @@ truth. This file records coordination truth and hard stops.
 | Read replicas | Deferred | Prometheus, Postgres consumers | Not needed before measured read pressure | Read load exceeds primary comfort | No premature data-topology work | Phase 3B.6.1 |
 | PgBouncer | Deferred | Prometheus, service repos | Connection pressure not proven | Connection limits become operational risk | No hidden deploy/runtime dependency | Phase 3B.6.1 |
 | Projector partitioning | Deferred | `athena` | Current projector truth is sufficient | Retention/replay volume proves partition need | No partition complexity before data exists | Phase 3B.6.1 |
+| ATHENA accepted-presence session cutover | Deferred | `athena` | `v0.8.0` intentionally keeps `edge_sessions` source-pass-only while accepted presence settles | Accepted-presence truth is stable enough to support stay-duration semantics without muddying source truth | No silent session rewrite or duration claim from testing-policy accepted fails | ATHENA `v0.8.0` |
+| ATHENA policy/identity operator UI | Deferred | `athena`, `hermes` | CLI-first is enough for the first policy-backed admission line | Operators need repeatable non-CLI workflows over the same explicit policy and identity model | No casual HTTP admin surface or write widening by implication | ATHENA `v0.8.0` |
+| ATHENA public report/export surfaces | Deferred | `athena`, `hermes` | Observation and accepted-presence truth need to settle before broader reporting shape freezes | Internal reads are stable and privacy review is explicit | No public history API, broad export path, or dashboard claim by implication | ATHENA `v0.8.0` |
+| ATHENA alias-management UX | Deferred | `athena`, `hermes` | Facility-local subjects and privacy-safe links now exist, but explicit reconciliation UX is not earned yet | Real operator demand justifies reviewing and curating links beyond CLI use | No name-based auto-merge | ATHENA `v0.8.0` |
 
 ## Post-Launch Watch Later
 
