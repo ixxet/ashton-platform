@@ -378,6 +378,9 @@ Backend truth:
 `athena.edge_access_policy_versions`, `athena.edge_identity_subjects`,
 `athena.edge_identity_links`, and `athena.edge_presence_acceptances` change.
 `edge_sessions` does not widen to policy-backed admissions in this line.
+Subject-scoped policies take precedence over facility windows, active policies
+cannot overlap inside the same scope, and identity links must use
+runtime-validated privacy-safe keys.
 
 Hard stops:
 No rewrite from source deny to source pass, no name-based auto-merge, no public

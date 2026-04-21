@@ -19,7 +19,7 @@ The active ATHENA slice is intentionally narrow:
 - Postgres-backed append-only edge observations plus commit markers behind the
   same tap handler when `ATHENA_EDGE_POSTGRES_DSN` is set, with the older file
   path retained only as an explicit fallback
-- the current repo/runtime `v0.8.0` line adds normalized fail reasons,
+- the current repo/runtime `v0.8.x` line adds normalized fail reasons,
   facility-local identity subjects/links, explicit policy versions, and
   accepted-presence records on top of that same immutable observation line
 - restart/reload replay of committed `pass` observations into a fresh
@@ -37,8 +37,10 @@ The active ATHENA slice is intentionally narrow:
 Prediction and broader adapters remain future direction, not current runtime
 truth. Postgres-backed observation storage, derived sessions, and bounded
 internal analytics are now real in both repo/runtime and bounded deployed
-truth. The new `v0.8.0` policy-backed accepted-presence line is repo/runtime
-truth only until a separate deployment packet proves it live. Broad
+truth. The `v0.8.1` policy-backed accepted-presence line is bounded deployed
+truth for migration, rollout, replay, health, policy creation/readback, and
+runtime wiring; it intentionally did not include a synthetic production
+`recognized_denied` tap. Broad
 operator/report surfaces, booking logic, AI summaries, and prediction remain
 deferred.
 
@@ -103,13 +105,16 @@ Tap-in changes physical truth. It does not create social intent.
 - the current repo/runtime line now also normalizes fail reasons and stores
   explicit accepted-presence, policy-version, and facility-local
   identity-linkage truth without rewriting source observations
+- `v0.8.2` hardening enforces privacy-safe link keys, serializes first-seen
+  subject creation, rejects overlapping active policies in the same scope, and
+  documents subject-policy precedence over facility testing windows
 - immutable replay identity hardening is now real, so replay commit truth no
   longer relies on bare caller-supplied `event_id`
 - fail-open shadow-write is now real, so durable-write failure does not break
   the existing live tap response or projection/publish outcome
 - restart/reload replay in the current repo/runtime line now rebuilds occupancy
-  from accepted-presence truth, while the bounded deployed line remains the
-  earlier committed-pass posture until separately redeployed
+  from accepted-presence truth, and bounded deployed proof exists for the
+  `v0.8.1` policy-backed admission wiring
 - accepted `pass` observations now derive Postgres-backed session facts with
   explicit `open`, `closed`, and `unmatched_exit` states
 - bounded internal `GET /api/v1/presence/history`,
@@ -177,8 +182,8 @@ render cleanly and rollout is verified from a real kube context.
   facility-truth branch
 - `v0.7.0` is now shipped and live as the bounded Postgres-backed observation,
   session, and analytics line
-- `v0.8.0` is now the current repo/runtime line for policy-backed accepted
-  presence, but it is not yet part of bounded deployed truth
+- `v0.8.x` is now the current repo/runtime line for policy-backed accepted
+  presence
 - what became real: append-only durable edge history, immutable replay
   identity hardening, fail-open shadow-write, restart/reload replay
   groundwork, a CLI-only internal history surface, and one bounded privacy-safe
@@ -191,10 +196,14 @@ render cleanly and rollout is verified from a real kube context.
   observation storage, derived session facts, bounded internal history and
   analytics reads, and the bounded live deploy repin to that storage line over
   the existing edge surface
-- what also became real for `v0.8.0` in repo/runtime: normalized fail reasons,
+- what also became real for `v0.8.x` in repo/runtime: normalized fail reasons,
   explicit accepted-presence truth, facility-local identity subjects/links,
   explicit policy versions with actor attribution, and CLI-only policy/identity
   management without changing the live tap contract
+- what hardened in `v0.8.2`: runtime-enforced privacy-safe link keys,
+  transaction-scoped subject creation locks, same-scope policy overlap
+  rejection, explicit policy precedence tests, and conservative unattached
+  subject cleanup
 - what stayed deferred: prediction, public dashboards or broad
   operator/report surfaces, booking/scheduling runtime, AI occupancy summary,
   identity-reconciliation UX, accepted-presence session cutover, and any
@@ -204,5 +213,5 @@ render cleanly and rollout is verified from a real kube context.
 
 | Line | Focus | Hard stop |
 | --- | --- | --- |
-| current `v0.8.0` line | policy-backed accepted presence for explicit recognized-denied testing windows | do not rewrite source fail truth, do not widen into HTTP admin, session cutover, public reports, or prediction |
-| later than `v0.8.0` | accepted-presence session cutover, broader diagnostics, and capacity prediction runtime | do not ship predictive UX before ingress, durable history, accepted presence, derived sessions, and facility truth are trusted |
+| current `v0.8.x` line | policy-backed accepted presence for explicit recognized-denied testing windows | do not rewrite source fail truth, do not widen into HTTP admin, session cutover, public reports, or prediction |
+| later than `v0.8.x` | accepted-presence session cutover, broader diagnostics, and capacity prediction runtime | do not ship predictive UX before ingress, durable history, accepted presence, derived sessions, and facility truth are trusted |
