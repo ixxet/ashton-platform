@@ -37,10 +37,11 @@ The active ATHENA slice is intentionally narrow:
 Prediction and broader adapters remain future direction, not current runtime
 truth. Postgres-backed observation storage, derived sessions, and bounded
 internal analytics are now real in both repo/runtime and bounded deployed
-truth. The `v0.8.1` policy-backed accepted-presence line is bounded deployed
-truth for migration, rollout, replay, health, policy creation/readback, and
-runtime wiring; it intentionally did not include a synthetic production
-`recognized_denied` tap. Broad
+truth. The `v0.8.2` policy-backed accepted-presence hardening line is bounded
+deployed truth for migration, rollout, replay, health, policy
+creation/readback, runtime wiring, and conservative unattached-subject cleanup;
+it intentionally did not include a synthetic production `recognized_denied`
+tap. Broad
 operator/report surfaces, booking logic, AI summaries, and prediction remain
 deferred.
 
@@ -114,7 +115,7 @@ Tap-in changes physical truth. It does not create social intent.
   the existing live tap response or projection/publish outcome
 - restart/reload replay in the current repo/runtime line now rebuilds occupancy
   from accepted-presence truth, and bounded deployed proof exists for the
-  `v0.8.1` policy-backed admission wiring
+  `v0.8.2` policy-backed admission hardening line
 - accepted `pass` observations now derive Postgres-backed session facts with
   explicit `open`, `closed`, and `unmatched_exit` states
 - bounded internal `GET /api/v1/presence/history`,
