@@ -165,7 +165,59 @@ Hard stops:
 No request UUID, schedule block ID, raw conflict truth, internal notes, staff
 IDs, trusted-surface fields, private contact data, payment/quote/deposit/invoice
 fields, self-confirmed booking, public availability/request calendar,
-edit/rebook, AI/LLM runtime, or deploy claim.
+public self-edit/rebook, AI/LLM runtime, or deploy claim.
+
+## Staff Booking Request Edit And Replacement
+
+Surface:
+Themis `/ops/bookings/:requestId`, APOLLO staff booking edit and rebook APIs.
+
+Entry:
+Manager or owner opens an internal request detail page. Supervisors can read the
+same detail but do not receive edit or replacement controls.
+
+User-visible steps:
+1. For `requested`, `under_review`, or `needs_changes`, staff edits the request
+   fields and submits `Save request changes`.
+2. Themis sends the form server-side with `expected_version` and trusted-surface
+   proof.
+3. APOLLO reruns schedule availability truth, increments the request version,
+   and returns the same request with updated details.
+4. For `approved`, staff uses `Create replacement request`.
+5. Themis carries the hidden load-born idempotency key with the rebook form and
+   redirects to the new requested replacement request after APOLLO accepts it.
+
+Invisible system steps:
+1. APOLLO rejects edit unless the request is still `requested`,
+   `under_review`, or `needs_changes`.
+2. APOLLO rejects rebook unless the original request is `approved`.
+3. APOLLO hashes the rebook idempotency key with the original request and full
+   payload, including `expected_version`.
+4. Same rebook key plus same payload returns the same replacement; same key plus
+   different payload conflicts.
+5. APOLLO never creates a schedule block during edit or rebook. Approval remains
+   the only path that creates a new reservation block.
+
+Expected success state:
+Pending/open edits keep the original request in review with a higher version and
+fresh APOLLO availability truth. Approved rebook leaves the original approved
+reservation untouched and creates a new `requested` replacement linked to it.
+
+Expected failure states:
+- Stale `expected_version`: APOLLO returns conflict and Themis keeps form values.
+- Missing trusted surface or unsupported role: APOLLO denies the mutation.
+- Missing rebook idempotency key: Themis fails locally before calling APOLLO.
+- Same rebook key with changed payload: APOLLO returns conflict.
+
+Backend truth:
+APOLLO owns request state, version, availability truth, replacement lineage, and
+rebook idempotency. Themis owns only the internal staff workflow. Hestia remains
+customer-facing and unchanged. Deployed truth is unchanged.
+
+Hard stops:
+No public self-edit, public availability/request calendar, in-place approved
+booking mutation, direct staff schedule editing, payment/quote/deposit/invoice
+flow, Hestia staff controls, AI/LLM runtime, or deploy claim.
 
 ## Staff Booking Request Create
 
@@ -428,7 +480,7 @@ These are intentional placeholders, not implementation claims.
 
 | Flow | Status | Notes |
 | --- | --- | --- |
-| Pending/approved edit or rebook | Deferred | Likely cancel-and-new-request unless narrower in-place proof is earned |
+| Staff pending edit and approved replacement | Closed in Phase 3B.8 | APOLLO owns truth; Themis owns internal manager/owner workflow; public self-edit and in-place approved mutation remain deferred |
 | Public availability/request calendar | Deferred future | May show facility hours, unavailable slices, public event labels, and requestable times; still no self-confirmed booking before staff policy earns it |
 | Bounded staff schedule controls | Deferred | Themis/APOLLO rails for operational holds, delays, closures, or schedule edits if needed |
 | Public booking display labels | Deferred future | Public event/team labels only when facility policy and privacy rules allow them |
