@@ -72,22 +72,27 @@ Entry:
 Anonymous customer opens Hestia `/intake`.
 
 User-visible steps:
-1. Customer sees request-only copy, public booking options, requested time fields,
-   contact fields, and purpose fields.
-2. Customer submits a booking request.
-3. The form shows a neutral received state and APOLLO receipt code, not a
+1. Customer sees request-only copy, public booking options, date/time controls,
+   public-safe availability hints, contact fields, and purpose fields.
+2. Customer chooses a requestable window or enters a requested time.
+3. Customer submits a booking request.
+4. The form shows a neutral received state and APOLLO receipt code, not a
    confirmed booking.
 
 Invisible system steps:
 1. Hestia loads APOLLO public options server-side.
-2. Browser-local date/time input is serialized to explicit RFC3339 values before
+2. After option/date selection, the browser creates explicit RFC3339 day bounds
+   and Hestia loads APOLLO public availability server-side.
+3. APOLLO returns only public-safe requestable windows and generic unavailable
+   blocks for closed, booked, or unavailable time.
+4. Browser-local date/time input is serialized to explicit RFC3339 values before
    Hestia submits to APOLLO.
-3. Hestia sends `Idempotency-Key` and `X-Apollo-Public-Intake-Channel:
+5. Hestia sends `Idempotency-Key` and `X-Apollo-Public-Intake-Channel:
    public_web`.
-4. APOLLO creates only a `requested` booking request and records source/channel
+6. APOLLO creates only a `requested` booking request and records source/channel
    truth.
-5. APOLLO creates an opaque public receipt linked internally to the request.
-6. APOLLO creates no schedule block on public submit.
+7. APOLLO creates an opaque public receipt linked internally to the request.
+8. APOLLO creates no schedule block on public submit.
 
 Expected success state:
 Customer sees that the request was received, gets a receipt code, and can move
@@ -104,13 +109,19 @@ Expected failure states:
   neutral and not expose internal truth.
 
 Backend truth:
+`GET /api/v1/public/booking/options/{optionID}/availability` reads APOLLO
+schedule truth and returns public-safe requestable windows plus unavailable
+time hints only. It does not create a reservation or expose schedule block IDs,
+request IDs, staff IDs, request counts, raw conflicts, contact data, internal
+notes, private labels, or trusted-surface fields.
 `POST /api/v1/public/booking/requests` writes a requested booking request and
 public idempotency row, returns a public receipt code, and does not write a
 schedule reservation.
 
 Hard stops:
-No payment, quote promise, confirmed booking, raw conflict details, schedule
-block ID, staff notes, or trusted-surface proof.
+No payment, quote promise, confirmed booking, self-booking, public
+self-edit/rebook, raw conflict details, schedule block ID, staff notes, private
+labels, contact display, direct staff schedule controls, or trusted-surface proof.
 
 ## Customer Booking Status And Public Message
 
@@ -164,8 +175,8 @@ Deployed truth is unchanged.
 Hard stops:
 No request UUID, schedule block ID, raw conflict truth, internal notes, staff
 IDs, trusted-surface fields, private contact data, payment/quote/deposit/invoice
-fields, self-confirmed booking, public availability/request calendar,
-public self-edit/rebook, AI/LLM runtime, or deploy claim.
+fields, self-confirmed booking, public self-edit/rebook, AI/LLM runtime, or
+deploy claim.
 
 ## Staff Booking Request Edit And Replacement
 
@@ -212,12 +223,12 @@ Expected failure states:
 Backend truth:
 APOLLO owns request state, version, availability truth, replacement lineage, and
 rebook idempotency. Themis owns only the internal staff workflow. Hestia remains
-customer-facing and unchanged. Deployed truth is unchanged.
+customer-facing and separate. Deployed truth is unchanged.
 
 Hard stops:
-No public self-edit, public availability/request calendar, in-place approved
-booking mutation, direct staff schedule editing, payment/quote/deposit/invoice
-flow, Hestia staff controls, AI/LLM runtime, or deploy claim.
+No public self-edit/rebook, in-place approved booking mutation, direct staff
+schedule editing, payment/quote/deposit/invoice flow, Hestia staff controls,
+AI/LLM runtime, or deploy claim.
 
 ## Staff Booking Request Create
 
@@ -480,8 +491,8 @@ These are intentional placeholders, not implementation claims.
 
 | Flow | Status | Notes |
 | --- | --- | --- |
-| Staff pending edit and approved replacement | Closed in Phase 3B.8 | APOLLO owns truth; Themis owns internal manager/owner workflow; public self-edit and in-place approved mutation remain deferred |
-| Public availability/request calendar | Deferred future | May show facility hours, unavailable slices, public event labels, and requestable times; still no self-confirmed booking before staff policy earns it |
+| Staff pending edit and approved replacement | Closed in Phase 3B.8 | APOLLO owns truth; Themis owns internal manager/owner workflow; public self-edit/rebook and in-place approved mutation remain deferred |
+| Public availability/request calendar | Closed in Phase 3B.9 | APOLLO owns public-safe requestable/unavailable hints; Hestia renders them on `/intake`; submit remains request-only and staff approval remains the only confirmed reservation path |
 | Bounded staff schedule controls | Deferred | Themis/APOLLO rails for operational holds, delays, closures, or schedule edits if needed |
 | Public booking display labels | Deferred future | Public event/team labels only when facility policy and privacy rules allow them |
 | Approved recurring booking self-service | Post-launch watch later | Customer can request or auto-confirm occurrences only inside staff-approved policy and conflict checks |

@@ -33,9 +33,10 @@ request-first booking runtime over APOLLO schedule/resource conflict truth, the
 `Phase 3B.5` approved booking lifecycle over linked reservation truth, the
 `Phase 3B.6` public request intake API with source/channel and idempotency
 truth, the `Phase 3B.7` opaque public receipt/status/message lookup truth, and
-the `Phase 3B.8` staff-side pending edit/approved replacement truth.
+the `Phase 3B.8` staff-side pending edit/approved replacement truth, and the
+`Phase 3B.9` public-safe availability/request calendar read.
 It does not own raw presence truth, broad staff product workflows, instant
-booking, public self-edit, public availability calendars, payments, quotes,
+booking, public self-edit/rebook, payments, quotes,
 in-place approved mutation, public competition surfaces, diagnosis, or opaque
 helper-owned logic.
 
@@ -77,6 +78,8 @@ The active APOLLO slice now spans the following narrow runtime boundaries:
   state-machine truth for manager/owner only
 - approved booking request -> linked internal reservation schedule block through
   APOLLO schedule/resource conflict truth
+- unauthenticated public booking option availability read -> public-safe
+  requestable windows plus generic unavailable hints only
 - unauthenticated public booking request intake -> idempotency-keyed requested
   booking request with public source/channel and no schedule block creation
 
@@ -135,6 +138,7 @@ editing, deploy claims, or public competition reads.
 | `POST /api/v1/booking/requests/{id}/rebook` | Real in repo/runtime truth | Requires `booking_manage`, trusted-surface proof, `expected_version`, and `Idempotency-Key`; creates a new requested replacement linked to the approved original while leaving the original reservation untouched |
 | `POST /api/v1/booking/requests/{id}/public-message` | Real in repo/runtime truth | Requires `booking_manage`, trusted-surface proof, and `expected_version`; stores a customer-safe public message separately from `internal_notes` |
 | `GET /api/v1/public/booking/options` | Real in repo/runtime truth | Unauthenticated public-safe options read returning active/bookable/public-labeled choices only |
+| `GET /api/v1/public/booking/options/{optionID}/availability` | Real in repo/runtime truth | Unauthenticated read-only public-safe availability for one public option; strict RFC3339 window with 14-day max, requestable windows plus generic closed/booked/unavailable blocks only, and no internal IDs, staff metadata, contact data, request counts, raw conflicts, private labels, notes, quote, or payment truth |
 | `POST /api/v1/public/booking/requests` | Real in repo/runtime truth | Unauthenticated bounded public request intake with advisory-lock-serialized idempotency, neutral response, public source/channel, and no schedule block creation |
 | `GET /api/v1/public/booking/requests/status` | Real in repo/runtime truth | Unauthenticated receipt-code lookup returning only public status, optional public message, safe requested window, and timestamp; no internal IDs, notes, conflicts, staff, trusted-surface, quote, or payment truth |
 | recommendation storage | Schema authored | `apollo.recommendations` exists, but Tracer 7 recommendation reads are derived at read time |
@@ -153,7 +157,7 @@ editing, deploy claims, or public competition reads.
 | derived lobby eligibility, explicit lobby membership, bounded competition execution runtime, and bounded competition-history truth | invites, parties, public competition reads, or broad social product surfaces |
 | bounded planner substrate, exercise-library truth, equipment refs, templates/loadouts, richer profile-input truth, bounded deterministic coaching substrate, bounded conservative nutrition substrate, and the bounded competition staff authz substrate | raw workout inference, diagnosis, meal-plan chatbot logic, opaque helper-owned decisions, broad staff product workflows, or public competition reads |
 | read-only ops composition over APOLLO schedule truth and ATHENA occupancy/analytics truth | raw tap identities, identity-level presence search, ATHENA analytics semantics, staff shell UI, or deployment orchestration |
-| booking request persistence, state transitions, availability preview, conflict-aware approval into internal schedule reservation blocks, approved cancellation of those linked blocks, public request intake API truth, public receipt/status/message lookup, pending request edit, and approved replacement request lineage | customer self-booking, public self-edit, public availability calendar, in-place approved editing, payment/quote/invoice/deposit flows, owner policy editing, Hestia staff controls, or member self-booking UI |
+| booking request persistence, state transitions, availability preview, public-safe availability/request calendar read, conflict-aware approval into internal schedule reservation blocks, approved cancellation of those linked blocks, public request intake API truth, public receipt/status/message lookup, pending request edit, and approved replacement request lineage | customer self-booking, public self-edit/rebook, in-place approved editing, payment/quote/invoice/deposit flows, owner policy editing, direct staff schedule controls, Hestia staff controls, or member self-booking UI |
 | future recommendation domains | shared contract authorship |
 
 Key boundaries:
@@ -264,8 +268,14 @@ Key boundaries:
   request creation. Edits are limited to requested, under-review, and
   needs-changes requests; rebook creates a new requested replacement linked to
   the original approved booking with idempotency-key semantics; public
-  self-edit, in-place approved mutation, public calendars, payments, quotes,
+  self-edit/rebook, in-place approved mutation, payments, quotes,
   direct staff schedule controls, gateway, HERMES, and deploy remain deferred
+- `Phase 3B.9` now adds a read-only unauthenticated public-safe availability
+  read for booking options. Customers can see requestable windows and generic
+  unavailable time hints, public submit remains request-only, and staff approval
+  remains the only confirmed reservation path; public self-booking,
+  self-edit/rebook, payments, quotes, direct staff schedule controls, gateway,
+  HERMES, and deploy remain deferred
 - competition provenance columns such as `owner_user_id` and
   `recorded_by_user_id` remain useful domain truth, but they no longer act as
   the sole authorization key
@@ -311,14 +321,21 @@ Themis owns the internal manager/owner workflow while supervisors remain
 read-only. Hestia remains customer-facing and unchanged. Deployed truth is
 unchanged.
 
+`Phase 3B.9 public availability/request calendar` is now closed in APOLLO and
+Hestia repo/runtime truth. APOLLO owns the unauthenticated read-only public-safe
+availability endpoint for public booking options; Hestia owns the `/intake`
+calendar hints. Customers can see requestable windows and unavailable time hints,
+but submit is still request-only and staff approval still creates the only
+confirmed reservation. Deployed truth is unchanged.
+
 | Topic | Locked statement |
 | --- | --- |
 | current shell owners | Hestia is the customer-facing shell for `/intake` plus `/app/**`; Themis is the privileged internal ops shell |
-| current APOLLO truth | `Phase 3B.1` read-only ops overview, `Phase 3B.4` booking request runtime, `Phase 3B.5` approved booking lifecycle, `Phase 3B.6` public request intake API, `Phase 3B.7` public receipt/status/message lookup, and `Phase 3B.8` booking edit/replacement are closed on `main` |
+| current APOLLO truth | `Phase 3B.1` read-only ops overview, `Phase 3B.4` booking request runtime, `Phase 3B.5` approved booking lifecycle, `Phase 3B.6` public request intake API, `Phase 3B.7` public receipt/status/message lookup, `Phase 3B.8` booking edit/replacement, and `Phase 3B.9` public availability/request calendar are closed on `main` |
 | Themis consumption | APOLLO auth/session/profile, ops overview, booking request APIs, pending edit, approved replacement request, and the trusted-surface public-message update path only; `/api/v1/public/*` remains blocked through Themis |
-| next fork | public availability/request calendar, bounded staff scheduling controls, payment/quote planning, public self-edit, or in-place approved mutation depending on the next proven operational gap |
-| APOLLO reopen rule | APOLLO should reopen only if the next packet proves a narrow public availability/request calendar, schedule-control, payment/quote planning, public self-edit, or in-place approved mutation contract gap |
-| hard stops | no customer self-booking, public self-edit by implication, payment processor integration, checkout UI, quote/deposit/invoice runtime, owner policy writes, broad admin role work, gateway widening, deploy work, prediction, AI summaries, Hestia staff controls, or HERMES widening by implication |
+| next fork | bounded staff scheduling controls, payment/quote planning, public self-edit/rebook, or in-place approved mutation depending on the next proven operational gap |
+| APOLLO reopen rule | APOLLO should reopen only if the next packet proves a narrow schedule-control, payment/quote planning, public self-edit/rebook, self-booking, or in-place approved mutation contract gap |
+| hard stops | no customer self-booking, public self-edit/rebook by implication, payment processor integration, checkout UI, quote/deposit/invoice runtime, owner policy writes, broad admin role work, direct staff schedule controls, gateway widening, deploy work, prediction, AI summaries, Hestia staff controls, or HERMES widening by implication |
 
 ## Project Shape
 
@@ -408,7 +425,8 @@ unless a separate deployment workstream verifies them live.
 | `Phase 3B.1` | read-only facility ops overview over APOLLO schedule truth plus ATHENA occupancy and bounded aggregate analytics truth | do not widen into booking, public entrypoints, staff shell UI, policy writes, HERMES widening, gateway work, or deploy claims |
 | `Phase 3B.4` | request-first booking runtime with versioned internal requests, APOLLO availability/conflict truth, and linked internal reservation approval | do not widen into public request intake, instant booking, payments, quotes, customer self-service, owner policy writes, broad admin role work, gateway work, HERMES, or deploy claims |
 | `Phase 3B.5` | approved booking cancellation with atomic linked reservation cancellation and retained audit linkage | do not widen into public request intake, instant booking, in-place approved editing, payments, quotes, customer self-service, owner policy writes, broad admin role work, gateway work, HERMES, or deploy claims |
-| `Phase 3B.8` | staff-side pending request edit plus approved replacement request lineage | do not widen into public self-edit, public availability calendar, in-place approved mutation, payments, quotes, direct schedule controls, owner policy writes, broad admin role work, gateway work, HERMES, or deploy claims |
+| `Phase 3B.8` | staff-side pending request edit plus approved replacement request lineage | do not widen into public self-edit/rebook, in-place approved mutation, payments, quotes, direct staff schedule controls, owner policy writes, broad admin role work, gateway work, HERMES, or deploy claims |
+| `Phase 3B.9` | public-safe availability/request calendar read for booking options | do not widen into public self-booking, public self-edit/rebook, in-place approved mutation, payments, quotes, direct staff schedule controls, owner policy writes, broad admin role work, gateway work, HERMES, or deploy claims |
 
 ## Deferred On Purpose
 
