@@ -358,6 +358,62 @@ Hard stops:
 No silent reconciliation of externally mutated schedule blocks, no deletion of
 audit linkage, no customer self-cancellation.
 
+## Bounded Staff Schedule Controls
+
+Surface:
+Themis `/ops/facilities/:facilityKey/schedule`, APOLLO schedule APIs.
+
+Entry:
+Supervisor, manager, or owner opens the internal facility schedule page.
+
+User-visible steps:
+1. Staff selects a bounded RFC3339 schedule window.
+2. Supervisor can read one-off schedule blocks only.
+3. Manager/owner can choose a supported intent and submit a single-instance
+   closure, unavailable hold, maintenance hold, or public-event hold.
+4. Manager/owner can cancel only visible future schedule-managed non-reservation
+   blocks.
+5. Submit buttons disable while pending and the page reloads from APOLLO truth.
+
+Invisible system steps:
+1. Themis calls APOLLO schedule reads server-side with the staff session.
+2. APOLLO returns schedule truth and a manage-capability hint; Themis uses the
+   hint only for controls, while APOLLO remains enforcement.
+3. Themis sends schedule mutations only from server actions with trusted-surface
+   proof.
+4. APOLLO runs existing schedule conflict validation and version checks.
+5. APOLLO refuses generic schedule cancellation for booking-linked reservations;
+   approved booking cancellation stays under the booking request lifecycle.
+6. Public availability continues to derive only public-safe unavailable/closed
+   hints and never leaks private schedule details.
+
+Expected success state:
+The internal schedule list reflects APOLLO truth. Public availability changes
+only through APOLLO's existing public-safe availability response.
+
+Expected failure states:
+- Button does not press: inspect Themis role gating, pending state, and
+  APOLLO manage hint.
+- Button presses but nothing updates: inspect Themis schedule action and APOLLO
+  client.
+- Backend updates but UI does not: inspect redirect/window query preservation.
+- Duplicate click/retry: Themis pending-disabled state should prevent duplicate
+  submits; APOLLO conflict rules remain authoritative.
+- Auth/session failure: redirect to `/login`.
+- Conflict/stale version: APOLLO returns conflict and Themis shows a bounded
+  error without exposing private truth.
+
+Backend truth:
+`GET /api/v1/schedule/blocks`, `POST /api/v1/schedule/blocks`, and
+`POST /api/v1/schedule/blocks/{id}/cancel` remain APOLLO-owned. Themis is a
+privileged UI/client only.
+
+Hard stops:
+No recurrence, broad operating-hours policy editor, tournament/session controls,
+supervisor proposal workflow, approved booking reservation mutation through the
+schedule page, Hestia staff controls, public self-booking, payment/quote flow,
+or deploy claim.
+
 ## Member Presence And Tap Claim
 
 Surface:
@@ -493,7 +549,7 @@ These are intentional placeholders, not implementation claims.
 | --- | --- | --- |
 | Staff pending edit and approved replacement | Closed in Phase 3B.8 | APOLLO owns truth; Themis owns internal manager/owner workflow; public self-edit/rebook and in-place approved mutation remain deferred |
 | Public availability/request calendar | Closed in Phase 3B.9 | APOLLO owns public-safe requestable/unavailable hints; Hestia renders them on `/intake`; submit remains request-only and staff approval remains the only confirmed reservation path |
-| Bounded staff schedule controls | Deferred | Themis/APOLLO rails for operational holds, delays, closures, or schedule edits if needed |
+| Bounded staff schedule controls | Closed in Phase 3B.10 | APOLLO remains schedule authority; Themis renders internal supervisor read-only and manager/owner bounded one-off create/cancel controls; recurrence, broad policy, tournament controls, supervisor proposals, public self-booking, and payments/quotes remain deferred |
 | Public booking display labels | Deferred future | Public event/team labels only when facility policy and privacy rules allow them |
 | Approved recurring booking self-service | Post-launch watch later | Customer can request or auto-confirm occurrences only inside staff-approved policy and conflict checks |
 | Demand heatmaps and booking analytics | Post-launch watch later | Managerial insight from request/approval/occupancy patterns, not a booking prerequisite |
