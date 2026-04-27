@@ -41,6 +41,12 @@ booking, public self-edit/rebook, payments, quotes,
 in-place approved mutation, broad schedule policy, public competition surfaces,
 diagnosis, or opaque helper-owned logic.
 
+For APOLLO's post-current competition/rating/tournament/social expansion,
+the operating source of truth is
+[`apollo/docs/launch-expansion-audit.md`](../../../apollo/docs/launch-expansion-audit.md)
+in the local ASHTON workspace. That audit governs future sequence and gates; it
+does not change the shipped runtime truth summarized in this brief.
+
 ## Current Role
 
 The active APOLLO slice now spans the following narrow runtime boundaries:
@@ -448,6 +454,7 @@ unless a separate deployment workstream verifies them live.
 | `Phase 3B.8` | staff-side pending request edit plus approved replacement request lineage | do not widen into public self-edit/rebook, in-place approved mutation, payments, quotes, direct staff schedule controls, owner policy writes, broad admin role work, gateway work, HERMES, or deploy claims |
 | `Phase 3B.9` | public-safe availability/request calendar read for booking options | do not widen into public self-booking, public self-edit/rebook, in-place approved mutation, payments, quotes, direct staff schedule controls, owner policy writes, broad admin role work, gateway work, HERMES, or deploy claims |
 | `Phase 3B.10` | bounded internal staff schedule controls for single-instance APOLLO blocks | do not widen into recurrence, broad operating-hours editing, tournament/session controls, supervisor proposals, public self-booking, payments, quotes, owner policy writes, broad admin role work, gateway work, HERMES, or deploy claims |
+| launch expansion audit | APOLLO competition/rating/tournament/social launch plan | do not skip docs truth, command/CLI/capability substrate, rating extraction/audit, consensus, disputes, privacy, scale, frontend contract, or compatibility gates |
 
 ## Deferred On Purpose
 

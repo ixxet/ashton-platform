@@ -3,6 +3,26 @@
 This document keeps tracer chats, repo ownership, and exit criteria in one place.
 Update it after every tracer so future chats do not have to rediscover the plan.
 
+## Post-Current APOLLO Launch Expansion
+
+Historical Tracer 18-T28 records below remain closure evidence. They are not
+the active sequence for the next APOLLO competition launch expansion.
+
+The active APOLLO launch-expansion operating doc is
+[`../../../apollo/docs/launch-expansion-audit.md`](../../../apollo/docs/launch-expansion-audit.md).
+It consolidates older public competition, tournament, badge, rivalry, CP, and
+squad ideas behind gates:
+
+- docs truth and CLI/capability/dry-run/application-command substrate first
+- rating extraction, policy versioning, rating audit, and OpenSkill dual-run
+  before ARES v2 or public stakes
+- match tiers, consensus voting, and disputes before public ratings,
+  leaderboards, tournaments, rivalry, badges, CP, or squads
+- internal Themis competition ops may move earlier only as staff/internal
+  tooling over real APOLLO contracts
+- approval/proposal, match lifecycle, notifications, schedule policy, and
+  court/resource splitting are reusable substrate packets
+
 ## Tracer 0: Bootstrap And Alignment
 
 Status: completed in the control-plane thread.

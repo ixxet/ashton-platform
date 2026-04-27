@@ -14,6 +14,8 @@ For a fresh master chat, first read:
 3. `planning/repo-briefs/`
 4. `planning/sprints/TRACER-MATRIX.md`
 5. repo-local `README.md` and `docs/roadmap.md`
+6. for APOLLO launch expansion specifically:
+   `../apollo/docs/launch-expansion-audit.md`
 
 Use this order when planning or implementing:
 
@@ -23,9 +25,10 @@ Use this order when planning or implementing:
 4. repo-local migrations and schemas
 5. `planning/sprints/TRACER-MATRIX.md`
 6. `planning/audits/`
-7. `planning/STARSHOT-VISION.md` for strategic horizon and future-ladder context only
-8. `planning/sprints/BUILD-ORDER.md` as historical planning context only
-9. `planning/architecture/` as background reference only
+7. `../apollo/docs/launch-expansion-audit.md` for APOLLO post-current competition/rating/tournament/social expansion sequencing only
+8. `planning/STARSHOT-VISION.md` for strategic horizon and future-ladder context only
+9. `planning/sprints/BUILD-ORDER.md` as historical planning context only
+10. `planning/architecture/` as background reference only
 
 ## Locked Architectural Decisions
 
@@ -63,6 +66,21 @@ Prometheus/live remains on immutable `athena v0.7.0`, and that deploy truth
 should stay separate from the active implementation ladder.
 
 The active blockers before the next implementation legs are now:
+
+0. APOLLO launch expansion fork, if chosen next
+   - the canonical operating doc is
+     `../apollo/docs/launch-expansion-audit.md`
+   - do docs truth, CLI/capability/dry-run/application-command substrate, rating
+     extraction/policy/audit, match tiers, consensus, disputes, and OpenSkill
+     dual-run before public competition stakes
+   - internal Themis competition ops may move earlier only as a staff/internal
+     shell over real APOLLO contracts with no browser-delivered trusted-surface
+     credential
+   - approval/proposal, match lifecycle, notifications, schedule policy, and
+     court/resource splitting are reusable substrate packets, not public
+     surfaces
+   - do not jump straight to public tournaments, public leaderboards, CP,
+     badges, squads, rivalry, or public social surfaces
 
 1. next Phase 3B planning fork after closed `Phase 3B.10`
    - APOLLO now owns staff and public booking request persistence, state
@@ -177,7 +195,7 @@ Rust remains a later optimization path, not a first-wave dependency.
 | --- | --- | --- | --- |
 | `ashton-proto` | `v0.3.0` shipped; current Tracer 15 contract line `v0.4.0` | later than `v0.4.0` | the second routed manifest line is now real in the current repo line; further widening should stay tracer-driven |
 | `athena` | `v0.5.1` shipped; the Tracer 18 facility-truth line plus the `v0.6.1` hardening follow-up are on `main`; `v0.7.0` is shipped and live as the bounded Postgres-backed storage/analytics deployment line; `v0.8.2` is now shipped and live as the bounded policy-backed accepted-presence hardening line; broader session cutover and operator/report surfaces remain deferred | no active ladder line; separate deploy packet only if needed | ATHENA repo/runtime and bounded deployment closeout are done for the current line, and any later deploy repin or broader ATHENA widening must stay separate from the next bounded Phase 3B packet |
-| `apollo` | current Tracer 28 repo/runtime line plus the current `v0.19.1` hardening follow-up, the later `Phase 3 shared substrate B` repo/runtime line, the later `Phase 3A.1` member shell foundation line, the later `Phase 3A.3` member truth completion line, the later `Phase 3A.4` member-safe schedule calendar line, the later `Phase 3B.1` ops read foundation line, the later `Phase 3B.4` booking request runtime, the later `Phase 3B.5` approved booking lifecycle, the later `Phase 3B.6` public request intake API, `Phase 3B.7` customer status/message lookup, `Phase 3B.8` booking edit/replacement, `Phase 3B.9` public availability/request calendar, and `Phase 3B.10` bounded staff schedule controls are on `main`; Tracer 24 remains tagged on `v0.15.0`; `v0.15.1` remains the narrow historical hardening patch line; deployed truth unchanged | post-`Phase 3B.10` fork | APOLLO now owns staff and public booking request runtime truth, public idempotency, source/channel, public-safe availability hints, public receipt/status/message lookup, linked reservation approval, approved cancellation of linked reservations, pending request edit, approved replacement requests, and bounded staff-created schedule blocks; instant booking, public self-edit/rebook, payments, quotes, in-place approved mutation, recurring schedule policy, broad operating-hours editing, gateway, HERMES, AI/LLM negotiation, and deploy remain deferred |
+| `apollo` | current Tracer 28 repo/runtime line plus the current `v0.19.1` hardening follow-up, the later `Phase 3 shared substrate B` repo/runtime line, the later `Phase 3A.1` member shell foundation line, the later `Phase 3A.3` member truth completion line, the later `Phase 3A.4` member-safe schedule calendar line, the later `Phase 3B.1` ops read foundation line, the later `Phase 3B.4` booking request runtime, the later `Phase 3B.5` approved booking lifecycle, the later `Phase 3B.6` public request intake API, `Phase 3B.7` customer status/message lookup, `Phase 3B.8` booking edit/replacement, `Phase 3B.9` public availability/request calendar, and `Phase 3B.10` bounded staff schedule controls are on `main`; Tracer 24 remains tagged on `v0.15.0`; `v0.15.1` remains the narrow historical hardening patch line; deployed truth unchanged | post-`Phase 3B.10` fork, or APOLLO launch-expansion fork governed by `../apollo/docs/launch-expansion-audit.md` | APOLLO now owns staff and public booking request runtime truth, public idempotency, source/channel, public-safe availability hints, public receipt/status/message lookup, linked reservation approval, approved cancellation of linked reservations, pending request edit, approved replacement requests, and bounded staff-created schedule blocks; instant booking, public self-edit/rebook, payments, quotes, in-place approved mutation, recurring schedule policy, broad operating-hours editing, public competition/social surfaces, gateway, HERMES, AI/LLM negotiation, and deploy remain deferred unless a gated launch-expansion packet explicitly opens them |
 | `hestia` | `Phase 3A.2` standalone member frontend bootstrap is on `main`; pushed repo truth now names `Hestia`, keeps APOLLO as auth/session authority, records future privileged split to `Themis`, and now also carries the closed `Phase 3A.3` thin member-truth consumption line, the closed `Phase 3A.4` Home schedule-outlook consumption line, closed `Phase 3B.6` public intake consolidation at `/intake`, closed `Phase 3B.7` receipt status lookup at `/intake/status`, and closed `Phase 3B.9` public availability/request calendar hints at `/intake` | post-`Phase 3B.10` fork | `Hestia` is the customer-facing shell with public booking-request intake and public-safe availability hints at `/intake`, public-safe status lookup at `/intake/status`, and authenticated member app under `/app/**`; do not widen it into staff controls, payment/quote flows, public self-edit/rebook, self-booking, or deployment claims |
 | `themis` | `Phase 3B.2` standalone privileged ops shell foundation, `Phase 3B.4` internal booking request workspace, `Phase 3B.5` approved booking cancellation workflow, `Phase 3B.6` public-source/proxy-boundary hardening, `Phase 3B.7` public-safe customer message triage, `Phase 3B.8` booking edit/replacement, and `Phase 3B.10` bounded staff schedule controls are on `main`; pushed repo truth names Themis, keeps APOLLO as auth/session/API authority, and consumes APOLLO ops overview plus booking request and schedule APIs | post-`Phase 3B.10` fork | Themis is the privileged internal ops shell; it remains blocked from proxying `/api/v1/public/*`, can save only APOLLO's separate public-safe message field, edit pending/open requests, create approved replacement requests, create supported one-off schedule blocks, and cancel eligible future schedule-managed non-reservation blocks for manager/owner users, deployed truth is unchanged, and Hestia, ATHENA, HERMES, gateway, and deploy were not widened |
 | `hermes` | `v0.2.0` shipped | `v0.3.0` | the richer read-only reconciliation line is now shipped and the first write/approval boundary is the next true widening |
@@ -608,7 +626,7 @@ reconciliation surface and bounded ATHENA support release alignment.
 | `v0.0.33` | `Tracer 26` | `apollo v0.17.0` | explanation, summarization, bounded AI helper flows, and thin agent-facing helper surfaces over stable deterministic logic | no public social feed, no LLM-first core, no frontend-first pivot |
 | `v0.0.34` | `Tracer 27` | `apollo v0.18.0` | member presence, tap-link, and streak substrate over explicit visit truth | no fake streak counters or silent visit inference |
 | `v0.0.35` | `Tracer 28` | `apollo v0.19.0` | role/authz, actor attribution, trusted-surface primitives, and staff-runtime boundary substrate | no polished ops suite or speculative contract widening |
-| `v0.0.36` | `Milestone 2.0` | `apollo v0.19.1`, `athena v0.6.1`, `ashton-mcp-gateway v0.2.1`, and docs-only `ashton-platform` closeout; `Prometheus` unchanged unless deploy truth changes | Phase 2 backend/base plateau: structural pillars, competition base, planner/coaching/nutrition/presence/authz substrate, deploy truth, agent-safe proposal/apply rails, and docs aligned | not a broad demo milestone |
+| `v0.0.36` | `Milestone 2.0` | `apollo v0.19.1`, `athena v0.6.1`, `ashton-mcp-gateway v0.2.1`, and docs-only `ashton-platform` closeout; `Prometheus` unchanged unless deploy truth changes | Phase 2 backend/base plateau: structural pillars, competition base, planner/coaching/nutrition/presence/authz substrate, deploy truth, actor-safe command/proposal posture, and docs aligned | not a broad demo milestone |
 | later than `Milestone 2.0` | long-horizon ladder in `planning/STARSHOT-VISION.md` | Phase 3 demos and later system-proof | meaningful frontend, demos, and broader presentation only after the backend/base ladder is closed cleanly | do not widen frontend during Phase 2 |
 
 ## Historical Phase 2 Outcomes
@@ -631,7 +649,7 @@ reconciliation surface and bounded ATHENA support release alignment.
 | `Tracer 26` | APOLLO gains explanation and agent-facing helpers over stable deterministic logic | improves agent/operator usability without making the model the core engine |
 | `Tracer 27` | APOLLO gains member-facing visit/tap-link/streak truth | turns presence into an honest product surface instead of a fake badge layer |
 | `Tracer 28` | APOLLO gains explicit role/authz, actor attribution, and staff-runtime boundary substrate | makes later ops UI and agent approvals honest instead of implied |
-| `Milestone 2.0` | the backend/base ladder is closure-clean across repos, deploy truth, and agent-safe proposal/apply discipline | turns the platform from a pile of tracers into a modular backend plateau ready for Phase 3 demos |
+| `Milestone 2.0` | the backend/base ladder is closure-clean across repos, deploy truth, docs, and actor-safe command discipline | turns the platform from a pile of tracers into a modular backend plateau ready for Phase 3 demos |
 | `System-Proof Milestone` | system-level proof of runtime truth, deployment truth, modularity, and maintenance model | shifts the platform from a pile of tracers to a coherent system |
 
 ## Historical Phase 2 Scope Bounds
@@ -651,7 +669,7 @@ reconciliation surface and bounded ATHENA support release alignment.
 | `Tracer 25` | conservative calorie / macro ranges, nutrition profile, low-friction meal logging, and explicit limitations | diagnosis, clinical advice, obsessive nutrition sprawl, chatbot-first guidance |
 | `Tracer 26` | explanation, summarization, bounded AI helper reads, and thin support tooling over stable deterministic logic | public feed, social sharing, LLM-first core decisions, frontend-first product work |
 | `Tracer 27` | member-facing tap-link, explicit visit association, streak state, and streak events | fake streak counters, silent visit inference, cross-facility ambiguity |
-| `Tracer 28` | explicit roles, capability checks, actor attribution, trusted-surface primitives, and approval workflow substrate | polished ops product, speculative shared contracts, broad admin manipulation tooling |
+| `Tracer 28` | explicit roles, capability checks, actor attribution, and trusted-surface primitives for later approval workflows | polished ops product, persistent approval/proposal objects, speculative shared contracts, broad admin manipulation tooling |
 | `Phase 3B.1` | APOLLO-owned read-only ops overview over schedule truth plus ATHENA current occupancy and bounded aggregate analytics | booking, public entrypoints, staff shell UI, owner policy writes, HERMES widening, gateway work, deploy claims, raw identity/tap leakage |
 
 ## Platform Guardrails
@@ -709,7 +727,7 @@ auditable way rather than a freeform chat-owned way.
 | `Tracer 26` | explanation/helper output remains traceable to deterministic core logic and never invents unsupported advice |
 | `Tracer 27` | correct visit/tap linking, no spoofed presence, correct streak transitions, and no fake inferred streak mutation |
 | `Tracer 28` | role escalation safety, trusted-surface gating, actor attribution, auditability, and no unauthorized staff/member cross-domain mutation |
-| `Milestone 2.0` | repo audit plus deploy audit plus doc alignment plus CLI/internal surface coherence plus proposal/apply safety coherence prove the backend/base plateau cleanly |
+| `Milestone 2.0` | repo audit plus deploy audit plus doc alignment plus CLI/internal surface coherence plus actor/capability safety coherence prove the backend/base plateau cleanly |
 | `System-Proof Milestone` | repo audit plus deployment audit plus boundary audit plus post-tracer roadmap |
 
 ## System-Proof Target
