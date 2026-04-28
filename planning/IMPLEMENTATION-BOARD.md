@@ -54,8 +54,8 @@ edit/replacement`, `Phase 3B.9 public availability/request calendar`, and
 `Phase 3B.10 bounded staff schedule controls`, `Phase 3B.11 competition
 command foundation`, `Phase 3B.12 competition lifecycle/result trust`,
 `Phase 3B.13 rating foundation`, `Phase 3B.14 OpenSkill dual-run`,
-`Phase 3B.15 ARES v2 proposal foundation`, and `Phase 3B.16 competition
-analytics foundation` are now
+`Phase 3B.15 ARES v2 proposal foundation`, `Phase 3B.16 competition
+analytics foundation`, and `Phase 3B.17 internal tournament runtime` are now
 also closed in APOLLO repo/runtime truth on `main`, and `Phase 3B.2 ops shell
 foundation` plus the Themis sides of `Phase 3B.4 request-first booking
 workspace`, `Phase 3B.5 approved booking lifecycle`, and `Phase 3B.6`
@@ -76,9 +76,9 @@ The active blockers before the next implementation legs are now:
 0. APOLLO launch expansion fork, if chosen next
    - the canonical operating doc is
      `../apollo/docs/launch-expansion-audit.md`
-   - 3B.16 has closed internal competition analytics foundation only
-   - do internal tournament runtime, match tiers, and consensus workflow before
-     public competition stakes
+   - 3B.17 has closed internal tournament runtime only
+   - do social safety/reliability, public readiness gates, match tiers, and
+     consensus workflow before public competition stakes
    - internal Themis competition ops must stay a staff/internal shell over real
      APOLLO contracts with no browser-delivered trusted-surface credential
    - approval/proposal, match lifecycle, notifications, schedule policy, and
@@ -87,7 +87,7 @@ The active blockers before the next implementation legs are now:
    - do not jump straight to public tournaments, public leaderboards, CP,
      badges, squads, rivalry, or public social surfaces
 
-1. next Phase 3B planning fork after closed `Phase 3B.16`
+1. next Phase 3B planning fork after closed `Phase 3B.17`
    - APOLLO now owns staff and public booking request persistence, state
      transitions, public intake idempotency, availability preview,
      conflict-aware approval into linked internal reservation blocks, and
@@ -107,9 +107,11 @@ The active blockers before the next implementation legs are now:
      projection watermarks, internal OpenSkill comparison rows/events with
      delta budgets and flags, ARES v2 queue intent/match-preview proposal
      facts with match quality, predicted win probability, and explanation
-     codes, and internal derived analytics stat events/projections with
-     explicit projection version, confidence, sample size, computed time,
-     source match/result, and deterministic watermarks
+     codes, internal derived analytics stat events/projections with explicit
+     projection version, confidence, sample size, computed time, source
+     match/result, deterministic watermarks, staff/internal tournament
+     containers, single-elimination bracket/seed/team-snapshot/match-binding/
+     advancement facts, explicit advance reasons, and tournament event facts
    - Themis now owns the internal `/ops/bookings` staff workspace and
      `/ops/facilities/:facilityKey/schedule` schedule workspace over those
      APOLLO contracts, including manager/owner approved cancellation,
@@ -119,12 +121,12 @@ The active blockers before the next implementation legs are now:
      blocks, and render APOLLO-backed competition readiness/dry-run/command/
      result states without fake competition state; it still denies `/api/v1/public/*`
      through its broad APOLLO proxy
-   - choose 3B.17 internal tournament runtime next if continuing launch
+   - choose 3B.18 social safety/reliability next if continuing launch
      expansion; keep dashboard-first analytics, public profiles/stats/scouting,
      carry coefficient, OpenSkill read-path switch, public competition surfaces,
-     CP/badges/rivalry/squads, proposal workflow, booking/commercial work, and
-     Hestia public/member competition expansion out unless a later packet earns
-     those boundaries
+     public tournaments, CP/badges/rivalry/squads, proposal workflow,
+     booking/commercial work, and Hestia public/member competition expansion out
+     unless a later packet earns those boundaries
 2. `apollo` role/authz widening only if later work truly needs it
    - the current planning stance still says migrations plus owner/admin CLI for
      first-line graph authoring, but APOLLO runtime still has no distinct
@@ -213,7 +215,7 @@ deferred until an explicit packet opens it.
 | --- | --- | --- | --- |
 | `ashton-proto` | `v0.3.0` shipped; current Tracer 15 contract line `v0.4.0` | later than `v0.4.0` | the second routed manifest line is now real in the current repo line; further widening should stay tracer-driven |
 | `athena` | `v0.5.1` shipped; the Tracer 18 facility-truth line plus the `v0.6.1` hardening follow-up are on `main`; `v0.7.0` is shipped and live as the bounded Postgres-backed storage/analytics deployment line; `v0.8.2` is now shipped and live as the bounded policy-backed accepted-presence hardening line; broader session cutover and operator/report surfaces remain deferred | no active ladder line; separate deploy packet only if needed | ATHENA repo/runtime and bounded deployment closeout are done for the current line, and any later deploy repin or broader ATHENA widening must stay separate from the next bounded Phase 3B packet |
-| `apollo` | current Tracer 28 repo/runtime line plus the current `v0.19.1` hardening follow-up, the later `Phase 3 shared substrate B` repo/runtime line, the later `Phase 3A.1` member shell foundation line, the later `Phase 3A.3` member truth completion line, the later `Phase 3A.4` member-safe schedule calendar line, the later `Phase 3B.1` ops read foundation line, the later `Phase 3B.4` booking request runtime, the later `Phase 3B.5` approved booking lifecycle, the later `Phase 3B.6` public request intake API, `Phase 3B.7` customer status/message lookup, `Phase 3B.8` booking edit/replacement, `Phase 3B.9` public availability/request calendar, `Phase 3B.10` bounded staff schedule controls, `Phase 3B.11` competition command foundation, `Phase 3B.12` lifecycle/result trust, `Phase 3B.13` rating foundation, `Phase 3B.14` OpenSkill dual-run comparison, `Phase 3B.15` ARES v2 proposal foundation, and `Phase 3B.16` competition analytics foundation are on `main`; Tracer 24 remains tagged on `v0.15.0`; `v0.15.1` remains the narrow historical hardening patch line; deployed truth unchanged | post-`Phase 3B.16` fork governed by `../apollo/docs/launch-expansion-audit.md` if continuing competition expansion | APOLLO now owns staff and public booking request runtime truth, public idempotency, source/channel, public-safe availability hints, public receipt/status/message lookup, linked reservation approval, approved cancellation of linked reservations, pending request edit, approved replacement requests, bounded staff-created schedule blocks, competition command/outcome/readiness/CLI foundation, canonical result identity, correction supersession, finalized/corrected-only rating consumption, a versioned legacy rating foundation with golden cases, rating events, source result IDs, rating event IDs, projection watermarks, internal OpenSkill comparison rows/events with delta budgets and flags, ARES v2 queue intent/match-preview proposal facts, and internal competition analytics stat events/projections; OpenSkill read-path switch, dashboard-first analytics, public profiles/stats/scouting, carry coefficient, tournament runtime, public competition/social surfaces, CP/badges/rivalry/squads, instant booking, public self-edit/rebook, payments, quotes, in-place approved mutation, recurring schedule policy, broad operating-hours editing, gateway, HERMES, AI/LLM negotiation, and deploy remain deferred unless a gated packet explicitly opens them |
+| `apollo` | current Tracer 28 repo/runtime line plus the current `v0.19.1` hardening follow-up, the later `Phase 3 shared substrate B` repo/runtime line, the later `Phase 3A.1` member shell foundation line, the later `Phase 3A.3` member truth completion line, the later `Phase 3A.4` member-safe schedule calendar line, the later `Phase 3B.1` ops read foundation line, the later `Phase 3B.4` booking request runtime, the later `Phase 3B.5` approved booking lifecycle, the later `Phase 3B.6` public request intake API, `Phase 3B.7` customer status/message lookup, `Phase 3B.8` booking edit/replacement, `Phase 3B.9` public availability/request calendar, `Phase 3B.10` bounded staff schedule controls, `Phase 3B.11` competition command foundation, `Phase 3B.12` lifecycle/result trust, `Phase 3B.13` rating foundation, `Phase 3B.14` OpenSkill dual-run comparison, `Phase 3B.15` ARES v2 proposal foundation, `Phase 3B.16` competition analytics foundation, and `Phase 3B.17` internal tournament runtime are on `main`; Tracer 24 remains tagged on `v0.15.0`; `v0.15.1` remains the narrow historical hardening patch line; deployed truth unchanged | post-`Phase 3B.17` fork governed by `../apollo/docs/launch-expansion-audit.md` if continuing competition expansion | APOLLO now owns staff and public booking request runtime truth, public idempotency, source/channel, public-safe availability hints, public receipt/status/message lookup, linked reservation approval, approved cancellation of linked reservations, pending request edit, approved replacement requests, bounded staff-created schedule blocks, competition command/outcome/readiness/CLI foundation, canonical result identity, correction supersession, finalized/corrected-only rating consumption, a versioned legacy rating foundation with golden cases, rating events, source result IDs, rating event IDs, projection watermarks, internal OpenSkill comparison rows/events with delta budgets and flags, ARES v2 queue intent/match-preview proposal facts, internal competition analytics stat events/projections, and staff/internal tournament bracket/seed/team-snapshot/match-binding/advancement/event facts over finalized/corrected canonical result truth; OpenSkill read-path switch, dashboard-first analytics, public profiles/stats/scouting, carry coefficient, public tournaments, public competition/social surfaces, CP/badges/rivalry/squads, instant booking, public self-edit/rebook, payments, quotes, in-place approved mutation, recurring schedule policy, broad operating-hours editing, gateway, HERMES, AI/LLM negotiation, and deploy remain deferred unless a gated packet explicitly opens them |
 | `hestia` | `Phase 3A.2` standalone member frontend bootstrap is on `main`; pushed repo truth now names `Hestia`, keeps APOLLO as auth/session authority, records future privileged split to `Themis`, and now also carries the closed `Phase 3A.3` thin member-truth consumption line, the closed `Phase 3A.4` Home schedule-outlook consumption line, closed `Phase 3B.6` public intake consolidation at `/intake`, closed `Phase 3B.7` receipt status lookup at `/intake/status`, and closed `Phase 3B.9` public availability/request calendar hints at `/intake` | post-`Phase 3B.12` fork | `Hestia` is the customer-facing shell with public booking-request intake and public-safe availability hints at `/intake`, public-safe status lookup at `/intake/status`, and authenticated member app under `/app/**`; it stayed untouched in 3B.12 and must not widen into staff controls, payment/quote flows, public competition, public self-edit/rebook, self-booking, or deployment claims |
 | `themis` | `Phase 3B.2` standalone privileged ops shell foundation, `Phase 3B.4` internal booking request workspace, `Phase 3B.5` approved booking cancellation workflow, `Phase 3B.6` public-source/proxy-boundary hardening, `Phase 3B.7` public-safe customer message triage, `Phase 3B.8` booking edit/replacement, `Phase 3B.10` bounded staff schedule controls, `Phase 3B.11` competition ops foundation, and `Phase 3B.12` lifecycle/result states are on `main`; pushed repo truth names Themis, keeps APOLLO as auth/session/API authority, and consumes APOLLO ops overview plus booking request, schedule, competition command/readiness/session, and result APIs | post-`Phase 3B.12` fork | Themis is the privileged internal ops shell; it remains blocked from proxying `/api/v1/public/*`, can save only APOLLO's separate public-safe message field, edit pending/open requests, create approved replacement requests, create supported one-off schedule blocks, cancel eligible future schedule-managed non-reservation blocks, and render APOLLO-backed competition readiness/dry-run/command/result states without fake competition state, deployed truth is unchanged, and Hestia, ATHENA, HERMES, gateway, and deploy were not widened |
 | `hermes` | `v0.2.0` shipped | `v0.3.0` | the richer read-only reconciliation line is now shipped and the first write/approval boundary is the next true widening |
@@ -633,13 +635,23 @@ analytics, public profiles/stats/scouting, carry coefficient, OpenSkill
 read-path switch, tournament runtime, public competition surfaces,
 CP/badges/rivalry/squads, and game identity remain deferred.
 
-The active next ladder is now a post-`Phase 3B.16` planning fork:
+`Phase 3B.17 Internal Tournament Runtime` is now closed in APOLLO repo/runtime
+truth: APOLLO owns staff/internal tournament containers, single-elimination
+bracket and seed facts, immutable team snapshots, match bindings, explicit
+advance reasons, audited round advancement facts, and tournament event facts.
+Advancement consumes finalized/corrected canonical result truth only and does
+not own result, rating, analytics, ARES, public, or game identity truth.
+Themis, Hestia, Prometheus, deployed truth, and public tournament surfaces stay
+unchanged.
+
+The active next ladder is now a post-`Phase 3B.17` planning fork:
 
 | Order | Line | Repo focus | Release line | Purpose | Hard stop |
 | --- | --- | --- | --- | --- | --- |
-| 1 | `Phase 3B.17` internal tournament runtime | `apollo`; Themis only if internal read-only visibility is explicitly needed | next if launch expansion continues | add internal tournament containers/runtime over trusted result/rating/analytics facts | no public tournament pages, fake brackets, or public stakes |
-| 2 | public/game identity ladder | likely `apollo`, `themis`, then `hestia` only after gates | later | add public competition readiness and game identity in order | no public competition surface before privacy, result trust, rating, telemetry, scale, and compatibility gates |
-| 3 | `Phase 3C` | cross-product | later | presentation, identity, packaging, and assistant presentation | no persona-first product before trustworthy rails |
+| 1 | `Phase 3B.18` social safety + reliability | likely `apollo` first, Themis/Hestia only if gates require | next if launch expansion continues | prove moderation, reliability, privacy, and operational safety before public competition exposure | no public competition surface, public tournament page, or social stakes by implication |
+| 2 | `Phase 3B.19` public competition readiness | likely `apollo`, `themis`, then `hestia` only after gates | later | evaluate public competition and public tournament exposure against real internal facts | no public competition surface before privacy, result trust, rating, telemetry, scale, and compatibility gates |
+| 3 | `Phase 3B.20` CP / badges / rivalry / squads | later | later game layer | add game identity only after safety and public readiness gates | no CP, badges, rivalry, squads, bounty, or public records from untrusted results |
+| 4 | `Phase 3C` | cross-product | later | presentation, identity, packaging, and assistant presentation | no persona-first product before trustworthy rails |
 
 ## Historical Phase 2 Ladder
 
