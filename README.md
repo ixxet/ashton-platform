@@ -529,13 +529,17 @@ line.
 
 ## Versioning Policy
 
+This is the current repo tag discipline for bounded pre-`1.0.0` work. It is
+not a project-wide SemVer governance program; that governance work remains
+deferred until an explicit packet opens it.
+
 | Versioning piece | Meaning in ASHTON now |
 | --- | --- |
 | Tag shape | All repos keep `vMAJOR.MINOR.PATCH` tags so release lines are readable and comparable |
 | `MAJOR` | Stay at `0` during the current foundation-building era; move to `1` only after the system-proof phase makes a repo meaningfully stable |
 | `MINOR` | Use for a new bounded runtime capability or tracer-sized widening in that repo |
 | `PATCH` | Use for hardening, docs sync, deployment closeout, observability, bug fixes, or other bounded follow-up on an existing capability line |
-| Pre-`1.0.0` rule | Use formal pre-`1.0.0` semantic versioning discipline: `MINOR` may widen or intentionally break a pre-`1.0.0` surface; `PATCH` must not add a new capability or a breaking change |
+| Pre-`1.0.0` rule | Use bounded pre-`1.0.0` tag discipline: `MINOR` may widen or intentionally break a pre-`1.0.0` surface; `PATCH` must not add a new capability or a breaking change |
 | Breaking-change rule | Before `1.0.0`, breaking changes to public HTTP surfaces, CLI contracts, shared schemas, manifests, or migrations require a `MINOR` bump, never a `PATCH` bump |
 | Control-plane and deploy repos | `ashton-platform` and deployment repos may use patch bumps as ledger / closeout lines even when service repos use minor bumps for runtime growth |
 | `1.0.0` graduation | A repo graduates only after stable public surfaces, explicit compatibility rules, repeatable hardening evidence, and release automation exist; see `planning/runbooks/phase-2-launch.md` |
