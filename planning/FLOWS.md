@@ -541,6 +541,47 @@ Hard stops:
 No staff controls, no Themis route drift, no APOLLO admin UI, no payment/quote
 surface.
 
+## Competition Safety Reliability Review
+
+Surface:
+Themis `/ops/competition`, APOLLO safety/reliability contracts.
+
+Entry:
+Manager or owner opens the internal competition ops page.
+
+User-visible steps:
+1. Themis loads APOLLO safety/reliability readiness and review contracts.
+2. Manager sees APOLLO-provided report, block, reliability, and audit summaries.
+3. If APOLLO denies or omits the contract, Themis shows unavailable/denied state
+   instead of fake safety facts.
+
+Invisible system steps:
+1. Themis server calls APOLLO with trusted-surface proof.
+2. APOLLO enforces `competition_safety_review` and trusted-surface gates.
+3. APOLLO reads only safety/reliability facts and does not mutate result,
+   rating, analytics, ARES, tournament, booking, public, member, or game truth.
+
+Expected success state:
+Manager sees APOLLO-owned internal safety/reliability status and recent facts.
+
+Expected failure states:
+- Button does not press: no safety mutation button should exist in this flow.
+- Backend request is rejected: Themis renders APOLLO denial/unavailable state.
+- UI updates but backend truth is absent: inspect fake fixture drift.
+- Auth/session failure: redirect to login or APOLLO unsupported state.
+
+Backend truth:
+`GET /api/v1/competition/safety/readiness` and
+`GET /api/v1/competition/safety/review` are manager-only APOLLO reads over
+`apollo.competition_safety_reports`, `apollo.competition_safety_blocks`,
+`apollo.competition_reliability_events`, and
+`apollo.competition_safety_events`.
+
+Hard stops:
+No Hestia public/member safety UI, no public social surface, no messaging/chat,
+no public profile/scouting/leaderboard/tournament, no CP/badge/rivalry/squad,
+no fake safety facts, and no mutation of canonical competition truth.
+
 ## Placeholders To Fill As They Become Active
 
 These are intentional placeholders, not implementation claims.
@@ -557,6 +598,7 @@ These are intentional placeholders, not implementation claims.
 | ARES v2 proposal foundation | Closed in Phase 3B.15 | APOLLO owns explicit queue intent facts and internal match-preview proposal facts with server-computed match quality, predicted win probability, and explanation codes; ARES remains proposal-only and does not own result, lifecycle, rating, booking, or public competition truth; analytics foundation closed in 3B.16, while OpenSkill read-path switch, tournament runtime, public/member matchmaking, and game identity remain deferred |
 | Competition analytics foundation | Closed in Phase 3B.16 | APOLLO owns internal derived competition stat events and analytics projections over finalized/corrected canonical results plus legacy active rating facts; projection version, confidence, sample size, computed time, source match/result, and deterministic watermarks are explicit; UI must not compute analytics truth and dashboard-first work, public profiles/stats/scouting, carry coefficient, OpenSkill read-path switch, tournament runtime, public/member competition surfaces, and game identity remain deferred |
 | Internal tournament runtime | Closed in Phase 3B.17 | APOLLO owns staff/internal tournament containers, single-elimination bracket and seed facts, immutable team snapshots, match bindings, explicit advance reasons, audited round advancement facts, and tournament events over trusted APOLLO team/match/result truth; advancement consumes finalized/corrected canonical result truth only; UI must not compute bracket, seed, snapshot, result, or advancement truth; public tournaments, Hestia member/public expansion, booking/commercial/proposal workflow, OpenSkill read-path switch, ARES behavior changes, dashboard-first analytics, CP/badges/rivalry/squads, and game identity remain deferred |
+| Social safety reliability foundation | Closed in Phase 3B.18 | APOLLO owns internal report, block, reliability, and safety audit facts plus manager-only readiness/review contracts; Themis may render APOLLO-provided manager visibility only; public/member safety UI, messaging/chat, public profiles/scouting/leaderboards/tournaments, CP/badges/rivalry/squads, OpenSkill read-path switch, booking/commercial/proposal workflows, and SemVer governance remain deferred |
 | Public booking display labels | Deferred future | Public event/team labels only when facility policy and privacy rules allow them |
 | Approved recurring booking self-service | Post-launch watch later | Customer can request or auto-confirm occurrences only inside staff-approved policy and conflict checks |
 | Demand heatmaps and booking analytics | Post-launch watch later | Managerial insight from request/approval/occupancy patterns, not a booking prerequisite |
