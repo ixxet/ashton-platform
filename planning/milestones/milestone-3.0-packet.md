@@ -2,6 +2,8 @@
 Date: 2026-04-29
 Status: packet authored, not yet executed
 
+Post-closeout evidence note: the executed Milestone 3.0 evidence pack is consolidated into `planning/milestones/milestone-3.0-evidence/README.md`. Flow and harness IDs are preserved as sections/tables in that single file instead of one Markdown sidecar per ID.
+
 ## Executive Verdict
 
 Milestone 3.0 proves that the currently shipped ASHTON competition trust spine can survive cluster-level deploy smoke and cross-repo compatibility probes without widening product behavior: APOLLO remains source truth, ATHENA remains ingress/source-observation truth, Themis remains internal ops, Hestia remains public/member-safe, the gateway remains read-only routed tooling, and Prometheus/GitOps truth is stated with evidence. This milestone does not ship new competition features, public surfaces, policy math, tournament formats, OpenSkill read paths, or demo behavior; it moves Gate 6 Telemetry and Gate 10 Cross-Repo Compatibility from Partial to Pass, declares Gate 8 Scale ceilings, and keeps every public-facing surface at its current allowlisted boundary.
