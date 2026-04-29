@@ -41,14 +41,14 @@ competition lifecycle/result trust, `Phase 3B.13` rating foundation,
 `Phase 3B.14` OpenSkill dual-run comparison, `Phase 3B.15` ARES v2 proposal
 foundation, `Phase 3B.16` competition analytics foundation, `Phase 3B.17`
 internal tournament runtime, and `Phase 3B.18` social safety/reliability
-foundation.
+foundation, `Phase 3B.19` public competition readiness, and `Phase 3B.20`
+game identity layer.
 It does not own raw presence truth, broad staff product workflows, instant
 booking, public self-edit/rebook, payments, quotes,
 in-place approved mutation, broad schedule policy, OpenSkill read-path switch,
 dashboard-first analytics, public profiles/stats/scouting, carry coefficient,
-public tournaments, public competition surfaces, public/member safety UI,
-messaging/chat, CP/badges/rivalry/squads, game identity, diagnosis, or opaque
-helper-owned logic.
+public tournaments, broad public social graph, public/member safety UI,
+messaging/chat, diagnosis, or opaque helper-owned logic.
 
 For APOLLO's post-current competition/rating/tournament/social expansion,
 the operating source of truth is
@@ -120,9 +120,9 @@ agent-facing helper reads, one facility-scoped presence substrate, one bounded
 competition execution line, one first ops-read foundation, and one internal
 request-first booking foundation plus public request intake without widening
 into dashboard-first analytics, public profiles/stats/scouting, carry
-coefficient, OpenSkill read-path switch, public tournaments, public competition
-surfaces, public/member safety UI, messaging/chat, game identity, generated
-apply paths, instant booking, payments, quotes, recurrence, broad
+coefficient, OpenSkill read-path switch, public tournaments, broad public
+social graph, public/member safety UI, messaging/chat, generated apply paths,
+instant booking, payments, quotes, recurrence, broad
 operating-hours policy editing, or deploy claims.
 
 ## Current Real Slice
@@ -178,7 +178,7 @@ operating-hours policy editing, or deploy claims.
 | `GET /api/v1/public/booking/requests/status` | Real in repo/runtime truth | Unauthenticated receipt-code lookup returning only public status, optional public message, safe requested window, and timestamp; no internal IDs, notes, conflicts, staff, trusted-surface, quote, or payment truth |
 | recommendation storage | Schema authored | `apollo.recommendations` exists, but Tracer 7 recommendation reads are derived at read time |
 | lobby membership runtime | Real | Explicit join and leave are real durable member intent only |
-| results/history plus presence/authz runtime | Phase 3B.18 is the current repo/runtime competition trust/rating/ARES/analytics/internal-tournament/safety line on `main` | Tracer 22 competition-history truth, Tracer 23 planner/profile substrate, Tracer 24 deterministic coaching substrate, Tracer 25 bounded nutrition substrate, Tracer 26 helper reads, Tracer 27 facility-scoped presence/tap-link/streak truth, Tracer 28 explicit role/authz plus actor attribution, Phase 3B.11 command/readiness/CLI foundation, Phase 3B.12 lifecycle/result trust, Phase 3B.13 rating foundation, Phase 3B.14 OpenSkill dual-run comparison, Phase 3B.15 ARES v2 proposal foundation, Phase 3B.16 competition analytics foundation, Phase 3B.17 internal tournament runtime, and Phase 3B.18 social safety/reliability foundation are real on `main` while dashboard-first analytics, public profiles/stats/scouting, carry coefficient, OpenSkill read-path switch, public tournaments, public competition reads, public/member safety UI, messaging/chat, broader staff product, and deployment truth remain deferred |
+| results/history plus presence/authz runtime | Phase 3B.20 is the current repo/runtime competition trust/rating/ARES/analytics/internal-tournament/safety/public-readiness/game-identity line on `main` | Tracer 22 competition-history truth, Tracer 23 planner/profile substrate, Tracer 24 deterministic coaching substrate, Tracer 25 bounded nutrition substrate, Tracer 26 helper reads, Tracer 27 facility-scoped presence/tap-link/streak truth, Tracer 28 explicit role/authz plus actor attribution, Phase 3B.11 command/readiness/CLI foundation, Phase 3B.12 lifecycle/result trust, Phase 3B.13 rating foundation, Phase 3B.14 OpenSkill dual-run comparison, Phase 3B.15 ARES v2 proposal foundation, Phase 3B.16 competition analytics foundation, Phase 3B.17 internal tournament runtime, Phase 3B.18 social safety/reliability foundation, Phase 3B.19 public competition readiness, and Phase 3B.20 game identity layer are real on `main` while dashboard-first analytics, public profiles/stats/scouting, carry coefficient, OpenSkill read-path switch, public tournaments, public/member safety UI, messaging/chat, broader staff product, and deployment truth remain deferred |
 
 ## Ownership Rules
 
@@ -193,7 +193,7 @@ operating-hours policy editing, or deploy claims.
 | bounded planner substrate, exercise-library truth, equipment refs, templates/loadouts, richer profile-input truth, bounded deterministic coaching substrate, bounded conservative nutrition substrate, and the bounded competition staff authz substrate | raw workout inference, diagnosis, meal-plan chatbot logic, opaque helper-owned decisions, broad staff product workflows, or public competition reads |
 | read-only ops composition over APOLLO schedule truth and ATHENA occupancy/analytics truth | raw tap identities, identity-level presence search, ATHENA analytics semantics, staff shell UI, or deployment orchestration |
 | booking request persistence, state transitions, availability preview, public-safe availability/request calendar read, conflict-aware approval into internal schedule reservation blocks, approved cancellation of those linked blocks, public request intake API truth, public receipt/status/message lookup, pending request edit, approved replacement request lineage, and bounded staff-created schedule blocks | customer self-booking, public self-edit/rebook, in-place approved editing, payment/quote/invoice/deposit flows, owner policy editing, recurrence, broad operating-hours policy editing, Hestia staff controls, or member self-booking UI |
-| competition command/outcome/readiness contracts, canonical result identity, lifecycle/result facts, correction supersession, finalized/corrected-only rating consumption, versioned legacy rating projections, internal OpenSkill comparison facts/events, ARES v2 queue intent/match-preview proposal facts, internal competition analytics stat events/projections, and staff/internal tournament bracket/seed/team-snapshot/match-binding/advancement/event facts | Themis-owned competition truth, browser trusted-surface tokens, dashboard-first analytics, public profiles/stats/scouting, carry coefficient, OpenSkill read-path switch, public tournaments, public competition surfaces, CP, badges, rivalry, or squads |
+| competition command/outcome/readiness contracts, canonical result identity, lifecycle/result facts, correction supersession, finalized/corrected-only rating consumption, versioned legacy rating projections, internal OpenSkill comparison facts/events, ARES v2 queue intent/match-preview proposal facts, internal competition analytics stat events/projections, staff/internal tournament bracket/seed/team-snapshot/match-binding/advancement/event facts, public-safe competition readiness/leaderboard contracts, and public/member-safe CP/badge/rivalry/squad game identity projections | Themis-owned competition truth, browser trusted-surface tokens, dashboard-first analytics, public profiles/stats/scouting, carry coefficient, OpenSkill read-path switch, public tournaments, broad public social graph, messaging/chat, or public safety details |
 | future recommendation domains | shared contract authorship |
 
 Key boundaries:
@@ -354,8 +354,14 @@ Key boundaries:
   foundation: report facts, block facts, reliability events, safety audit
   events, manager-only readiness/review contracts, and aligned commands over
   trusted APOLLO competition truth. Public/member safety UI, messaging/chat,
-  public profiles/scouting/leaderboards, public tournaments, and
-  CP/badges/rivalry/squads remain deferred
+  public profiles/scouting/leaderboards, public tournaments, and game identity
+  were deferred at that closure
+- `Phase 3B.20` now adds APOLLO-owned game identity projections: CP, badge
+  award, rivalry state, and squad identity facts over public-safe competition
+  projection rows only. Messaging/chat, broad public social graph, public
+  safety detail exposure, public tournaments, OpenSkill read-path switch,
+  booking/commercial/proposal workflows, SemVer governance, and deploy claims
+  remain deferred
 - competition provenance columns such as `owner_user_id` and
   `recorded_by_user_id` remain useful domain truth, but they no longer act as
   the sole authorization key
@@ -428,9 +434,9 @@ state. Hestia and deployed truth are unchanged.
 | Topic | Locked statement |
 | --- | --- |
 | current shell owners | Hestia is the customer-facing shell for `/intake` plus `/app/**`; Themis is the privileged internal ops shell |
-| current APOLLO truth | `Phase 3B.1` read-only ops overview, `Phase 3B.4` booking request runtime, `Phase 3B.5` approved booking lifecycle, `Phase 3B.6` public request intake API, `Phase 3B.7` public receipt/status/message lookup, `Phase 3B.8` booking edit/replacement, `Phase 3B.9` public availability/request calendar, `Phase 3B.10` bounded staff schedule controls, `Phase 3B.11` competition command foundation, `Phase 3B.12` lifecycle/result trust, `Phase 3B.13` rating foundation, `Phase 3B.14` OpenSkill dual-run comparison, `Phase 3B.15` ARES v2 proposal foundation, `Phase 3B.16` competition analytics foundation, `Phase 3B.17` internal tournament runtime, and `Phase 3B.18` social safety/reliability foundation are closed on `main` |
+| current APOLLO truth | `Phase 3B.1` read-only ops overview, `Phase 3B.4` booking request runtime, `Phase 3B.5` approved booking lifecycle, `Phase 3B.6` public request intake API, `Phase 3B.7` public receipt/status/message lookup, `Phase 3B.8` booking edit/replacement, `Phase 3B.9` public availability/request calendar, `Phase 3B.10` bounded staff schedule controls, `Phase 3B.11` competition command foundation, `Phase 3B.12` lifecycle/result trust, `Phase 3B.13` rating foundation, `Phase 3B.14` OpenSkill dual-run comparison, `Phase 3B.15` ARES v2 proposal foundation, `Phase 3B.16` competition analytics foundation, `Phase 3B.17` internal tournament runtime, `Phase 3B.18` social safety/reliability foundation, `Phase 3B.19` public competition readiness, and `Phase 3B.20` game identity layer are closed on `main` |
 | Themis consumption | APOLLO auth/session/profile, ops overview, booking request APIs, pending edit, approved replacement request, trusted-surface public-message update path, schedule APIs, and competition command/readiness/session/result/safety/reliability APIs only; `/api/v1/public/*` remains blocked through Themis |
-| next fork | 3B.19 public competition readiness if continuing launch expansion; otherwise a separately scoped booking/schedule/commercial packet only if explicitly reopened |
+| next fork | 3B.20.1 cohesion hardening if continuing launch expansion; otherwise a separately scoped booking/schedule/commercial packet only if explicitly reopened |
 | APOLLO reopen rule | APOLLO should reopen only if the next packet proves a narrow result-trust, recurrence/policy, payment/quote planning, public self-edit/rebook, self-booking, or in-place approved mutation contract gap |
 | hard stops | no customer self-booking, public self-edit/rebook by implication, payment processor integration, checkout UI, quote/deposit/invoice runtime, owner policy writes, broad admin role work, broad schedule editor, gateway widening, deploy work, prediction, AI summaries, Hestia staff controls, or HERMES widening by implication |
 
@@ -533,6 +539,8 @@ unless a separate deployment workstream verifies them live.
 | `Phase 3B.16` | competition analytics foundation over finalized/corrected canonical results plus legacy active rating facts | do not widen into dashboard-first analytics, public profiles/stats/scouting, carry coefficient, OpenSkill read-path switch, tournament runtime, public/member competition surfaces, Hestia expansion, CP, badges, rivalry, squads, proposal workflow, booking/commercial work, or deploy claims |
 | `Phase 3B.17` | internal tournament runtime over trusted APOLLO team/match/result truth | do not widen into public tournaments, Hestia member/public expansion, booking/commercial/proposal workflow, OpenSkill read-path switch, ARES behavior changes, dashboard-first analytics, CP, badges, rivalry, squads, or deploy claims |
 | `Phase 3B.18` | internal social safety/reliability foundation over trusted APOLLO competition truth | do not widen into public/member safety UI, messaging/chat, public profiles/scouting/leaderboards/tournaments, Hestia expansion, CP, badges, rivalry, squads, OpenSkill read-path switch, ARES behavior changes, analytics dashboards, booking/commercial/proposal workflow, SemVer governance, or deploy claims |
+| `Phase 3B.19` | public competition readiness over finalized/corrected canonical result truth plus legacy active rating fields | do not widen into public tournaments, CP, badges, rivalry, squads, messaging/chat, public social graph, OpenSkill read-path switch, ARES proposal exposure, analytics dashboards, booking/commercial/proposal workflow, SemVer governance, or deploy claims |
+| `Phase 3B.20` | game identity projections over APOLLO public-safe competition projection rows | do not widen into messaging/chat, broad public social graph, public safety details, public tournaments, OpenSkill read-path switch, booking/commercial/proposal workflows, SemVer governance, fake UI data, or deploy claims |
 | launch expansion audit | APOLLO competition/rating/tournament/social launch plan | do not skip docs truth, command/CLI/capability substrate, rating extraction/audit, consensus, disputes, privacy, scale, frontend contract, or compatibility gates |
 
 ## Deferred On Purpose
