@@ -42,7 +42,9 @@ competition lifecycle/result trust, `Phase 3B.13` rating foundation,
 foundation, `Phase 3B.16` competition analytics foundation, `Phase 3B.17`
 internal tournament runtime, and `Phase 3B.18` social safety/reliability
 foundation, `Phase 3B.19` public competition readiness, and `Phase 3B.20`
-game identity layer.
+game identity layer. `3B-LC` closes the completed 3B.11-3B.20.1 competition
+trust spine as a verification-only milestone pass without changing deployed
+truth or starting a new strategic line.
 It does not own raw presence truth, broad staff product workflows, instant
 booking, public self-edit/rebook, payments, quotes,
 in-place approved mutation, broad schedule policy, OpenSkill read-path switch,
@@ -178,7 +180,7 @@ operating-hours policy editing, or deploy claims.
 | `GET /api/v1/public/booking/requests/status` | Real in repo/runtime truth | Unauthenticated receipt-code lookup returning only public status, optional public message, safe requested window, and timestamp; no internal IDs, notes, conflicts, staff, trusted-surface, quote, or payment truth |
 | recommendation storage | Schema authored | `apollo.recommendations` exists, but Tracer 7 recommendation reads are derived at read time |
 | lobby membership runtime | Real | Explicit join and leave are real durable member intent only |
-| results/history plus presence/authz runtime | Phase 3B.20.1 is the current repo/runtime competition trust/rating/ARES/analytics/internal-tournament/safety/public-readiness/game-identity hardening line on `main` | Tracer 22 competition-history truth, Tracer 23 planner/profile substrate, Tracer 24 deterministic coaching substrate, Tracer 25 bounded nutrition substrate, Tracer 26 helper reads, Tracer 27 facility-scoped presence/tap-link/streak truth, Tracer 28 explicit role/authz plus actor attribution, Phase 3B.11 command/readiness/CLI foundation, Phase 3B.12 lifecycle/result trust, Phase 3B.13 rating foundation, Phase 3B.14 OpenSkill dual-run comparison, Phase 3B.15 ARES v2 proposal foundation, Phase 3B.16 competition analytics foundation, Phase 3B.17 internal tournament runtime, Phase 3B.18 social safety/reliability foundation, Phase 3B.19 public competition readiness, Phase 3B.20 game identity layer, and Phase 3B.20.1 cohesion hardening are real on `main` while dashboard-first analytics, public profiles/stats/scouting, carry coefficient, OpenSkill read-path switch, public tournaments, public/member safety UI, messaging/chat, broader staff product, and deployment truth remain deferred |
+| results/history plus presence/authz runtime | 3B-LC is the current closeout proof for the repo/runtime competition trust/rating/ARES/analytics/internal-tournament/safety/public-readiness/game-identity line on `main` | Tracer 22 competition-history truth, Tracer 23 planner/profile substrate, Tracer 24 deterministic coaching substrate, Tracer 25 bounded nutrition substrate, Tracer 26 helper reads, Tracer 27 facility-scoped presence/tap-link/streak truth, Tracer 28 explicit role/authz plus actor attribution, Phase 3B.11 command/readiness/CLI foundation, Phase 3B.12 lifecycle/result trust, Phase 3B.13 rating foundation, Phase 3B.14 OpenSkill dual-run comparison, Phase 3B.15 ARES v2 proposal foundation, Phase 3B.16 competition analytics foundation, Phase 3B.17 internal tournament runtime, Phase 3B.18 social safety/reliability foundation, Phase 3B.19 public competition readiness, Phase 3B.20 game identity layer, Phase 3B.20.1 cohesion hardening, and 3B-LC smoke/stress closeout are real on `main` while dashboard-first analytics, public profiles/stats/scouting, carry coefficient, OpenSkill read-path switch, public tournaments, public/member safety UI, messaging/chat, broader staff product, and deployment truth remain deferred |
 
 ## Ownership Rules
 

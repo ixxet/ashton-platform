@@ -63,6 +63,66 @@ Hard stops:
 Things this flow must not do.
 ```
 
+## Competition Trust Spine Smoke Matrix
+
+Surface:
+APOLLO runtime, Themis internal ops shell, Hestia public/member shell, platform
+docs, Prometheus status.
+
+Entry:
+A future packet proposes to touch competition commands, lifecycle/result trust,
+ratings, OpenSkill comparison, ARES proposal, analytics, tournaments,
+safety/reliability, public readiness, or game identity.
+
+User-visible steps:
+1. No customer or staff UI flow starts from this matrix.
+2. The agent first verifies every target repo is clean on `main...origin/main`.
+3. The agent reports whether the requested work is a new product line, a
+   hardening line, or a docs-only closeout before changing files.
+
+Invisible system steps:
+1. APOLLO remains source truth for competition commands, canonical results,
+   legacy active ratings, OpenSkill comparison rows, ARES proposal facts,
+   analytics projections, tournaments, safety/reliability, public projections,
+   and game identity projections.
+2. Themis consumes APOLLO internal ops contracts only and never becomes public
+   truth.
+3. Hestia consumes APOLLO public/member-safe projections only and never computes
+   ratings, analytics, matchmaking, tournaments, safety, or game identity truth.
+4. Prometheus and deployed truth remain unchanged unless a deployment packet
+   explicitly changes and verifies them.
+
+Expected success state:
+The agent can name the exact APOLLO, Themis, and Hestia smoke commands that
+passed; docs say 3B.11-3B.20.1 is closed through game identity; remaining
+deferments stay deferred; and the next strategic line is not started by
+implication.
+
+Expected failure states:
+- Dirty/ahead/behind repo: stop before implementation and report the repo.
+- Public/private leak: stop and fix only the leak or split a hardening packet.
+- UI-owned source truth: stop and move the fact back to APOLLO or keep the line
+  closed.
+- OpenSkill active read-path switch: stop unless an explicit future packet
+  opens that scope.
+- Deployed truth claim without verification: remove the claim.
+- Unrelated test flake: record evidence and avoid widening unless the packet
+  explicitly owns that suite.
+
+Backend truth:
+The standard closeout proof is `sqlc generate -f db/sqlc.yaml`, APOLLO focused
+competition trust-spine tests, `go vet ./...`, `go build ./cmd/apollo`, and
+`go test ./...`; Hestia `npm run check`, `npm test`, `npm run build`, and
+focused desktop/mobile Playwright for public competition, game identity, and
+proxy boundaries; Themis internal competition/safety smoke tests when the shell
+is touched or the existing suite supports a scoped run.
+
+Hard stops:
+No new public surface, no feature expansion, no messaging/chat, no booking or
+commercial workflow, no proposal workflow, no public safety details, no
+OpenSkill read-path switch, no public tournaments, no project-wide SemVer
+governance, and no deployment claim by pushed commits alone.
+
 ## Public Booking Request Intake
 
 Surface:

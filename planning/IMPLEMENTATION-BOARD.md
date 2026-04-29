@@ -75,7 +75,16 @@ at `/intake`, plus `Phase 3B.19` public competition readiness at
 	`/competition`, plus `Phase 3B.20` APOLLO-provided game identity at
 	`/competition` and the member competition surface, with `Phase 3B.20.1` docs
 	cohesion hardening applied, while keeping `/app/**` as the authenticated
-	member app.
+member app.
+`3B-LC Competition Trust Spine Closeout` is also closed as a verification-only
+milestone pass over `Phase 3B.11` through `Phase 3B.20.1`. The standard
+handoff matrix now starts with clean `main...origin/main` status across APOLLO,
+Themis, Hestia, platform, and Prometheus, then reruns APOLLO command/result/
+rating/OpenSkill/ARES/analytics/tournament/safety/public/game-identity checks,
+Hestia public competition/game-identity/proxy checks, and Themis internal
+competition/safety smoke checks before any future agent changes trust-spine
+behavior. The closeout did not change deployed truth and does not start the
+next strategic line.
 Prometheus/live remains on immutable `athena v0.7.0`, and that deploy truth
 should stay separate from the active implementation ladder.
 
@@ -138,9 +147,9 @@ The active blockers before the next implementation legs are now:
      result/safety/reliability states without fake competition or safety state;
      it still denies `/api/v1/public/*`
      through its broad APOLLO proxy
-	- 3B.20.1 cohesion hardening has closed; any next launch-expansion line needs
-	  a fresh scope ruling, and should keep dashboard-first analytics, public
-	  profiles/stats/scouting, carry
+	- 3B-LC smoke/stress closeout has closed after 3B.20.1; any next
+	  launch-expansion line needs a fresh scope ruling, and should keep
+	  dashboard-first analytics, public profiles/stats/scouting, carry
      coefficient, OpenSkill read-path switch, public tournaments,
      messaging/chat, broad public social graph, proposal workflow,
      booking/commercial work, SemVer governance, and broader Hestia

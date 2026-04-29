@@ -38,6 +38,13 @@ competition/rating/tournament/social sequencing is
 [`apollo/docs/launch-expansion-audit.md`](../apollo/docs/launch-expansion-audit.md).
 Read it as a future expansion gate plan, not as shipped runtime truth.
 
+Competition trust-spine closeout note: `3B-LC` is a milestone stress-proof line
+over already shipped repo/runtime truth from `Phase 3B.11` through
+`Phase 3B.20.1`. It does not start a new strategic line, widen public surface,
+switch OpenSkill onto the active read path, or change deployed truth. Future
+agents touching competition trust boundaries should rerun the 3B-LC smoke/stress
+matrix before making product changes.
+
 ## Status Table
 
 | Area | State now | Truth level | Meaning |
@@ -223,11 +230,31 @@ proposal, tournament ops, source-result, projection-watermark, and operational
 truth remain non-public. Themis stays internal, Prometheus and deployed truth
 are unchanged, and messaging/chat plus public/member safety UI remain out.
 
-The active next ladder is now post-`Phase 3B.20.1`:
+`Phase 3B.20 Game Identity` is now closed in APOLLO and Hestia repo/runtime
+truth: APOLLO owns CP, badge award, rivalry state, and squad identity
+projections over public-safe competition projection rows only, and Hestia
+consumes those APOLLO contracts without computing game identity source truth.
+Public output stays redacted, member output stays self-scoped, private/internal
+safety, command, OpenSkill comparison, ARES proposal, tournament ops, source
+result, watermark, and analytics internals remain non-public, and deployed
+truth is unchanged.
+
+`3B-LC Competition Trust Spine Closeout` is now closed as a verification-only
+milestone pass over the shipped `Phase 3B.11` through `Phase 3B.20.1` line.
+APOLLO, Hestia, Themis, platform, and Prometheus were clean on
+`main...origin/main`; focused APOLLO trust-spine tests, Hestia public
+competition/game-identity/proxy tests, and Themis internal competition/safety
+smoke tests passed. This closeout proves command, lifecycle/result, legacy
+rating, OpenSkill comparison, ARES proposal, analytics, tournament,
+safety/reliability, public readiness, and game identity facts keep the intended
+source-of-truth and privacy boundaries. It creates no deployed truth change and
+does not automatically start the next strategic line.
+
+The active next ladder is now post-`3B-LC`:
 
 | Order | Line | Repo focus | Purpose | Hard stop |
 | --- | --- | --- | --- | --- |
-| 1 | Next launch-expansion ruling | APOLLO/Hestia/platform as explicitly scoped | choose a fresh bounded next line after game identity hardening | no new product surface, messaging/chat, broad public social graph, OpenSkill read-path switch, public safety details, booking/commercial/proposal workflow, or SemVer governance by implication |
+| 1 | Next launch-expansion ruling | APOLLO/Hestia/platform as explicitly scoped | choose a fresh bounded next line after 3B-LC smoke/stress closeout | no new product surface, messaging/chat, broad public social graph, OpenSkill read-path switch, public safety details, booking/commercial/proposal workflow, or SemVer governance by implication |
 
 ## Post-ATHENA Ladder
 
