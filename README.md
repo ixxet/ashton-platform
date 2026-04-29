@@ -26,8 +26,8 @@ readable as one coherent platform instead of five drifting repos.
 | --- | --- | --- | --- |
 | `ashton-proto` | Shared contracts, schemas, runtime helpers | Real and active | Keeps producers and consumers from hand-rolling wire contracts |
 | `athena` | Physical truth for presence and occupancy | Real and executable | First Go service, first operational data surface, active visit-lifecycle publisher, and bounded live edge-driven occupancy deployment now widened to the `v0.7.0` storage/analytics line over the same browser-reachable ingress path |
-| `apollo` | Member-facing application, competition runtime, planner substrate, deterministic coaching substrate, bounded nutrition substrate, facility-scoped presence substrate, scheduling substrate, helper read layer, ops read foundation, and booking request runtime | Real and executable, but intentionally narrow | First member auth, profile-state, visit-history, visit-closing, derived eligibility, explicit lobby membership, explicit workout runtime, deterministic recommendation slice, thin member shell, tagged Tracer 24 planner/coaching truth on `main`, the narrow `v0.15.1` hardening patch line, the current Tracer 28 authz/staff-boundary repo/runtime closeout line, the later `Phase 3 shared substrate B` scheduling line, the later `Phase 3B.1` ops read foundation, the `Phase 3B.4` request-first booking runtime, the `Phase 3B.5` approved booking lifecycle, the `Phase 3B.6` public request intake API, `Phase 3B.7` public receipt/status/message lookup, `Phase 3B.8` staff-side pending edit/approved replacement flow, `Phase 3B.9` public-safe availability/request calendar, `Phase 3B.10` bounded staff schedule controls, `Phase 3B.11` competition command/readiness/CLI foundation, `Phase 3B.12` competition lifecycle/result trust, `Phase 3B.13` rating foundation, `Phase 3B.14` OpenSkill dual-run comparison, `Phase 3B.15` ARES v2 proposal foundation, `Phase 3B.16` competition analytics foundation, `Phase 3B.17` internal tournament runtime, and `Phase 3B.18` social safety/reliability foundation on `main`; deployed truth unchanged |
-| `hestia` | Customer-facing frontend shell | Real and executable, but intentionally narrow | Hestia now owns public booking-request intake at `/intake`, customer-safe receipt status lookup at `/intake/status`, and the authenticated member app under `/app/**`; APOLLO remains auth/session/API/booking authority, and deployed truth is unchanged |
+| `apollo` | Member-facing application, competition runtime, planner substrate, deterministic coaching substrate, bounded nutrition substrate, facility-scoped presence substrate, scheduling substrate, helper read layer, ops read foundation, and booking request runtime | Real and executable, but intentionally narrow | First member auth, profile-state, visit-history, visit-closing, derived eligibility, explicit lobby membership, explicit workout runtime, deterministic recommendation slice, thin member shell, tagged Tracer 24 planner/coaching truth on `main`, the narrow `v0.15.1` hardening patch line, the current Tracer 28 authz/staff-boundary repo/runtime closeout line, the later `Phase 3 shared substrate B` scheduling line, the later `Phase 3B.1` ops read foundation, the `Phase 3B.4` request-first booking runtime, the `Phase 3B.5` approved booking lifecycle, the `Phase 3B.6` public request intake API, `Phase 3B.7` public receipt/status/message lookup, `Phase 3B.8` staff-side pending edit/approved replacement flow, `Phase 3B.9` public-safe availability/request calendar, `Phase 3B.10` bounded staff schedule controls, `Phase 3B.11` competition command/readiness/CLI foundation, `Phase 3B.12` competition lifecycle/result trust, `Phase 3B.13` rating foundation, `Phase 3B.14` OpenSkill dual-run comparison, `Phase 3B.15` ARES v2 proposal foundation, `Phase 3B.16` competition analytics foundation, `Phase 3B.17` internal tournament runtime, `Phase 3B.18` social safety/reliability foundation, and `Phase 3B.19` public competition readiness contracts on `main`; deployed truth unchanged |
+| `hestia` | Customer-facing frontend shell | Real and executable, but intentionally narrow | Hestia now owns public booking-request intake at `/intake`, customer-safe receipt status lookup at `/intake/status`, public competition readiness at `/competition`, and the authenticated member app under `/app/**`; APOLLO remains auth/session/API/booking/competition authority, and deployed truth is unchanged |
 | `themis` | Privileged internal ops frontend | Real and executable, but intentionally narrow | First supervisor/manager/owner ops shell over APOLLO auth/session/profile plus the APOLLO ops overview route is closed in repo/runtime truth; the `Phase 3B.4` internal booking request workspace, `Phase 3B.5` approved booking cancellation workflow, `Phase 3B.6` public-source triage/proxy-denial hardening, `Phase 3B.7` public-safe customer message update, `Phase 3B.8` staff-side pending edit/approved replacement workflow, `Phase 3B.10` bounded staff schedule controls, `Phase 3B.11` APOLLO-backed competition ops foundation, `Phase 3B.12` APOLLO-backed lifecycle/result states, and `Phase 3B.18` manager safety/reliability visibility are also closed; deployed truth unchanged |
 | `hermes` | Staff-facing operations assistant | Real and executable, but intentionally narrow | Read-only occupancy plus one richer reconciliation question over ATHENA current + stable-history truth, with deployment proof still bounded to the earlier occupancy runner slice |
 | `ashton-mcp-gateway` | Shared tool routing layer, with approvals still deferred | Real and executable, but intentionally narrow | Two caller-aware audited ATHENA reads are real without widening into writes or broad orchestration |
@@ -214,19 +214,20 @@ not own result, rating, analytics, ARES, public, or game identity truth.
 Themis, Hestia, Prometheus, deployed truth, and public tournament surfaces are
 unchanged.
 
-`Phase 3B.18 Social Safety + Reliability` is now closed in APOLLO and Themis
-repo/runtime truth: APOLLO owns internal report, block, reliability, and safety
-audit facts plus manager-only readiness/review contracts and aligned commands.
-Themis renders APOLLO-provided manager visibility only. Hestia, Prometheus,
-deployed truth, public/member safety UI, messaging/chat, and public competition
-surfaces are unchanged.
+`Phase 3B.19 Public Competition Readiness` is now closed in APOLLO and Hestia
+repo/runtime truth: APOLLO owns public-safe readiness and leaderboard projection
+contracts over finalized/corrected canonical result truth plus legacy active
+rating fields, and Hestia renders `/competition` from those APOLLO contracts
+only. Private/internal safety, manager, command, OpenSkill comparison, ARES
+proposal, tournament ops, source-result, projection-watermark, and operational
+truth remain non-public. Themis stays internal, Prometheus and deployed truth
+are unchanged, and messaging/chat plus public/member safety UI remain out.
 
-The active next ladder is now post-`Phase 3B.18`:
+The active next ladder is now post-`Phase 3B.19`:
 
 | Order | Line | Repo focus | Purpose | Hard stop |
 | --- | --- | --- | --- | --- |
-| 1 | 3B.19 Public Competition Readiness | likely `apollo`, `themis`, then `hestia` only after gates | evaluate public competition and public tournament exposure against real internal facts | no public competition surface before privacy, result trust, rating, telemetry, scale, and compatibility gates |
-| 2 | 3B.20 CP / Badges / Rivalry / Squads | later | add game identity only after public readiness and safety gates | no CP, badges, rivalry, squads, bounty, or public records from untrusted results |
+| 1 | 3B.20 Game Identity Layer | later | add game identity only after public readiness and safety gates | no CP, badges, rivalry, squads, bounty, messaging/chat, public social graph, or OpenSkill read-path switch by implication |
 
 ## Post-ATHENA Ladder
 
