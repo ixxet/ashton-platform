@@ -7,6 +7,21 @@ scope is deferred, closed, deprecated, replaced, or moved post-launch.
 Repo-local docs and `planning/IMPLEMENTATION-BOARD.md` remain implementation
 truth. This file records coordination truth and hard stops.
 
+## Milestone 3.0 Residual Overlay
+
+Milestone 3.0 closed APOLLO deploy smoke, APOLLO telemetry scrape, alert wiring,
+and cross-repo compatibility proof, but it did not erase these deferments:
+
+- live destructive APOLLO mutation probes were not run
+- Hestia, Themis, and `ashton-mcp-gateway` still have no live cluster deployment
+  proof
+- Themis full-suite dated fixture/test-selector debt remains outside the focused
+  smoke path
+- Gate 8 scale ceilings are now locally/runtime-proved; full production load
+  validation remains deferred
+- broader production observability remains deferred even though the APOLLO
+  Milestone 3.0 telemetry baseline is proven
+
 ## Active Deferred Items
 
 | Item | Current status | Owning repo or likely repo | Why deferred | Reopen trigger | Hard stop / non-goal | Last touched phase |

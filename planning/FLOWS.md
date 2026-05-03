@@ -9,6 +9,26 @@ Repo-local tests and docs remain implementation truth. This file records what
 the user should see, what the system should do invisibly, and how to classify
 failures.
 
+## Milestone 3.0 Flow Overlay
+
+Milestone 3.0 proves APOLLO deploy smoke, APOLLO telemetry scrape, alert wiring,
+and cross-repo compatibility without changing product behavior. Flow entries
+below remain product/runtime guidance, but deployed truth now comes from
+`planning/compatibility-matrix.md` and
+`planning/milestones/milestone-3.0-evidence/README.md`.
+
+Still not proven by Milestone 3.0: live destructive APOLLO mutation probes,
+Hestia/Themis/gateway live cluster deployment, Themis full-suite cleanup, and
+full production load validation beyond the locally/runtime-proved Gate 8
+numeric ceilings.
+
+Scale Gate update (2026-05-03): APOLLO now has local/runtime proof for the
+bounded competition scale smoke path. The proved sequence covers public
+readiness, public leaderboard, public game identity, member game identity,
+command readiness, and CLI result record/finalize/dispute/correct/void through
+existing APOLLO service/command/HTTP handlers in under 30 seconds. This is not
+full production load validation and does not change deployed truth.
+
 ## Debug Classifier
 
 | Symptom | Likely class | First place to inspect |

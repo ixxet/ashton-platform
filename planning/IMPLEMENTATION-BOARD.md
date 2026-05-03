@@ -30,6 +30,30 @@ Use this order when planning or implementing:
 9. `planning/sprints/BUILD-ORDER.md` as historical planning context only
 10. `planning/architecture/` as background reference only
 
+## Current Scan Overlay
+
+For deployed truth and cross-repo compatibility, the current arbiter is
+`planning/compatibility-matrix.md` plus
+`planning/milestones/milestone-3.0-evidence/README.md`. Where older board,
+tracer, audit, or runbook wording conflicts with those files, Milestone 3.0
+evidence wins for deployed truth.
+
+- Last verified: `2026-04-29T17:06:16Z`.
+- APOLLO is live at `v0.19.2` on image `sha-6b27618`, with health, public
+  readiness, metrics, and Prometheus scrape proven.
+- ATHENA live truth is `v0.8.2`; older `v0.7.0` deploy wording is historical
+  drift unless the compatibility matrix confirms it.
+- Prometheus GitOps `v0.0.4` carries APOLLO ServiceMonitor, APOLLO competition
+  PrometheusRule, and APOLLO image proof.
+- Hestia, Themis, and `ashton-mcp-gateway` have Milestone 3.0 repo-local test
+  truth, but no live cluster deployment proof.
+- `ashton-proto v0.4.0` is the shipped two-manifest contract line; current HEAD
+  in the matrix is `v0.4.0-2-ge49e627`.
+- Remaining risks: no live destructive APOLLO mutation probes,
+  Hestia/Themis/gateway deploy proof is absent, Themis full-suite fixture debt
+  remains, and Gate 8 scale ceilings are locally/runtime-proved rather than
+  fully production-load validated.
+
 ## Locked Architectural Decisions
 
 - `ATHENA` owns physical truth: presence, occupancy, ingress source, and later zone occupancy.
@@ -95,6 +119,10 @@ The active blockers before the next implementation legs are now:
      `../apollo/docs/launch-expansion-audit.md`
    - 3B.20 has closed game identity only over public-safe competition
      projections
+   - Gate 8 numeric ceilings are now declared and locally/runtime-proved for
+     APOLLO rating recompute, public readiness, public leaderboard, game
+     identity, and CLI/API smoke paths; this is not full production load
+     validation and does not change deployed truth
    - keep match tiers, consensus workflow, and public tournaments behind
      separate gates
    - internal Themis competition ops must stay a staff/internal shell over real
