@@ -87,6 +87,8 @@ Primary source documents:
   [`../../apollo/docs/roadmap.md`](../../apollo/docs/roadmap.md)
 - Implementation board:
   [`IMPLEMENTATION-BOARD.md`](IMPLEMENTATION-BOARD.md)
+- Frontend route/API contract matrix:
+  [`FRONTEND-ROUTE-API-CONTRACT-MATRIX.md`](FRONTEND-ROUTE-API-CONTRACT-MATRIX.md)
 - Milestone 3.0 evidence:
   [`milestones/milestone-3.0-evidence/README.md`](milestones/milestone-3.0-evidence/README.md)
 - Competition system audit:
@@ -100,8 +102,8 @@ Primary source documents:
 | 2 | CLI Demo Spine | Make the competition spine agent-operable from CLI/API end to end | Closed locally/runtime in worker packet; not deployed truth |
 | 3 | Rating Policy Wrapper | Add calibration, decay, caps, provisional status, and policy versions without OpenSkill cutover | Closed locally/runtime in worker packet; not deployed truth |
 | 4 | Rating Policy Simulation / Golden Expansion | Stress policy behavior against fixtures and historical/synthetic scenarios | Closed locally/runtime in worker packet; not deployed truth |
-| 5 | Frontend Route/API Contract Matrix | Freeze Hestia/Themis route, API, auth, state, and stub status | Next worker-executable packet |
-| 6 | Game Identity Policy Tuning Loop | Tune CP/badge/rivalry/squad rules against real data without new social surface | Later hardening/policy packet |
+| 5 | Frontend Route/API Contract Matrix | Freeze Hestia/Themis route, API, auth, state, and stub status | Closed as docs truth in worker packet; runtime/deployed truth unchanged |
+| 6 | Game Identity Policy Tuning Loop | Tune CP/badge/rivalry/squad rules against real data without new social surface | Next worker-executable packet |
 | 7 | ATHENA Real Ingress Bridge | Strengthen physical truth for persistent teams, XP, and reliability | Later cross-repo packet |
 | 8 | Live Destructive Probe Plan | Plan controlled live mutation and SIGTERM proof | Later deploy/ops safety packet |
 | 9 | Public Tournament Readiness | Only after scale, policy, safety, and probe gates | Blocked |
@@ -196,10 +198,11 @@ The current next worker-executable ask is:
 ```md
 Produce the worker-ready execution handoff for:
 
-Frontend Route/API Contract Matrix
+Game Identity Policy Tuning Loop
 
-Preserve CLI/API-first proof, APOLLO source-truth ownership, no frontend-owned
-formulas, no new public product surface, no OpenSkill read-path switch, no
-public tournaments, no messaging/chat, no broad social graph, and no booking/
-commercial/proposal workflow.
+Preserve APOLLO source-truth ownership, docs/runtime/deployed truth separation,
+no frontend-owned formulas, no new public product surface, no OpenSkill
+read-path switch, no public tournaments, no messaging/chat, no broad social
+graph, no public/member safety detail UI, and no booking/commercial/proposal
+workflow.
 ```
