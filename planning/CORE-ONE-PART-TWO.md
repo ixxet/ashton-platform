@@ -72,6 +72,12 @@ packet.
   inactivity sigma-inflation metadata, and climbing-cap metadata. OpenSkill
   remains comparison-only, public tournaments remain blocked, and deployed truth
   is unchanged.
+- Rating Policy Simulation / Golden Expansion is closed locally in APOLLO
+  repo/runtime: APOLLO now has deterministic rating policy fixtures, local CLI
+  JSON output, legacy baseline deltas, OpenSkill sidecar deltas,
+  accepted/rejected scenario classification, cutover blockers, and policy risk
+  output. OpenSkill remains comparison-only, public tournaments remain blocked,
+  and deployed truth is unchanged.
 
 Primary source documents:
 
@@ -93,8 +99,8 @@ Primary source documents:
 | 1 | Scale Gate Numeric Ceilings | Declare and prove row-count, latency, recompute, projection, and CLI/API smoke ceilings | Closed locally/runtime in worker packet; not production load validation |
 | 2 | CLI Demo Spine | Make the competition spine agent-operable from CLI/API end to end | Closed locally/runtime in worker packet; not deployed truth |
 | 3 | Rating Policy Wrapper | Add calibration, decay, caps, provisional status, and policy versions without OpenSkill cutover | Closed locally/runtime in worker packet; not deployed truth |
-| 4 | Rating Policy Simulation / Golden Expansion | Stress policy behavior against fixtures and historical/synthetic scenarios | Next worker-executable packet |
-| 5 | Frontend Route/API Contract Matrix | Freeze Hestia/Themis route, API, auth, state, and stub status | Later drift-prevention packet |
+| 4 | Rating Policy Simulation / Golden Expansion | Stress policy behavior against fixtures and historical/synthetic scenarios | Closed locally/runtime in worker packet; not deployed truth |
+| 5 | Frontend Route/API Contract Matrix | Freeze Hestia/Themis route, API, auth, state, and stub status | Next worker-executable packet |
 | 6 | Game Identity Policy Tuning Loop | Tune CP/badge/rivalry/squad rules against real data without new social surface | Later hardening/policy packet |
 | 7 | ATHENA Real Ingress Bridge | Strengthen physical truth for persistent teams, XP, and reliability | Later cross-repo packet |
 | 8 | Live Destructive Probe Plan | Plan controlled live mutation and SIGTERM proof | Later deploy/ops safety packet |
@@ -190,7 +196,7 @@ The current next worker-executable ask is:
 ```md
 Produce the worker-ready execution handoff for:
 
-Rating Policy Simulation / Golden Expansion
+Frontend Route/API Contract Matrix
 
 Preserve CLI/API-first proof, APOLLO source-truth ownership, no frontend-owned
 formulas, no new public product surface, no OpenSkill read-path switch, no
