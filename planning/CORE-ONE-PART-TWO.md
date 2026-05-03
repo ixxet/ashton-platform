@@ -55,7 +55,8 @@ packet.
   identity truth.
 - Hestia consumes public/member-safe APOLLO contracts only.
 - Themis consumes internal APOLLO contracts only.
-- OpenSkill remains comparison-only; the active read path remains legacy.
+- OpenSkill remains comparison-only; the active read path remains the
+  legacy-engine policy-wrapped APOLLO projection.
 - Gate 8 Scale numeric ceilings are declared and locally/runtime-proved for
   APOLLO rating recompute, public readiness, public leaderboard projection,
   game identity projection, and CLI/API smoke paths. This is not full
@@ -65,6 +66,12 @@ packet.
   command dry-run/apply, result lifecycle, ARES preview generation, analytics-
   backed projection reads, session/tournament reads, and manager/internal
   safety reads without frontend dependency. Deployed truth is unchanged.
+- Rating Policy Wrapper is closed locally in APOLLO repo/runtime: APOLLO active
+  legacy-engine rating projection now records `apollo_rating_policy_wrapper_v1`,
+  calibration/provisional/ranked status, fifth-match ranked transition,
+  inactivity sigma-inflation metadata, and climbing-cap metadata. OpenSkill
+  remains comparison-only, public tournaments remain blocked, and deployed truth
+  is unchanged.
 
 Primary source documents:
 
@@ -85,8 +92,8 @@ Primary source documents:
 | --- | --- | --- | --- |
 | 1 | Scale Gate Numeric Ceilings | Declare and prove row-count, latency, recompute, projection, and CLI/API smoke ceilings | Closed locally/runtime in worker packet; not production load validation |
 | 2 | CLI Demo Spine | Make the competition spine agent-operable from CLI/API end to end | Closed locally/runtime in worker packet; not deployed truth |
-| 3 | Rating Policy Wrapper | Add calibration, decay, caps, provisional status, and policy versions without OpenSkill cutover | Next worker-executable packet |
-| 4 | Rating Policy Simulation / Golden Expansion | Stress policy behavior against fixtures and historical/synthetic scenarios | Later proof packet |
+| 3 | Rating Policy Wrapper | Add calibration, decay, caps, provisional status, and policy versions without OpenSkill cutover | Closed locally/runtime in worker packet; not deployed truth |
+| 4 | Rating Policy Simulation / Golden Expansion | Stress policy behavior against fixtures and historical/synthetic scenarios | Next worker-executable packet |
 | 5 | Frontend Route/API Contract Matrix | Freeze Hestia/Themis route, API, auth, state, and stub status | Later drift-prevention packet |
 | 6 | Game Identity Policy Tuning Loop | Tune CP/badge/rivalry/squad rules against real data without new social surface | Later hardening/policy packet |
 | 7 | ATHENA Real Ingress Bridge | Strengthen physical truth for persistent teams, XP, and reliability | Later cross-repo packet |
@@ -183,7 +190,7 @@ The current next worker-executable ask is:
 ```md
 Produce the worker-ready execution handoff for:
 
-Rating Policy Wrapper
+Rating Policy Simulation / Golden Expansion
 
 Preserve CLI/API-first proof, APOLLO source-truth ownership, no frontend-owned
 formulas, no new public product surface, no OpenSkill read-path switch, no
