@@ -60,6 +60,11 @@ packet.
   APOLLO rating recompute, public readiness, public leaderboard projection,
   game identity projection, and CLI/API smoke paths. This is not full
   production load validation, and deployed truth is unchanged.
+- CLI Demo Spine is closed locally in APOLLO repo/runtime: APOLLO CLI/API can
+  prove the competition spine through service-backed public/member projections,
+  command dry-run/apply, result lifecycle, ARES preview generation, analytics-
+  backed projection reads, session/tournament reads, and manager/internal
+  safety reads without frontend dependency. Deployed truth is unchanged.
 
 Primary source documents:
 
@@ -79,8 +84,8 @@ Primary source documents:
 | Order | Packet | Purpose | Status in this chat |
 | --- | --- | --- | --- |
 | 1 | Scale Gate Numeric Ceilings | Declare and prove row-count, latency, recompute, projection, and CLI/API smoke ceilings | Closed locally/runtime in worker packet; not production load validation |
-| 2 | CLI Demo Spine | Make the competition spine agent-operable from CLI/API end to end | Next worker-executable packet |
-| 3 | Rating Policy Wrapper | Add calibration, decay, caps, provisional status, and policy versions without OpenSkill cutover | Later core logic packet |
+| 2 | CLI Demo Spine | Make the competition spine agent-operable from CLI/API end to end | Closed locally/runtime in worker packet; not deployed truth |
+| 3 | Rating Policy Wrapper | Add calibration, decay, caps, provisional status, and policy versions without OpenSkill cutover | Next worker-executable packet |
 | 4 | Rating Policy Simulation / Golden Expansion | Stress policy behavior against fixtures and historical/synthetic scenarios | Later proof packet |
 | 5 | Frontend Route/API Contract Matrix | Freeze Hestia/Themis route, API, auth, state, and stub status | Later drift-prevention packet |
 | 6 | Game Identity Policy Tuning Loop | Tune CP/badge/rivalry/squad rules against real data without new social surface | Later hardening/policy packet |
@@ -178,10 +183,10 @@ The current next worker-executable ask is:
 ```md
 Produce the worker-ready execution handoff for:
 
-CLI Demo Spine
+Rating Policy Wrapper
 
-Preserve CLI/API-first demo readiness, APOLLO source-truth ownership, no
-frontend-owned formulas, no new product surface, no OpenSkill read-path switch,
-no public tournaments, no messaging/chat, no broad social graph, and no
-booking/commercial/proposal workflow.
+Preserve CLI/API-first proof, APOLLO source-truth ownership, no frontend-owned
+formulas, no new public product surface, no OpenSkill read-path switch, no
+public tournaments, no messaging/chat, no broad social graph, and no booking/
+commercial/proposal workflow.
 ```
