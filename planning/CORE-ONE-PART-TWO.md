@@ -78,6 +78,13 @@ packet.
   accepted/rejected scenario classification, cutover blockers, and policy risk
   output. OpenSkill remains comparison-only, public tournaments remain blocked,
   and deployed truth is unchanged.
+- Game Identity Policy Tuning Loop is closed locally in APOLLO repo/runtime:
+  APOLLO now has deterministic CP, badge, rivalry, and squad fixtures, local
+  CLI JSON/text output, accepted/rejected policy findings, policy risk output,
+  blockers, and optional DB-backed local projection-row analysis. Active game
+  identity policy versions and public/member output behavior remain unchanged;
+  no real local DB population evidence was claimed in the worker environment,
+  and deployed truth is unchanged.
 
 Primary source documents:
 
@@ -103,8 +110,8 @@ Primary source documents:
 | 3 | Rating Policy Wrapper | Add calibration, decay, caps, provisional status, and policy versions without OpenSkill cutover | Closed locally/runtime in worker packet; not deployed truth |
 | 4 | Rating Policy Simulation / Golden Expansion | Stress policy behavior against fixtures and historical/synthetic scenarios | Closed locally/runtime in worker packet; not deployed truth |
 | 5 | Frontend Route/API Contract Matrix | Freeze Hestia/Themis route, API, auth, state, and stub status | Closed as docs truth in worker packet; runtime/deployed truth unchanged |
-| 6 | Game Identity Policy Tuning Loop | Tune CP/badge/rivalry/squad rules against real data without new social surface | Next worker-executable packet |
-| 7 | ATHENA Real Ingress Bridge | Strengthen physical truth for persistent teams, XP, and reliability | Later cross-repo packet |
+| 6 | Game Identity Policy Tuning Loop | Tune CP/badge/rivalry/squad rules against real data without new social surface | Closed locally/runtime in worker packet; active behavior and deployed truth unchanged |
+| 7 | ATHENA Real Ingress Bridge | Strengthen physical truth for persistent teams, XP, and reliability | Next worker-executable packet |
 | 8 | Live Destructive Probe Plan | Plan controlled live mutation and SIGTERM proof | Later deploy/ops safety packet |
 | 9 | Public Tournament Readiness | Only after scale, policy, safety, and probe gates | Blocked |
 | 10 | OpenSkill Read-Path Cutover | Only after wrapper, simulation, rollback, and scale proof | Blocked |
@@ -198,11 +205,11 @@ The current next worker-executable ask is:
 ```md
 Produce the worker-ready execution handoff for:
 
-Game Identity Policy Tuning Loop
+ATHENA Real Ingress Bridge
 
-Preserve APOLLO source-truth ownership, docs/runtime/deployed truth separation,
-no frontend-owned formulas, no new public product surface, no OpenSkill
-read-path switch, no public tournaments, no messaging/chat, no broad social
-graph, no public/member safety detail UI, and no booking/commercial/proposal
-workflow.
+Preserve APOLLO/ATHENA source-truth ownership, docs/runtime/deployed truth
+separation, no fake ATHENA truth claims, no frontend-owned formulas, no new
+public product surface, no OpenSkill read-path switch, no public tournaments,
+no messaging/chat, no broad social graph, no public/member safety detail UI,
+and no booking/commercial/proposal workflow.
 ```
