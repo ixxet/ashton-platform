@@ -161,6 +161,14 @@ The active blockers before the next implementation legs are now:
      presence, scope, timestamps, projection replay reasons, and source-pass
      session boundaries without changing APOLLO product behavior or deployed
      truth
+   - Co-presence / Private Daily Presence Gate is closed locally/runtime in
+     APOLLO: `apollo presence athena-gate --bridge-report <path> --format
+     json|text` classifies ATHENA bridge JSON into internal APOLLO eligibility
+     signals for future co-presence and private daily presence/check-in
+     readiness. ATHENA remains physical truth owner, APOLLO owns product
+     eligibility classification, and the proof does not mutate visits,
+     tap-links, streaks, XP, teams, reliability, public/member routes, public
+     API, frontend UI, or deployed truth
    - Live Destructive Probe Plan is closed as docs-only planning truth; the
      next live-probe packet, if chosen, must be an explicit operator-approved
      execution gate with disposable fixtures and concrete rollback proof
@@ -797,6 +805,18 @@ pass/fail truth remains immutable, accepted-presence truth remains separate,
 accepted-presence session cutover remains deferred, and deployed truth is
 unchanged.
 
+`Co-presence / Private Daily Presence Gate` is now closed in APOLLO
+repo/runtime truth: `apollo presence athena-gate --bridge-report <path>
+--format json|text` reads ATHENA bridge JSON and emits internal APOLLO
+eligibility classification for future co-presence and private daily
+presence/check-in readiness. ATHENA remains physical truth owner, APOLLO owns
+product eligibility classification, and the proof does not mutate visits,
+tap-links, streaks, XP, teams, reliability, public/member routes, public APIs,
+frontend UI, schema/proto, ATHENA runtime, deploy/GitOps, or deployed truth.
+Persistent teams, XP ledger, reliability scoring, public social graph, public
+API/UI, public tournaments, OpenSkill switch, and live population proof remain
+deferred.
+
 The active next ladder is now a post-policy planning fork:
 
 | Order | Line | Repo focus | Release line | Purpose | Hard stop |
@@ -804,8 +824,9 @@ The active next ladder is now a post-policy planning fork:
 | 1 | Frontend Route/API Contract Matrix | Hestia/Themis/platform/APOLLO docs | closed docs packet | freeze route, API, auth, state, and stub status before broader surface work | closed docs truth only; no runtime/deployed claims |
 | 2 | Game Identity Policy Tuning Loop | APOLLO/platform docs plus bounded APOLLO proof | closed policy packet | tune CP/badge/rivalry/squad policies against real evidence without widening product surface | closed locally/runtime; no frontend-owned formulas, public tournaments, OpenSkill active read path, public/member safety UI, or deployed truth claims |
 | 3 | ATHENA Real Ingress Bridge | ATHENA/platform/APOLLO docs | closed bridge packet | strengthen physical truth for sediment teams, daily check-in XP, and reliability verification | closed locally/runtime; no APOLLO product behavior, schema/proto, frontend, public API, or deploy truth |
-| 4 | Live destructive-probe and SIGTERM proof plan | APOLLO/platform ops planning | likely next deploy/ops safety packet | plan controlled live mutation and in-flight shutdown proof | no unplanned production-destructive action |
-| 5 | `Phase 3C` | cross-product | later | presentation, identity, packaging, and assistant presentation | no persona-first product before trustworthy rails |
+| 4 | Co-presence / Private Daily Presence Gate | APOLLO/platform docs plus bounded APOLLO proof | closed trust packet | classify future co-presence and private daily presence readiness over ATHENA bridge JSON without product mutation | closed locally/runtime; no visits, tap-links, streaks, XP, teams, reliability score, frontend, public API, public/member route, or deployed truth |
+| 5 | Live destructive-probe and SIGTERM proof plan | APOLLO/platform ops planning | likely next deploy/ops safety packet | plan controlled live mutation and in-flight shutdown proof | no unplanned production-destructive action |
+| 6 | `Phase 3C` | cross-product | later | presentation, identity, packaging, and assistant presentation | no persona-first product before trustworthy rails |
 
 ## Historical Phase 2 Ladder
 

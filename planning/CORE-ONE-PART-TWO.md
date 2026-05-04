@@ -93,6 +93,13 @@ packet.
   truth stays immutable, accepted-presence truth stays separate from
   source-pass sessions, accepted-presence session cutover remains deferred, and
   deployed truth is unchanged.
+- Co-presence / Private Daily Presence Gate is closed locally in APOLLO
+  repo/runtime: APOLLO now has `apollo presence athena-gate --bridge-report
+  <path> --format json|text` over ATHENA bridge JSON for internal co-presence
+  and private daily presence/check-in readiness classification. ATHENA remains
+  physical truth owner, APOLLO owns product eligibility classification, and the
+  proof does not mutate visits, tap-links, streaks, XP, teams, reliability,
+  public/member routes, public API, frontend UI, or deployed truth.
 - Live Destructive Probe Plan is closed as docs/planning truth only:
   [`LIVE-DESTRUCTIVE-PROBE-PLAN.md`](LIVE-DESTRUCTIVE-PROBE-PLAN.md) defines
   future APOLLO/ATHENA probe gates, fixture requirements, abort criteria,
@@ -127,8 +134,9 @@ Primary source documents:
 | 6 | Game Identity Policy Tuning Loop | Tune CP/badge/rivalry/squad rules against real data without new social surface | Closed locally/runtime in worker packet; active behavior and deployed truth unchanged |
 | 7 | ATHENA Real Ingress Bridge | Strengthen physical truth for persistent teams, XP, and reliability | Closed locally/runtime in ATHENA worker packet; APOLLO runtime/deployed truth unchanged |
 | 8 | Live Destructive Probe Plan | Plan controlled live mutation and SIGTERM proof | Closed as docs-only deploy/ops safety plan; no live execution |
-| 9 | Public Tournament Readiness | Only after scale, policy, safety, and probe gates | Blocked |
-| 10 | OpenSkill Read-Path Cutover | Only after wrapper, simulation, rollback, and scale proof | Blocked |
+| 9 | Co-presence / Private Daily Presence Gate | Add APOLLO-owned eligibility classification over ATHENA bridge proof without product mutation | Closed locally/runtime in APOLLO worker packet; no deployed truth |
+| 10 | Public Tournament Readiness | Only after scale, policy, safety, and probe gates | Blocked |
+| 11 | OpenSkill Read-Path Cutover | Only after wrapper, simulation, rollback, and scale proof | Blocked |
 
 This stack is the Core One Part Two map only. It is not the whole
 launch-expansion roadmap.
