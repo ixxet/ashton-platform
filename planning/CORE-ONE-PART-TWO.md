@@ -93,6 +93,12 @@ packet.
   truth stays immutable, accepted-presence truth stays separate from
   source-pass sessions, accepted-presence session cutover remains deferred, and
   deployed truth is unchanged.
+- Live Destructive Probe Plan is closed as docs/planning truth only:
+  [`LIVE-DESTRUCTIVE-PROBE-PLAN.md`](LIVE-DESTRUCTIVE-PROBE-PLAN.md) defines
+  future APOLLO/ATHENA probe gates, fixture requirements, abort criteria,
+  evidence ledger, rollback expectations, and command skeletons. No live
+  destructive probe, rollout restart, pod kill, DB write, runtime change, or
+  deployed-truth change happened in Packet 8.
 
 Primary source documents:
 
@@ -120,7 +126,7 @@ Primary source documents:
 | 5 | Frontend Route/API Contract Matrix | Freeze Hestia/Themis route, API, auth, state, and stub status | Closed as docs truth in worker packet; runtime/deployed truth unchanged |
 | 6 | Game Identity Policy Tuning Loop | Tune CP/badge/rivalry/squad rules against real data without new social surface | Closed locally/runtime in worker packet; active behavior and deployed truth unchanged |
 | 7 | ATHENA Real Ingress Bridge | Strengthen physical truth for persistent teams, XP, and reliability | Closed locally/runtime in ATHENA worker packet; APOLLO runtime/deployed truth unchanged |
-| 8 | Live Destructive Probe Plan | Plan controlled live mutation and SIGTERM proof | Next likely deploy/ops safety packet |
+| 8 | Live Destructive Probe Plan | Plan controlled live mutation and SIGTERM proof | Closed as docs-only deploy/ops safety plan; no live execution |
 | 9 | Public Tournament Readiness | Only after scale, policy, safety, and probe gates | Blocked |
 | 10 | OpenSkill Read-Path Cutover | Only after wrapper, simulation, rollback, and scale proof | Blocked |
 
@@ -213,7 +219,7 @@ The current next likely worker-executable ask is:
 ```md
 Produce the worker-ready execution handoff for:
 
-Live Destructive Probe Plan
+Live Destructive Probe Execution Gate
 
 Preserve APOLLO/ATHENA source-truth ownership, docs/runtime/deployed truth
 separation, no fake live truth claims, no frontend-owned formulas, no new

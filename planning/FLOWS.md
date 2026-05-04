@@ -29,6 +29,14 @@ command readiness, and CLI result record/finalize/dispute/correct/void through
 existing APOLLO service/command/HTTP handlers in under 30 seconds. This is not
 full production load validation and does not change deployed truth.
 
+Live Destructive Probe Plan update (2026-05-04): platform planning now includes
+[`LIVE-DESTRUCTIVE-PROBE-PLAN.md`](LIVE-DESTRUCTIVE-PROBE-PLAN.md) for future
+APOLLO/ATHENA live mutation and SIGTERM proof. This is docs-only runbook truth:
+no live destructive probe, rollout restart, pod kill, DB write, runtime change,
+frontend change, or deployed-truth change happened. Future execution requires
+explicit operator approval, disposable fixtures, rollback proof, and evidence
+redaction.
+
 ## Debug Classifier
 
 | Symptom | Likely class | First place to inspect |

@@ -21,11 +21,16 @@ and cross-repo compatibility proof, but it did not erase these deferments:
   validation remains deferred
 - broader production observability remains deferred even though the APOLLO
   Milestone 3.0 telemetry baseline is proven
+- Packet 8 now closes the docs-only live destructive probe plan in
+  `planning/LIVE-DESTRUCTIVE-PROBE-PLAN.md`; actual live destructive execution
+  and direct in-flight production SIGTERM proof remain deferred until explicit
+  operator approval, disposable fixtures, and concrete rollback proof exist
 
 ## Active Deferred Items
 
 | Item | Current status | Owning repo or likely repo | Why deferred | Reopen trigger | Hard stop / non-goal | Last touched phase |
 | --- | --- | --- | --- | --- | --- | --- |
+| Live destructive APOLLO/ATHENA probe execution | Deferred; plan closed docs-only | `apollo`, `athena`, platform; deploy/ops only for approved execution | Packet 8 defines the runbook but found no documented disposable live fixtures or concrete DB rollback/restore path | Explicit user/operator-approved execution gate with isolated canary fixtures, current image capture, health/metrics/log access, and rollback proof | No live mutation, rollout restart, pod kill, DB write, deploy/GitOps mutation, frontend widening, public tournaments, OpenSkill cutover, or real member/customer/facility data mutation by implication | Packet 8 |
 | Public self-booking | Deferred | `apollo`, `hestia`; Themis only for staff review context | Phase 3B.9 closes availability-informed requests only | Business explicitly chooses customer-confirmed reservations and the privacy/conflict contract is proven | No bypassing staff approval, payment sprawl, public conflict truth, private labels, contact info, or deploy claim | Phase 3B.9 |
 | Public booking self-edit/rebook | Deferred | `apollo`, `hestia`; Themis only for staff review context | Phase 3B.8 closed staff-side edit/replacement only | Customers need to amend submitted requests without exposing internal truth | No public schedule conflict details, staff controls, in-place approved mutation, payment sprawl, or deploy claim | Phase 3B.8 |
 | In-place approved booking mutation | Deferred | `apollo`, `themis` | Phase 3B.8 uses replacement requests so approved reservations stay untouched | A narrower audited mutation proof is explicitly earned | No direct schedule-block mutation, public self-service, payment sprawl, or owner policy writes by implication | Phase 3B.8 |
