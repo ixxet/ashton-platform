@@ -85,6 +85,14 @@ packet.
   identity policy versions and public/member output behavior remain unchanged;
   no real local DB population evidence was claimed in the worker environment,
   and deployed truth is unchanged.
+- ATHENA Real Ingress Bridge is closed locally in ATHENA repo/runtime: ATHENA
+  now has `athena edge ingress-bridge` JSON/text proof over source/accepted
+  presence, identity presence, facility/zone/node scope, timestamps, projection
+  replay reasons, and source-pass session lifecycle facts for future APOLLO
+  co-presence, private daily presence, and reliability gates. Source pass/fail
+  truth stays immutable, accepted-presence truth stays separate from
+  source-pass sessions, accepted-presence session cutover remains deferred, and
+  deployed truth is unchanged.
 
 Primary source documents:
 
@@ -111,8 +119,8 @@ Primary source documents:
 | 4 | Rating Policy Simulation / Golden Expansion | Stress policy behavior against fixtures and historical/synthetic scenarios | Closed locally/runtime in worker packet; not deployed truth |
 | 5 | Frontend Route/API Contract Matrix | Freeze Hestia/Themis route, API, auth, state, and stub status | Closed as docs truth in worker packet; runtime/deployed truth unchanged |
 | 6 | Game Identity Policy Tuning Loop | Tune CP/badge/rivalry/squad rules against real data without new social surface | Closed locally/runtime in worker packet; active behavior and deployed truth unchanged |
-| 7 | ATHENA Real Ingress Bridge | Strengthen physical truth for persistent teams, XP, and reliability | Next worker-executable packet |
-| 8 | Live Destructive Probe Plan | Plan controlled live mutation and SIGTERM proof | Later deploy/ops safety packet |
+| 7 | ATHENA Real Ingress Bridge | Strengthen physical truth for persistent teams, XP, and reliability | Closed locally/runtime in ATHENA worker packet; APOLLO runtime/deployed truth unchanged |
+| 8 | Live Destructive Probe Plan | Plan controlled live mutation and SIGTERM proof | Next likely deploy/ops safety packet |
 | 9 | Public Tournament Readiness | Only after scale, policy, safety, and probe gates | Blocked |
 | 10 | OpenSkill Read-Path Cutover | Only after wrapper, simulation, rollback, and scale proof | Blocked |
 
@@ -200,16 +208,17 @@ without overwriting existing user or generated changes.
 
 Ask this planning chat for one packet at a time.
 
-The current next worker-executable ask is:
+The current next likely worker-executable ask is:
 
 ```md
 Produce the worker-ready execution handoff for:
 
-ATHENA Real Ingress Bridge
+Live Destructive Probe Plan
 
 Preserve APOLLO/ATHENA source-truth ownership, docs/runtime/deployed truth
-separation, no fake ATHENA truth claims, no frontend-owned formulas, no new
+separation, no fake live truth claims, no frontend-owned formulas, no new
 public product surface, no OpenSkill read-path switch, no public tournaments,
 no messaging/chat, no broad social graph, no public/member safety detail UI,
-and no booking/commercial/proposal workflow.
+no booking/commercial/proposal workflow, and no uncontrolled destructive
+mutation.
 ```
