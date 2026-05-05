@@ -9,6 +9,10 @@ packet. Packet 8 did not execute any live destructive action, live mutating API
 request, rollout restart, pod kill, `kubectl delete`, DB write, or production
 SIGTERM proof.
 
+Execution-gate prerequisite preparation is tracked in
+[`LIVE-DESTRUCTIVE-PROBE-EXECUTION-READINESS.md`](LIVE-DESTRUCTIVE-PROBE-EXECUTION-READINESS.md).
+That checklist is docs-only and does not authorize live execution.
+
 ## Ruling
 
 ASHTON has a controlled plan for future bounded live destructive mutation and
