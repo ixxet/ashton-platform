@@ -1,69 +1,120 @@
 # Booking/Scheduling Closed-Test Readiness
 
-## Approved rollout execution — in progress (2026-10-20)
+## Live portals and verified Owner access (2026-10-20)
 
-The user approved the exact private rollout review and ten-path GitOps diff.
-The execution window began **17:20:06 America/Toronto / 21:20:06 UTC** and ends
+This is the current execution ledger. The dated implementation, proposal and
+R1 audit sections below remain historical evidence; their earlier "not deployed"
+and approval-gap statements do not override this ledger. **External booking
+acceptance is still open.** The portals, verified Owner access and three real
+spaces are live. Opening hours remain unset.
+
+The user approved the exact private rollout review and ten-path GitOps diff,
+then explicitly approved the six-line HTTPS redirect amendment. The execution
+window began **17:20:06 America/Toronto / 21:20:06 UTC** and ends
 **18:50:06 / 22:50:06 UTC**. Approval covers the named images, DNS, application
-Secret references, backup/restore checks, migration 033, the specified verified
-Owner account and the three real resources. Hours stay unset; Flux stays
-suspended. This approval does not authorise unrelated changes or a live data-loss
-restore. The frozen approval review/hash ledger remains outside Git.
+Secret references, backup/restore checks, migration 033, the specified
+mailbox-verified Owner account and the three real resources. Hours stay unset;
+Flux stays suspended. Zizo is accountable owner; Codex is execution/rollback
+operator. The frozen reviews, hashes, snapshots and exact identity remain
+outside Git. No unrelated change or live data-loss restore is authorised.
 
-Fresh authenticated preflight passed: old APOLLO image ready, edge ready and
-unchanged, new frontend/application-config objects absent, six DNS names unused,
-provider-returned record values matching the reviewed proposal and Flux suspended.
+### Deployed and checked
 
-The physical PostgreSQL database is shared. To keep the data copy strictly
-within APOLLO's approved scope, the independent custom-format backup contains
-**only the APOLLO schema**, excluding the other applications. It is held outside
-Git with directory 0700/file 0600: **312,435 bytes**, SHA256
+| Area | Executed result |
+| --- | --- |
+| Target | Existing `admin@talos-tower`, node `talos-p0d-y77`; application objects in `agents`, existing edge in `athena`. Management configuration unchanged. |
+| GitOps | [Prometheus `aa2fa64`](https://github.com/ixxet/Prometheus/commit/aa2fa648c3ce16b1ee732b150801326b51cee093) published only the ten approved paths, including the HTTPS amendment. Seven unrelated dirty files were preserved byte-for-byte. Flux `apps` remains suspended. |
+| APOLLO | Exact `6a10c55` image listed below is serving; server/init pins match. Migration 033 applied, ledger 001..033, one ready replica, health 200, no new-pod restarts. Rollout reached controller readiness in 20.385s. |
+| Hestia / Themis | Exact `f9bbca0` / `3da3375` images from the cleanup ledger are serving, one ready replica each, static health 200. Recorded readiness intervals: 25.162s / 1.109s. |
+| DNS / mail | All six approved DNS records created. Resend verified the sender domain and all four mail records; tracking remains disabled, TLS Enforced. Named SMTP/surface Secrets and mail ConfigMap created; existing database/session credentials preserved. |
+| HTTPS edge | `nginx -t` passed in the existing proxy image. Only the two reviewed edge ConfigMaps and their Deployments changed. Both portals return HTTPS 200 and HTTP 308. Existing tap health stayed 200 after each edge restart. |
+| Route boundary | All 12 external HTTPS route cases passed through both public-resolver checks and the Mac's normal resolver after refresh, plus two HTTP-to-HTTPS redirects. Book rejects staff/member routes; staff rejects public-intake/API routes. An empty, unauthenticated cross-origin schedule form returned 403 before any data submission. |
+| Mail / Owner | The actual college-address sign-in request was accepted at 22:00:28 UTC and reported delivered by Resend. The user entered the code; the backend confirmed the exact verified identity and a real unrevoked session before the conditional Owner grant. Actual live browser reads of Schedule, Requests and internal intake succeeded after reload. Owner remains APOLLO-wide. No message body, sign-in code or cookie value was retrieved or forged. |
+| Resources | Actual Owner/session CLI provisioned only Court, Studio and Fitness room at Ashtonbee, active and bookable. The public-options read returns exactly these labels. All three availability reads returned empty requestable/unavailable arrays; final counts were three resources, zero schedule blocks and zero booking requests. |
+| Cookie / origin | Source policy is Secure, HttpOnly, SameSite Strict and no Domain attribute; live Secure-cookie/token-logging env values match the approved configuration. User-completed HTTPS login and subsequent authenticated browser navigation passed. Cookie attributes were checked in source/runtime, not by extracting a live cookie. |
+
+The amended ten-path diff SHA256 is
+`0821878f87dc99a975ca843433dd6be20289c11577a2717f413e3003e41fdcde`;
+the six-line amendment alone is
+`d14a22a63b77bc70d84c2b5827aeb923946ee2eb9c5d76fd4abd144c5d583732`.
+Its per-host 308 condition uses Cloudflare's visitor
+[X-Forwarded-Proto header](https://developers.cloudflare.com/fundamentals/reference/http-headers/#x-forwarded-proto).
+Eleven local HTTPS/HTTP/missing-proto, route-denial, entry and existing-tap checks
+passed before the separate amendment approval. No zone-wide HTTPS setting or
+tap redirect policy changed.
+
+A serving-pod verifier initially included an old completed APOLLO pod and
+reported an image mismatch. Inspection identified the historical pod as
+`Succeeded`, with an earlier completion date and no serving role. The corrected
+check selects Running, Ready, non-deleting pods and confirmed the single new
+serving image; no historical pod was removed or health gate waived.
+
+### Independent backup and rehearsal
+
+The physical PostgreSQL database is shared. To keep the approved data copy
+within APOLLO's scope, the independent custom-format backup contains **only the
+APOLLO schema**, excluding other applications. It remains outside Git with
+directory 0700/file 0600: **312,435 bytes**, SHA256
 `91d1889262d17b90e34301908c36efcb64698817d00cd3b2b3425511be1454da`.
 It restored into isolated PostgreSQL 16 with the existing pgcrypto dependency.
 Counts matched the live baseline: one existing user; zero sessions, resources,
 schedule blocks, booking requests, rating rows or rating events. No personal
-row data or credential values are published.
+row data or credentials are published.
 
-The restored ledger was exactly 001..032. The exact candidate image applied
-only 033, with a **0.352s migration-container invocation**, unchanged row counts
-and a 33-entry ledger. This is the full invocation time, not a claim of measured
-live lock duration. The exact old amd64 rollback image returned HTTP 200 with
-the source-defined public-options array on that restored schema. No synthetic
-rows were added. The first local probe required waiting for PostgreSQL's final
-TCP listener; the later host-port probe exposed absent Docker port publication.
-The completed compatibility check used the isolated internal network. All owned
-restore containers/networks and temporary clone credentials were removed; the
-independent backup remains.
+The restored ledger was exactly 001..032. The candidate applied only 033 in a
+**0.352s migration-container invocation**, with unchanged counts and 33 ledger
+entries. This measures the invocation, not live lock duration. The exact old
+amd64 rollback image returned HTTP 200 and the public-options array on that
+restored schema. No synthetic rows were added. Initial clone probes encountered
+PostgreSQL listener timing and absent Docker host-port publication; the completed
+compatibility check used the isolated internal network. All owned restore
+containers/networks and temporary clone credentials were removed. The backup
+is retained. No schema down or live database restore was performed.
 
-The four reviewed mail DNS records are now created and publicly resolvable with
-the exact provider values. **Resend has verified the domain and all four
-records**, with tracking still disabled. The approved `apollo-smtp` and
-`ashton-booking-surface` Secrets and `ashton-booking-mail` ConfigMap were created
-in `agents`, without changing the existing database/session credentials. The
-specified staff identity has no account/email conflict. No sign-in email has
-been sent or account/role created.
+The customer link initially failed because this Mac retained an earlier
+negative DNS lookup. The configured resolvers subsequently returned the new
+record; the Mac's own lookup still failed. An unprivileged cache refresh did
+not clear it, and the privileged responder refresh required the user's own
+administrator password. The user performed that step. Normal resolution and
+all 12 HTTPS route checks then passed without an address override. A fresh
+live browser tab loaded **https://book.lintellabs.net/intake**, showing exactly
+Court, Studio and Fitness room with blank contact fields. No network, hosts
+file or resolver configuration changed. The actual customer-page screenshot
+is retained privately; no public booking was submitted.
 
-A final transport check found that the shared edge accepts plain HTTP. A local
-reproduction with the exact nginx image confirmed that the original proposed
-book/staff servers would serve their pages over HTTP. The prepared amendment
-adds **only six lines**: a server-level 308 redirect when the Cloudflare visitor
-protocol is not HTTPS, in each new portal server. It preserves the tap server
-and all other reviewed fields. Cloudflare documents that it overwrites the
-visitor [X-Forwarded-Proto header](https://developers.cloudflare.com/fundamentals/reference/http-headers/#x-forwarded-proto).
+### Remaining acceptance
 
-The amendment passed `nginx -t` and **11 local HTTP/HTTPS/missing-proto, route
-denial, entry redirect and existing-tap checks**. It is reviewable outside Git
-at `/tmp/booking-deployment-review/https-only-amendment.diff`, SHA256
-`d14a22a63b77bc70d84c2b5827aeb923946ee2eb9c5d76fd4abd144c5d583732`.
-The combined ten-path proposal is `gitops-scoped-https.diff`, SHA256
-`0821878f87dc99a975ca843433dd6be20289c11577a2717f413e3003e41fdcde`.
-It requires the R1 exact-diff approval before GitOps publication/deployment.
-The previously approved images, DNS, migration, roles, resources, window and
-rollback scope are unchanged. No live proxy/portal or Prometheus configuration
-has been changed; no live migration or application image rollout has occurred.
-External access and complete booking acceptance are not claimed.
+- The authenticated schedule truthfully shows no activity. Its timeline rows
+  derive from recorded hours, blocks and requests, so unused resources do not
+  create empty rows before hours/activity exist. The existing advanced scope
+  controls remain available; no fictional block was created to populate it.
+- Real opening hours, an actual participant and an operational booking decision
+  are required for external request -> approval -> reservation -> customer
+  status/cancellation acceptance. The owner supplied **weekdays 09:00–18:00;
+  weekends rentals only**. The exact additional live-hours review proposes
+  15 resource-specific weekly rules for **21 October–19 November 2026**, with
+  no regular weekend hours. That finite 30-day interval is a proposal, not a
+  user-supplied date range. Its private JSON SHA256 is
+  `54196316786a6d79784374c49b317dbc0966a4c06d031dbeab59d021261fee2b`.
+  Hours remain unset pending that specific approval. The existing rental
+  request/staff-decision flow is retained; no payment/rental category is added.
+  Pending requests remain unreserved. No physical-phone acceptance is claimed;
+  responsive browser tests remain separate evidence.
 
-## Staff access and live rollout review — pre-approval checkpoint (2026-10-20)
+Final bounded checks at **22:10:03 UTC** reconfirmed one ready/updated replica
+for all five changed Deployments, exact public labels and empty availability,
+the verified Owner/session and suspended Flux. Private acceptance evidence and
+the live staff screenshot remain outside Git. There are two users (the original
+baseline account plus the actual verified Owner) and one session; no fixture
+identity, request, reservation or hours were added.
+
+The existing image/config rollback path is preserved with private before-state
+and created-object/DNS IDs. It closes new portal ingress and restores only
+approved changed objects/images; no automatic schema down or database restore.
+The retained old APOLLO image has the known approval race, so staff writes must
+remain closed if that image is restored. No destructive probe was run.
+
+## Staff access and live rollout review — historical pre-approval checkpoint (2026-10-20)
 
 The user approved **Owner** access for their specified account, **Resend Free**,
 `book.lintellabs.net` for customer intake/status and `staff.lintellabs.net` for
@@ -477,7 +528,7 @@ Browser QA covers submission/approval/cancellation,
 conflict refusal, private-note separation and no horizontal overflow at 320,
 736 and 1024px in light/dark appearance. The visual is returned in the chat.
 
-### Current live approval package — PENDING APPROVAL
+### Reviewed live approval package — historical proposal
 
 Target: existing `admin@talos-tower`, node `talos-p0d-y77`; APOLLO and frontends
 in `agents`, existing proxy/tunnel in `athena`. Retain authenticated management
