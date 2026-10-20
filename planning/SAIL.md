@@ -158,6 +158,10 @@ See the [canonical R1 record](BOOKING-SCHEDULING-CLOSED-TEST-READINESS.md).
 Scale Gate Numeric Ceilings is historical closed local/runtime proof. Delivery
 now prioritises booking/scheduling through Hestia and Themis, then competition /
 rating / game identity, then member services. Broader ATHENA physical truth is
-later. The next packet is Booking/Scheduling Closed-Test Implementation +
-Deployment, with separate explicit approval before live changes. Neither daily
+later. Booking/Scheduling Closed-Test Implementation + Deployment is now the
+authorised follow-up: frontend repairs, concurrent-approval hardening, local
+real-service/migration/restore proof, approved frontend packaging/CI and SMTP
+delivery support. Pending requests remain unreserved; the visual concept is
+discussion-only. Provider/staff/inventory/backup inputs and separate exact
+approval still gate live changes. Neither daily
 credits nor a destructive-probe programme is a booking prerequisite.

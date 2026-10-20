@@ -79,11 +79,15 @@ adds no booking presence dependency or external launch claim. The [canonical R1 
 owns current G0-G4 results, source/CI/image/deployed distinctions and concrete
 next work. Historical ladders below retain their original IDs and evidence.
 
-Next packet: Booking/Scheduling Closed-Test Implementation + Deployment.
-Resolve frontend failure states/test fixtures, packaging, staff login and
-synthetic inventory; prove migration 033 / image rollback compatibility; then
-seek explicit live approval and demonstrate request -> approval -> reservation
--> customer status -> linked cancellation. No live change is authorised by R1.
+Current authorised follow-up: Booking/Scheduling Closed-Test Implementation +
+Deployment. Frontend failure/retry/DST handling and dated/hydration fixtures are
+repaired, facility-scoped locking fixes reproduced concurrent double approval,
+and actual frontend/APOLLO/PostgreSQL plus schema-033/old-image/restore rehearsals
+are executed. Frontend container/CI publication and standard SMTP support are
+authorised. Pending requests remain unreserved. Provider configuration, approved
+staff/inventory, independent live backup and exact rollout approval remain open;
+external request -> approval -> reservation -> status/cancellation acceptance
+has not occurred. The canonical record separates local, published and live truth.
 
 ## Current Coding Blockers
 

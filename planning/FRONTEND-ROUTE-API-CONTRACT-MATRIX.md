@@ -1,6 +1,24 @@
 # Frontend Route/API Contract Matrix
 
-## R1 evidence update (2026-10-20)
+## Booking implementation follow-up (2026-10-20)
+
+The authorised follow-up repairs Hestia malformed receipt/status handling,
+preserves fields/load-born keys through failed retries, keeps successful
+receipts visible through an options outage, and rejects missing keys plus DST
+gap/fold ambiguity. Themis new-request loads now distinguish unavailable,
+malformed and unsupported-role states from verified read-only capability;
+failure preserves fields/key and fresh forms require explicit dates. The public
+intake and staff SSR/action clients reject redirects and bound calls to 5s. Routes and APOLLO
+endpoint ownership are unchanged.
+
+Full local suites pass (Hestia 46 browser, Themis 89 browser / one existing
+skip), with actual adapter-node frontends/APOLLO/PostgreSQL proof recorded
+separately from mock tests. Approved frontend container/CI publication and
+APOLLO SMTP support do not establish external TLS, provider inbox delivery or
+live acceptance. See the [canonical record](BOOKING-SCHEDULING-CLOSED-TEST-READINESS.md)
+for exact current CI/image results and the pending deployment package.
+
+## Original R1 audit evidence (2026-10-20, historical)
 
 Endpoint ownership and proxy boundaries below remain current. R1 revalidated
 the complete booking journey, role/trusted-surface/idempotency/version/conflict
@@ -132,12 +150,12 @@ environment configuration; Hestia never injects trusted-surface proof.
 | Themis proxy uses path prefixes rather than per-method/per-endpoint contracts for some allowed internal paths | Low | Documented as drift risk; APOLLO still owns session/capability/trusted-surface enforcement, browser trusted-surface headers are stripped, and `/api/v1/public/*` remains denied |
 | Hestia proxy/client allow some member-safe APOLLO contracts not used by the current visible routes | Low | Documented as drift risk; current routes do not call staff/public/private endpoints, and APOLLO owns query/body semantics for allowed paths |
 | Themis booking/schedule affordance helpers gate UI actions locally from APOLLO-returned status fields | Low | Documented as UI drift risk; APOLLO remains final enforcement for booking transitions, schedule cancellation, role, capability, and trusted-surface proof |
-| Themis `/ops/bookings/new` collapses APOLLO list-load failures into `canManage: false` read-only state | Low | Documented as state-coverage debt; no fake booking mutation is claimed, and create still requires APOLLO manage/trusted-surface proof |
+| Themis `/ops/bookings/new` list-load failures previously collapsed into read-only state | Fixed in authorised booking follow-up | Explicit unavailable/malformed/unsupported-role states and retry controls; read-only copy requires a successful capability-bearing read. APOLLO still enforces manage/trusted proof. |
 | Themis `OPS_ROLE_PATH` constant points at `/ops/unsupported-role`, but no route currently exists for that path | Low | Documented as stale route smell; current unsupported role states render inside concrete ops routes and catch-all normalizes unknown paths to `/ops` |
-| Successful public intake/status HTTP responses with malformed payloads can surface as route errors instead of neutral unavailable copy | Low | Documented as state-coverage debt; parsers are allowlisted and APOLLO remains contract owner |
+| Successful public intake/status HTTP responses previously escaped as route errors when malformed | Fixed in authorised booking follow-up | Neutral failures preserve receipt/form/key; ambiguous submission retry returns the same APOLLO receipt. Parsers remain allowlisted and APOLLO remains contract owner. |
 | Hestia `/app/tournaments` is a legacy member route label for lobby/member competition, not public tournament readiness | Low | Documented explicitly; public tournaments remain blocked |
 | Loading states are mostly SSR route loads plus client form pending states, not app-wide skeleton loaders | Low | Current UI behavior documented; no frontend changes in this packet |
-| Hestia/Themis tests are mock-APOLLO repo tests, not deployed proof | Medium | Deployed truth remains separate; Milestone 3.0 records Hestia/Themis as repo-only |
+| Ordinary Hestia/Themis suites use mock APOLLO | Medium | Separate opt-in real frontend/APOLLO/PostgreSQL rehearsal passed; mock and local real-service proof still do not establish deployed acceptance. |
 
 No frontend route currently requires a new APOLLO endpoint, schema, migration,
 new public route, Hestia staff control, Themis public surface, frontend formula,

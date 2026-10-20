@@ -47,11 +47,17 @@ cancellation cancels that reservation and changes customer-safe status.
 
 Direct booking/schedule paths have no ATHENA dependency. A failed facility
 overview must not prevent Requests/Schedule navigation or invent occupancy.
-Themis new-request load errors currently masquerade as read-only authority;
-Hestia malformed successful receipt/status responses can escape as route
-errors. These reproduced states require the next booking packet, along with
-packaging/login/inventory proof. Existing frontend mock tests are separate from
-real APOLLO handler/database proof and from external live acceptance.
+The authorised implementation follow-up fixes Themis false read-only load
+states and Hestia malformed receipt/status failures. Failed submissions preserve
+their load-born idempotency key and fields; successful receipts survive a later
+options outage. Toronto DST gaps/folds require an unambiguous instant.
+Simultaneous overlapping approvals now serialise before conflict checks; pending
+requests do not reserve time, while existing staff holds do block availability.
+Real adapter-node frontends -> APOLLO HTTP/services -> PostgreSQL prove approval,
+public message and linked cancellation locally. SMTP now has encrypted local
+delivery proof; configured provider/inbox acceptance and external live acceptance
+remain separate gates. The two customer picker variants and staff resource
+timeline are a discussion concept, not a runtime redesign.
 
 ## Debug Classifier
 

@@ -16,6 +16,13 @@ not acquire a presence dependency. R1 opens bridge hardening and booking
 readiness documentation while live deployment and instant booking remain
 approval-gated/deferred. See the [canonical R1 record](BOOKING-SCHEDULING-CLOSED-TEST-READINESS.md).
 
+Authorised implementation follow-up (2026-10-20): the R1 frontend failure and
+retry gaps are repaired, concurrent approval conflicts are serialised, real
+frontend/APOLLO/PostgreSQL and migration/restore rehearsals are executed, and
+frontend container/CI publication plus standard SMTP support are authorised.
+Pending requests stay unreserved. The customer/staff scheduling concept is for
+discussion; live deployment still requires the canonical approval package.
+
 The competition trust spine is complete through `3B.20.1`, `3B-LC` is closed,
 and Milestone 3.0 proved bounded APOLLO/ATHENA deploy smoke, APOLLO metrics
 export, Prometheus scrape proof, and cross-repo compatibility matrix truth.

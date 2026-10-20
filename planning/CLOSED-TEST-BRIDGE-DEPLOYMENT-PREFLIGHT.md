@@ -15,10 +15,13 @@ completeness. Source publication may build images; observed Flux only watches
 Prometheus, apps is suspended and image automation is absent. Publication is
 not rollout permission. Live bridge token wiring remains absent.
 
-Booking deployment is separate from optional bridge rollout. Frontend
-packaging, staff login/roles, nonempty resources/hours and migration 033 /
-backup/rollback decisions remain blockers. The next packet is Booking/Scheduling
-Closed-Test Implementation + Deployment, followed by fresh scoped live approval;
+Booking deployment is separate from optional bridge rollout. The authorised
+implementation follow-up repairs frontend states/retries/DST, serialises
+concurrent approval, adds approved container/CI publication and SMTP support,
+and exercises actual frontends/APOLLO/PostgreSQL plus a populated synthetic 033
+upgrade, old-image booking path and dump/restore. Real provider/staff/inventory,
+independent live backup and fresh scoped rollout approval remain open. The
+canonical record contains current proof and the proposed deployment delta;
 destructive probes are not an automatic next step or booking prerequisite.
 
 Status: read-only preflight captured on 2026-05-12.

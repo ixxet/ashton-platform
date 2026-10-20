@@ -1,6 +1,718 @@
 # Booking/Scheduling Closed-Test Readiness
 
-## R1 status and ownership
+## Current booking implementation follow-up (2026-10-20)
+
+This section supersedes the original R1 next-packet/readiness rulings below.
+The original G0-G4 findings, failed commands and publication evidence remain
+dated history. The user authorised booking/scheduling implementation, local
+verification and scoped publication, then explicitly approved frontend
+Dockerfile/ignore/CI additions and standard SMTP support. Live changes still
+require review of the exact deployment package. No live approval was given.
+
+The user also chose **pending requests remain unreserved**. A request, including
+one under staff review, is not a tentative reservation. Approval creates the
+linked reservation; approved cancellation releases it and retains history.
+Existing staff schedule holds are a separate blocking schedule object, even
+when their effect is named `soft_hold`. No new customer hold/expiry policy,
+instant booking, payment, presence dependency or competition expansion is added.
+
+### Implemented fixes and evidence
+
+| Owner / source | Reproduced gap | Result |
+| --- | --- | --- |
+| Hestia `fec132e` | Malformed successful receipt/status payloads escaped as route errors; failed retries could lose fields/key or reuse stale hidden timestamps | Neutral failures preserve the original fields/key; successful receipts remain visible through options failure. Hidden instants clear on invalid conversion; missing keys, DST gaps and ambiguous folds are rejected. Public server calls reject redirects and use a 5s deadline. |
+| Themis `8bfc368` | New-request load errors falsely claimed read-only permission; stale example dates and hard-coded facility navigation; redirecting transport could forward proof | Explicit unavailable/malformed/unsupported-role states; manage controls appear only after verified capability. Failure retains fields/key, dates are required, facility is configured, and redirect denial plus 5s/caller cancellation are tested with real HTTP. |
+| APOLLO `7fb1e7c` | Simultaneous distinct approvals created two conflicting reservations | A transaction advisory lock per facility precedes the schedule snapshot/conflict check/insert. Same-resource, parent/child and exclusive-resource races now yield one approval/one conflict/one reservation. Adjacent windows both succeed. A cancelled lock wait leaves the request unchanged. No migration/public API added. |
+| APOLLO `0f2268e`, `c25cc84` | Docker occasionally returned an empty published port; pgx then used unrelated port 5432 | Request an explicit ephemeral binding, inspect/validate it within the shared 2-minute startup budget, and fail with bounded state diagnostics. Three concurrent real databases prove usable ports. Running non-OOM containers with `PublishAllPorts=true` and no actual bindings were captured; waiting alone was insufficient. |
+| APOLLO `a86ea20` | No complete real-frontend or migration/old-image/restore rehearsal | Explicit opt-in tests run actual adapter-node Hestia/Themis, APOLLO HTTP/services and disposable PostgreSQL; a separate fixture exercises schema 032 -> 033, the exact previous live APOLLO image and dump/restore. |
+| APOLLO `9aa43b8` | Verification defaulted to a no-op sender; token logging was not delivered mail | User-authorised standard-library SMTP supports mandatory STARTTLS or implicit TLS, certificate/hostname verification, TLS 1.2+, protected AUTH PLAIN, a total deadline up to 4s, cancellation and redacted errors. SMTP refuses verification-token logging. Local encrypted fixtures include generated-code/hash consistency. Provider configuration and inbox acceptance are still unproved. |
+| Hestia `bd65408`, Themis `ed81467` | No tracked frontend container or image workflow | Approved pinned Node 22 multi-stage builds run check/unit/build, then serve adapter-node as `node`. Main CI gates amd64/arm64 GHCR publication on check/unit/build/browser tests. Static `/_app/version.json` health stays available during an APOLLO outage. No deploy step. |
+| Hestia `3882621` / Themis runtime test fixes | Dated fixtures, ambiguous selectors and interactions before hydration blocked full-suite CI | Explicit fixture dates, selectors, hydration readiness and awaited settings-save result preserve the original assertions. Initial failures remain in the verification history below. |
+
+The scheduling lock covers application schedule creation, not arbitrary SQL or
+older APOLLO processes. A mixed old/new deployment or rollback must keep staff
+writes closed until every serving process has the intended implementation.
+Facility-level serialisation deliberately favours correctness over maximum
+parallel approval throughput for this closed test.
+
+### Locally executed proof and limits
+
+Both frontends passed `npm run check`, `npm test`, `npm run build` and full
+`npm run test:e2e`: Hestia 36 unit / 46 browser cases; Themis 40 unit / 89 browser
+cases with one existing skip. Hestia's later four-line CI fixture correction
+also passed check and all 46 browser cases locally. Both actual Docker builds
+passed and ran as `node`; static health and the entry page returned HTTP 200
+with APOLLO deliberately unreachable. Final backend/SMTP and GitHub outcomes
+are recorded in the publication ledger in this follow-up.
+
+Before SMTP was added, the final frozen APOLLO matrix passed:
+`go test -count=1 ./...` (225.26s), `go test -count=1 -race ./internal/...`
+(211.41s), `go vet ./...` (0.67s), `go build ./cmd/apollo` (1.88s) and
+`git diff --check`. That earlier result is not SMTP verification; the final
+post-SMTP published-source matrix is below. Focused SMTP/config/CLI tests with
+`-race` passed in 1.648s / 1.172s / 1.428s. Full current results are recorded below.
+
+Real frontend reproduction, with Docker, built sibling frontends and existing
+Playwright browsers:
+
+```sh
+APOLLO_BOOKING_FRONTEND_REHEARSAL=1 go test -count=1 -v ./internal/server \
+  -run '^TestBookingClosedTestFrontendsRealPostgres$'
+```
+
+Latest execution passed in 7.738s. A real browser submitted Hestia options /
+availability / request / receipt / status, signed into actual Themis through
+APOLLO verification, navigated from the degraded overview to Requests, saved a
+public message, approved and cancelled. SQL checkpoints were request=1 /
+reservations=0, approved=1 / reservations=1, cancelled=1 / cancelled
+reservations=1. Visits and tap-links remained unchanged. ATHENA was absent.
+The test sender captures email rather than delivering it; localhost Secure
+cookie handling is not external TLS/origin/cookie proof. Single-repo CI skips
+this explicit opt-in test when siblings/browsers are absent; a skip is not proof.
+
+Migration/old-image/restore reproduction:
+
+```sh
+docker pull --platform linux/amd64 \
+  ghcr.io/ixxet/apollo:sha-6b27618@sha256:6c2d4ef8c67d0ea21d3b41963eb9709d0114b53bfea56c30d456cafbb677515a
+APOLLO_BOOKING_DEPLOY_REHEARSAL=1 go test -count=1 -v ./internal/server \
+  -run '^TestBookingSchema033OldImageAndRestore$'
+```
+
+Passed in 6.63s. Actual schema 001..032 plus two synthetic four/five-match
+rating rows and a retained historical event upgraded with actual 033 SQL in
+4.626917ms: one provisional, one ranked, historical event retained. The exact
+old amd64 image served nonempty public options and accepted a new booking
+against schema 033. A 311431-byte custom dump restored into a separate
+`booking_restore` database and retained one request and one resource. Dump SHA256:
+`a63f58f712086720a71699c870ebdd0e02d892cfa61a72e6c5e276f662780a73`.
+The old image has no arm64 manifest; the proof used explicit amd64 emulation.
+
+This is a small populated synthetic SQL-delta/booking-path rehearsal, not a
+production lock-time measurement, full old-image competition rollback proof,
+actual live initContainer/migration-ledger execution, or independent live
+backup. Migration 033 down deletes rating-wrapper events and is not routine
+rollback. No new migration was introduced by this follow-up.
+
+Raw local evidence remains under `/tmp/booking-*.log` and result JSON files;
+it is not committed test output. Earlier matrix failures are retained:
+`booking-apollo-results.json` had focused/full fixture connection failures;
+`booking-apollo-complete-results.json` had a 214.83s full-suite failure caused
+by the initial 5s published-port budget. Later post-SMTP full/race runs failed
+in 203.52s / 199.37s: running containers sometimes never published a port, and
+the consumer fixture observed its first visit commit before linked writes
+finished. `c25cc84` requests explicit ephemeral ports and waits for the handler
+result; it changes no presence runtime. The diagnostic full run was deliberately
+stopped after capturing six running, non-OOM, permanently unbound containers
+(`/tmp/booking-postgres-port-diagnostics.json`); its interrupted/cleanup errors
+are not a pass. All owned diagnostic containers were removed. The final frozen
+published-source matrix below passes without serialising the requested package
+commands. Initial frontend fixture/selector failures and local rehearsal
+selector/table-name corrections were not hidden. Hestia GitHub run
+[39464799179](https://github.com/ixxet/hestia/actions/runs/39464799179) passed all
+booking cases but failed two member-shell timing cases (44 passed / 2 failed),
+so no image was published by that run; `3882621` corrects those test waits.
+
+### Final published-source verification and image ledger
+
+Final APOLLO source is `7e6680e22eb854b97f32e2e5e0353a96e67d792f`, including
+SMTP `9aa43b8` and fixture/consumer verification repair `c25cc84`. Its frozen
+local matrix passed without changing the requested commands:
+
+| Command | Final result |
+| --- | --- |
+| `go test -count=1 ./...` | PASS, 203.86s |
+| `go test -count=1 -race ./internal/...` | PASS, 204.02s |
+| `go vet ./...` | PASS, 0.62s |
+| `go build ./cmd/apollo` | PASS, 1.76s |
+| `git diff --check` | PASS, 0.02s |
+
+Results and raw output: `/tmp/booking-apollo-published-results.json` and
+`/tmp/booking-apollo-published-{full,race,vet,build,diff}.log`. Focused final
+`go test -count=1 -race ./internal/testutil ./internal/auth ./internal/config ./internal/consumer`
+also passed (4.055s / 22.417s / 1.394s / 11.516s). No SMTP messages were sent to
+a real provider. All diagnostic/review containers and the review network were
+removed; the final test run left no labelled PostgreSQL fixture containers.
+
+| Repository / verified remote main | GitHub CI | Published immutable image candidate |
+| --- | --- | --- |
+| [APOLLO `7e6680e22eb854b97f32e2e5e0353a96e67d792f`](https://github.com/ixxet/apollo/commit/7e6680e22eb854b97f32e2e5e0353a96e67d792f) | [39468231070](https://github.com/ixxet/apollo/actions/runs/39468231070): test and image SUCCESS | `ghcr.io/ixxet/apollo:sha-7e6680e@sha256:160ce351240e909bfbd2023232ab7ba08b193f65820eea6ec33ed9bae083ea1b` |
+| [Hestia `3882621d0c0b5c57acc4f0ab2f64abd56cd06a3f`](https://github.com/ixxet/hestia/commit/3882621d0c0b5c57acc4f0ab2f64abd56cd06a3f) | [39466037826](https://github.com/ixxet/hestia/actions/runs/39466037826): test and image SUCCESS | `ghcr.io/ixxet/hestia:sha-3882621@sha256:2281fd6c30fda5df9b484859d88e3cf5166112b46aea4a3e679c267455b02d6f` |
+| [Themis `ed814673620a441936a7978971f4da4cc6e3aec6`](https://github.com/ixxet/themis/commit/ed814673620a441936a7978971f4da4cc6e3aec6) | [39464801105](https://github.com/ixxet/themis/actions/runs/39464801105): test and image SUCCESS | `ghcr.io/ixxet/themis:sha-ed81467@sha256:f64bbe026ad5e59e3c143b20acf2e51151ab97e8a948d0fe2012b64ffb8f282b` |
+
+Each registry index was inspected directly with `docker buildx imagetools
+inspect`; all three contain amd64 and arm64 runtime manifests. Actual remote
+main SHAs were verified separately with `git ls-remote`, not cached origin refs.
+These are published candidates, not deployed images. ATHENA and Prometheus
+source/deploy state are not changed by this follow-up.
+
+The two **published frontend images** were also pulled and run on default port
+3000 with read-only root filesystems, dropped capabilities and non-root `node`,
+while APOLLO was unreachable: static health and entry pages returned 200. The
+rendered edge proposal passed `nginx -t` using the existing live proxy's exact
+image digest `nginx@sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10`
+(amd64 emulation locally). Fourteen host/path checks proved the separate entry
+redirects, intake/status/static/login routes and private/member/public-API
+denials. Access logging omitted the synthetic receipt query marker. Tracked
+tap configuration remains byte-for-byte at the start of the proposed config
+(SHA256 `7593e37633aeb9b78ca2cfb1386260950c1a83b7ff77f834a8e15d8c225e2d58`).
+Local port-80 frontend stand-ins represented Kubernetes Services for routing
+checks; no Kubernetes Service, external TLS/DNS or actual staff login was
+exercised by that proxy test. The earlier actual-APOLLO browser rehearsal is
+separate proof. Raw proposal/wiring evidence is in
+`/tmp/booking-deployment-review/local-wiring-proof.json`; rendered proposals are
+embedded below so they remain reviewable on GitHub.
+
+Post-publication bounded read-only safety refresh at **2026-10-20 18:05:39 UTC**
+reconfirmed the old desired APOLLO `sha-6b27618` and ATHENA `v0.8.2` digest pins,
+one ready replica each, suspended `apps`, no Hestia/Themis Deployments and no
+image-automation resources. APOLLO init/server pins also still match, with only
+the existing database/HTTP/NATS/session env names. No live Secret value,
+mutation, migration, rollout, restart, DNS change or Prometheus edit/push was
+performed. Unrelated working-tree changes remain preserved.
+
+### Customer and staff design discussion
+
+Recommended entrances on the existing domain are `book.lintellabs.net` for
+customer intake/status and `staff.lintellabs.net` for the authenticated staff
+portal. Customers receive the booking URL; staff open Requests/Schedule inside
+their portal. `book.staff.lintellabs.net` would only be needed for a deliberately
+separate staff booking application. Hostnames are proposals, not created DNS or
+approved exposure.
+
+The local interactive concept compares a large native start-time plus duration
+picker with requestable time slots. A separate staff resource timeline shows
+existing reservations, unavailable staff holds/closures, and a dashed pending
+request overlay that does not reserve time. It demonstrates conflict refusal,
+approval, existing-booking selection and linked cancellation with synthetic
+data. It does not reschedule an approved booking in place or send requests.
+The customer concept's single submitted request cannot overwrite its saved
+reservation. Staff and customer views stay separate in the runtime.
+
+This is discussion-only design, not a shipped frontend redesign or Microsoft /
+Apple calendar integration. Browser QA covers submission/approval/cancellation,
+conflict refusal, private-note separation and no horizontal overflow at 320,
+736 and 1024px in light/dark appearance. The visual is returned in the chat.
+
+### Proposed live approval package — NOT AUTHORISED
+
+Proposed target: existing `admin@talos-tower`, node `talos-p0d-y77`, APOLLO /
+frontends in namespace `agents`; existing edge proxy/tunnel in `athena`.
+Management remains authenticated MIMIR SSH with the per-command Talos API
+override recorded below. No kubeconfig, Prometheus or live object is changed
+by preparing this package. Source/image publication has no observed live
+reconciliation path (`apps` suspended; no image automation resources).
+
+Proposed execution window: **2026-10-20 16:00–16:30 America/Toronto
+(20:00–20:30 UTC)**, only after final explicit approval. If not approved before
+that window, choose and approve a new window. Proposed accountable owner:
+Zizo; executor and approved image/config rollback executor: Codex. These are
+proposed approval terms, not an appointment or scheduling automation.
+
+| Object / field | Exact proposed change |
+| --- | --- |
+| `agents/deployment/apollo`, containers `apollo` and initContainer `apollo-migrate` | Replace both image pins with the identical immutable APOLLO candidate in the publication ledger. Keep database/session secret references and NATS wiring. Init runs existing `migrate up`, including pending 033. No optional ATHENA bridge configuration is added. |
+| APOLLO server env | `APOLLO_SESSION_COOKIE_NAME=apollo_session`, `APOLLO_SESSION_COOKIE_SECURE=true`, `APOLLO_LOG_VERIFICATION_TOKENS=false`; `APOLLO_TRUSTED_SURFACES` from proposed Secret `ashton-booking-surface`, key `apollo-trusted-surfaces`. Preserve all other approved mapping entries. |
+| APOLLO SMTP env | `APOLLO_SMTP_HOST` and `APOLLO_SMTP_FROM` from proposed ConfigMap `ashton-booking-mail`, keys `host` and `from`; `APOLLO_SMTP_TLS_MODE=starttls`, `APOLLO_SMTP_PORT=587`, `APOLLO_SMTP_TIMEOUT=4s`; username/password from proposed Secret `apollo-smtp`, keys `username` / `password`. An implicit-TLS provider instead requires an explicitly reviewed `tls` / `465` change. |
+| New `agents/deployment/hestia` and Service `hestia` | One replica, app label `hestia`, existing `agents-ghcr` ServiceAccount, exact Hestia digest from ledger. `HOST=0.0.0.0`, `PORT=3000`, `ORIGIN=https://book.lintellabs.net`, `APOLLO_ORIGIN=http://apollo.agents.svc.cluster.local`. Service port 80 -> container 3000. No staff proof/SMTP secret in this pod. |
+| New `agents/deployment/themis` and Service `themis` | One replica, app label `themis`, existing `agents-ghcr` ServiceAccount, exact Themis digest from ledger. Same HOST/PORT/APOLLO origin, `ORIGIN=https://staff.lintellabs.net`, `THEMIS_DEFAULT_FACILITY_KEY=ashtonbee`, `THEMIS_APOLLO_TRUSTED_SURFACE=themis`, token from `ashton-booking-surface` key `themis-token`. Service port 80 -> 3000. |
+| Both frontend pod specs | Disable service links and service-account token automount; UID/GID 1000, non-root, no privilege escalation, drop all capabilities, read-only root filesystem. Requests 50m CPU / 64Mi; memory limit 256Mi. Readiness and liveness HTTP `/_app/version.json` on 3000, initial delay 5/10s, period 10s, timeout 3s, failure threshold 3. No APOLLO dependency in health checks. |
+| `athena/configmap/athena-edge-proxy-nginx` | Preserve existing tap/health server unchanged; add host-specific servers for the two approved names with the route policy below. Validate with `nginx -t` before restarting only `athena-edge-proxy`. |
+| `athena/configmap/athena-edge-tunnel-config` | Retain tunnel UUID/credentials-file and existing tap rule. Insert book/staff hostname rules to `http://athena-edge-proxy.athena.svc.cluster.local:8080` before terminal `http_status:404`; restart only `athena-edge-tunnel` after approval. Existing tap traffic may have a brief reconnect and is an abort criterion. |
+| DNS / TLS | Create only the approved book/staff CNAMEs to existing tunnel `c69461ee-6752-482d-a24c-a1229a0e9ab0.cfargotunnel.com`; verify HTTPS/certificate and same-origin form actions on both. No wildcard, new apex/domain or private APOLLO/bridge route exposure. |
+| GitOps | No Prometheus push or Flux resume in this packet. Proposed approved execution: record only the reviewed delta in a scoped Prometheus commit, then apply only the named objects while `apps` remains suspended. Capture desired/live config references first; do not reconcile the entire pending apps tree. This future GitOps write/direct apply requires the same final approval as deployment. |
+
+Secret names above are proposed **references only**. No values were read,
+generated, created, rotated or committed. `apollo-trusted-surfaces` must contain
+the parser's full comma-separated `surface=token` mapping and its `themis` token
+must exactly match `themis-token`. Existing `apollo-runtime/database-url` and
+`apollo-runtime/session-cookie-secret` references are retained. SMTP settings
+are server-only and not needed by migration or frontend containers.
+
+The exact edge route policy to translate into the host-specific nginx servers:
+
+| Host | Allowed paths | Other behavior |
+| --- | --- | --- |
+| `book.lintellabs.net` | Exact `/intake` and `/intake/status`, prefix `/_app/` -> Hestia | Exact `/` redirects 302 to `/intake`. All other routes, including `/login`, `/app`, `/ops`, `/competition`, `/api/v1/*` and private bridge paths return 404. Preserve query/form action parameters. |
+| `staff.lintellabs.net` | Exact `/login`, `/ops`, prefix `/ops/`, prefix `/_app/`, exact `/api/v1/profile` and the existing auth start/verify/logout paths -> Themis | Exact `/` redirects 302 to `/ops/bookings`. Deny `/intake`, public API and all other API paths. APOLLO session/role/capability checks remain authoritative; hostname knowledge grants no staff access. |
+
+Forward original Host and `X-Forwarded-Proto: https`, preserve Origin/form
+bodies and Set-Cookie without Domain widening, and clear incoming APOLLO
+trusted-surface headers. Themis adds its own proof only server-side. Proxy
+connection timeout 3s, read/send timeout 10s, body limit 64KiB, no proxy cache.
+Neither selected frontend contains a static favicon reference, so no extra
+asset exception is added. Relative redirects avoid an internal HTTP/8080
+Location leak. The rendered nginx syntax and route checks passed locally as
+recorded below. The rendered proposal is unapplied and still requires final
+input/approval; its table is not proof of external execution.
+
+Proposed fixture scope, requiring explicit approval:
+
+1. Specifically named staff recipients/account identifiers for owner, manager
+   and supervisor. The owner performs resource setup/retirement through the
+   existing owner-only CLI; manager/supervisor exercise booking decisions and
+   read-only denial. One person's separately approved accounts may cover these
+   test roles. These are APOLLO-global roles, not booking-only permissions.
+   Register/verify through actual SMTP; grant only the approved roles to those
+   exact verified accounts. No roles inferred from names/email domains, token
+   logging, manual token extraction or login bypass.
+2. Confirm existing facility/zone references `ashtonbee` / `gym-floor`. Create
+   one new resource `r1-closed-test-court`, type `court`, public label
+   `Closed-test canary - no real space`, active/bookable true, no graph edges.
+   Use the approved owner/session via `apollo schedule resource upsert`.
+   If that key already exists, stop rather than overwrite it. Do not claim a
+   manager can perform this owner-only graph operation.
+3. One resource-scoped, one-off public-labelled operating-hours block on
+   **2026-10-23 17:00–23:00 America/Toronto** (`-04:00`), created with the
+   approved manager/session through existing APOLLO schedule authoring. One
+   internal closure at 20:00–21:00 for conflict proof. These synthetic hours do
+   not advertise any real facility inventory.
+4. Browser canary contact `Synthetic Canary`, `canary@example.invalid`, purpose
+   `Approved closed-test canary`, requested window 19:00–20:00 on that date.
+   Retain original key/body to replay one submission; assert one request / zero
+   reservations. Supervisor remains read-only; member denial, stale version and
+   conflicting second request must fail. Manager approval creates one linked
+   reservation; public message/status and linked cancellation must follow.
+5. Cancel only recorded canary requests/blocks, mark the synthetic resource
+   inactive/non-bookable via existing authorised resource authoring, and revoke
+   temporary staff sessions/roles only if explicitly approved. Preserve booking
+   and audit history. No broad deletes or schema down.
+
+Before migration, propose a protected independent backup on this Mac at
+`/Users/zizo/Library/Application Support/ASHTON/backups/booking-<UTC>.dump`
+(directory 0700, file 0600, outside Git), plus pre-change migration ledger,
+Deployment/config and secret-reference metadata. A full live database copy is
+approval-required, was not taken during read-only inventory, and must be restored
+into a separate disposable PostgreSQL database before rollout. Confirm the
+backup destination/operator and acceptable restore loss window; local synthetic
+dump/restore does not fulfil this prerequisite. Capture representative table
+counts and test 033 against the restored backup before approving the live run.
+Proposed monitored abort thresholds are lock wait over 5s, migration execution
+over 30s, or APOLLO/frontend rollout readiness over 120s. These are operator
+abort thresholds, not newly implemented SQL timeouts; approve/change them after
+the backup-clone rehearsal. A 4.6ms two-row fixture is not that measurement.
+No automatic database restore or accepted data-loss window is proposed. Do not
+deploy without these checks.
+
+Rollout order: keep staff ingress/proof unavailable; take/restore the approved
+backup; apply APOLLO init/server image pins and reviewed env; wait for 033 and
+all serving APOLLO pods to be new and healthy; then start frontends and expose
+only the approved host/path rules. Verify actual SMTP inbox receipt, TLS,
+host-local Secure/HttpOnly/SameSite-Strict cookies, CSRF/origin behavior and
+nonempty canary workflow before declaring external acceptance. Do not stop or
+disable ATHENA to prove booking independence; that proof is local.
+
+Abort on migration error/lock budget breach, APOLLO/frontends failing readiness,
+tap regression, mail/login/role failure, unexpected public route, empty canary
+inventory, duplicate reservation or public/private leak. Stop POSTs and close
+staff ingress/scale down Themis before rollback. Remove the newly added trusted
+mapping, restore the captured APOLLO init/server pin and prior edge/tunnel
+configuration, then remove only newly created frontend objects as approved.
+Previous APOLLO pin remains
+`ghcr.io/ixxet/apollo:sha-6b27618@sha256:6c2d4ef8c67d0ea21d3b41963eb9709d0114b53bfea56c30d456cafbb677515a`.
+Keep booking writes closed after reverting: that old image retains the
+concurrent-approval defect. ATHENA stays at its existing `v0.8.2` digest.
+Do not run 033 down; a database restore requires its separately approved loss
+window/path. A backend image rollback is not permission to reopen staff writes.
+
+Still required to finalise executable approval: confirm target/hostnames and
+the proposed application method, SMTP provider host/from and secret provisioning, exact
+staff recipients/roles, fixture scope, independent backup/restore operator and
+lock/loss budgets, window and rollback ownership. Then review exact rendered
+manifests/diff with immutable images from the ledger. No external live smoke or
+deployment-readiness closure is claimed while those inputs remain open.
+
+Current verdict: implementation, local verification, source/image publication
+and the technical review draft are complete. External closed-test acceptance
+is open. The owner/manager/supervisor identities, mail-provider configuration,
+independent live backup/rehearsal and final scoped live approval are genuine
+remaining prerequisites, not executed work.
+
+### Rendered deployment review material — NOT APPLIED
+
+These exact drafts use the published image ledger and proposed references
+above. Missing provider/staff/backup approval inputs still block execution.
+The APOLLO patch is strategic merge by container/env name, preserving unrelated
+fields; it is not a replacement Deployment. The frontend List creates only its
+four named objects. The nginx addition preserves the existing tap server, and
+the tunnel data replaces only the existing ConfigMap data after approved review.
+
+<details>
+<summary>Frontend Deployments and Services (unapplied)</summary>
+
+```yaml
+---
+apiVersion: v1
+kind: List
+items:
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: hestia
+    namespace: agents
+    labels:
+      app.kubernetes.io/name: hestia
+      app.kubernetes.io/part-of: ashton
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: hestia
+    template:
+      metadata:
+        labels:
+          app.kubernetes.io/name: hestia
+          app.kubernetes.io/part-of: ashton
+      spec:
+        serviceAccountName: agents-ghcr
+        automountServiceAccountToken: false
+        enableServiceLinks: false
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000
+          runAsGroup: 1000
+          seccompProfile:
+            type: RuntimeDefault
+        containers:
+        - name: hestia
+          image: ghcr.io/ixxet/hestia:sha-3882621@sha256:2281fd6c30fda5df9b484859d88e3cf5166112b46aea4a3e679c267455b02d6f
+          ports:
+          - name: http
+            containerPort: 3000
+          env:
+          - name: HOST
+            value: 0.0.0.0
+          - name: PORT
+            value: '3000'
+          - name: ORIGIN
+            value: https://book.lintellabs.net
+          - name: APOLLO_ORIGIN
+            value: http://apollo.agents.svc.cluster.local
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+              - ALL
+          readinessProbe:
+            httpGet:
+              path: "/_app/version.json"
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: "/_app/version.json"
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              memory: 256Mi
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: hestia
+    namespace: agents
+    labels:
+      app.kubernetes.io/name: hestia
+      app.kubernetes.io/part-of: ashton
+  spec:
+    selector:
+      app.kubernetes.io/name: hestia
+    ports:
+    - name: http
+      port: 80
+      targetPort: http
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: themis
+    namespace: agents
+    labels:
+      app.kubernetes.io/name: themis
+      app.kubernetes.io/part-of: ashton
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app.kubernetes.io/name: themis
+    template:
+      metadata:
+        labels:
+          app.kubernetes.io/name: themis
+          app.kubernetes.io/part-of: ashton
+      spec:
+        serviceAccountName: agents-ghcr
+        automountServiceAccountToken: false
+        enableServiceLinks: false
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000
+          runAsGroup: 1000
+          seccompProfile:
+            type: RuntimeDefault
+        containers:
+        - name: themis
+          image: ghcr.io/ixxet/themis:sha-ed81467@sha256:f64bbe026ad5e59e3c143b20acf2e51151ab97e8a948d0fe2012b64ffb8f282b
+          ports:
+          - name: http
+            containerPort: 3000
+          env:
+          - name: HOST
+            value: 0.0.0.0
+          - name: PORT
+            value: '3000'
+          - name: ORIGIN
+            value: https://staff.lintellabs.net
+          - name: APOLLO_ORIGIN
+            value: http://apollo.agents.svc.cluster.local
+          - name: THEMIS_DEFAULT_FACILITY_KEY
+            value: ashtonbee
+          - name: THEMIS_APOLLO_TRUSTED_SURFACE
+            value: themis
+          - name: THEMIS_APOLLO_TRUSTED_SURFACE_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: ashton-booking-surface
+                key: themis-token
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+              - ALL
+          readinessProbe:
+            httpGet:
+              path: "/_app/version.json"
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: "/_app/version.json"
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              memory: 256Mi
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: themis
+    namespace: agents
+    labels:
+      app.kubernetes.io/name: themis
+      app.kubernetes.io/part-of: ashton
+  spec:
+    selector:
+      app.kubernetes.io/name: themis
+    ports:
+    - name: http
+      port: 80
+      targetPort: http
+```
+
+</details>
+
+<details>
+<summary>APOLLO strategic merge patch (unapplied)</summary>
+
+```json
+{
+  "spec": {
+    "template": {
+      "spec": {
+        "initContainers": [
+          {
+            "name": "apollo-migrate",
+            "image": "ghcr.io/ixxet/apollo:sha-7e6680e@sha256:160ce351240e909bfbd2023232ab7ba08b193f65820eea6ec33ed9bae083ea1b"
+          }
+        ],
+        "containers": [
+          {
+            "name": "apollo",
+            "image": "ghcr.io/ixxet/apollo:sha-7e6680e@sha256:160ce351240e909bfbd2023232ab7ba08b193f65820eea6ec33ed9bae083ea1b",
+            "env": [
+              {
+                "name": "APOLLO_SESSION_COOKIE_NAME",
+                "value": "apollo_session"
+              },
+              {
+                "name": "APOLLO_SESSION_COOKIE_SECURE",
+                "value": "true"
+              },
+              {
+                "name": "APOLLO_LOG_VERIFICATION_TOKENS",
+                "value": "false"
+              },
+              {
+                "name": "APOLLO_TRUSTED_SURFACES",
+                "valueFrom": {
+                  "secretKeyRef": {
+                    "name": "ashton-booking-surface",
+                    "key": "apollo-trusted-surfaces"
+                  }
+                }
+              },
+              {
+                "name": "APOLLO_SMTP_HOST",
+                "valueFrom": {
+                  "configMapKeyRef": {
+                    "name": "ashton-booking-mail",
+                    "key": "host"
+                  }
+                }
+              },
+              {
+                "name": "APOLLO_SMTP_FROM",
+                "valueFrom": {
+                  "configMapKeyRef": {
+                    "name": "ashton-booking-mail",
+                    "key": "from"
+                  }
+                }
+              },
+              {
+                "name": "APOLLO_SMTP_TLS_MODE",
+                "value": "starttls"
+              },
+              {
+                "name": "APOLLO_SMTP_PORT",
+                "value": "587"
+              },
+              {
+                "name": "APOLLO_SMTP_TIMEOUT",
+                "value": "4s"
+              },
+              {
+                "name": "APOLLO_SMTP_USERNAME",
+                "valueFrom": {
+                  "secretKeyRef": {
+                    "name": "apollo-smtp",
+                    "key": "username"
+                  }
+                }
+              },
+              {
+                "name": "APOLLO_SMTP_PASSWORD",
+                "valueFrom": {
+                  "secretKeyRef": {
+                    "name": "apollo-smtp",
+                    "key": "password"
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
+```
+
+</details>
+
+<details>
+<summary>Additional nginx host servers (append to preserved tap configuration; unapplied)</summary>
+
+```nginx
+log_format ashton_booking_safe '$time_iso8601 $host $request_method $status';
+
+server {
+  listen 8080;
+  server_name book.lintellabs.net;
+  absolute_redirect off;
+  client_max_body_size 64k;
+  access_log /var/log/nginx/access.log ashton_booking_safe;
+  proxy_http_version 1.1;
+  proxy_connect_timeout 3s;
+  proxy_read_timeout 10s;
+  proxy_send_timeout 10s;
+  proxy_cache off;
+  proxy_set_header Host $host;
+  proxy_set_header X-Forwarded-Host $host;
+  proxy_set_header X-Forwarded-Proto https;
+  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+  proxy_set_header X-Apollo-Trusted-Surface "";
+  proxy_set_header X-Apollo-Trusted-Surface-Token "";
+
+  location = / { return 302 /intake; }
+  location = /intake { proxy_pass http://hestia.agents.svc.cluster.local:80; }
+  location = /intake/status { proxy_pass http://hestia.agents.svc.cluster.local:80; }
+  location ^~ /_app/ { proxy_pass http://hestia.agents.svc.cluster.local:80; }
+  location / { return 404; }
+}
+
+server {
+  listen 8080;
+  server_name staff.lintellabs.net;
+  absolute_redirect off;
+  client_max_body_size 64k;
+  access_log /var/log/nginx/access.log ashton_booking_safe;
+  proxy_http_version 1.1;
+  proxy_connect_timeout 3s;
+  proxy_read_timeout 10s;
+  proxy_send_timeout 10s;
+  proxy_cache off;
+  proxy_set_header Host $host;
+  proxy_set_header X-Forwarded-Host $host;
+  proxy_set_header X-Forwarded-Proto https;
+  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+  proxy_set_header X-Apollo-Trusted-Surface "";
+  proxy_set_header X-Apollo-Trusted-Surface-Token "";
+
+  location = / { return 302 /ops/bookings; }
+  location = /login { proxy_pass http://themis.agents.svc.cluster.local:80; }
+  location = /ops { proxy_pass http://themis.agents.svc.cluster.local:80; }
+  location ^~ /ops/ { proxy_pass http://themis.agents.svc.cluster.local:80; }
+  location ^~ /_app/ { proxy_pass http://themis.agents.svc.cluster.local:80; }
+  location = /api/v1/profile { proxy_pass http://themis.agents.svc.cluster.local:80; }
+  location = /api/v1/auth/verification/start { proxy_pass http://themis.agents.svc.cluster.local:80; }
+  location = /api/v1/auth/verify { proxy_pass http://themis.agents.svc.cluster.local:80; }
+  location = /api/v1/auth/logout { proxy_pass http://themis.agents.svc.cluster.local:80; }
+  location / { return 404; }
+}
+```
+
+</details>
+
+<details>
+<summary>Cloudflare tunnel routing data (existing credential reference; unapplied)</summary>
+
+```yaml
+---
+tunnel: c69461ee-6752-482d-a24c-a1229a0e9ab0
+credentials-file: "/etc/cloudflared/creds/credentials.json"
+ingress:
+- hostname: tap.lintellabs.net
+  service: http://athena-edge-proxy.athena.svc.cluster.local:8080
+- hostname: book.lintellabs.net
+  service: http://athena-edge-proxy.athena.svc.cluster.local:8080
+- hostname: staff.lintellabs.net
+  service: http://athena-edge-proxy.athena.svc.cluster.local:8080
+- service: http_status:404
+```
+
+</details>
+
+## Original R1 status and ownership (historical)
 
 Intake recorded 2026-10-20. R1 continues the bridge/readiness work; completed
 3B packet IDs and dated milestone evidence remain historical. G0 audit, G1

@@ -30,3 +30,14 @@ rejects unversioned older producer/file reports. Upgrade paired bridge source
 and secret references together if optional bridge rollout is approved. Direct
 booking/schedule has no ATHENA dependency. Source images, frontend packaging,
 033 migration and actual deployment remain separate states; see the [canonical R1 record](BOOKING-SCHEDULING-CLOSED-TEST-READINESS.md).
+
+The authorised booking follow-up now has real adapter-node Hestia/Themis ->
+APOLLO HTTP/services -> disposable PostgreSQL request/approval/status/cancellation
+proof, approved non-root frontend images for amd64/arm64, and SMTP local TLS
+fixtures. A schema-032 fixture upgraded with 033, the exact old amd64 APOLLO
+image served the booking path against 033, and a custom dump restored separately.
+That bounded proof is not full competition rollback or an independent live
+backup. The old image retains concurrent double-approval risk: close staff
+writes before mixed-version rollout/rollback and keep them closed after reverting.
+Current source/CI/image candidates are in the canonical ledger; historical
+Milestone 3.0 rows and deployed pins above remain unchanged.
