@@ -1,5 +1,60 @@
 # Booking/Scheduling Closed-Test Readiness
 
+## Local review cleanup (2026-10-20)
+
+The user approved the interface and requested removal of fictional preview
+data while retaining its formatting. The local startup helper now creates only
+the user-specified **Court, Studio and Fitness room**. It no longer creates
+requests, reservations, hours, holds, closures, staff accounts or captured
+sign-in codes. Assumed resource zones were also removed. The previous review
+contained four sample requests, six schedule blocks and one preview account;
+there were zero additional booking requests. A private recovery copy was kept
+outside Git before that disposable session was closed.
+
+Fresh database verification found **0 requests, 0 schedule blocks, 0 users,
+0 sessions and 0 verification tokens**, with exactly three configured spaces.
+All three public availability reads returned empty requestable/blocked arrays.
+Opening hours remain unset; an empty calendar is not claimed as availability.
+The staff routes require an actual verified account and approved role. Local
+verification start returns **503** until email delivery is configured, before
+creating an account or claiming to have sent a code. This local guard is not a
+deployed backend change. The preview staff session is no longer authenticated.
+
+Hestia `f9bbca0` clarifies empty availability wording. Themis `3da3375` replaces
+technical empty-queue copy with ordinary booking language and distinguishes
+unavailable activity from a successfully loaded empty schedule. The published
+changes leave styling, dependencies, API contracts, configuration and APOLLO
+runtime source unchanged. Automated fixtures
+remain isolated in the test suites and are not loaded into the user-facing
+review. Pending requests still do not reserve time.
+
+Both frontends passed check with zero errors/warnings, build and diff checks.
+The customer intake browser suite passed **30 cases**; the full staff browser
+suite passed **105 cases / 1 existing skip**. Initial sandboxed browser launches
+could not bind loopback listeners (`EPERM`); the permitted reruns passed. The
+customer view was refreshed and visually inspected with the same branding and
+controls, empty posted availability and blank contact fields. Both open staff
+views correctly returned to sign-in after removal of the preview identity.
+
+Both linked GitHub workflows completed their test and image jobs successfully.
+Direct GHCR index reads verified linux/amd64 and linux/arm64 for both:
+
+| Source | CI result | Verified candidate |
+| --- | --- | --- |
+| [Hestia `f9bbca0`](https://github.com/ixxet/hestia/commit/f9bbca0d96144473d0907befe2bd004ac11d6ef2) | [39487507630](https://github.com/ixxet/hestia/actions/runs/39487507630): test + image SUCCESS | `ghcr.io/ixxet/hestia:sha-f9bbca0@sha256:f44b50520d0066c9a9dba1e539c8d2d92a700cdd500f5349fd1a6881df097931` |
+| [Themis `3da3375`](https://github.com/ixxet/themis/commit/3da337537f56fb753597e4794110c2bfab01b0b7) | [39487544445](https://github.com/ixxet/themis/actions/runs/39487544445): test + image SUCCESS | `ghcr.io/ixxet/themis:sha-3da3375@sha256:0fe93b083518a3e18d2b18b311e4fa8c06775b1a8a08f49a59372a405aa86a02` |
+
+These frontend candidates supersede the initial interface-release images below.
+The rendered and local unapplied frontend manifests use the new pins. APOLLO
+remains the previously verified `6a10c55` candidate; no backend source changed.
+
+No live data, deployment, DNS, mailbox/provider setup or staff role was changed.
+Real operating hours, staff access, mail delivery and exact rollout approval
+remain required before external use. The current live acceptance proposal below
+also removes its fictional public canary space, hours and contact. Earlier R1
+fixture examples remain historical test plans, not authority to populate a
+customer-facing calendar with sample data.
+
 ## Booking interface release (2026-10-20)
 
 The user authorised reworking the actual customer and staff interfaces using
@@ -34,14 +89,14 @@ Earlier R1/hardening results and image candidates below remain dated evidence.
   build/CI configuration or runtime backend change was needed.
 
 The user specified **one Court, one Studio and one Fitness room at Ashtonbee**.
-The local review uses exactly those three resources, synthetic requests, hours,
+The initial local review used those three resources, synthetic requests, hours,
 closures and a confirmed booking in disposable PostgreSQL. No half/split court
 option or resource edge was added. Runtime customer options come from APOLLO;
 staff rows derive from authorised calendar/booking activity rather than an
 invented resource catalogue. An unused resource with no hours/activity may not
 appear on that timeline. Nothing here establishes live inventory or operating
-hours. The existing live canary fixture proposal below still requires separate
-owner/manager approval.
+hours. Live inventory and hours still require owner confirmation and the
+acceptance approval below.
 
 The design borrows the shared availability-grid interaction described by
 [Microsoft's Scheduler guidance](https://support.microsoft.com/en-US/teams/meetings/schedule-a-meeting-in-microsoft-teams).
@@ -88,10 +143,11 @@ Raw intermediate logs remain in `/tmp/booking-redesign-themis-initial-e2e.log`,
 `/tmp/booking-redesign-*`. These local paths are evidence locations, not public
 links or deployment artifacts.
 
-Local review serves actual source on `http://127.0.0.1:8824/intake` and the
+The initial local review served actual source on `http://127.0.0.1:8824/intake` and the
 staff workspace on `http://localhost:8825`, backed by disposable APOLLO/
-PostgreSQL. The review's captured sign-in code is kept outside Git, and no real
-email is sent. It is a local review session, not external acceptance. Desktop
+PostgreSQL. Its captured sign-in code was kept outside Git, and no real
+email was sent. That session was replaced by the empty review described above.
+It was local review, not external acceptance. Desktop
 customer/staff screenshots and narrow-phone renders were inspected; schedule
 horizontal scrolling stays inside its panel.
 
@@ -407,7 +463,7 @@ Location leak. The rendered nginx syntax and route checks passed locally as
 recorded below. The rendered proposal is unapplied and still requires final
 input/approval; its table is not proof of external execution.
 
-Proposed fixture scope, requiring explicit approval:
+Proposed live acceptance scope, requiring exact details and explicit approval:
 
 1. Specifically named staff recipients/account identifiers for owner, manager
    and supervisor. The owner performs resource setup/retirement through the
@@ -417,27 +473,26 @@ Proposed fixture scope, requiring explicit approval:
    Register/verify through actual SMTP; grant only the approved roles to those
    exact verified accounts. No roles inferred from names/email domains, token
    logging, manual token extraction or login bypass.
-2. Confirm existing facility/zone references `ashtonbee` / `gym-floor`. Create
-   one new resource `r1-closed-test-court`, type `court`, public label
-   `Closed-test canary - no real space`, active/bookable true, no graph edges.
-   Use the approved owner/session via `apollo schedule resource upsert`.
-   If that key already exists, stop rather than overwrite it. Do not claim a
-   manager can perform this owner-only graph operation.
-3. One resource-scoped, one-off public-labelled operating-hours block on
-   **2026-10-23 17:00–23:00 America/Toronto** (`-04:00`), created with the
-   approved manager/session through existing APOLLO schedule authoring. One
-   internal closure at 20:00–21:00 for conflict proof. These synthetic hours do
-   not advertise any real facility inventory.
-4. Browser canary contact `Synthetic Canary`, `canary@example.invalid`, purpose
-   `Approved closed-test canary`, requested window 19:00–20:00 on that date.
-   Retain original key/body to replay one submission; assert one request / zero
-   reservations. Supervisor remains read-only; member denial, stale version and
-   conflicting second request must fail. Manager approval creates one linked
-   reservation; public message/status and linked cancellation must follow.
-5. Cancel only recorded canary requests/blocks, mark the synthetic resource
-   inactive/non-bookable via existing authorised resource authoring, and revoke
-   temporary staff sessions/roles only if explicitly approved. Preserve booking
-   and audit history. No broad deletes or schema down.
+2. Confirm the actual Ashtonbee Court, Studio and Fitness room inventory,
+   resource keys, public labels, bookable state and any real zone/graph
+   relationships with the owner. Do not infer `gym-floor` or create a fictional
+   public canary space. Any provisioning uses the exact approved inventory and
+   owner/session via `apollo schedule resource upsert`; stop on an unexpected
+   existing key rather than overwrite it. Resource authoring remains owner-only.
+3. Post only owner-confirmed operating hours and actual closures through
+   existing authorised schedule authoring. Exact dates, times and timezone are
+   still required approval inputs. Do not use the former example hours or add
+   a closure merely to demonstrate a conflict in the real calendar.
+4. An explicitly approved participant supplies their actual contact details,
+   purpose, resource and requested window. Verify receipt/status and one pending
+   request with no reservation; staff approval and any subsequent cancellation
+   require the approved operational decision. Preserve the original key/body
+   for safe retries. Role denials, stale versions, conflicting writes and the
+   complete approve/cancel lifecycle remain covered by isolated rehearsals;
+   do not populate the user-facing portal with invented people or bookings.
+5. Preserve real inventory, requests and audit history. Cancel only a specifically
+   approved request/block and revoke temporary staff access only if explicitly
+   approved. No broad deletes, resource retirement by implication or schema down.
 
 Before migration, propose a protected independent backup on this Mac at
 `/Users/zizo/Library/Application Support/ASHTON/backups/booking-<UTC>.dump`
@@ -537,7 +592,7 @@ items:
             type: RuntimeDefault
         containers:
         - name: hestia
-          image: ghcr.io/ixxet/hestia:sha-9f2c276@sha256:e7c19f5d1856c89f3753b39e00e07c317497c7547e5bcfeaa584f7082a58ab79
+          image: ghcr.io/ixxet/hestia:sha-f9bbca0@sha256:f44b50520d0066c9a9dba1e539c8d2d92a700cdd500f5349fd1a6881df097931
           ports:
           - name: http
             containerPort: 3000
@@ -623,7 +678,7 @@ items:
             type: RuntimeDefault
         containers:
         - name: themis
-          image: ghcr.io/ixxet/themis:sha-7056091@sha256:705ff2a48a2fd4475dd0eca4c1fd29a8a3db6a8cd6d37197c87c40362650d3df
+          image: ghcr.io/ixxet/themis:sha-3da3375@sha256:0fe93b083518a3e18d2b18b311e4fa8c06775b1a8a08f49a59372a405aa86a02
           ports:
           - name: http
             containerPort: 3000
