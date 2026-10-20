@@ -494,16 +494,24 @@ restore database data only through the separately approved restore path.
 ## Smoke procedure for the next approved rollout
 
 1. Read-only: capture ready replicas, actual imageIDs, migration ledger, health,
-   metrics, public route allowlists and TLS on both external hostnames. Read
-   nonempty synthetic public options and explicit-offset availability. Verify
-   the private bridge still returns public 404 whether or not it is enabled.
+   metrics, public route allowlists and TLS on both external hostnames. Capture
+   the initial options/availability baseline; the current empty inventory is an
+   expected baseline, not nonempty canary proof. Verify the private bridge still
+   returns public 404 whether or not it is enabled.
 2. Approval-required fixture mutations: provision the approved synthetic staff,
    resources, hours/closures and canary window; log only fixture IDs and intended
    cleanup. Do not reuse real customer/member identities or invent availability.
-3. Approval-required request: open Hestia `/intake`, choose the synthetic option,
-   select an explicit RFC3339 window, submit once, retain its idempotency key and
-   receipt, then retry the identical submission. Confirm exactly one APOLLO
-   request and no reservation; customer status is pending, not confirmed.
+   Then perform read-only checks that public options are nonempty and the chosen
+   synthetic option has the expected explicit-offset availability.
+3. Approval-required request: open Hestia `/intake`, choose the synthetic option
+   and an explicit RFC3339 window. Before submitting, capture the original
+   frontend action field values and idempotency key in the approved browser
+   harness. Submit once, retain its receipt, then replay that original action
+   body/key in the same origin/session context. Do not log cookies or tokens.
+   Hestia clears successful fields with `blankFields()` and generates a new key,
+   so normal form resubmission is not an idempotency test. Assert the replay
+   returns the same receipt and leaves exactly one APOLLO request and no
+   reservation; customer status is pending, not confirmed.
 4. Approval-required decisions: log in through the actual Themis hostname;
    check supervisor read-only and member denial, then manager/owner review and
    approval with the current `expected_version`. Confirm one linked reservation
@@ -552,7 +560,7 @@ pushes publish images without an observed reconciliation path. This does not
 authorise any rollout, GitOps push, Flux resume or secret/config change.
 
 Hestia/Themis have no tracked image publication workflows. Platform is docs-only.
-Remote source SHA, actual CI outcome and any image publication will be recorded
+Remote source SHA, actual CI outcome and image publication are recorded
 separately below; none imply deployed acceptance.
 
 ## Frontend executed results and failure classification
@@ -724,7 +732,7 @@ raw initial failure remains `/tmp/r1-apollo-race.log`.
 Hestia check/unit/build pass (27 unit tests); Themis check/unit/build pass
 (38 unit tests). Their exact e2e failures and isolated reruns are recorded above.
 Platform and changed Markdown passed `git diff --check`; added local links were
-resolved, 15 relevant shell blocks parsed with `bash -n`, and both saved
+resolved, 20 shell blocks parsed with `bash -n`, and both saved
 no-network frontend reproduction commands executed successfully. Neither
 frontend full e2e command is claimed green.
 
@@ -746,10 +754,10 @@ or secrets were committed.
 | Repo | Implementation / docs commits | Verified remote main | CI / image state at this capture |
 | --- | --- | --- | --- |
 | ATHENA | [`43bcfb6`](https://github.com/ixxet/athena/commit/43bcfb6958a68945d789558d57129eabd8501aa6) runtime; [`b52376b`](https://github.com/ixxet/athena/commit/b52376b1551deb5ca810d99598aab1ceb9954325) contract/runbook/README | `b52376b1551deb5ca810d99598aab1ceb9954325` | Both observed ci-image runs passed tests and image publication. |
-| APOLLO | [`7fab80e`](https://github.com/ixxet/apollo/commit/7fab80e0373417a8832cde9c7e425bac213448c3) runtime/proof; [`43b52f9`](https://github.com/ixxet/apollo/commit/43b52f9bee6d01be77e73345c31ba9608c6b08af) docs; [`c64b349`](https://github.com/ixxet/apollo/commit/c64b34928f090f48f7ff5ead73d5fbceaf29eb33) explicit text completeness | `c64b34928f090f48f7ff5ead73d5fbceaf29eb33` | Final-head CI is running; do not treat it as passed or image-published. |
+| APOLLO | [`7fab80e`](https://github.com/ixxet/apollo/commit/7fab80e0373417a8832cde9c7e425bac213448c3) runtime/proof; [`43b52f9`](https://github.com/ixxet/apollo/commit/43b52f9bee6d01be77e73345c31ba9608c6b08af) docs; [`c64b349`](https://github.com/ixxet/apollo/commit/c64b34928f090f48f7ff5ead73d5fbceaf29eb33) explicit text completeness | `c64b34928f090f48f7ff5ead73d5fbceaf29eb33` | Final-head test and image jobs succeeded; published registry digest verified below. |
 | Hestia | [`13f5cbc`](https://github.com/ixxet/hestia/commit/13f5cbcaf41fc907fb911f41abd41f647e034c97) scoped README readiness note | `13f5cbcaf41fc907fb911f41abd41f647e034c97` | No configured workflow/image publication; local frontend results remain above. |
 | Themis | [`15ca377`](https://github.com/ixxet/themis/commit/15ca377f27f2edb0b1528b1d270c120032911319) scoped README readiness note | `15ca377f27f2edb0b1528b1d270c120032911319` | No configured workflow/image publication; local frontend results remain above. |
-| Platform | This canonical readiness record plus SAIL, CORE-ONE-PART-TWO, IMPLEMENTATION-BOARD, bridge preflight, route/API matrix, FLOWS, DEFERMENTS and compatibility overlay | See this file's Git history and final publication verification | Docs-only; no runtime/image workflow. |
+| Platform | [`802ac0a`](https://github.com/ixxet/ashton-platform/commit/802ac0a4f338f269f0ae8a944961e7b416c3d6f0) canonical readiness record plus SAIL, CORE-ONE-PART-TWO, IMPLEMENTATION-BOARD, bridge preflight, route/API matrix, FLOWS, DEFERMENTS and compatibility overlay; this file's follow-up records final CI and smoke corrections | Initial publication `802ac0a4f338f269f0ae8a944961e7b416c3d6f0` verified; final closeout SHA is this file's latest Git history entry | Docs-only; no runtime/image workflow. |
 
 ATHENA CI: [run 39445588763](https://github.com/ixxet/athena/actions/runs/39445588763)
 and [run 39445587824](https://github.com/ixxet/athena/actions/runs/39445587824)
@@ -766,9 +774,23 @@ The other run's pushed digest was
 `sha256:996278887888c74ffe9a1788bb6c29a17c8e02d1443ae6871dbc2f2abbaae18c`.
 Approval must choose an immutable digest, never assume a mutable `main` or SHA
 name is immutable. The registry index includes linux/amd64 and linux/arm64.
-APOLLO CI is [initial docs head](https://github.com/ixxet/apollo/actions/runs/39445594339)
-and [final text-completeness head](https://github.com/ixxet/apollo/actions/runs/39446321522);
-actual final outcomes and image digest will be reconciled before R1 closeout.
+APOLLO CI for the [initial docs head](https://github.com/ixxet/apollo/actions/runs/39445594339)
+and [final text-completeness head](https://github.com/ixxet/apollo/actions/runs/39446321522)
+both succeeded. The final head's test job completed at 15:20:14 UTC and image
+job at 15:21:58 UTC on 2026-10-20. A registry read confirms the final SHA tag
+resolves to the following linux/amd64 and linux/arm64 image index:
+
+```text
+ghcr.io/ixxet/apollo:sha-c64b349@sha256:6a70af9d891accd3252ff68754fac6440d5cf87300c234420b7563fcf6fa8819
+```
+
+The earlier APOLLO docs head published
+`sha-43b52f9@sha256:55d8bb9730d3802272605ff2006d1e7c526a5caef19a2868735ae3581a9367b0`;
+it does not contain the final text-completeness follow-up. Registry verification
+used `docker buildx imagetools inspect ghcr.io/ixxet/apollo:sha-c64b349 --format '{{json .Manifest}}'`
+and the equivalent ATHENA SHA-tag inspection. Published
+image indices are candidates for a separately approved rollout, not deployed
+acceptance.
 
 | Gate | Verdict |
 | --- | --- |
@@ -776,7 +798,7 @@ actual final outcomes and image digest will be reconciled before R1 closeout.
 | G1 bridge runtime | Repaired and locally verified; explicit incomplete/unknown evidence fails closed. |
 | G2 real local proof | Passed actual ATHENA HTTP/service/PostgreSQL -> APOLLO client/classifier/CLI, with unchanged APOLLO product counts. |
 | G3 booking / frontend / ops | Audit executed; external closed-test readiness is blocked by the concrete frontend, packaging, staff/login, inventory, migration/restore and approval gaps above. |
-| G4 documentation / publication | Scoped source/repo docs published; platform publication and final APOLLO CI reconciliation are being completed in this record. |
+| G4 documentation / publication | Scoped source and canonical/repo docs published; all five ASHTON remote heads verified. Final backend tests and image publication succeeded; registry digests verified. |
 
 The external booking launch is not closed. Next packet: Booking/Scheduling
 Closed-Test Implementation + Deployment, centred on Hestia, Themis and APOLLO.
@@ -791,9 +813,10 @@ scoped README commits. No runtime/configuration file was changed in either
 frontend or Prometheus.
 
 Live state remains unchanged: the deployed APOLLO and ATHENA digests are the
-historical pinned digests in G3, not the newly published images. A fresh bounded
-read-only publication safety refresh reconfirmed those desired image pins,
-`apps` suspended and no image automation resources. No rollout, deployment
+historical pinned digests in G3, not the newly published images. A bounded
+read-only safety refresh after final image publication reconfirmed both desired
+image pins, one ready replica each, `apps` suspended and no image automation
+resources. No rollout, deployment
 manifest write, secret operation, live migration, fixture mutation, restart,
 kill or destructive probe was performed. Live execution still requires the
 fresh target/images/diff/secrets/migrations/fixtures/window/rollback/abort
