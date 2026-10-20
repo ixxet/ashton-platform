@@ -1,5 +1,49 @@
 # Booking/Scheduling Closed-Test Readiness
 
+## Staff access and live rollout review (2026-10-20)
+
+The user approved **Owner** access for their specified account, **Resend Free**,
+`book.lintellabs.net` for customer intake/status and `staff.lintellabs.net` for
+authenticated staff scheduling. Owner is APOLLO-wide; the operator selected it
+after that scope was disclosed. Exact personal account/email details remain in
+the private review outside this public repository. The user completed provider
+signup and supplied a credential for use. These choices resolve the earlier
+provider/recipient/role decisions; they do not authorise the pending live rollout.
+
+Resend now has sender domain `notify.lintellabs.net` in us-east-1, sending enabled
+and receiving disabled. Open/click tracking is disabled and provider TLS is
+Enforced. The domain is **Not Started** because its DNS has not been published.
+A bounded SMTP authentication check against `smtp.resend.com:587` succeeded with
+AUTH PLAIN over certificate-verified **TLS 1.3 in 0.313s**, within the configured
+4s deadline. **No email was sent.** Authentication is not proof of domain
+verification, provider delivery or inbox receipt.
+
+Read-only target checks reconfirmed the old APOLLO image ready, no Hestia/Themis
+Deployments, both existing edge Deployments ready and Flux `apps` suspended.
+Authenticated Cloudflare inventory found all six proposed portal/mail DNS names
+unused. Captured live edge ConfigMap data matches the preserved existing proxy
+content and tunnel rules in the proposed additions. No DNS record, Kubernetes
+Secret, live database/role/inventory, migration or deployment has been changed.
+Resend sender registration/settings are the only provider changes completed.
+
+Both exact frontend images in the cleanup ledger below were pulled and run
+locally as UID 1000, with read-only root filesystems and dropped capabilities.
+Their static health and entry pages returned 200 with APOLLO unreachable. The
+new scoped GitOps drafts render successfully; APOLLO's init/server image pins
+match, its database/session references and NATS remain intact, and there are no
+duplicate environment names. This supplements prior CI/browser/lifecycle proof;
+it does not establish external TLS, live sign-in or phone acceptance.
+
+The private final approval review is
+`/tmp/booking-deployment-review/mail-provider-review.md`, with exact DNS JSON,
+ten-path GitOps diff, rendered manifests, image pins and artifact hashes in the
+same folder. The executable scope is below. A single fresh approval covers its
+conditional backup/restore preflight and rollout; a failing prerequisite stops
+execution. No destructive live probe is required for ordinary deployment.
+Operating hours remain unset until the owner supplies real hours. Online login
+and portal access can be verified first; complete external booking acceptance
+still needs real hours, a real participant and an actual booking decision.
+
 ## Local review cleanup (2026-10-20)
 
 The user approved the interface and requested removal of fictional preview
@@ -48,9 +92,9 @@ These frontend candidates supersede the initial interface-release images below.
 The rendered and local unapplied frontend manifests use the new pins. APOLLO
 remains the previously verified `6a10c55` candidate; no backend source changed.
 
-No live data, deployment, DNS, mailbox/provider setup or staff role was changed.
-Real operating hours, staff access, mail delivery and exact rollout approval
-remain required before external use. The current live acceptance proposal below
+No live data, deployment, DNS, mailbox/provider setup or staff role was changed
+by that cleanup checkpoint. Real operating hours, staff access, mail delivery
+and exact rollout approval remain required before external use. The current live acceptance proposal below
 also removes its fictional public canary space, hours and contact. Earlier R1
 fixture examples remain historical test plans, not authority to populate a
 customer-facing calendar with sample data.
@@ -370,185 +414,163 @@ Browser QA covers submission/approval/cancellation,
 conflict refusal, private-note separation and no horizontal overflow at 320,
 736 and 1024px in light/dark appearance. The visual is returned in the chat.
 
-### Proposed live approval package — NOT AUTHORISED
+### Current live approval package — PENDING APPROVAL
 
-Proposed target: existing `admin@talos-tower`, node `talos-p0d-y77`, APOLLO /
-frontends in namespace `agents`; existing edge proxy/tunnel in `athena`.
-Management remains authenticated MIMIR SSH with the per-command Talos API
-override recorded below. No kubeconfig, Prometheus or live object is changed
-by preparing this package. Source/image publication has no observed live
-reconciliation path (`apps` suspended; no image automation resources).
+Target: existing `admin@talos-tower`, node `talos-p0d-y77`; APOLLO and frontends
+in `agents`, existing proxy/tunnel in `athena`. Retain authenticated management
+SSH and the per-command Talos API override; no kubeconfig/topology changes.
+Execution window: **one 90-minute window beginning at explicit approval on
+2026-10-20**. Recheck source/target/config/DNS at its start; refresh the review
+before execution if approval arrives on another date. Stop at the budget except
+necessary ingress closure/rollback. Zizo is accountable owner; Codex is executor
+and image/config rollback executor. This is not a scheduled unattended job.
 
-Proposed execution window: **2026-10-20 16:00–16:30 America/Toronto
-(20:00–20:30 UTC)**, only after final explicit approval. If not approved before
-that window, choose and approve a new window. Proposed accountable owner:
-Zizo; executor and approved image/config rollback executor: Codex. These are
-proposed approval terms, not an appointment or scheduling automation.
+Exact immutable images:
 
-| Object / field | Exact proposed change |
+| App | Proposed image |
 | --- | --- |
-| `agents/deployment/apollo`, containers `apollo` and initContainer `apollo-migrate` | Replace both image pins with the identical immutable APOLLO candidate in the publication ledger. Keep database/session secret references and NATS wiring. Init runs existing `migrate up`, including pending 033. No optional ATHENA bridge configuration is added. |
-| APOLLO server env | `APOLLO_SESSION_COOKIE_NAME=apollo_session`, `APOLLO_SESSION_COOKIE_SECURE=true`, `APOLLO_LOG_VERIFICATION_TOKENS=false`; `APOLLO_TRUSTED_SURFACES` from proposed Secret `ashton-booking-surface`, key `apollo-trusted-surfaces`. Preserve all other approved mapping entries. |
-| APOLLO SMTP env | `APOLLO_SMTP_HOST` and `APOLLO_SMTP_FROM` from proposed ConfigMap `ashton-booking-mail`, keys `host` and `from`; the mail proposal below sets `smtp.resend.com` and `ASHTON <signin@notify.lintellabs.net>`. `APOLLO_SMTP_TLS_MODE=starttls`, `APOLLO_SMTP_PORT=587`, `APOLLO_SMTP_TIMEOUT=4s`; username/password from proposed Secret `apollo-smtp`, keys `username` / `password`. An implicit-TLS provider instead requires an explicitly reviewed `tls` / `465` change. |
-| New `agents/deployment/hestia` and Service `hestia` | One replica, app label `hestia`, existing `agents-ghcr` ServiceAccount, exact Hestia digest from ledger. `HOST=0.0.0.0`, `PORT=3000`, `ORIGIN=https://book.lintellabs.net`, `APOLLO_ORIGIN=http://apollo.agents.svc.cluster.local`. Service port 80 -> container 3000. No staff proof/SMTP secret in this pod. |
-| New `agents/deployment/themis` and Service `themis` | One replica, app label `themis`, existing `agents-ghcr` ServiceAccount, exact Themis digest from ledger. Same HOST/PORT/APOLLO origin, `ORIGIN=https://staff.lintellabs.net`, `THEMIS_DEFAULT_FACILITY_KEY=ashtonbee`, `THEMIS_APOLLO_TRUSTED_SURFACE=themis`, token from `ashton-booking-surface` key `themis-token`. Service port 80 -> 3000. |
-| Both frontend pod specs | Disable service links and service-account token automount; UID/GID 1000, non-root, no privilege escalation, drop all capabilities, read-only root filesystem. Requests 50m CPU / 64Mi; memory limit 256Mi. Readiness and liveness HTTP `/_app/version.json` on 3000, initial delay 5/10s, period 10s, timeout 3s, failure threshold 3. No APOLLO dependency in health checks. |
-| `athena/configmap/athena-edge-proxy-nginx` | Preserve existing tap/health server unchanged; add host-specific servers for the two approved names with the route policy below. Validate with `nginx -t` before restarting only `athena-edge-proxy`. |
-| `athena/configmap/athena-edge-tunnel-config` | Retain tunnel UUID/credentials-file and existing tap rule. Insert book/staff hostname rules to `http://athena-edge-proxy.athena.svc.cluster.local:8080` before terminal `http_status:404`; restart only `athena-edge-tunnel` after approval. Existing tap traffic may have a brief reconnect and is an abort criterion. |
-| DNS / TLS | Create only the approved book/staff CNAMEs to existing tunnel `c69461ee-6752-482d-a24c-a1229a0e9ab0.cfargotunnel.com`; verify HTTPS/certificate and same-origin form actions on both. No wildcard, new apex/domain or private APOLLO/bridge route exposure. |
-| GitOps | No Prometheus push or Flux resume in this packet. Proposed approved execution: record only the reviewed delta in a scoped Prometheus commit, then apply only the named objects while `apps` remains suspended. Capture desired/live config references first; do not reconcile the entire pending apps tree. This future GitOps write/direct apply requires the same final approval as deployment. |
+| APOLLO init and server | `ghcr.io/ixxet/apollo:sha-6a10c55@sha256:838ac17b26cc7e9d0bb3d62e31b82425fc7e573bbfb49a846ca6c98e0299aad8` |
+| Hestia | `ghcr.io/ixxet/hestia:sha-f9bbca0@sha256:f44b50520d0066c9a9dba1e539c8d2d92a700cdd500f5349fd1a6881df097931` |
+| Themis | `ghcr.io/ixxet/themis:sha-3da3375@sha256:0fe93b083518a3e18d2b18b311e4fa8c06775b1a8a08f49a59372a405aa86a02` |
 
-Secret names above are proposed **references only**. No values were read,
-generated, created, rotated or committed. `apollo-trusted-surfaces` must contain
-the parser's full comma-separated `surface=token` mapping and its `themis` token
-must exactly match `themis-token`. Existing `apollo-runtime/database-url` and
-`apollo-runtime/session-cookie-secret` references are retained. SMTP settings
-are server-only and not needed by migration or frontend containers.
+The exact proposed nonsecret Prometheus diff is privately reviewable at
+`/tmp/booking-deployment-review/gitops-scoped.diff`, SHA256
+`2551f21f8a4b67d36db82f7dcf657c1156e062edc3d31dac5c9fea3e17f87b24`,
+against `8020388`. It contains only ten named paths: frontend Deployment/Service
+and Kustomization files for Hestia/Themis, the agents Kustomization entries,
+APOLLO's booking patch/mail ConfigMap/Kustomization, and the two existing edge
+ConfigMaps. These are draft copies outside the repository. Final approval
+includes copying/committing/pushing only that reviewed delta and applying only
+its named objects. Preserve all seven unrelated dirty Prometheus files.
+**Keep Flux apps suspended; do not reconcile the pending apps tree.**
 
-#### Mail recipient and sender proposal (2026-10-20) — NOT AUTHORISED
+| Object / field | Proposed change |
+| --- | --- |
+| `agents/deployment/apollo` | Set both `apollo` and `apollo-migrate` to the identical pin above; preserve database/session references and NATS. Existing init runs pending 033 via `migrate up`. No optional ATHENA bridge configuration. |
+| APOLLO session/proof env | `APOLLO_SESSION_COOKIE_NAME=apollo_session`, `APOLLO_SESSION_COOKIE_SECURE=true`, `APOLLO_LOG_VERIFICATION_TOKENS=false`; trusted mappings from Secret `ashton-booking-surface`, key `apollo-trusted-surfaces`, preserving other entries. |
+| APOLLO mail | ConfigMap `ashton-booking-mail`: `host=smtp.resend.com`, `from=ASHTON <signin@notify.lintellabs.net>`. Secret `apollo-smtp`: username `resend`, password from the supplied protected provider key. STARTTLS / 587 / 4s. |
+| New Hestia Deployment/Service | One replica; `agents-ghcr`; HOST 0.0.0.0, PORT 3000, ORIGIN `https://book.lintellabs.net`, APOLLO origin `http://apollo.agents.svc.cluster.local`; Service 80→3000. No staff proof or SMTP secret. |
+| New Themis Deployment/Service | Same pod/service basics; ORIGIN `https://staff.lintellabs.net`, default facility `ashtonbee`, trusted surface `themis`; matching token from `ashton-booking-surface/themis-token`. |
+| Frontend pod security/health | UID/GID 1000, non-root, read-only filesystem, no privilege escalation, all capabilities dropped, no service links/token automount. Requests 50m CPU/64Mi, memory limit 256Mi; static `/_app/version.json` probes. |
+| Edge ConfigMaps | Preserve current tap server, tunnel UUID/credential path and existing tap rule. Add only the two portal host servers/rules before terminal 404. Validate and restart only `athena-edge-proxy` and `athena-edge-tunnel`; tap regression aborts. |
 
-An operator-provided institutional mailbox is recorded only in the local
-review outside Git because this repository is public. Its proposed use is
-**receiving staff sign-in codes**, pending confirmation of the intended use
-and exact account/role. It does not establish a sending service, permission to
-send as the institution, an account ID or an owner/manager/supervisor grant.
-No mailbox access or institutional mail integration is part of this proposal.
+The SMTP credential is protected outside Git and has not been put in a live
+Secret. The trusted surface proof is generated securely only if absent; reuse
+an existing matching entry without rotation, and stop on conflicts. Preserve
+`apollo-runtime/database-url` and `apollo-runtime/session-cookie-secret`.
+No credential values belong in public manifests, command arguments or logs.
+The college mailbox only receives the user's sign-in codes; there is no
+institutional sender, mailbox access, Microsoft OAuth or calendar integration.
 
-SMTP is the service APOLLO uses to send sign-in codes. Propose **Resend Free**
-for this closed test, with a separate ASHTON sender and the user's supplied
-mailbox receiving the codes. The provider's [SMTP documentation](https://resend.com/docs/send-with-smtp)
-specifies `smtp.resend.com`, STARTTLS on port 587, username `resend` and an API
-key as password. Those settings match the implemented transport configuration;
-provider authentication, latency and inbox delivery remain untested.
+#### Exact DNS and mail setup
 
-Exact proposed nonsecret settings: ConfigMap `agents/ashton-booking-mail`
-contains `host=smtp.resend.com` and
-`from=ASHTON <signin@notify.lintellabs.net>`. Secret `agents/apollo-smtp`
-would contain username `resend` and a dedicated sending key restricted to the
-verified sender domain. No key has been created or stored. Keep existing
-STARTTLS/587/4s settings; no dependency or runtime change is proposed.
+Resend Free remains the approved plan: [published limits](https://resend.com/pricing)
+checked 2026-10-20 are $0/month, 3,000 emails/month and 100/day. No paid plan or
+overage. Its [SMTP settings](https://resend.com/docs/send-with-smtp) match the
+implemented adapter. Domain verification and actual inbox receipt remain open.
 
-The [current Free plan](https://resend.com/pricing) lists $0/month, 3,000 emails
-per month and a 100/day cap, checked on 2026-10-20. No paid plan or overage is
-authorised. [Domain verification](https://resend.com/docs/dashboard/domains/introduction)
-is required; `notify.lintellabs.net` is a proposed sending subdomain, separate
-from the two portal hosts. Provider account/domain registration and the exact
-provider-generated DNS record names/types/values must be captured for review
-before any DNS write. Preserve existing apex MX/SPF and portal records. Leave
-open/click tracking disabled for sign-in mail. No account, domain, DNS, Secret
-or provider configuration has been created, and no mail has been sent.
+The private `dns-change-review.json` contains the exact six provider/portal
+records, all TTL Auto. All six names were unused at preflight; check again and
+stop on collision. Preserve apex MX/SPF/DMARC and all unrelated records.
 
-Using an institutional mailbox as the sender would be a different decision.
-[Microsoft's application-mail guidance](https://learn.microsoft.com/en-us/exchange/mail-flow-best-practices/how-to-set-up-a-multifunction-device-or-application-to-send-email-using-microsoft-365-or-office-365)
-requires an authorised sending configuration and recommends OAuth for Microsoft
-365 client submission. The current adapter uses AUTH PLAIN over validated TLS,
-not OAuth. Do not claim it is ready for an institutional tenant, weaken tenant
-security or request a mailbox password. Actual institutional policy and mailbox
-settings have not been verified.
+| Type / name under lintellabs.net | Exact target or value |
+| --- | --- |
+| TXT `resend._domainkey.notify` | Exact provider-returned public DKIM value in the reviewed DNS JSON |
+| MX `send.notify` | `feedback-smtp.us-east-1.amazonses.com`, priority 10 |
+| TXT `send.notify` | `v=spf1 include:amazonses.com ~all` |
+| CNAME `rsend.notify` | `send.forge.rmta.net`, DNS only |
+| CNAME `book` and CNAME `staff` | `c69461ee-6752-482d-a24c-a1229a0e9ab0.cfargotunnel.com`, proxied |
 
-The exact edge route policy to translate into the host-specific nginx servers:
+Mail records are DNS-only. No optional root DMARC, wildcard or new tunnel.
+Require Resend verified status before sign-in delivery. Provider open/click
+tracking remains disabled and TLS Enforced.
+
+Public edge policy remains narrow:
 
 | Host | Allowed paths | Other behavior |
 | --- | --- | --- |
-| `book.lintellabs.net` | Exact `/intake` and `/intake/status`, prefix `/_app/` -> Hestia | Exact `/` redirects 302 to `/intake`. All other routes, including `/login`, `/app`, `/ops`, `/competition`, `/api/v1/*` and private bridge paths return 404. Preserve query/form action parameters. |
-| `staff.lintellabs.net` | Exact `/login`, `/ops`, prefix `/ops/`, prefix `/_app/`, exact `/api/v1/profile` and the existing auth start/verify/logout paths -> Themis | Exact `/` redirects 302 to `/ops/bookings`. Deny `/intake`, public API and all other API paths. APOLLO session/role/capability checks remain authoritative; hostname knowledge grants no staff access. |
+| book | Exact `/intake`, `/intake/status`, prefix `/_app/` | `/` redirects to `/intake`; other API/member/staff/competition/bridge routes 404. |
+| staff | Exact `/login`, `/ops`, `/api/v1/profile`, existing auth start/verify/logout; prefixes `/ops/`, `/_app/` | `/` redirects to `/ops/bookings`; intake/public API/other API paths 404. Session/role checks remain authoritative. |
 
-Forward original Host and `X-Forwarded-Proto: https`, preserve Origin/form
-bodies and Set-Cookie without Domain widening, and clear incoming APOLLO
-trusted-surface headers. Themis adds its own proof only server-side. Proxy
-connection timeout 3s, read/send timeout 10s, body limit 64KiB, no proxy cache.
-Neither selected frontend contains a static favicon reference, so no extra
-asset exception is added. Relative redirects avoid an internal HTTP/8080
-Location leak. The rendered nginx syntax and route checks passed locally as
-recorded below. The rendered proposal is unapplied and still requires final
-input/approval; its table is not proof of external execution.
+Forward original Host and HTTPS proto, preserve Origin/form bodies and host-local
+Set-Cookie, clear incoming trusted-surface headers, no Domain widening/cache.
+Proxy connect/read/send deadlines remain 3s/10s/10s, body limit 64KiB and safe
+access logs omit query/receipt values. Themis adds proof server-side only.
 
-Proposed live acceptance scope, requiring exact details and explicit approval:
+#### Conditional backup, rollout and acceptance
 
-1. Specifically named staff recipients/account identifiers for owner, manager
-   and supervisor. The owner performs resource setup/retirement through the
-   existing owner-only CLI; manager/supervisor exercise booking decisions and
-   read-only denial. One person's separately approved accounts may cover these
-   test roles. These are APOLLO-global roles, not booking-only permissions.
-   Register/verify through actual SMTP; grant only the approved roles to those
-   exact verified accounts. No roles inferred from names/email domains, token
-   logging, manual token extraction or login bypass.
-2. Confirm the actual Ashtonbee Court, Studio and Fitness room inventory,
-   resource keys, public labels, bookable state and any real zone/graph
-   relationships with the owner. Do not infer `gym-floor` or create a fictional
-   public canary space. Any provisioning uses the exact approved inventory and
-   owner/session via `apollo schedule resource upsert`; stop on an unexpected
-   existing key rather than overwrite it. Resource authoring remains owner-only.
-3. Post only owner-confirmed operating hours and actual closures through
-   existing authorised schedule authoring. Exact dates, times and timezone are
-   still required approval inputs. Do not use the former example hours or add
-   a closure merely to demonstrate a conflict in the real calendar.
-4. An explicitly approved participant supplies their actual contact details,
-   purpose, resource and requested window. Verify receipt/status and one pending
-   request with no reservation; staff approval and any subsequent cancellation
-   require the approved operational decision. Preserve the original key/body
-   for safe retries. Role denials, stale versions, conflicting writes and the
-   complete approve/cancel lifecycle remain covered by isolated rehearsals;
-   do not populate the user-facing portal with invented people or bookings.
-5. Preserve real inventory, requests and audit history. Cancel only a specifically
-   approved request/block and revoke temporary staff access only if explicitly
-   approved. No broad deletes, resource retirement by implication or schema down.
-
-Before migration, propose a protected independent backup on this Mac at
+Final approval includes a consistent **APOLLO-database-only** custom-format
+backup from `agents/postgres-0` (PostgreSQL 16) to
 `/Users/zizo/Library/Application Support/ASHTON/backups/booking-<UTC>.dump`
-(directory 0700, file 0600, outside Git), plus pre-change migration ledger,
-Deployment/config and secret-reference metadata. A full live database copy is
-approval-required, was not taken during read-only inventory, and must be restored
-into a separate disposable PostgreSQL database before rollout. Confirm the
-backup destination/operator and acceptable restore loss window; local synthetic
-dump/restore does not fulfil this prerequisite. Capture representative table
-counts and test 033 against the restored backup before approving the live run.
-Proposed monitored abort thresholds are lock wait over 5s, migration execution
-over 30s, or APOLLO/frontend rollout readiness over 120s. These are operator
-abort thresholds, not newly implemented SQL timeouts; approve/change them after
-the backup-clone rehearsal. A 4.6ms two-row fixture is not that measurement.
-No automatic database restore or accepted data-loss window is proposed. Do not
-deploy without these checks.
+(directory 0700/file 0600, outside Git). This protected live data copy has not
+been taken. Restore it into isolated disposable local PostgreSQL 16 with
+loopback-only networking, no provider/NATS access and protected credential
+inputs. Inspect its ledger/bounded counts, expect only
+`033_competition_rating_policy_wrapper.up.sql` pending after 001..032, measure
+033 locks/runtime and verify restored data plus old-image compatibility. Stop
+before live migration on any unexpected ledger or failed restore/compatibility
+check. Remove only this disposable restored clone; retain the independent backup.
 
-Rollout order: keep staff ingress/proof unavailable; take/restore the approved
-backup; apply APOLLO init/server image pins and reviewed env; wait for 033 and
-all serving APOLLO pods to be new and healthy; then start frontends and expose
-only the approved host/path rules. Verify actual SMTP inbox receipt, TLS,
-host-local Secure/HttpOnly/SameSite-Strict cookies, CSRF/origin behavior and
-nonempty canary workflow before declaring external acceptance. Do not stop or
-disable ATHENA to prove booking independence; that proof is local.
+Keep new staff ingress unavailable until every serving APOLLO process has the
+reviewed image. After the backup-clone checks, apply mail DNS/verification and
+reviewed Secret/ConfigMap values, record the scoped GitOps delta, patch APOLLO,
+wait for migration/readiness, start the frontends, then apply only reviewed
+portal DNS/edge changes. Monitor lock wait >5s, migration execution >30s and
+readiness >120s as abort thresholds; these are operator budgets, not newly
+implemented SQL timeouts. Preserve ATHENA and confirm tap health/Flux suspension.
 
-Abort on migration error/lock budget breach, APOLLO/frontends failing readiness,
-tap regression, mail/login/role failure, unexpected public route, empty canary
-inventory, duplicate reservation or public/private leak. Stop POSTs and close
-staff ingress/scale down Themis before rollback. Remove the newly added trusted
-mapping, restore the captured APOLLO init/server pin and prior edge/tunnel
-configuration, then remove only newly created frontend objects as approved.
-Previous APOLLO pin remains
+Send sign-in only to the privately specified user/account, through real SMTP.
+The user enters their code in the staff portal. Match the exact account/email,
+mailbox-verified UUID and actual session; stop on an identifier/email conflict.
+One conditional operator update grants the already selected Owner role to that
+verified row. No domain-based promotion, token logging/manual extraction,
+authentication bypass or additional manager/supervisor accounts. Existing role
+denials remain covered locally; they do not require fake live accounts.
+
+Using that actual Owner/session, provision only the owner-specified Ashtonbee
+inventory: `court` / type `court` / label Court; `studio` / type `studio` / label
+Studio; `fitness-room` / type `fitness_room` / label Fitness room; each active
+and bookable. Stop on conflicting existing keys. No assumed zone/graph,
+capacity, half-court, people, requests, reservations, closures or sample hours.
+**Leave operating hours unset** until supplied by the owner. Staff timeline
+rows derive from actual activity/hours and may remain empty.
+
+Check external TLS, Secure/HttpOnly/SameSite-Strict host-local cookies, CSRF/
+origin behavior, route isolation and actual Owner scheduling access in a browser
+and phone-size layout. Report login/portal availability separately from complete
+booking acceptance. The external request→approval→reservation→status/cancellation
+gate still needs real opening hours, an approved actual participant/contact and
+the real operational decision. Do not create a fictional public canary, stop
+ATHENA or run destructive probes to close that gate.
+
+Abort on failed backup/clone checks, schema/config/DNS drift or collision,
+lock/runtime/readiness breach, tap regression, mail/login/role failure, bad
+TLS/cookies/origin protections, public exposure or duplicate reservation. Close
+new staff ingress/POSTs and scale down Themis before rollback. Restore captured
+edge data and the previous changed APOLLO settings, including both pins:
 `ghcr.io/ixxet/apollo:sha-6b27618@sha256:6c2d4ef8c67d0ea21d3b41963eb9709d0114b53bfea56c30d456cafbb677515a`.
-Keep booking writes closed after reverting: that old image retains the
-concurrent-approval defect. ATHENA stays at its existing `v0.8.2` digest.
-Do not run 033 down; a database restore requires its separately approved loss
-window/path. A backend image rollback is not permission to reopen staff writes.
+Remove only newly created frontend/application-config objects once unreferenced
+and this run's portal DNS IDs; retain mail setup for repair, real data and the
+backup. Revert only this run's scoped GitOps commit with a new commit; never
+reset unrelated work or resume Flux. If access must be withdrawn, conditionally
+return only the newly granted account to its captured prior role.
 
-Still required to finalise executable approval: confirm target/hostnames and
-the proposed application method, accept or replace the mail-provider/sender
-proposal and review its exact DNS records and secret provisioning, exact
-staff recipients/roles, fixture scope, independent backup/restore operator and
-lock/loss budgets, window and rollback ownership. Then review exact rendered
-manifests/diff with immutable images from the ledger. No external live smoke or
-deployment-readiness closure is claimed while those inputs remain open.
+Keep booking writes closed after old-image rollback: that image retains the
+concurrent-approval defect. No automatic 033 down or database restore; a live
+data-loss restore requires a separately approved path/window. No accepted
+restore loss window is inferred from this rollout.
 
-Current verdict: implementation, local verification, source/image publication
-and the technical review draft are complete. External closed-test acceptance
-is open. The owner/manager/supervisor identities, mail-provider configuration,
-independent live backup/rehearsal and final scoped live approval are genuine
-remaining prerequisites, not executed work.
+Current verdict: implementation, local verification, source/image publication,
+provider setup and exact technical approval review are complete. **Live approval,
+its conditional independent backup/restore checks, domain verification, deployed
+Owner/inbox access and external acceptance remain pending.** Real hours are
+needed for bookable slots, not for first proving the two portals and staff login.
 
 ### Rendered deployment review material — NOT APPLIED
 
-These exact drafts use the published image ledger and proposed references
-above. Missing provider/staff/backup approval inputs still block execution.
+These exact drafts use the current image pins and reviewed references above.
+Provider/role/hostname choices are complete; final exact live approval and its
+conditional backup checks still gate execution.
 The APOLLO patch is strategic merge by container/env name, preserving unrelated
 fields; it is not a replacement Deployment. The frontend List creates only its
 four named objects. The nginx addition preserves the existing tap server, and
