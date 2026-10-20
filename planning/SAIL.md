@@ -161,7 +161,9 @@ rating / game identity, then member services. Broader ATHENA physical truth is
 later. Booking/Scheduling Closed-Test Implementation + Deployment is now the
 authorised follow-up: frontend repairs, concurrent-approval hardening, local
 real-service/migration/restore proof, approved frontend packaging/CI and SMTP
-delivery support. Pending requests remain unreserved; the visual concept is
-discussion-only. Provider/staff/inventory/backup inputs and separate exact
+delivery support. The interface follow-up now implements Centennial-inspired
+branding, a customer clock/duration picker and a staff resource timeline over
+existing APOLLO calendar/request APIs. Pending requests remain unreserved.
+Provider/staff/inventory/backup inputs and separate exact
 approval still gate live changes. Neither daily
 credits nor a destructive-probe programme is a booking prerequisite.

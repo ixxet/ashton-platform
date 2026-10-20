@@ -56,8 +56,14 @@ requests do not reserve time, while existing staff holds do block availability.
 Real adapter-node frontends -> APOLLO HTTP/services -> PostgreSQL prove approval,
 public message and linked cancellation locally. SMTP now has encrypted local
 delivery proof; configured provider/inbox acceptance and external live acceptance
-remain separate gates. The two customer picker variants and staff resource
-timeline are a discussion concept, not a runtime redesign.
+remain separate gates. The later interface revision implements Centennial-inspired
+branding in the actual runtimes: Hestia uses space choices, a clock/duration
+picker and a retained in-page draft; Themis sign-in opens the facility schedule.
+Its resource timeline consumes APOLLO's existing materialised calendar plus
+booking requests, including recurring closures and separate unreserved pending
+lanes. Selection prepares a window without writing; approval and cancellation
+remain under the existing booking lifecycle. Neither Microsoft calendar
+integration nor live inventory/deployment is implied.
 
 ## Debug Classifier
 

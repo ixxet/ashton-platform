@@ -1,6 +1,125 @@
 # Booking/Scheduling Closed-Test Readiness
 
-## Current booking implementation follow-up (2026-10-20)
+## Booking interface release (2026-10-20)
+
+The user authorised reworking the actual customer and staff interfaces using
+Centennial Documents house-style inspiration. This release replaces the earlier
+discussion-only layout with runtime code; it does not authorise live rollout,
+resource provisioning, institutional email access or a calendar integration.
+Earlier R1/hardening results and image candidates below remain dated evidence.
+
+### Implemented interface
+
+- **Hestia:** ASHTON masthead, charcoal/lime/Arial styling, schematic space
+  drawings, visual space choices, week/date selection, native clock plus
+  duration, posted availability, retained contact draft and a live request
+  summary. Exact custom start/end controls and receipt/status remain available.
+  Availability navigation retains the original loaded idempotency key. Public
+  and member/staff boundaries are unchanged.
+- **Themis:** matching staff sign-in and shell; sign-in opens the configured
+  facility schedule rather than the ATHENA-dependent overview. The shared
+  resource timeline reads existing APOLLO calendar occurrences and booking
+  requests. It displays recurring hours/closures, linked confirmed reservations
+  and separate lanes for overlapping pending requests. Pending requests remain
+  unreserved. Failed calendar/queue reads are explicitly unknown.
+- Time-window selection by pointer/drag or keyboard prepares existing one-off
+  hold/closure form values without writing. Native date/time controls and exact
+  offset controls remain available. A manager/owner must submit the existing
+  server action; supervisors remain read-only. Existing reservations open their
+  request lifecycle for approval/cancellation; they are not dragged into an
+  in-place reschedule. Local gaps/folds are rejected; cross-midnight requests
+  reproject when changing days.
+- The staff requests page has local search and All activity / Needs review /
+  Confirmed views. No new dependencies, public API, migration, proxy allowlist,
+  build/CI configuration or runtime backend change was needed.
+
+The user specified **one Court, one Studio and one Fitness room at Ashtonbee**.
+The local review uses exactly those three resources, synthetic requests, hours,
+closures and a confirmed booking in disposable PostgreSQL. No half/split court
+option or resource edge was added. Runtime customer options come from APOLLO;
+staff rows derive from authorised calendar/booking activity rather than an
+invented resource catalogue. An unused resource with no hours/activity may not
+appear on that timeline. Nothing here establishes live inventory or operating
+hours. The existing live canary fixture proposal below still requires separate
+owner/manager approval.
+
+The design borrows the shared availability-grid interaction described by
+[Microsoft's Scheduler guidance](https://support.microsoft.com/en-US/teams/meetings/schedule-a-meeting-in-microsoft-teams).
+It has no Microsoft/Apple calendar connection. The charcoal/lime/Arial treatment
+uses the local Centennial Documents house style; it is not an official brand
+certification, and no institutional logo was copied or redrawn.
+
+### Locally executed verification
+
+Hestia: `npm run check`, `npm test` **36 passed**, `npm run build`, and full
+`npm run test:e2e` **52 passed**. Themis: check, **42 unit passed**, build, and
+full browser verification **105 passed / 1 existing skip** across Chromium
+and WebKit phone projects. The tests cover clock/duration payloads, retained
+fields/key when switching spaces, selection without a POST, authorised hold
+creation, overlapping pending lanes, recurring occurrences, unknown queue
+state, day navigation/overnight windows, DST gap/fold refusal and 320px layouts.
+Both working trees passed `git diff --check`. No lockfile or dependency changed.
+
+Real built adapter-node applications and actual APOLLO HTTP/services passed:
+
+```bash
+APOLLO_BOOKING_FRONTEND_REHEARSAL=1 go test -count=1 -v ./internal/server -run '^TestBookingClosedTestFrontendsRealPostgres$'
+```
+
+Final run: **6.23s test / 6.521s package**, with one pending request and zero
+reservations, then one approved request/linked reservation, then linked
+cancellation and customer status/message. Synthetic verified staff used actual
+session cookies; no visit/tap records changed. Captured fixture email and the
+localhost Secure-cookie exception do not prove provider delivery or external
+TLS. APOLLO's only source change in this interface release updates two browser
+selectors in that existing rehearsal; its backend runtime is unchanged.
+
+The initial staff browser pass was **91 passed / 6 failed / 1 skip**. It exposed
+local-date projection/SSR refresh errors and a controlled exact-time panel
+closing during editing, plus implicit timezone assumptions in the new tests.
+Those were corrected with explicit reactive date inputs, retained panel state
+and explicit fixture timezone boundaries. Four subsequent DST cases initially
+failed to locate a select by its exact label; the role-based combobox selector
+reaches them. A cold hydration timing case led to disabling client-only
+controls until their handlers are ready. Final focused DST cases passed **4/4**;
+no assertion, role denial or test was skipped to get the final full pass.
+Raw intermediate logs remain in `/tmp/booking-redesign-themis-initial-e2e.log`,
+`/tmp/booking-redesign-themis-dst-selector-failures.log` and the final logs under
+`/tmp/booking-redesign-*`. These local paths are evidence locations, not public
+links or deployment artifacts.
+
+Local review serves actual source on `http://127.0.0.1:8824/intake` and the
+staff workspace on `http://localhost:8825`, backed by disposable APOLLO/
+PostgreSQL. The review's captured sign-in code is kept outside Git, and no real
+email is sent. It is a local review session, not external acceptance. Desktop
+customer/staff screenshots and narrow-phone renders were inspected; schedule
+horizontal scrolling stays inside its panel.
+
+### Source publication and deployment boundary
+
+All three scoped source commits are on GitHub main. Each linked CI run
+completed both test and image jobs successfully. Direct GHCR index inspection
+verified **linux/amd64 and linux/arm64** for each immutable candidate:
+
+| Source | CI result | Verified candidate |
+| --- | --- | --- |
+| [Hestia `9f2c276`](https://github.com/ixxet/hestia/commit/9f2c276b5bd7f55e10bc71ef1ae8835b80bacb24) | [39482731740](https://github.com/ixxet/hestia/actions/runs/39482731740): test + image SUCCESS | `ghcr.io/ixxet/hestia:sha-9f2c276@sha256:e7c19f5d1856c89f3753b39e00e07c317497c7547e5bcfeaa584f7082a58ab79` |
+| [Themis `7056091`](https://github.com/ixxet/themis/commit/7056091bfec64037b54696a762aa525b045ed0c8) | [39482977228](https://github.com/ixxet/themis/actions/runs/39482977228): test + image SUCCESS | `ghcr.io/ixxet/themis:sha-7056091@sha256:705ff2a48a2fd4475dd0eca4c1fd29a8a3db6a8cd6d37197c87c40362650d3df` |
+| [APOLLO `6a10c55`](https://github.com/ixxet/apollo/commit/6a10c552fd233cd79a3d588dde064198269c7333) | [39482734765](https://github.com/ixxet/apollo/actions/runs/39482734765): test + image SUCCESS | `ghcr.io/ixxet/apollo:sha-6a10c55@sha256:838ac17b26cc7e9d0bb3d62e31b82425fc7e573bbfb49a846ca6c98e0299aad8` |
+
+These candidates supersede the pre-design ledger below for the proposed UI
+rollout. The folded deployment review and local unapplied image references
+now use these pins; no live object or GitOps file was changed. APOLLO has only
+rehearsal-selector changes relative to its earlier runtime candidate.
+
+The fresh read-only publication check still found APOLLO at the old deployed
+`sha-6b27618` digest, no Hestia/Themis Deployments, `apps.spec.suspend=true`, and
+no installed image-update-automation resource type. No live mutation, DNS,
+mail/provider setup, Secret read/write, migration, rollout, restart or
+Prometheus change/push was performed. Staff roles, mail/domain verification,
+independent backup/restore and fresh exact deployment approval remain open.
+
+## Earlier booking hardening follow-up (2026-10-20; before interface release)
 
 This section supersedes the original R1 next-packet/readiness rulings below.
 The original G0-G4 findings, failed commands and publication evidence remain
@@ -171,7 +290,7 @@ the existing database/HTTP/NATS/session env names. No live Secret value,
 mutation, migration, rollout, restart, DNS change or Prometheus edit/push was
 performed. Unrelated working-tree changes remain preserved.
 
-### Customer and staff design discussion
+### Original customer/staff design discussion (historical)
 
 Recommended entrances on the existing domain are `book.lintellabs.net` for
 customer intake/status and `staff.lintellabs.net` for the authenticated staff
@@ -189,8 +308,9 @@ data. It does not reschedule an approved booking in place or send requests.
 The customer concept's single submitted request cannot overwrite its saved
 reservation. Staff and customer views stay separate in the runtime.
 
-This is discussion-only design, not a shipped frontend redesign or Microsoft /
-Apple calendar integration. Browser QA covers submission/approval/cancellation,
+At this earlier checkpoint the design was discussion-only. The interface release
+above supersedes that layout; no Microsoft/Apple calendar integration is added.
+Browser QA covers submission/approval/cancellation,
 conflict refusal, private-note separation and no horizontal overflow at 320,
 736 and 1024px in light/dark appearance. The visual is returned in the chat.
 
@@ -417,7 +537,7 @@ items:
             type: RuntimeDefault
         containers:
         - name: hestia
-          image: ghcr.io/ixxet/hestia:sha-3882621@sha256:2281fd6c30fda5df9b484859d88e3cf5166112b46aea4a3e679c267455b02d6f
+          image: ghcr.io/ixxet/hestia:sha-9f2c276@sha256:e7c19f5d1856c89f3753b39e00e07c317497c7547e5bcfeaa584f7082a58ab79
           ports:
           - name: http
             containerPort: 3000
@@ -503,7 +623,7 @@ items:
             type: RuntimeDefault
         containers:
         - name: themis
-          image: ghcr.io/ixxet/themis:sha-ed81467@sha256:f64bbe026ad5e59e3c143b20acf2e51151ab97e8a948d0fe2012b64ffb8f282b
+          image: ghcr.io/ixxet/themis:sha-7056091@sha256:705ff2a48a2fd4475dd0eca4c1fd29a8a3db6a8cd6d37197c87c40362650d3df
           ports:
           - name: http
             containerPort: 3000
@@ -583,13 +703,13 @@ items:
         "initContainers": [
           {
             "name": "apollo-migrate",
-            "image": "ghcr.io/ixxet/apollo:sha-7e6680e@sha256:160ce351240e909bfbd2023232ab7ba08b193f65820eea6ec33ed9bae083ea1b"
+            "image": "ghcr.io/ixxet/apollo:sha-6a10c55@sha256:838ac17b26cc7e9d0bb3d62e31b82425fc7e573bbfb49a846ca6c98e0299aad8"
           }
         ],
         "containers": [
           {
             "name": "apollo",
-            "image": "ghcr.io/ixxet/apollo:sha-7e6680e@sha256:160ce351240e909bfbd2023232ab7ba08b193f65820eea6ec33ed9bae083ea1b",
+            "image": "ghcr.io/ixxet/apollo:sha-6a10c55@sha256:838ac17b26cc7e9d0bb3d62e31b82425fc7e573bbfb49a846ca6c98e0299aad8",
             "env": [
               {
                 "name": "APOLLO_SESSION_COOKIE_NAME",
