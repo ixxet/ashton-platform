@@ -213,7 +213,7 @@ proposed approval terms, not an appointment or scheduling automation.
 | --- | --- |
 | `agents/deployment/apollo`, containers `apollo` and initContainer `apollo-migrate` | Replace both image pins with the identical immutable APOLLO candidate in the publication ledger. Keep database/session secret references and NATS wiring. Init runs existing `migrate up`, including pending 033. No optional ATHENA bridge configuration is added. |
 | APOLLO server env | `APOLLO_SESSION_COOKIE_NAME=apollo_session`, `APOLLO_SESSION_COOKIE_SECURE=true`, `APOLLO_LOG_VERIFICATION_TOKENS=false`; `APOLLO_TRUSTED_SURFACES` from proposed Secret `ashton-booking-surface`, key `apollo-trusted-surfaces`. Preserve all other approved mapping entries. |
-| APOLLO SMTP env | `APOLLO_SMTP_HOST` and `APOLLO_SMTP_FROM` from proposed ConfigMap `ashton-booking-mail`, keys `host` and `from`; `APOLLO_SMTP_TLS_MODE=starttls`, `APOLLO_SMTP_PORT=587`, `APOLLO_SMTP_TIMEOUT=4s`; username/password from proposed Secret `apollo-smtp`, keys `username` / `password`. An implicit-TLS provider instead requires an explicitly reviewed `tls` / `465` change. |
+| APOLLO SMTP env | `APOLLO_SMTP_HOST` and `APOLLO_SMTP_FROM` from proposed ConfigMap `ashton-booking-mail`, keys `host` and `from`; the mail proposal below sets `smtp.resend.com` and `ASHTON <signin@notify.lintellabs.net>`. `APOLLO_SMTP_TLS_MODE=starttls`, `APOLLO_SMTP_PORT=587`, `APOLLO_SMTP_TIMEOUT=4s`; username/password from proposed Secret `apollo-smtp`, keys `username` / `password`. An implicit-TLS provider instead requires an explicitly reviewed `tls` / `465` change. |
 | New `agents/deployment/hestia` and Service `hestia` | One replica, app label `hestia`, existing `agents-ghcr` ServiceAccount, exact Hestia digest from ledger. `HOST=0.0.0.0`, `PORT=3000`, `ORIGIN=https://book.lintellabs.net`, `APOLLO_ORIGIN=http://apollo.agents.svc.cluster.local`. Service port 80 -> container 3000. No staff proof/SMTP secret in this pod. |
 | New `agents/deployment/themis` and Service `themis` | One replica, app label `themis`, existing `agents-ghcr` ServiceAccount, exact Themis digest from ledger. Same HOST/PORT/APOLLO origin, `ORIGIN=https://staff.lintellabs.net`, `THEMIS_DEFAULT_FACILITY_KEY=ashtonbee`, `THEMIS_APOLLO_TRUSTED_SURFACE=themis`, token from `ashton-booking-surface` key `themis-token`. Service port 80 -> 3000. |
 | Both frontend pod specs | Disable service links and service-account token automount; UID/GID 1000, non-root, no privilege escalation, drop all capabilities, read-only root filesystem. Requests 50m CPU / 64Mi; memory limit 256Mi. Readiness and liveness HTTP `/_app/version.json` on 3000, initial delay 5/10s, period 10s, timeout 3s, failure threshold 3. No APOLLO dependency in health checks. |
@@ -228,6 +228,47 @@ the parser's full comma-separated `surface=token` mapping and its `themis` token
 must exactly match `themis-token`. Existing `apollo-runtime/database-url` and
 `apollo-runtime/session-cookie-secret` references are retained. SMTP settings
 are server-only and not needed by migration or frontend containers.
+
+#### Mail recipient and sender proposal (2026-10-20) — NOT AUTHORISED
+
+An operator-provided institutional mailbox is recorded only in the local
+review outside Git because this repository is public. Its proposed use is
+**receiving staff sign-in codes**, pending confirmation of the intended use
+and exact account/role. It does not establish a sending service, permission to
+send as the institution, an account ID or an owner/manager/supervisor grant.
+No mailbox access or institutional mail integration is part of this proposal.
+
+SMTP is the service APOLLO uses to send sign-in codes. Propose **Resend Free**
+for this closed test, with a separate ASHTON sender and the user's supplied
+mailbox receiving the codes. The provider's [SMTP documentation](https://resend.com/docs/send-with-smtp)
+specifies `smtp.resend.com`, STARTTLS on port 587, username `resend` and an API
+key as password. Those settings match the implemented transport configuration;
+provider authentication, latency and inbox delivery remain untested.
+
+Exact proposed nonsecret settings: ConfigMap `agents/ashton-booking-mail`
+contains `host=smtp.resend.com` and
+`from=ASHTON <signin@notify.lintellabs.net>`. Secret `agents/apollo-smtp`
+would contain username `resend` and a dedicated sending key restricted to the
+verified sender domain. No key has been created or stored. Keep existing
+STARTTLS/587/4s settings; no dependency or runtime change is proposed.
+
+The [current Free plan](https://resend.com/pricing) lists $0/month, 3,000 emails
+per month and a 100/day cap, checked on 2026-10-20. No paid plan or overage is
+authorised. [Domain verification](https://resend.com/docs/dashboard/domains/introduction)
+is required; `notify.lintellabs.net` is a proposed sending subdomain, separate
+from the two portal hosts. Provider account/domain registration and the exact
+provider-generated DNS record names/types/values must be captured for review
+before any DNS write. Preserve existing apex MX/SPF and portal records. Leave
+open/click tracking disabled for sign-in mail. No account, domain, DNS, Secret
+or provider configuration has been created, and no mail has been sent.
+
+Using an institutional mailbox as the sender would be a different decision.
+[Microsoft's application-mail guidance](https://learn.microsoft.com/en-us/exchange/mail-flow-best-practices/how-to-set-up-a-multifunction-device-or-application-to-send-email-using-microsoft-365-or-office-365)
+requires an authorised sending configuration and recommends OAuth for Microsoft
+365 client submission. The current adapter uses AUTH PLAIN over validated TLS,
+not OAuth. Do not claim it is ready for an institutional tenant, weaken tenant
+security or request a mailbox password. Actual institutional policy and mailbox
+settings have not been verified.
 
 The exact edge route policy to translate into the host-specific nginx servers:
 
@@ -316,7 +357,8 @@ Do not run 033 down; a database restore requires its separately approved loss
 window/path. A backend image rollback is not permission to reopen staff writes.
 
 Still required to finalise executable approval: confirm target/hostnames and
-the proposed application method, SMTP provider host/from and secret provisioning, exact
+the proposed application method, accept or replace the mail-provider/sender
+proposal and review its exact DNS records and secret provisioning, exact
 staff recipients/roles, fixture scope, independent backup/restore operator and
 lock/loss budgets, window and rollback ownership. Then review exact rendered
 manifests/diff with immutable images from the ledger. No external live smoke or
