@@ -1,6 +1,49 @@
 # Booking/Scheduling Closed-Test Readiness
 
-## Staff access and live rollout review (2026-10-20)
+## Approved rollout execution — in progress (2026-10-20)
+
+The user approved the exact private rollout review and ten-path GitOps diff.
+The execution window began **17:20:06 America/Toronto / 21:20:06 UTC** and ends
+**18:50:06 / 22:50:06 UTC**. Approval covers the named images, DNS, application
+Secret references, backup/restore checks, migration 033, the specified verified
+Owner account and the three real resources. Hours stay unset; Flux stays
+suspended. This approval does not authorise unrelated changes or a live data-loss
+restore. The frozen approval review/hash ledger remains outside Git.
+
+Fresh authenticated preflight passed: old APOLLO image ready, edge ready and
+unchanged, new frontend/application-config objects absent, six DNS names unused,
+provider-returned record values matching the reviewed proposal and Flux suspended.
+
+The physical PostgreSQL database is shared. To keep the data copy strictly
+within APOLLO's approved scope, the independent custom-format backup contains
+**only the APOLLO schema**, excluding the other applications. It is held outside
+Git with directory 0700/file 0600: **312,435 bytes**, SHA256
+`91d1889262d17b90e34301908c36efcb64698817d00cd3b2b3425511be1454da`.
+It restored into isolated PostgreSQL 16 with the existing pgcrypto dependency.
+Counts matched the live baseline: one existing user; zero sessions, resources,
+schedule blocks, booking requests, rating rows or rating events. No personal
+row data or credential values are published.
+
+The restored ledger was exactly 001..032. The exact candidate image applied
+only 033, with a **0.352s migration-container invocation**, unchanged row counts
+and a 33-entry ledger. This is the full invocation time, not a claim of measured
+live lock duration. The exact old amd64 rollback image returned HTTP 200 with
+the source-defined public-options array on that restored schema. No synthetic
+rows were added. The first local probe required waiting for PostgreSQL's final
+TCP listener; the later host-port probe exposed absent Docker port publication.
+The completed compatibility check used the isolated internal network. All owned
+restore containers/networks and temporary clone credentials were removed; the
+independent backup remains.
+
+The four reviewed mail DNS records are now created and publicly resolvable with
+the exact provider values. Resend reports MX, SPF and routing records verified;
+**DKIM/domain verification remains pending**. No sign-in email has been sent.
+Application Secrets, GitOps configuration publication, live migration/images,
+portal DNS/exposure, Owner grant and resource provisioning have not yet executed.
+The remaining rollout is gated on verified sender status. External access and
+complete booking acceptance are not claimed.
+
+## Staff access and live rollout review — pre-approval checkpoint (2026-10-20)
 
 The user approved **Owner** access for their specified account, **Resend Free**,
 `book.lintellabs.net` for customer intake/status and `staff.lintellabs.net` for
