@@ -24,8 +24,13 @@ checks as the current launch verdict. **The booking launch remains blocked.**
   passed: focused regression **1.664s**, full suite **199.919s**, uncached
   internal race suite **196.143s**, vet **0.666s**, build **1.924s** and diff
   check. There is no migration delta. Its [CI/image run](https://github.com/ixxet/apollo/actions/runs/39510385987)
-  is in progress; an actual immutable image digest and fresh approval are
-  required before deployment. The existing real Hestia/Themis/APOLLO/PostgreSQL
+  completed successfully for both test and image jobs. Registry inspection
+  verified linux/amd64 and linux/arm64 for the immutable candidate
+  `ghcr.io/ixxet/apollo:sha-3bfbbe9@sha256:20cac036d6bdf31c7fc8b84b9a964ce2facdf1db8b2e174d9d8db37c72c94de6`.
+  The exact container's revision label matches the published source and its
+  CLI starts locally as UID 65532 with no network, a read-only filesystem and
+  capabilities dropped. It is **not deployed**. The existing real
+  Hestia/Themis/APOLLO/PostgreSQL
   request -> approval -> reservation -> status/cancellation browser rehearsal
   also passed against the repaired source (**8.376s**, explicit opt-in,
   isolated fixtures). That rehearsal bypasses the production proxy; it does
@@ -39,6 +44,19 @@ checks as the current launch verdict. **The booking launch remains blocked.**
   checks of both real Hestia data endpoints. No live proxy/GitOps edit has
   been applied. The diff SHA256 is
   `a637e58dda8e2a88c6bb2159ff3547e62e3a5440d68ab28898312dd617acc1ca`.
+
+The renewed combined approval package is prepared outside Git at
+`/tmp/booking-deployment-review/repair-review.md`, with exact rollout fields in
+`repair-rollout.json` and the two-path `repair-gitops.diff`, SHA256
+`31df5b3172c79847ca62731814767e89ba456e1d3ab0eb8c882d74965bbe61fc`.
+The diff changes only APOLLO server/init pins and the two exact public data
+routes. It passes `git apply --check`; the nonsecret APOLLO Kustomize render
+succeeds with matching pins and preserved configuration. The review requests
+one **fresh 45-minute window from approval on 2026-10-20**, a protected fresh
+APOLLO-schema backup, the repaired image/proxy and recreation of the same
+15 approved weekday rules. The cancelled history stays. No DNS, Secret, role,
+frontend image, migration or Flux change is proposed. That renewed approval
+has not yet been received; no repair live changes have been applied.
 
 A full page reload currently renders the selected day with no posted times;
 that is a diagnostic fallback, not a claim that client navigation is repaired.
