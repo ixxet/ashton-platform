@@ -1,5 +1,53 @@
 # Booking/Scheduling Closed-Test Readiness
 
+## Hours verification found two blockers; hours rolled back (2026-10-20)
+
+The original **18:50:06 Toronto execution window has ended**. Further live
+changes require a new approved window; source testing/publication continues.
+
+The owner explicitly approved the 15 weekday-hours rules for 21 October through
+19 November. They were applied at **22:33:34 UTC**, then real availability and
+customer-browser checks found two defects. The approved hours-only rollback
+cancelled exactly those 15 rules by recorded ID/current version at
+**22:36:47 UTC**. No rows were deleted. There are **zero active hours, requests
+or reservations**; the verified Owner, three resources, images, DNS and other
+configuration remain. These findings supersede the earlier base-page/route
+checks as the current launch verdict. **The booking launch remains blocked.**
+
+- **APOLLO recurrence boundary:** the end date is converted to the next
+  midnight but the loop treated that bound as inclusive. The rule ending
+  Thursday 19 November exposed Friday 20 November 09:00–18:00. The local fix
+  makes that midnight exclusive. A new five-case regression failed before the
+  fix for the normal and clock-change boundaries and passes after it.
+  [APOLLO `3bfbbe9`](https://github.com/ixxet/apollo/commit/3bfbbe9faf8f1bd0713bb4472cec11047ce8f0c7)
+  publishes only the loop correction and five regression cases. Local checks
+  passed: focused regression **1.664s**, full suite **199.919s**, uncached
+  internal race suite **196.143s**, vet **0.666s**, build **1.924s** and diff
+  check. There is no migration delta. Its [CI/image run](https://github.com/ixxet/apollo/actions/runs/39510385987)
+  is in progress; an actual immutable image digest and fresh approval are
+  required before deployment. The existing real Hestia/Themis/APOLLO/PostgreSQL
+  request -> approval -> reservation -> status/cancellation browser rehearsal
+  also passed against the repaired source (**8.376s**, explicit opt-in,
+  isolated fixtures). That rehearsal bypasses the production proxy; it does
+  not claim the live navigation defect is repaired.
+- **Customer navigation:** the base HTML returns 200, but choosing a date uses
+  SvelteKit's `/intake/__data.json` route, which the exact-path public proxy
+  omitted. `/intake/status/__data.json` is also blocked. Both live data paths
+  returned 404 while the underlying Hestia Service returned valid framework
+  JSON. A private two-line amendment adds only these exact paths. It passed
+  `nginx -t`, 14 isolated route/HTTPS/denial/tap checks and direct read-only
+  checks of both real Hestia data endpoints. No live proxy/GitOps edit has
+  been applied. The diff SHA256 is
+  `a637e58dda8e2a88c6bb2159ff3547e62e3a5440d68ab28898312dd617acc1ca`.
+
+A full page reload currently renders the selected day with no posted times;
+that is a diagnostic fallback, not a claim that client navigation is repaired.
+Do not create a fake request, change the approved date range to hide the bug,
+or re-enable the hours on the old image. Prepare the repaired image plus
+exact proxy amendment and the same hours for a renewed approval. No live
+changes beyond necessary approved rollback may exceed the original 18:50:06
+Toronto execution deadline without a newly approved window.
+
 ## Live portals and verified Owner access (2026-10-20)
 
 This is the current execution ledger. The dated implementation, proposal and
