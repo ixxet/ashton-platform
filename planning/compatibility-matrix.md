@@ -19,3 +19,14 @@ Last verified at: 2026-04-29T17:06:16Z
 - ATHENA remains deployed at `v0.8.2`; the older edge runbook wording that referenced `v0.7.0` is documented drift, not live truth.
 - Hestia, Themis, and ashton-mcp-gateway have no cluster deployment proof in the inspected manifests or live deployment list; their Milestone 3.0 truth is repo-local test truth.
 - Prometheus GitOps now carries the APOLLO telemetry scrape and alert examples required for Gate 6.
+
+## R1 compatibility overlay (2026-10-20)
+
+Historical Milestone 3.0 rows above retain their dated evidence. Current live
+read-only checks confirm the same APOLLO and ATHENA digests, healthy replicas
+and scrape up=1. Hestia/Themis have no live deployments. Current source/local
+R1 bridge contract is `athena_ingress_bridge_v2`; upgraded APOLLO intentionally
+rejects unversioned older producer/file reports. Upgrade paired bridge source
+and secret references together if optional bridge rollout is approved. Direct
+booking/schedule has no ATHENA dependency. Source images, frontend packaging,
+033 migration and actual deployment remain separate states; see the [canonical R1 record](BOOKING-SCHEDULING-CLOSED-TEST-READINESS.md).

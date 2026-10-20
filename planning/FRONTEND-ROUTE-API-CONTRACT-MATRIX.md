@@ -1,5 +1,17 @@
 # Frontend Route/API Contract Matrix
 
+## R1 evidence update (2026-10-20)
+
+Endpoint ownership and proxy boundaries below remain current. R1 revalidated
+the complete booking journey, role/trusted-surface/idempotency/version/conflict
+contracts and direct booking/schedule independence from ATHENA in the
+[canonical R1 record](BOOKING-SCHEDULING-CLOSED-TEST-READINESS.md). It reproduces the already listed Themis false
+read-only load state and Hestia malformed-success route errors. Check/unit/build
+pass in both frontends; full e2e is not green. Exact failures, isolated reruns,
+missing DST/concurrent-approval proof, packaging/login/inventory decisions and
+nonempty live acceptance gates are in that record. R1 changes no frontend
+runtime or route/API contract and does not claim a working external launch.
+
 Date: 2026-05-03
 Status: Packet 5 docs truth
 Scope: Hestia, Themis, APOLLO, and platform planning docs

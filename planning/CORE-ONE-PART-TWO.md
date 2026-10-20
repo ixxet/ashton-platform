@@ -9,7 +9,12 @@ Canonical launch-expansion truth remains in
 
 ## Ruling
 
-Continue the competition path. Do not pivot into frontend-first work.
+R1 ruling (2026-10-20): prioritise booking/scheduling through Hestia and Themis,
+then competition/rating/game identity, then member services. Broader ATHENA
+physical-truth expansion is later. APOLLO remains source truth; booking does
+not acquire a presence dependency. R1 opens bridge hardening and booking
+readiness documentation while live deployment and instant booking remain
+approval-gated/deferred. See the [canonical R1 record](BOOKING-SCHEDULING-CLOSED-TEST-READINESS.md).
 
 The competition trust spine is complete through `3B.20.1`, `3B-LC` is closed,
 and Milestone 3.0 proved bounded APOLLO/ATHENA deploy smoke, APOLLO metrics
@@ -232,19 +237,12 @@ without overwriting existing user or generated changes.
 
 ## Next Ask
 
-Ask this planning chat for one packet at a time.
-
-The current next likely worker-executable ask is:
-
-```md
-Produce the worker-ready execution handoff for:
-
-Live Destructive Probe Execution Gate
-
-Preserve APOLLO/ATHENA source-truth ownership, docs/runtime/deployed truth
-separation, no fake live truth claims, no frontend-owned formulas, no new
-public product surface, no OpenSkill read-path switch, no public tournaments,
-no messaging/chat, no broad social graph, no public/member safety detail UI,
-no booking/commercial/proposal workflow, and no uncontrolled destructive
-mutation.
-```
+The next packet is Booking/Scheduling Closed-Test Implementation + Deployment.
+Use the canonical R1 record's reproduced frontend gaps, verification failures,
+packaging/login/inventory requirements and reviewable deployment/rollback/smoke
+procedures. Obtain fresh approval naming target, images/diff, secret references,
+migrations, fixture mutations, window, rollback owner and abort criteria before
+live writes. The competition launch audit continues to govern later competition
+expansion. Daily credits, reliability, public tournaments and OpenSkill cutover
+do not displace the booking priority. Destructive probes require separate
+approval and are not prerequisites for ordinary booking deployment.

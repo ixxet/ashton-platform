@@ -37,6 +37,22 @@ frontend change, or deployed-truth change happened. Future execution requires
 explicit operator approval, disposable fixtures, rollback proof, and evidence
 redaction.
 
+## R1 booking-first flow evidence (2026-10-20)
+
+The [canonical R1 record](BOOKING-SCHEDULING-CLOSED-TEST-READINESS.md) records the actual endpoint/authority journey,
+verification and current deployment blockers. Hestia options/availability are
+hints; submission produces a request and receipt, not confirmation. Themis
+manager/owner approval creates APOLLO's real linked reservation; approved
+cancellation cancels that reservation and changes customer-safe status.
+
+Direct booking/schedule paths have no ATHENA dependency. A failed facility
+overview must not prevent Requests/Schedule navigation or invent occupancy.
+Themis new-request load errors currently masquerade as read-only authority;
+Hestia malformed successful receipt/status responses can escape as route
+errors. These reproduced states require the next booking packet, along with
+packaging/login/inventory proof. Existing frontend mock tests are separate from
+real APOLLO handler/database proof and from external live acceptance.
+
 ## Debug Classifier
 
 | Symptom | Likely class | First place to inspect |

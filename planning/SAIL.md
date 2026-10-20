@@ -147,21 +147,17 @@ A worker closeout must include:
 Do not call a packet closed if verification failed, docs overclaim shipped
 truth, or the final repo state is unclear.
 
-## Current First Packet
+## Current Packet and Next Delivery
 
-Packet 1 is `Scale Gate Numeric Ceilings`.
+R1 (2026-10-20) is Bridge Hardening + Booking-First Closed-Test Readiness.
+It continues the completed bridge spine without renumbering historical 3B IDs.
+The supplied R1 packet supersedes older next-packet text and opens bounded
+booking readiness documentation, not instant self-booking or live deployment.
+See the [canonical R1 record](BOOKING-SCHEDULING-CLOSED-TEST-READINESS.md).
 
-Worker handoff summary:
-
-- define and prove numeric ceilings for APOLLO rating recompute, public
-  readiness/leaderboard projections, game identity projections, and CLI/API
-  smoke proof
-- preserve CLI/API-first demo readiness
-- preserve APOLLO source-truth ownership
-- add no new product surface
-- do not switch OpenSkill onto the active read path
-- do not touch public tournaments, messaging/chat, broad social graph, or
-  booking/commercial/proposal workflows
-
-After Packet 1 closes, return to the planning chat for Packet 2:
-`CLI Demo Spine`.
+Scale Gate Numeric Ceilings is historical closed local/runtime proof. Delivery
+now prioritises booking/scheduling through Hestia and Themis, then competition /
+rating / game identity, then member services. Broader ATHENA physical truth is
+later. The next packet is Booking/Scheduling Closed-Test Implementation +
+Deployment, with separate explicit approval before live changes. Neither daily
+credits nor a destructive-probe programme is a booking prerequisite.

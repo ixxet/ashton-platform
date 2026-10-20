@@ -26,10 +26,20 @@ and cross-repo compatibility proof, but it did not erase these deferments:
   and direct in-flight production SIGTERM proof remain deferred until explicit
   operator approval, disposable fixtures, and concrete rollback proof exist
 
+## R1 delivery overlay (2026-10-20)
+
+Booking/scheduling is first, then competition/rating/game identity and member
+services. See the [canonical R1 record](BOOKING-SCHEDULING-CLOSED-TEST-READINESS.md). R1's bridge repairs and local
+proof do not deliver external booking, durable credits or broader physical
+truth. Ordinary booking rollout does not require destructive probes.
+
 ## Active Deferred Items
 
 | Item | Current status | Owning repo or likely repo | Why deferred | Reopen trigger | Hard stop / non-goal | Last touched phase |
 | --- | --- | --- | --- | --- | --- | --- |
+| Booking closed-test implementation and deployment | Next implementation packet; launch blocked | `hestia`, `themis`, `apollo`, platform; deployment only after approval | Reproduced frontend failure states, dated/flaky assertions, missing frontend packaging/login/staff/resources/hours, pending migration 033 and restore/rollback decisions | Resolve canonical R1 gaps, publish tested packaging, approve target/images/secrets/migrations/fixtures/window/rollback and exercise external nonempty workflow | No instant booking, payments/quotes, presence dependency, live writes or broad frontend redesign by implication | R1 |
+| Distinct-request approval concurrency and DST | Unverified readiness risk, not a reproduced defect | `apollo`, frontends for presentation only | Sequential conflicts and offset/recurrence tests exist; simultaneous overlapping approvals and DST gap/fold proofs were not found | Targeted disposable-data reproduction in next booking packet | Do not claim a confirmed race or silently redesign scheduling in R1 | R1 |
+| Rating-scale measurement followups | Explicitly retained for later; unchanged by R1 | `apollo`, platform | Gate 8 local numeric proof is not representative production-population load/backtesting | Dedicated measurement packet under the APOLLO launch audit | Do not absorb rating-scale fixes into bridge/booking readiness or imply OpenSkill cutover | R1 |
 | Live destructive APOLLO/ATHENA probe execution | Deferred; plan closed docs-only | `apollo`, `athena`, platform; deploy/ops only for approved execution | Packet 8 defines the runbook but found no documented disposable live fixtures or concrete DB rollback/restore path | Explicit user/operator-approved execution gate with isolated canary fixtures, current image capture, health/metrics/log access, and rollback proof | No live mutation, rollout restart, pod kill, DB write, deploy/GitOps mutation, frontend widening, public tournaments, OpenSkill cutover, or real member/customer/facility data mutation by implication | Packet 8 |
 | Public self-booking | Deferred | `apollo`, `hestia`; Themis only for staff review context | Phase 3B.9 closes availability-informed requests only | Business explicitly chooses customer-confirmed reservations and the privacy/conflict contract is proven | No bypassing staff approval, payment sprawl, public conflict truth, private labels, contact info, or deploy claim | Phase 3B.9 |
 | Public booking self-edit/rebook | Deferred | `apollo`, `hestia`; Themis only for staff review context | Phase 3B.8 closed staff-side edit/replacement only | Customers need to amend submitted requests without exposing internal truth | No public schedule conflict details, staff controls, in-place approved mutation, payment sprawl, or deploy claim | Phase 3B.8 |

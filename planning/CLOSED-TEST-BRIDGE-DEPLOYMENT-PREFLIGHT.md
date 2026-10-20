@@ -1,5 +1,26 @@
 # Closed-Test Bridge Deployment Preflight
 
+## R1 update (2026-10-20)
+
+The original May capture below is historical. R1 revalidated current access and
+source and records the authoritative update in the [canonical R1 record](BOOKING-SCHEDULING-CLOSED-TEST-READINESS.md).
+Authenticated MIMIR access with a per-command Talos server override now works;
+APOLLO/ATHENA health, pinned actual digests, metrics/scrape, redacted recent logs
+and private bridge/public 404 allowlist were verified. No live changes occurred.
+Prometheus is the Git root of `homelab-gitops`; its existing dirt was preserved.
+
+The bridge now requires the paired `athena_ingress_bridge_v2` producer/consumer
+contract, bounded replay/context/session/byte/window/time budgets and explicit
+completeness. Source publication may build images; observed Flux only watches
+Prometheus, apps is suspended and image automation is absent. Publication is
+not rollout permission. Live bridge token wiring remains absent.
+
+Booking deployment is separate from optional bridge rollout. Frontend
+packaging, staff login/roles, nonempty resources/hours and migration 033 /
+backup/rollback decisions remain blockers. The next packet is Booking/Scheduling
+Closed-Test Implementation + Deployment, followed by fresh scoped live approval;
+destructive probes are not an automatic next step or booking prerequisite.
+
 Status: read-only preflight captured on 2026-05-12.
 
 This packet prepares APOLLO/ATHENA operational presence bridge deploy readiness for a later closed-test deploy and smoke packet. It does not deploy the bridge, create or update secrets, mutate GitOps, run destructive probes, create fixtures, restart pods, kill pods, write databases, or expose a public product surface.
