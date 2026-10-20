@@ -36,12 +36,32 @@ restore containers/networks and temporary clone credentials were removed; the
 independent backup remains.
 
 The four reviewed mail DNS records are now created and publicly resolvable with
-the exact provider values. Resend reports MX, SPF and routing records verified;
-**DKIM/domain verification remains pending**. No sign-in email has been sent.
-Application Secrets, GitOps configuration publication, live migration/images,
-portal DNS/exposure, Owner grant and resource provisioning have not yet executed.
-The remaining rollout is gated on verified sender status. External access and
-complete booking acceptance are not claimed.
+the exact provider values. **Resend has verified the domain and all four
+records**, with tracking still disabled. The approved `apollo-smtp` and
+`ashton-booking-surface` Secrets and `ashton-booking-mail` ConfigMap were created
+in `agents`, without changing the existing database/session credentials. The
+specified staff identity has no account/email conflict. No sign-in email has
+been sent or account/role created.
+
+A final transport check found that the shared edge accepts plain HTTP. A local
+reproduction with the exact nginx image confirmed that the original proposed
+book/staff servers would serve their pages over HTTP. The prepared amendment
+adds **only six lines**: a server-level 308 redirect when the Cloudflare visitor
+protocol is not HTTPS, in each new portal server. It preserves the tap server
+and all other reviewed fields. Cloudflare documents that it overwrites the
+visitor [X-Forwarded-Proto header](https://developers.cloudflare.com/fundamentals/reference/http-headers/#x-forwarded-proto).
+
+The amendment passed `nginx -t` and **11 local HTTP/HTTPS/missing-proto, route
+denial, entry redirect and existing-tap checks**. It is reviewable outside Git
+at `/tmp/booking-deployment-review/https-only-amendment.diff`, SHA256
+`d14a22a63b77bc70d84c2b5827aeb923946ee2eb9c5d76fd4abd144c5d583732`.
+The combined ten-path proposal is `gitops-scoped-https.diff`, SHA256
+`0821878f87dc99a975ca843433dd6be20289c11577a2717f413e3003e41fdcde`.
+It requires the R1 exact-diff approval before GitOps publication/deployment.
+The previously approved images, DNS, migration, roles, resources, window and
+rollback scope are unchanged. No live proxy/portal or Prometheus configuration
+has been changed; no live migration or application image rollout has occurred.
+External access and complete booking acceptance are not claimed.
 
 ## Staff access and live rollout review — pre-approval checkpoint (2026-10-20)
 
