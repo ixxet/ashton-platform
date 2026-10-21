@@ -1,5 +1,89 @@
 # Booking/Scheduling Closed-Test Readiness
 
+## Real phone request approved and cancelled; receipt visibility gap (2026-10-21)
+
+One actual customer request submitted from the user's phone reached the live
+staff queue: Court, 26 October, 09:00–10:00 America/Toronto. The user explicitly
+authorised approval and cancellation of that exact request. Codex used the
+existing authenticated Owner session and normal Themis forms for both actions.
+No synthetic customer, extra request, role change or direct database write was
+used for this acceptance test. The user's separate unsent schedule draft was
+left in place.
+
+- Approval produced request **version 2**, a linked scheduled `hard_reserve`
+  reservation and customer status **Approved**. A bounded live read confirmed
+  09:00–10:00 unavailable and the remaining public requestable interval
+  10:00–18:00.
+- Cancellation produced request **version 3**, retained its link and cancelled
+  that reservation. Customer tracking returned **Cancelled**, and the public
+  interval returned to 09:00–18:00 with no unavailable block for that day.
+  Both staff/customer browser states and the exact linkage were checked;
+  receipt, identity and request IDs remain in private evidence.
+- The phone user reported **no visible receipt code** after submission. The
+  receipt existed and could be read through authorised staff access. The
+  current product returns an on-page receipt; it does not email customer
+  booking receipts. A direct link to this real request's tracking page was
+  verified and supplied privately to the user. Phone receipt visibility is
+  still an acceptance gap, despite the successful live reservation lifecycle.
+
+The real test exposed two narrowly scoped fixes, now locally verified and
+published as source. **Neither replacement image is deployed.**
+
+| Fix | Evidence |
+| --- | --- |
+| [Hestia `5532c87`](https://github.com/ixxet/hestia/commit/5532c87ee135e51cc4870b6c712943d8c7787d27) | Enhanced submission kept the phone at the bottom of the form while the receipt appeared above it. A new mobile regression failed before the fix with viewport ratio zero. Successful submission now scrolls to and focuses the labelled receipt region after the DOM update, preserving the layout and retry/idempotency behavior. The regression checks viewport, focus and subsequent tracking. |
+| [APOLLO `67da8d3`](https://github.com/ixxet/apollo/commit/67da8d353f19258e05f46e57461a6f3644e955be) | Posted informational opening hours appeared as an inventory conflict against a reservation, although actual approval's allocation check succeeded. Conflict decoration now lets opening hours coexist with hard claims in both block and occurrence views. The real PostgreSQL regression failed before the fix, and now covers availability, approval, calendar decoration, genuine overlapping-reservation rejection, cancellation/release and retained opening hours. No allocation lock, write policy, API or migration changed. |
+
+Local verification passed: Hestia check **6.824s**, **36 unit tests**
+(command **3.323s**), build **5.459s**, **54 desktop/mobile browser cases**
+(command **60.465s**) and diff check. APOLLO focused regression **4.600s**,
+full suite **238.194s**, uncached internal race suite **203.327s**, vet
+**0.653s**, build **1.872s** and diff check passed. The actual
+Hestia/Themis/APOLLO/PostgreSQL lifecycle rehearsal also passed with the new
+sources (**9.061s**, explicit opt-in, isolated fixtures). A separate focused
+mobile trace confirms the receipt is visible and focused after submission;
+its screenshot is explicitly a local fixture, not live customer evidence.
+
+Hestia [CI `39618540433`](https://github.com/ixxet/hestia/actions/runs/39618540433)
+passed both test and image jobs. The registry index contains linux/amd64 and
+linux/arm64; the source-revision label matches `5532c87`. The exact image
+started as UID 1000 with a read-only filesystem, capabilities dropped and no
+external network, and its static health endpoint returned 200. The temporary
+container was removed. Its verified candidate is:
+
+```text
+ghcr.io/ixxet/hestia:sha-5532c87@sha256:cb8ea4a2ab0a90ae532abf21c68a233f1cd1176d615ce04e42edfc6cbe0d7606
+```
+
+The APOLLO push produced no visible run or check for `67da8d3`; the active
+existing `workflow_dispatch` entry point started
+[run `39619829700`](https://github.com/ixxet/apollo/actions/runs/39619829700)
+for that exact commit without changing CI configuration. Both test and image
+jobs succeeded. Registry reads verified linux/amd64 and linux/arm64; the
+revision label matches `67da8d3`, and the exact CLI starts as UID 65532 with
+no network, a read-only filesystem and dropped capabilities. Its candidate is:
+
+```text
+ghcr.io/ixxet/apollo:sha-67da8d3@sha256:714a14045aa2e359c0fe9bcfdea800fc06f2ca4d9e7e057d209c61538bb22c55
+```
+
+The combined exact approval review is prepared outside Git at
+`/tmp/booking-deployment-review/phone-fixes-review.md`, with rollout fields in
+`phone-fixes-rollout.json` and the two-path `phone-fixes-gitops.diff`, SHA256
+`e0d29e0e4e1098afe1ddb4cf0f08abc1340f8313dab4256cf37244c8e19010a7`.
+It replaces only three image pins (APOLLO server/init and Hestia server),
+passes `git apply --check` and both Kubernetes server dry-runs, and preserves
+all other template fields. No live patch was persisted. The proposed fresh
+45-minute window includes a protected APOLLO-schema-only backup and image-only
+rollback to `3bfbbe9` / `f9bbca0`; it adds no new booking or hours mutation.
+Source/image verification is complete; live rollout awaits fresh approval.
+Current live images remain APOLLO `3bfbbe9`, Hestia
+`f9bbca0` and Themis `3da3375`. The previous repair approval does not authorise
+these new images. No additional GitOps/live mutation, email behavior, schema,
+hours, role or proxy change has been applied for these fixes. Flux remains
+suspended. The earlier dated checkpoints below describe their own execution
+state; this real-request test updates the booking acceptance verdict.
+
 ## Approved repair deployed and verified (2026-10-21)
 
 **Current verdict:** the approved APOLLO/proxy repair and weekday opening hours
