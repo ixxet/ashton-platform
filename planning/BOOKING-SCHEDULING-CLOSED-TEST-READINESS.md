@@ -1,6 +1,61 @@
 # Booking/Scheduling Closed-Test Readiness
 
-## Hours verification found two blockers; hours rolled back (2026-10-20)
+## Approved repair deployed and verified (2026-10-21)
+
+**Current verdict:** the approved APOLLO/proxy repair and weekday opening hours
+are live. The public [booking page](https://book.lintellabs.net/intake),
+[request-status page](https://book.lintellabs.net/intake/status), authenticated
+[staff schedule](https://staff.lintellabs.net/ops/facilities/ashtonbee/schedule)
+and [booking queue](https://staff.lintellabs.net/ops/bookings) were checked in
+the actual browser. **A genuine participant's complete booking lifecycle and
+a physical-phone check remain open.** The earlier dated checkpoints below
+record their state at that time and are superseded by this execution ledger.
+
+The user explicitly approved the combined repair rollout and two-file GitOps
+diff on **21 October**. Today's read-only refresh matched the frozen review;
+the date refresh changed no image, route, hours, data scope or rollback terms.
+The fresh window was **10:04:42–10:49:42 America/Toronto /
+14:04:42–14:49:42 UTC**. Final live checks completed at **14:18:45 UTC**,
+within that window. Zizo remained accountable owner; Codex executed the rollout.
+
+| Area | Verified result |
+| --- | --- |
+| Target | Same `admin@talos-tower`, node `talos-p0d-y77`; application namespace `agents`, proxy namespace `athena`. All five application/edge Deployments have one ready replica. |
+| Backup | A fresh custom-format APOLLO-schema-only PG16 archive was saved at the approved protected local destination; directory 0700, file 0600. Archive listing and SHA256 passed; the earlier independent backup remains. No database restore was performed. |
+| GitOps | [Prometheus `5473976`](https://github.com/ixxet/Prometheus/commit/5473976d51fdb4acb7029348a30f547279c4c290) publishes only the APOLLO booking patch and edge proxy ConfigMap. Seven unrelated dirty files were preserved byte-for-byte. Flux `apps` remains suspended. |
+| APOLLO | Both server and migration init now use the exact `3bfbbe9` pin below. Controller readiness took 23.672s, health passed and the serving pod has zero restarts. Ledger remains 001..033: no new migration. All other APOLLO template configuration and the verified Owner/session were preserved. |
+| Proxy | Only exact `/intake/__data.json` and `/intake/status/__data.json` routes were added. `nginx -t` passed before apply and after restart; proxy readiness took 14.540s. Both routes return 200 with valid framework JSON. The tunnel was neither changed nor restarted. Tap health was 200 before/after and at final verification. |
+| Hours | Exactly 15 new resource-specific weekly rules: Court, Studio and Fitness room, Monday–Friday **09:00–18:00 America/Toronto**, **21 October–19 November 2026 inclusive**. The 15 prior cancelled rows remain; none were deleted. No regular weekend hours were added. Weekend rentals retain the existing staff-reviewed request flow. Extending the closed-test interval needs a separate explicit approval. |
+| Availability | All **36** read-only cases passed across three spaces and 12 dates: every weekday, both weekend days, before/after the range and across Toronto's clock change. 19 November is included; **20 November is empty**. 30 October is 13:00–22:00 UTC; 2 November is 14:00–23:00 UTC, both 09:00–18:00 locally. |
+| Route boundary | All **18 HTTPS cases**, both HTTP-to-HTTPS 308 redirects and tap health passed using normal DNS and certificate validation. Staff/member/raw API routes remain denied on the public host; public-intake routes remain denied on the staff host. An initial check used a case-sensitive `Location` lookup; normalizing HTTP header names corrected the verifier. No product change was needed for that check. |
+| Actual browser | Selecting dates now works without the previous 404; Saturday shows no regular hours. Court, Studio and Fitness room availability and navigation to request status passed. The existing authenticated Owner session opened the booking queue and all three staff schedule rows with 09:00–18:00 hours. Screenshots remain private. |
+| Preserved scope | Hestia `f9bbca0` and Themis `3da3375` templates/images, DNS, Secrets, roles and resources were unchanged. Final counts: 15 active hours, 15 cancelled historical hours, zero requests and zero active reservations. No fixture identity, request, booking, closure or hold was created. |
+
+Deployed APOLLO server/init image:
+
+```text
+ghcr.io/ixxet/apollo:sha-3bfbbe9@sha256:20cac036d6bdf31c7fc8b84b9a964ce2facdf1db8b2e174d9d8db37c72c94de6
+```
+
+The [published source repair and regressions](https://github.com/ixxet/apollo/commit/3bfbbe9faf8f1bd0713bb4472cec11047ce8f0c7),
+local full/race/vet/build checks, successful image CI and isolated real-service
+lifecycle rehearsal remain recorded in the historical repair evidence below.
+The live checks above establish the approved deployment and navigation/hours
+repair; they do not substitute for a real external request -> staff decision
+-> reservation -> customer status -> cancellation acceptance. Pending requests
+remain unreserved. No physical-phone completion is claimed.
+
+Private execution evidence is retained under
+`/tmp/booking-deployment-review/approved-execution/`: refreshed approval and
+frozen hashes, protected backup proof, before-state snapshots, published commit,
+new rule ID/version journal, 36 availability responses, route/browser proofs
+and final count/image checks. Rollback still cancels only these 15 new rule IDs,
+restores the captured proxy and prior `6a10c55` server/init pin, and leaves hours
+unset on that older image. Preserve real data, Owner/resources, cancelled
+history, Secrets, DNS and backups; no schema down or automatic database restore.
+No rollback or other new live mutation is implied after this execution window.
+
+## Hours verification found two blockers; historical rollback checkpoint (2026-10-20)
 
 The original **18:50:06 Toronto execution window has ended**. Further live
 changes require a new approved window; source testing/publication continues.
@@ -68,7 +123,8 @@ Toronto execution deadline without a newly approved window.
 
 ## Live portals and verified Owner access (2026-10-20)
 
-This is the current execution ledger. The dated implementation, proposal and
+This dated ledger records the initial rollout. The 21 October repair ledger
+above now governs current state. The implementation, proposal and
 R1 audit sections below remain historical evidence; their earlier "not deployed"
 and approval-gap statements do not override this ledger. **External booking
 acceptance is still open.** The portals, verified Owner access and three real
